@@ -1,23 +1,139 @@
 aid: zadara
 name: Zadara
-description: 'Zadara is a company surfaced via the API Evangelist harvest backlog (source: market-gap:object-storage)
-  and added to the network as a stub for full-pipeline profiling.'
+description: Zadara is an edge cloud and storage-as-a-service provider offering zStorage (VPSA Storage Array and Flash Array block/file storage, VPSA Object Storage) and zCompute, delivered fully managed
+  in its own and partner data centers. Its public API documentation at api-doc.zadara.com publishes Swagger 2.0 contracts for the VPSA Storage Array, Object Storage, Command Center and Provisioning Portal
+  REST APIs, each authenticated with an X-Access-Key header.
 url: https://raw.githubusercontent.com/api-evangelist/zadara/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:market-gap:object-storage
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: 'enrichment pass 2026-10-13 (local-v5; was stub: harvest)'
 specificationVersion: '0.20'
 created: '2026-10-13'
 modified: '2026-10-13'
 tags:
 - Company
-apis: []
+- Storage
+- Object Storage
+- Block Storage
+- Edge Cloud
+- Cloud Infrastructure
+- Storage As A Service
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+image: https://www.zadara.com/wp-content/uploads/poster2.jpg
 common:
+- type: AgenticAccess
+  url: agentic-access/zadara-agentic-access.yml
+- type: Spectral
+  url: rules/zadara-rules.yml
+- type: Vocabulary
+  url: vocabulary/zadara-vocabulary.yml
+- type: DataModel
+  url: data-model/zadara-data-model.yml
+- type: Compliance
+  url: https://www.zadara.com/edge-cloud/compliance/
+- type: ErrorCatalog
+  url: errors/zadara-problem-types.yml
+- type: Conformance
+  url: conformance/zadara-conformance.yml
+- type: LLMsTxt
+  url: llms/zadara-llms.txt
+- type: WellKnown
+  url: well-known/zadara-well-known.yml
+- type: Hosts
+  url: hosts/zadara-hosts.yml
+- type: Vendors
+  url: vendors/zadara-vendors.yml
+- type: Authentication
+  url: authentication/zadara-authentication.yml
+- type: TrustCenter
+  url: security/zadara-trust-center.yml
+- type: DomainSecurity
+  url: security/zadara-domain-security.yml
 - type: Website
   url: https://www.zadara.com
+- type: APIReference
+  url: https://api-doc.zadara.com/
+- type: Documentation
+  url: https://guides.zadara.com/
+- type: GitHubOrganization
+  url: https://github.com/zadarastorage
+- type: Blog
+  url: https://www.zadara.com/blog/
+- type: Login
+  url: https://partners.zadara.com/user/login
+- type: Newsroom
+  url: https://www.zadara.com/news
+- type: Pricing
+  url: https://www.zadara.com/pricing/
+- type: PrivacyPolicy
+  url: https://www.zadara.com/privacypolicy/
+- type: TermsOfService
+  url: https://www.zadara.com/resources/terms/
+apis:
+- aid: zadara:vpsa
+  name: Zadara VPSA Storage Array REST API
+  description: 'REST API for managing a Zadara VPSA Storage Array or Flash Array: volumes, pools, drives, servers, snapshots, mirrors, consistency groups, controllers and users. Served by each customer
+    VPSA at its own hostname under /api (spec host is localhost).'
+  humanURL: https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Storage
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-vpsa-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://s3.amazonaws.com/api-doc.zadara.com/VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array/25.07.yml
+  image: https://www.zadara.com/wp-content/uploads/poster2.jpg
+- aid: zadara:object-storage
+  name: Zadara VPSA Object Storage REST API
+  description: 'REST API for administering a Zadara VPSA Object Storage instance: accounts, users, containers, policies and drives. Served by each customer instance under /api.'
+  humanURL: https://api-doc.zadara.com/?urls.primaryName=Object%20Storage
+  baseURL: https://{object-storage-host}/api
+  tags:
+  - Storage
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-object-storage-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://s3.amazonaws.com/api-doc.zadara.com/Object%20Storage/25.07.yml
+  image: https://www.zadara.com/wp-content/uploads/poster2.jpg
+- aid: zadara:command-center
+  name: Zadara Command Center API
+  description: Operations API for the Zadara Command Center, the management plane for clouds, VPSAs and storage nodes. Served per deployment under /api.
+  humanURL: https://api-doc.zadara.com/?urls.primaryName=Command%20Center
+  baseURL: https://{command-center-host}/api
+  tags:
+  - Storage
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-command-center-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://s3.amazonaws.com/api-doc.zadara.com/Command%20Center/25.07.yml
+  image: https://www.zadara.com/wp-content/uploads/poster2.jpg
+- aid: zadara:provisioning-portal
+  name: Zadara Provisioning Portal API
+  description: API for the Zadara Provisioning Portal used to request and manage VPSA and Object Storage provisioning. Served per deployment under /api/v2.
+  humanURL: https://api-doc.zadara.com/?urls.primaryName=Provisioning%20Portal
+  baseURL: https://{provisioning-portal-host}/api/v2
+  tags:
+  - Storage
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-provisioning-portal-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://s3.amazonaws.com/api-doc.zadara.com/Provisioning%20Portal/25.07.yml
+  image: https://www.zadara.com/wp-content/uploads/poster2.jpg
+x-enrichment:
+  date: '2026-10-13'
+  status: enriched
+  artifacts_added: 26
+  pass: local-v5

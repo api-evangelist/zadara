@@ -1,0 +1,34 @@
+# Zadara Guides
+
+> Official documentation for the Zadara cloud platform — covering zStorage (block and object storage) and zCompute (VMs, networking, load balancing, IAM).
+
+Published at https://guides.zadarastorage.com. Zadara provides on-premise and edge-cloud infrastructure as a service, managed by operators (MSPs) and consumed by end users through a self-service portal.
+
+## Getting Started
+
+- [Guides Portal](https://guides.zadarastorage.com): Landing page with links to all product guides.
+
+## zStorage
+
+- [VPSA Storage Array User Guide](https://guides.zadarastorage.com/vpsa-guide/latest/): Block storage — volumes, snapshots, replication, and data protection.
+- [NextGen Object Storage User Guide](https://guides.zadarastorage.com/ngos-guide/latest/): S3-compatible object storage on the next-generation platform.
+- [VPSA Object Storage User Guide](https://guides.zadarastorage.com/zios-guide/latest/): S3-compatible object storage on the classic VPSA platform.
+
+## zCompute
+
+- [Introduction Guide](https://guides.zadarastorage.com/cs-introduction-guide/latest/): Overview and onboarding concepts for the zCompute platform.
+- [Compute Guide](https://guides.zadarastorage.com/cs-compute-guide/latest/): Virtual machine lifecycle, images, and flavors.
+- [Networking Guide](https://guides.zadarastorage.com/cs-networking-guide/latest/): VPCs, subnets, floating IPs, and security groups.
+- [Load Balancing Guide](https://guides.zadarastorage.com/cs-lb-guide/latest/): Load balancer setup and configuration.
+- [Access & Management Guide](https://guides.zadarastorage.com/cs-iam-guide/latest/): Users, roles, projects, and API credentials.
+- [Certificates Guide](https://guides.zadarastorage.com/cs-certificates-guide/latest/): TLS certificate management.
+
+## Administration
+
+- [Command Center Admin Guide](https://guides.zadarastorage.com/admin-guide/latest/): MSP/operator guide for provisioning, tenants, and platform management.
+- [Cost and Usage Explorer Guide](https://guides.zadarastorage.com/cau-guide/latest/): Billing data, usage reports, and cost analysis.
+
+## Release Notes
+
+- [zStorage Release Notes](https://guides.zadarastorage.com/release-notes/latest/): Per-version changelog for VPSA and object storage.
+- [zCompute Release Notes](https://guides.zadarastorage.com/cs-release-notes/latest/): Per-version changelog for the compute platform.

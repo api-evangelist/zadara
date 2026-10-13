@@ -1,0 +1,24 @@
+generated: '2026-10-13'
+method: derived
+source: openapi/zadara-command-center-openapi.yml, openapi/zadara-object-storage-openapi.yml,
+  openapi/zadara-provisioning-portal-openapi.yml, openapi/zadara-vpsa-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: api_key
+  type: apiKey
+  in: header
+  parameter: X-Token
+  sources:
+  - openapi/zadara-command-center-openapi.yml
+  - openapi/zadara-provisioning-portal-openapi.yml
+- name: api_key
+  type: apiKey
+  in: header
+  parameter: X-Access-Key
+  sources:
+  - openapi/zadara-object-storage-openapi.yml
+  - openapi/zadara-vpsa-openapi.yml

@@ -1,0 +1,109 @@
+generated: '2026-10-13'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 8
+  own: 6
+  other_domain: 0
+  platform: 2
+  roles:
+  - api
+  - docs
+  - identity
+  - other
+  - source
+  - website
+hosts:
+- host: api-doc.zadara.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  types:
+  - APIReference
+  serves:
+  - docs
+  registrable_domain: zadara.com
+  role: docs
+  relation: own
+- host: api.zadara.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: zadara.com
+  role: api
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: guides.zadara.com
+  found_by:
+  - pointer
+  types:
+  - Documentation
+  serves: []
+  registrable_domain: zadara.com
+  role: docs
+  relation: own
+- host: partners.zadara.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types:
+  - Login
+  serves: []
+  registrable_domain: zadara.com
+  role: identity
+  relation: own
+- host: s3.amazonaws.com
+  found_by:
+  - spec-found
+  types: []
+  serves:
+  - spec
+  registrable_domain: amazonaws.com
+  role: other
+  relation: platform
+- host: try.zadara.com
+  found_by:
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: zadara.com
+  role: other
+  relation: own
+- host: www.zadara.com
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - Website
+  - Blog
+  - Newsroom
+  - Pricing
+  - PrivacyPolicy
+  - TermsOfService
+  serves: []
+  registrable_domain: zadara.com
+  role: website
+  relation: own

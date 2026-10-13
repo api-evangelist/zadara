@@ -1,0 +1,5509 @@
+swagger: "2.0"
+info:
+  description: |2
+
+    # Overview
+
+    This document outlines the methods available for creation and high-level administration of Zadara Storage VPSAs via a Zadara Storage Provisioning Portal. This API supports form-encoded requests, and can return either JSON or XML responses.
+
+    ## Endpoint
+
+    The base URL for the requests is the Provisioning Portal URL you created your VPSA through - for example: https://manage.zadarastorage.com/, and all APIs will be prefixed with /api as noted in the documentation below.
+
+    ## Authentication
+
+    To use this API, an authentication token is required. The API for retrieving this token can be found below in the Authentication section. You may pass this token in requests either via the the X-Token header or via basic authentication (base64 encoded) in Authorization header.
+
+    ## Parameters and Operations for Specific Deployment Types
+
+    Some of the parameters and operations of the API can be used only for a specific deployment type. The following tags are used to mark parameters and operations relevant to a specific deployment type:
+
+    - Public - the publicly available global Provisioning Portal
+
+    - OPaaS - a cloud-specific Provisioning Portal
+
+    ## Parameters and Operations for Specific User Roles
+
+    Some of the parameters and operations of the API can be used only by a specific user role. The following tags are used to mark parameters and operations relevant to a specific user role:
+
+    - Platform Admin - the administrator user managing the Provisioning Portal
+
+    - Platform Billing User - a user with permissions to view billing data in the Provisioning Portal
+
+    - Organization Admin - an organization user that can oversee and manage the organization activity
+
+    - Organization Billing User - an organization user that has permissions to view the organization billing data
+
+    ## Questions
+
+    If you have any questions or need support involving the REST API, please contact for assistance.
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  version: '25.07'
+  title: Zadara Provisioning Portal API
+tags:
+- name: Authentication
+  description: Methods for authenticating with the Provisioning Portal.
+- name: Billing
+  description: Operations involving billing.
+- name: Cloud
+  description: Retrieve Cloud's Configurations
+- name: Compute
+  description: Compute accounts operations
+- name: Organizations
+  description: Organizations
+- name: Prices
+  description: Get the list of prices for all providers.
+- name: Providers
+  description: Retrieve Providers Configurations
+- name: Settings
+  description: Settings
+- name: Tenant
+  description: Retrieve Tenants information
+- name: Users
+  description: Retrieve Users Configurations
+- name: Virtual Network
+  description: Retrieve Vlan's Configurations
+- name: Vlan
+  description: Retrieve Vlan's Configurations
+- name: VPSA
+  description: VPSA-specific Operations
+- name: Vpsa Requests
+  description: Vpsa Requests Actions
+basePath: /api/v2
+host: localhost
+schemes:
+- https
+paths:
+  /token.json:
+    post:
+      tags:
+      - Authentication
+      description: Retrieve your authentication token without resetting it.
+      operationId: get_authentication_token
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: get_authentication_token
+        required: true
+        schema:
+          type: object
+          required:
+          - username
+          - password
+          properties:
+            username:
+              type: string
+              description: Your Provisioning Portal username.
+              example: zadarauser
+            password:
+              type: string
+              description: Your Provisioning Portal password.
+              example: securepassword0000
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: (API token)
+  /token/reset.json:
+    post:
+      tags:
+      - Authentication
+      description: Reset and retrieve your API token.
+      operationId: reset_authentication_token
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: reset_authentication_token
+        required: true
+        schema:
+          type: object
+          required:
+          - username
+          - password
+          properties:
+            username:
+              type: string
+              description: Your Provisioning Portal username.
+              example: zadarauser
+            password:
+              type: string
+              description: Your Provisioning Portal password.
+              example: securepassword0000
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: (API token)
+  /billing_items.json:
+    get:
+      tags:
+      - Billing
+      description: Download Billing Reports. The returned file is in zip format containing
+        csv files.
+      operationId: get_billing_items
+      produces:
+      - application/zip
+      parameters:
+      - in: query
+        name: start_datetime
+        description: Report start datetime in format yyyy-MM-DD HH:MM
+        required: true
+        type: string
+      - in: query
+        name: end_datetime
+        description: Report end datetime in format yyyy-MM-DD HH:MM
+        required: true
+        type: string
+      - in: query
+        name: user_id
+        description: Filter reports of a specific user
+        type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: The returned file is in zip format containing csv files.
+          schema:
+            type: string
+            format: binary
+  /clouds.json:
+    get:
+      tags:
+      - Cloud
+      description: Get the list of available Clouds and their configuration options.
+      operationId: get_all_clouds
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/OrganizationId"
+      - $ref: "#/parameters/IncludeDescendants"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  $ref: "#/definitions/Cloud"
+
+                xml:
+                  wrapped: true
+    post:
+      tags:
+      - Cloud
+      description: Create a cloud
+      operationId: create_cloud
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: create_cloud
+        required: true
+        schema:
+          type: object
+          required:
+          - name
+          - ip
+          - admin_user
+          - admin_key
+          properties:
+            name:
+              type: string
+              description: zStorage cloud display name, only visible to the Provisioning
+                Portal administrators
+              example: cloud1
+            enabled:
+              type: boolean
+              description: zStorage cloud will be synced
+            ip:
+              type: string
+              description: zStorage Cloud IP address
+              example: "1.2.3.4"
+            fqdn:
+              type: string
+              description: zStorage Cloud FQDN
+              example: vsa-00000001-public-cloud-name.zadarazios.com
+            auth_url:
+              type: string
+              description: zStorage Auth API
+              example: "https://1.2.3.4:5001/v2.0/"
+            nova_url:
+              type: string
+              description: zStorage NOVA Service API
+              example: "https://1.2.3.4:8775/v1.1/"
+            keystone_url:
+              type: string
+              description: zStorage Keystone Admin API
+              example: "https://1.2.3.4:35358/v1.1/"
+            ssl_verify:
+              x-EnvType: Public
+              type: boolean
+              description: SSL Certificate Validation
+              example: false
+            admin_user:
+              type: string
+              description: zStorage NOVA Admin user
+              example: admin
+            admin_key:
+              type: string
+              description: zStorage NOVA Admin key
+              example: "12345678"
+            organization_id:
+              x-EnvType: Public
+              type: string
+              format: uuid
+              description: "Include this param if the cloud belongs to a specific
+                organization"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  cloud_id:
+                    type: string
+                    example: "5"
+                    xml:
+                      name: cloud-id
+  /clouds/test_connection.json:
+    post:
+      tags:
+      - Cloud
+      description: Test connectivity to Auth, Nova and Keystone URLs of the cloud.
+        Runs a background job and returns the job id. Job status and results should
+        be tracked with /clouds/connection_test_status REST API.
+      operationId: cloud_test_connection
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: cloud_test_connection
+        required: true
+        schema:
+          type: object
+          properties:
+            cloud_id:
+              type: integer
+              description: Cloud ID. Opt out for testing new cloud connectivity.
+              example: 1
+            ip:
+              type: string
+              description: Cloud's ip address
+              example: "1.2.3.4"
+            admin_user:
+              type: string
+              description: Nova admin user
+              example: admin
+            admin_key:
+              type: string
+              description: Nova admin key. Only applies to new cloud. Do not provide
+                for existing cloud.
+              example: "12345678"
+            auth_url:
+              type: string
+              description: Auth URL.
+              example: http://10.0.17.1:5000/v2.0/
+            nova_url:
+              type: string
+              description: Nova URL.
+              example: https://10.0.17.1:8774/v1.1/
+            keystone_url:
+              type: string
+              description: Keystone URL.
+              example: http://10.0.17.1:35357/v1.1/
+            ssl_verify:
+              type: boolean
+              description: Verify SSL (public ecommerce only).
+              example: false
+            gateway_address:
+              type: string
+              description: Gateway Address.
+              example: 10.0.17.1
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              job_id:
+                type: string
+                example: d77b4b2c7f15ec569151de25
+                xml:
+                  name: "job-id"
+  /clouds/connection_test_status.json:
+    get:
+      tags:
+      - Cloud
+      description: Gets the cloud connectivity test job status and results.
+      operationId: cloud_connection_test_status
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: query
+        name: job_id
+        description: Job ID returned from /clouds/test_connection REST API.
+        required: true
+        type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              services_status:
+                xml:
+                  name: "services-status"
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    service_name:
+                      type: string
+                      example: "auth"
+                      xml:
+                        name: "service-name"
+                    service_display_name:
+                      type: string
+                      example: "AUTH"
+                      xml:
+                        name: "service-display-name"
+                    status:
+                      type: string
+                      example: "fail"
+                    error:
+                      type: string
+                      example: "Failed to open TCP connection to 1.1.1.1:5000 (execution
+                        expired)"
+                  xml:
+                    name: service-status
+                example: [{"service_name": "auth", "service_display_name": "AUTH",
+                    "status": "success"}, {"service_name": "nova", "service_display_name": "NOVA",
+                    "status": "fail", "error": "Failed to open TCP connection to 1.1.1.1:5000
+                      (execution expired)"}, {"service_name": "keystone", "service_display_name": "Keystone",
+                    "status": "fail", "error": "Failed to open TCP connection to 1.1.1.1:5000
+                      (execution expired)"}]
+  /clouds/{id}.json:
+    get:
+      tags:
+      - Cloud
+      description: Get the configuration information for a single Cloud.
+      operationId: get_cloud
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                $ref: "#/definitions/Cloud"
+    post:
+      tags:
+      - Cloud
+      description: Update a cloud
+      operationId: update_cloud
+      x-roles: Platform Admin, Organization Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: body
+        name: update_cloud
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              description: zStorage cloud display name, only visible to the Provisioning
+                Portal administrators
+              example: cloud1
+            enabled:
+              type: boolean
+              description: zStorage cloud will be synced
+            ip:
+              type: string
+              description: zStorage Cloud IP address
+              example: "1.2.3.4"
+            auth_url:
+              type: string
+              description: zStorage Auth API
+              example: "https://1.2.3.4:5001/v2.0/"
+            nova_url:
+              type: string
+              description: zStorage NOVA Service API
+              example: "https://1.2.3.4:8775/v1.1/"
+            keystone_url:
+              type: string
+              description: zStorage Keystone Admin API
+              example: "https://1.2.3.4:35358/v1.1/"
+            ssl_verify:
+              x-EnvType: Public
+              type: boolean
+              description: SSL Certificate Validation
+              example: false
+            admin_user:
+              type: string
+              description: zStorage NOVA Admin user
+              example: admin
+            admin_key:
+              type: string
+              description: zStorage NOVA Admin key
+              example: "12345678"
+            organization_id:
+              x-EnvType: Public
+              format: uuid
+              type: string
+              description: "Include this param if you want to attach the cloud to
+                a specific organization"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  cloud_id:
+                    type: string
+                    example: "5"
+                    xml:
+                      name: cloud-id
+    delete:
+      tags:
+      - Cloud
+      description: Delete a cloud
+      operationId: delete_cloud
+      x-roles: Platform Admin, Organization Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+  /computes.json:
+    post:
+      tags:
+      - Compute
+      description: Create Compute Account
+      operationId: create_compute_account
+      produces:
+      - application/json
+      - application/xml
+      security:
+      - api_key: []
+      parameters:
+      - in: body
+        name: create_compute_account
+        required: true
+        schema:
+          type: object
+          required:
+          - provider_id
+          - display_name
+          properties:
+            provider_id:
+              description: Your Cloud provider's id.
+              type: integer
+              example: 1
+            display_name:
+              description: Compute Account Name.
+              type: string
+              example: test_account
+            display_description:
+              description: Compute Account Description.
+              type: string
+              example: test_account description
+            cores:
+              description: CPU cores limit.
+              type: integer
+              default: 64
+              example: 32
+            ram:
+              description: RAM limit.
+              type: integer
+              default: 238
+              example: 200
+            instances:
+              description: Instances limit.
+              type: integer
+              default: 10
+              example: 10
+            moderate:
+              type: boolean
+              example: false
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Compute created successfully
+  /organizations.json:
+    get:
+      tags:
+      - Organizations
+      description: Get all organizations
+      operationId: get_all_organizations
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: query
+        name: "tree"
+        type: boolean
+        description: "set this param to true to get the result in tree structure"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  $ref: "#/definitions/Organization"
+                xml:
+                  wrapped: true
+    post:
+      tags:
+      - Organizations
+      description: Create an organization
+      operationId: create_organization
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: create_organization
+        required: true
+        schema:
+          $ref: "#/definitions/OrganizationParams"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Successfully created
+              data:
+                $ref: "#/definitions/Organization"
+  /organizations/{id}.json:
+    get:
+      tags:
+      - Organizations
+      description: Get a single organization
+      operationId: get_organization
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                $ref: "#/definitions/Organization"
+    put:
+      tags:
+      - Organizations
+      description: Update an organization
+      operationId: update_organization
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: body
+        name: update_organization
+        required: true
+        schema:
+          $ref: "#/definitions/OrganizationParams"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Successfully updated
+              data:
+                $ref: "#/definitions/Organization"
+    delete:
+      tags:
+      - Organizations
+      description: Delete an organization
+      operationId: delete_organization
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: body
+        name: delete_organization
+        schema:
+          type: object
+          properties:
+            include_descendants:
+              type: boolean
+              description: Set to true if you want to delete also the descendants
+                of the organization
+              example: false
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+  /organizations/{id}/sub_orgs.json:
+    get:
+      tags:
+      - Organizations
+      description: get all organization descendants
+      operationId: sub_orgs
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: query
+        name: tree
+        type: boolean
+        description: Set to true to recieve the descendants in a tree structure.
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  $ref: "#/definitions/Organization"
+                xml:
+                  wrapped: true
+  /organizations/{id}/cost_explorer.json:
+    get:
+      tags:
+      - Organizations
+      description: Retrieve all an organization's costs. Note that the Cost and Usage
+        Explorer service is currently in Early Preview.
+      operationId: get_cost_explorer_report
+      x-EnvType: Public
+      x-roles: Organization Admin, Organization Billing User
+      x-ApiStatus: Early Preview
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: query
+        name: granularity
+        type: string
+        enum:
+        - monthly
+        - daily
+        default: monthly
+        description: The granularity of costs data to return.
+      - in: query
+        name: from
+        required: true
+        type: string
+        format: date
+        description: Report start date.
+      - in: query
+        name: to
+        required: true
+        type: string
+        format: date
+        description: Report end date.
+      - in: query
+        name: group_by
+        type: string
+        enum:
+        - resource_type
+        - cloud
+        description: Grouping costs by a field.
+      - in: query
+        name: cloud
+        type: array
+        items:
+          type: string
+        description: Filter by clouds name.
+      - in: query
+        name: resource_type
+        type: array
+        items:
+          type: string
+        description: Filter by resource type.
+      - in: query
+        name: item
+        type: array
+        items:
+          type: string
+        description: Filter by item.
+      - in: query
+        name: billable_type
+        type: array
+        items:
+          type: string
+        description: Filter by billable type.
+      - in: query
+        name: user
+        type: array
+        items:
+          type: string
+        description: Filter by Provisioning Portal user username.
+      - in: query
+        name: compute_account
+        type: array
+        items:
+          type: string
+        description: Filter by compute account UUID.
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    total:
+                      type: number
+                      description: Total amount for the month/day
+                      example: 100500
+                    metadata:
+                      type: object
+                      properties:
+                        estimation:
+                          type: boolean
+                          example: true
+                    additionalProperties:
+                      type: number
+                      description: Total amount of a group for the month/day
+                      example: 75000
+              totals:
+                type: object
+                additionalProperties:
+                  type: number
+                  description: Total amount of a group for the entire duration
+                  example: 150000
+                properties:
+                  total:
+                    type: number
+                    description: Total amount for the entire duration
+                    example: 201000
+              currency:
+                type: string
+                description: Billing Organization currency name.
+                example: 'USD'
+  /organizations/{id}/cost_explorer/details.json:
+    get:
+      tags:
+      - Organizations
+      description: Retrieve all an organization's costs details. Note that the Cost
+        and Usage Explorer service is currently in Early Preview.
+      operationId: get_cost_explorer_details_report
+      x-EnvType: Public
+      x-roles: Organization Admin, Organization Billing User
+      x-ApiStatus: Early Preview
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: query
+        name: granularity
+        type: string
+        enum:
+        - monthly
+        - daily
+        default: monthly
+        description: The granularity of costs data to return.
+      - in: query
+        name: from
+        required: true
+        type: string
+        format: date
+        description: Report start date.
+      - in: query
+        name: to
+        required: true
+        type: string
+        format: date
+        description: Report end date.
+      - in: query
+        name: cloud
+        type: array
+        items:
+          type: string
+        description: Filter by clouds id.
+      - in: query
+        name: resource_type
+        type: array
+        items:
+          type: string
+        description: Filter by resource type.
+      - in: query
+        name: item
+        type: array
+        items:
+          type: string
+        description: Filter by item.
+      - in: query
+        name: billable_type
+        type: array
+        items:
+          type: string
+        description: Filter by billable type.
+      - in: query
+        name: user
+        type: array
+        items:
+          type: string
+        description: Filter by Provisioning Portal user username.
+      - in: query
+        name: compute_account
+        type: array
+        items:
+          type: string
+        description: Filter by compute account UUID.
+      - in: query
+        name: page
+        type: integer
+        description: Page number
+        default: 1
+      - in: query
+        name: per_page
+        type: integer
+        description: Rows per page
+        default: 50
+      - in: query
+        name: sort_by
+        description: Sort by column, the param should be a JSON string representing
+          an array of objects, each with "id" and "desc" properties that set sort
+          column and direction. example - [{"id":"cloud","desc":true}]
+        type: string
+      - in: query
+        name: filters
+        description: filter by columns, the param should be a JSON string representing
+          an array of objects, each with "id" and "value" properties that set filter
+          column. example - [{"id":"cloud","value":"cloud1"}]
+        type: string
+      - in: query
+        name: download_csv
+        description: if true, response is in CSV format
+        type: boolean
+        default: false
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              total_count:
+                type: integer
+                example: 100
+                xml:
+                  name: total-count
+              data:
+                type: array
+                xml:
+                  wrapped: true
+                items:
+                  $ref: "#/definitions/CostExplorerDetails"
+  /organizations/test_billing_bucket_connectivity.json:
+    post:
+      tags:
+      - Organizations
+      description: Test connectivity to billing bucket of an organization.
+      operationId: test_billing_bucket_connectivity
+      x-EnvType: Public
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: test_billing_bucket_connectivity
+        required: true
+        schema:
+          type: object
+          required:
+          - billing_bucket_id
+          properties:
+            billing_bucket_id:
+              type: string
+              description: Organization billing bucket ID.
+              example: "eaa475a9-41cf-4fd0-abe2-f5e5560acaa0"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: "Failed to get organization metadata"
+              billing_metadata:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: "My Organization"
+                  id:
+                    type: string
+                    example: "e88475a9-41cf-4fd0-abe2-f5e5560acbb0"
+                  currency:
+                    type: string
+                    example: "USD"
+                xml:
+                  name: billing-metadata
+  /pricing.json:
+    get:
+      tags:
+      - Prices
+      description: Get the list of prices for all providers.
+      operationId: get_prices
+      produces:
+      - application/json
+      - application/xml
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  io_engines:
+                    type: object
+                    xml:
+                      name: io-engines
+                    properties:
+                      additionalProperties:
+                        type: object
+                        properties:
+                          currency:
+                            type: string
+                            example: $
+                          type:
+                            type: string
+                            example: provider
+                          name:
+                            type: string
+                            example: QA4_Single_Zone
+                          cloud_name:
+                            type: string
+                            example: QA4_Single_Zone
+                            xml:
+                              name: cloud-name
+                          type_id:
+                            type: integer
+                            example: 9
+                            xml:
+                              name: type-id
+                          data:
+                            type: object
+                            properties:
+                              additionalProperties:
+                                type: object
+                                properties:
+                                  value:
+                                    type: number
+                                    example: 0.49
+                                  available_in_cloud:
+                                    type: number
+                                    example: 0.49
+                                    xml:
+                                      name: available-in-cloud
+  /providers.json:
+    get:
+      tags:
+      - Providers
+      description: Get the list of available Providers and their configuration options.
+      operationId: get_available_providers
+      x-roles: Platform Admin, Organization Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/OrganizationId"
+      - $ref: "#/parameters/IncludeDescendants"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: '4'
+                    name:
+                      type: string
+                      example: provider1
+                    key:
+                      type: string
+                      example: provider1
+                    provider_group_id:
+                      type: string
+                      example: 'null'
+                      xml:
+                        name: provider-group-id
+                    cloud_id:
+                      type: string
+                      example: 'null'
+                      xml:
+                        name: cloud-id
+                    enabled:
+                      type: string
+                      example: 'null'
+                    hidden:
+                      type: string
+                      example: 'null'
+                  xml:
+                    name: datum
+                xml:
+                  wrapped: true
+    post:
+      tags:
+      - Providers
+      description: Create a provider
+      operationId: create_provider
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: create_provider
+        required: true
+        schema:
+          type: object
+          required:
+          - name
+          - key
+          - cloud_id
+          properties:
+            name:
+              type: string
+              example: provider1
+            key:
+              type: string
+              example: provider1key
+            cloud_id:
+              type: integer
+              example: 1
+            enabled:
+              type: boolean
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  provider_id:
+                    type: string
+                    example: '5'
+                    xml:
+                      name: provider-id
+  /providers/{id}.json:
+    get:
+      tags:
+      - Providers
+      description: Get the configuration information for a single provider.
+      operationId: get_provider
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: '4'
+                  name:
+                    type: string
+                    example: provider1
+                  key:
+                    type: string
+                    example: provider1
+                  provider_group_id:
+                    type: string
+                    example: 'null'
+                    xml:
+                      name: provider-group-id
+                  cloud_id:
+                    type: string
+                    example: 'null'
+                    xml:
+                      name: cloud-id
+                  enabled:
+                    type: string
+                    example: 'null'
+                  hidden:
+                    type: string
+                    example: 'null'
+    post:
+      tags:
+      - Providers
+      description: Update a provider
+      operationId: update_provider
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: body
+        name: update_provider
+        required: true
+        schema:
+          type: object
+          required:
+          - name
+          properties:
+            name:
+              type: string
+            enabled:
+              type: boolean
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  provider_id:
+                    type: string
+                    example: '5'
+                    xml:
+                      name: provider-id
+    delete:
+      tags:
+      - Providers
+      description: Delete a provider
+      operationId: delete_provider
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+  /providers/{provider_id}/flavors/{flavor_key}/price.json:
+    post:
+      tags:
+      - Providers
+      description: Set the flavor price. flavor_key can be id / nova_id_{nova_id}
+        / nova_type
+      operationId: set_flavor_price
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: provider_id
+        type: string
+        required: true
+      - in: path
+        name: flavor_key
+        type: string
+        required: true
+      - in: body
+        name: set_flavor_price
+        required: true
+        schema:
+          type: object
+          required:
+          - price
+          properties:
+            price:
+              type: string
+              example: "1.1"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+  /provider_groups.json:
+    get:
+      tags:
+      - Providers
+      description: Get the list of provider groups.
+      operationId: get_provider_groups
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  provider_groups:
+                    type: array
+                    items:
+                      $ref: "#/definitions/ProviderGroup"
+                    xml:
+                      wrapped: true
+                      name: provider-groups
+    post:
+      tags:
+      - Providers
+      description: Create a provider group
+      operationId: create_provider_group
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: create_provider_group
+        required: true
+        schema:
+          type: object
+          required:
+          - name
+          properties:
+            name:
+              type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  provider_group_id:
+                    type: string
+                    example: '5'
+                    xml:
+                      name: provider-group-id
+  /provider_groups/{id}.json:
+    get:
+      tags:
+      - Providers
+      description: Get the configuration information for a single Provider Group.
+      operationId: get_provider_group
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  provider_group:
+                    $ref: "#/definitions/ProviderGroup"
+    post:
+      tags:
+      - Providers
+      description: Update a provider group
+      operationId: update_provider_group
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: body
+        name: update_provider_group
+        required: true
+        schema:
+          type: object
+          required:
+          - name
+          properties:
+            name:
+              type: string
+              example: pg1
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  provider_group_id:
+                    type: string
+                    example: '5'
+                    xml:
+                      name: provider-group-id
+    delete:
+      tags:
+      - Providers
+      description: Delete a provider group
+      operationId: delete_provider_group
+      x-roles: Platform Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+  /settings/log_level.json:
+    get:
+      tags:
+      - Settings
+      description: Get log level
+      operationId: get_log_level
+      produces:
+      - application/json
+      - application/xml
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              log_level:
+                type: string
+                example: info
+                xml:
+                  name: log-level
+    put:
+      tags:
+      - Settings
+      description: Set log level
+      operationId: set_log_level
+      produces:
+      - application/json
+      - application/xml
+      security:
+      - api_key: []
+      parameters:
+      - in: body
+        name: set_log_level
+        required: true
+        schema:
+          type: object
+          required:
+          - log_level
+          properties:
+            log_level:
+              description: The new log level to set.
+              type: string
+              enum:
+              - debug
+              - info
+              example: debug
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+  /tenants.json:
+    get:
+      tags:
+      - Tenant
+      description: Get the list of tenants
+      operationId: list_tenants
+      produces:
+      - application/json
+      - application/xml
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  $ref: "#/definitions/Tenant"
+                xml:
+                  wrapped: true
+  /users.json:
+    get:
+      tags:
+      - Users
+      description: Get the list of users.
+      operationId: get_users
+      x-roles: Platform Admin, Organization Admin
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/OrganizationId"
+      - $ref: "#/parameters/IncludeDescendants"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                      example: 4
+                    username:
+                      type: string
+                      example: "admin"
+                    email:
+                      type: string
+                      example: "admin@zadara.com"
+                    firstname:
+                      type: string
+                      example: "admin"
+                    lastname:
+                      type: string
+                      example: "admin"
+                    admin:
+                      type: boolean
+                      example: true
+                    active:
+                      type: boolean
+                      example: true
+                    profile:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          example: 135138681
+                        user_id:
+                          type: number
+                          example: 4
+                          xml:
+                            name: user-id
+                        company:
+                          type: string
+                          example: "Zadara"
+                        phone_number:
+                          type: string
+                          example: "0541234567"
+                          xml:
+                            name: phone-number
+                        country:
+                          type: string
+                          example: "IL"
+                          description: "country's two-letters code"
+                        country_state:
+                          type: string
+                          xml:
+                            name: country-state
+                        created_at:
+                          type: string
+                          example: "2024-07-31T09:44:56.706Z"
+                          xml:
+                            name: created-at
+                        updated_at:
+                          type: string
+                          example: "2024-07-31T09:44:56.706Z"
+                          xml:
+                            name: updated-at
+                    tenants:
+                      type: array
+                      items:
+                        $ref: "#/definitions/Tenant"
+                      xml:
+                        wrapped: true
+                    org_role:
+                      x-EnvType: Public
+                      type: string
+                      enum:
+                      - org_admin
+                      - org_billing
+                      - org_member
+                      example: "org_admin"
+                      xml:
+                        name: org-role
+                    organization:
+                      x-EnvType: Public
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: "955e1c45-d499-4de3-aa6d-2ef69983561e"
+                        name:
+                          type: string
+                          example: "z_org_01"
+                        display_name:
+                          type: string
+                          example: "Zadara organization"
+                          xml:
+                            name: display-name
+                        billing_id:
+                          type: string
+                          example: "e88475a9-41cf-4fd0-abe2-f5e5560acbb0"
+                          xml:
+                            name: billing-id
+                        billing_bucket_id:
+                          type: string
+                          example: "e88475a9-41cf-4fd0-abe2-f5e5560acbb0"
+                          xml:
+                            name: billing-bucket-id
+                        cost_explorer_enabled:
+                          type: boolean
+                          example: false
+                          xml:
+                            name: cost-explorer-enabled
+                    permissions:
+                      type: object
+                      properties:
+                        cau_global_viewer:
+                          type: boolean
+                          example: false
+                          xml:
+                            name: cau-global-viewer
+                  xml:
+                    name: datum
+                xml:
+                  wrapped: true
+  /virtual_networks.json:
+    get:
+      tags:
+      - Virtual Network
+      description: Get the list of virtual networks.
+      operationId: get_virtual_networks
+      produces:
+      - application/json
+      - application/xml
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                      example: vni_test16
+                    vlan_id:
+                      type: integer
+                      xml:
+                        name: vlan-id
+                    tenant_id:
+                      type: integer
+                      xml:
+                        name: tenant-id
+                    provider_id:
+                      type: integer
+                      xml:
+                        name: provider-id
+                  xml:
+                    name: datum
+                xml:
+                  wrapped: true
+    post:
+      tags:
+      - Virtual Network
+      description: Create a virtual network
+      operationId: create_virtual_network
+      produces:
+      - application/json
+      - application/xml
+      security:
+      - api_key: []
+      parameters:
+      - in: body
+        name: create_virtual_network
+        required: true
+        schema:
+          type: object
+          required:
+          - name
+          - provider_id
+          - tenant_id
+          properties:
+            name:
+              type: string
+              example: mynetwork
+            provider_id:
+              type: string
+              example: "1"
+            tenant_id:
+              type: string
+              example: "1"
+            gateway:
+              type: string
+              example: "170.70.1.1"
+            gateway_zone_1:
+              type: string
+              example: "170.70.1.1"
+            ipv6_gateway:
+              type: string
+              example: 2001:16:58::1
+            ipv6_gateway_zone_1:
+              type: string
+              example: 2001:16:58::1
+            cidr:
+              type: string
+              example: 170.70.1.0/24
+            ipv6_cidr:
+              type: string
+              example: 2001:16:58::/32
+            allocatable_ip_ranges:
+              type: string
+              example: 170.70.1.2-170.70.1.50
+            ipv6_allocatable_ip_ranges:
+              type: string
+              example: 2001:16:58::2-2001:16:58::52
+            vlan_id:
+              description: To automatically assign use "vlan_id":""
+              type: integer
+              example: 50
+            default_for_tenant:
+              type: boolean
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Virtual Network successfully created
+  /virtual_networks/{id}.json:
+    delete:
+      tags:
+      - Virtual Network
+      description: Delete a virtual network
+      operationId: delete_virtual_networks
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: body
+        name: delete_virtual_networks
+        required: true
+        schema:
+          type: object
+          required:
+          - provider_id
+          - vlan
+          properties:
+            provider_id:
+              type: integer
+              example: 1
+            vlan:
+              type: integer
+              example: 50
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Virtual Network successfully deleted
+  /vlans.json:
+    get:
+      tags:
+      - Vlan
+      description: Get the list of available vlans.
+      operationId: list_availiable_vlans
+      produces:
+      - application/json
+      - application/xml
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    default:
+                      type: boolean
+                    cloud_id:
+                      type: integer
+                      xml:
+                        name: cloud-id
+                    provider_id:
+                      type: integer
+                      xml:
+                        name: provider-id
+                    vlan_id:
+                      type: integer
+                      xml:
+                        name: vlan-id
+                    custom_networks:
+                      type: array
+                      items:
+                        type: string
+                        example: vni_test16
+                        xml:
+                          name: custom-network
+                      xml:
+                        wrapped: true
+                        name: custom-networks
+                    vpsas:
+                      type: array
+                      items:
+                        type: string
+                        example: testvpsa
+                        xml:
+                          name: vpsa
+                      xml:
+                        wrapped: true
+                  xml:
+                    name: datum
+                xml:
+                  wrapped: true
+  /vlans/available.json:
+    get:
+      tags:
+      - Vlan
+      description: Get list of available vlans
+      operationId: list_availiable_vlan_for_provider
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: query
+        name: provider_id
+        type: integer
+        description: site id.
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  type: integer
+                  example: 60
+                  xml:
+                    name: datum
+                xml:
+                  wrapped: true
+  /vlans/allocate.json:
+    post:
+      tags:
+      - Vlan
+      description: Allocate a vlan
+      operationId: alloacate_vlan
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: alloacate_vlan
+        required: true
+        schema:
+          type: object
+          required:
+          - provider_id
+          - vlan
+          properties:
+            provider_id:
+              type: integer
+              example: 1
+            vlan:
+              type: integer
+              example: 50
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Your request has been submitted for processing.
+  /vlans/deallocate.json:
+    post:
+      tags:
+      - Vlan
+      description: Deallocate a vlan
+      operationId: deallocate_vlan
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: deallocate_vlan
+        required: true
+        schema:
+          type: object
+          required:
+          - provider_id
+          - vlan
+          properties:
+            provider_id:
+              type: integer
+              example: 1
+            vlan:
+              type: integer
+              example: 1
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Your request has been submitted for processing.
+  /vlans/set_as_default.json:
+    post:
+      tags:
+      - Vlan
+      description: Set vlan as default
+      operationId: set_vlan_as_default
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: set_vlan_as_default
+        required: true
+        schema:
+          type: object
+          required:
+          - provider_id
+          - vlan
+          properties:
+            provider_id:
+              type: integer
+              example: 1
+            vlan:
+              type: integer
+              example: 50
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: VLAN was set as deafult for provider zadara_web1
+  /vpsas.json:
+    get:
+      tags:
+      - VPSA
+      description: Retrieve information about all of your VPSAs.
+      operationId: get_vpsas_info
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/OrganizationId"
+      - $ref: "#/parameters/IncludeDescendants"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  $ref: "#/definitions/Vpsa"
+                xml:
+                  wrapped: true
+    post:
+      tags:
+      - VPSA
+      description: Create a VPSA Storage Array or VPSA Object Storage.
+      operationId: create_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: create_vpsa
+        required: true
+        schema:
+          type: object
+          required:
+          - name
+          - provider
+          - drives
+          properties:
+            kind:
+              type: string
+              enum:
+              - storage_array
+              - object_storage
+              description: VPSA kind
+              example: storage_array
+              default: storage_array
+            name:
+              type: string
+              description: Your VPSA's name.
+              example: vpsa1
+            description:
+              type: string
+              description: Your VPSA's description.
+            provider:
+              type: string
+              description: The key for your desired site.
+              example: aws
+            allocation_zone:
+              type: string
+              description: Use this parameter to create vcs in a specific allocation
+                zone. Use /providers API to get allocation zones. If using multiple
+                zones, don't pass this parameter
+              example: zone_0
+            drives:
+              type: object
+              description: Specify a quantity for an available Drive Type.
+              example:
+                SATA_2793GB_7200RPM: "2"
+                SSD_7152GB_1RPM: "4"
+              properties:
+                drive_type:
+                  type: string
+                  example: SATA_2793GB_5940RPM
+                quantity:
+                  type: integer
+            custom_network_id:
+              description: Specify a custom network according. If not specified and
+                user has only one Custom Network, it will be automatically used.
+              type: integer
+            vlan_id:
+              description: Specify a vlan ID
+              type: integer
+              example: 50
+            engine:
+              x-VpsaType: VPSA Storage Array
+              type: string
+              description: The Engine Type key for your desired Engine Type.
+              example: vsa.V2.baby.mz.vf
+            app_engine:
+              x-VpsaType: VPSA Storage Array
+              type: string
+              description: The APP Engine Type key for your desired APP Engine Type.
+              example: tiny
+            flash_cache_capacity:
+              x-VpsaType: VPSA Storage Array
+              description: The amount of extended Flash Cache you would like your
+                VPSA to be created with, if your Cloud supports extended Flash Cache.  Cannot
+                exceed the maximum extended Flash Cache value for your VPSA's Engine
+                Type, and must be in increments of `increment_gb`, as specified by
+                the Cloud's `flash_cache` properties.
+              example: 0
+              type: integer
+            enterprise_suite:
+              x-VpsaType: VPSA Storage Array
+              description: Any value for this parameter will enable Enterprise Suite
+                features.  Omit the parameter to disable Enterprise Suite.
+              type: string
+            fibre_channel:
+              x-VpsaType: VPSA Storage Array
+              description: Any value for this parameter will enable Fibre Channel,
+                if the Cloud supports it.  Omit this parameter to disable Fibre Channel.
+              type: string
+            iscsi_dual_target_mode_enabled:
+              x-VpsaType: VPSA Storage Array
+              description: Any value for this parameter will enable iSCSI Dual Target,
+                if the Cloud supports it.  Omit this parameter to disable iSCSI Dual
+                Target.
+              type: string
+            create_raid_10_pools:
+              x-VpsaType: VPSA Storage Array
+              description: VPSA will automatically create a Pool consisting of RAID10
+                from requested disks. Default - true.
+              type: boolean
+            data_reduction_bundle:
+              x-VpsaType: VPSA Storage Array
+              description: Sets Data Reduction Bundle for Flash VPSAs (relevant only
+                to vpsa flash array). Default - true.
+              type: boolean
+            vpsa_zone_group_storage_policy_type_id:
+              x-VpsaType: VPSA Object Storage
+              type: integer
+              example: 2
+            storage_profile:
+              x-VpsaType: VPSA Object Storage
+              type: string
+              example: standard
+            moderate:
+              type: boolean
+              description: Create vpsa request.
+              example: false
+              default: false
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Request failed
+              data:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: creating
+                  vpsa_request_id:
+                    type: integer
+                    example: 69
+                    description: When VPSA creation is moderated, this is the creation
+                      request ID.
+                    xml:
+                      name: vpsa-request-id
+                  allocation_zones:
+                    type: array
+                    items:
+                      type: string
+                      example: zone_0
+                      xml:
+                        name: allocation-zone
+                    xml:
+                      wrapped: true
+                      name: allocation-zones
+                  engine:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Basic
+                      key:
+                        type: string
+                        example: vsa.V2.small.vf
+                      specs:
+                        type: string
+                        example: 2 CPUs, 8GB RAM
+                  description:
+                    type: string
+                    example: testvpsa description
+                  management_url:
+                    type: string
+                    example: None
+                    xml:
+                      name: management-url
+                  initial_passcode:
+                    type: string
+                    example: V3JAXQV2
+                    xml:
+                      name: initial-passcode
+                  drive_count:
+                    type: integer
+                    xml:
+                      name: drive-count
+                  ip_address:
+                    type: string
+                    example: None
+                    xml:
+                      name: ip-address
+                  id:
+                    type: string
+                    example: None
+                  time_created_gmt:
+                    type: string
+                    example: "2014-01-29 02:05:31"
+                    xml:
+                      name: time-created-gmt
+                  name:
+                    type: string
+                    example: vpsa1
+                  cache:
+                    type: object
+                    properties:
+                      total_partitions:
+                        type: integer
+                        xml:
+                          name: total-partitions
+                      total_gb:
+                        type: integer
+                        xml:
+                          name: total-gb
+                      gb_from_engine:
+                        type: integer
+                        xml:
+                          name: gb-from-engine
+                      partitions_from_engine:
+                        type: integer
+                        xml:
+                          name: partitions-from-engine
+                  version:
+                    type: string
+                    example: Z2
+                  locked_down:
+                    type: integer
+                    xml:
+                      name: locked-down
+                  provider:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: AWS US East (N. Virginia) 1
+                      key:
+                        type: string
+                        example: aws
+  /vpsas/{vpsa_id}.json:
+    get:
+      tags:
+      - VPSA
+      description: Retrieve information about a single VPSA.
+      operationId: get_vpsa_information
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                $ref: "#/definitions/Vpsa"
+    delete:
+      tags:
+      - VPSA
+      description: Delete a VPSA.
+      operationId: delete_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Deletion request for VPSA testvpsa received.
+  /vpsas/{vpsa_id}/engine.json:
+    post:
+      tags:
+      - VPSA
+      description: Change a VPSA's Zadara Engine.
+      operationId: change_vpsa_zadara_engine
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: change_vpsa_zadara_engine
+        required: true
+        schema:
+          type: object
+          required:
+          - engine
+          - app_engine
+          properties:
+            engine:
+              type: string
+              example: vsa.V2.small.vf
+              description: The Engine Type key for your desired Engine Type.
+            app_engine:
+              type: string
+              example: tiny
+              description: The APP Engine Type key for your desired APP Engine Type.
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Zadara Engine change to Boost for VPSA testvpsa submitted.
+  /vpsas/{vpsa_id}/cache.json:
+    post:
+      tags:
+      - VPSA
+      description: Change a VPSA's extended flash cache capacity.
+      operationId: change_vpsa_flash_cache_capacity
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: change_vpsa_flash_cache_capacity
+        required: true
+        schema:
+          type: object
+          required:
+          - flash_cache_capacity
+          properties:
+            flash_cache_capacity:
+              type: integer
+              description: Amount of extended flash (in 200GB steps).
+              example: 200
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: A request has been dispatched to the Zadara Storage team,
+                  which must be approved before your cache can be added.  You will
+                  be notified when this is completed.
+  /vpsas/{vpsa_id}/drives.json:
+    post:
+      tags:
+      - VPSA
+      description: Add additional storage to a VPSA.
+      operationId: add_storage_to_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: add_storage_to_vpsa
+        required: true
+        schema:
+          type: object
+          required:
+          - drives
+          properties:
+            drives:
+              type: object
+              example:
+                SATA_2793GB_7200RPM: "2"
+              properties:
+                drive_type:
+                  type: string
+                  example: SATA_2793GB_5940RPM
+                quantity:
+                  type: integer
+              description: Specify a quantity for an available Drive Type. (Only 1
+                drive type allowed for VPSA Object Storage)
+            storage_policy:
+              type: string
+              description: Storage Policy Name. (Only for VPSA Object Storage)
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Adding drives.
+  /vpsas/{vpsa_id}/hibernate.json:
+    post:
+      tags:
+      - VPSA
+      description: Hibernate a VPSA.
+      operationId: hibernate_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: VPSA being put into hibernating state.
+  /vpsas/{vpsa_id}/restore.json:
+    post:
+      tags:
+      - VPSA
+      description: Restore a VPSA from hibernating state.
+      operationId: resume_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: VPSA restoring.
+  /vpsas/{vpsa_id}/maintenance_mode.json:
+    post:
+      tags:
+      - VPSA
+      description: Enter or exit maintenance mode for VPSA Object Storage.
+      operationId: maintenance_mode
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: maintenance_mode
+        required: true
+        schema:
+          type: object
+          properties:
+            enter_maintenance_mode:
+              type: boolean
+              example: true
+              description: Enter VPSA Object Storage into maintenance mode. Set to
+                false or omit to exit from maintenance mode.
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: VPSA going into maintenance mode, please allow a few minutes
+                  for this to take effect.
+  /vpsas/{vpsa_id}/storage_policy.json:
+    post:
+      tags:
+      - VPSA
+      description: Add a storage policy to a VPSA object storage.
+      operationId: add_storage_policy_to_vpsa_object_storage
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: add_storage_policy_to_vpsa_object_storage
+        required: true
+        schema:
+          type: object
+          required:
+          - name
+          - storage_policy_type
+          - drives
+          properties:
+            name:
+              type: string
+              description: Storage Policy Name.
+              example: p1
+            storage_policy_type:
+              type: integer
+              description: Storage Policy Type Id.
+              example: 2
+            drives:
+              type: string
+              example: '{"SATA_2793GB_7200RPM": 2, "SSD_7152GB_1RPM": 4}'
+              properties:
+                drive_type:
+                  type: string
+                  example: SATA_2793GB_5940RPM
+                quantity:
+                  type: integer
+              description: Specify a quantity for an available Drive Type.
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/default"
+  /vpsas/{vpsa_id}/proxy_vcs/add.json:
+    post:
+      tags:
+      - VPSA
+      description: Add a proxy Virtual Controller to a VPSA Object storage.
+      operationId: add_proxy_vc_to_vpsa_object_storage
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: add_proxy_vc_to_vpsa_object_storage
+        required: true
+        schema:
+          type: object
+          required:
+          - allocation_zone_id
+          properties:
+            allocation_zone_id:
+              type: integer
+              description: Allocation Zone Id.
+              example: 1
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Your request to add a proxy Virtual Controller has been submited
+                  for admin approval.
+  /vpsas/{vpsa_id}/enable_container_replication.json:
+    post:
+      tags:
+      - VPSA
+      description: Enable container replication service to NextGen Object Storage.
+      operationId: enable_container_replication_ngos
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Container Replication Service will be enabled
+  /vpsas/{vpsa_id}/public_ip.json:
+    post:
+      tags:
+      - VPSA
+      description: Assign a public IP to a VPSA.
+      operationId: assign_public_ip_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Public IP added successfully.
+    delete:
+      tags:
+      - VPSA
+      description: Remove a public IP from a VPSA.
+      operationId: remove_vpsa_public_ip
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Public IP removed successfully.
+  /vpsas/{vpsa_id}/compatible_vnis.json:
+    get:
+      tags:
+      - VPSA
+      description: Return a list of compatible Virtual Network Interface for a VPSA.
+      operationId: list_compatible_vni_for_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: vir1
+                    vlan:
+                      type: integer
+                    custom_network_id:
+                      type: integer
+                      xml:
+                        name: custom-network-id
+                    netmask:
+                      type: string
+                      example: 255.255.255.0
+                    cidr:
+                      type: string
+                      example: 10.22.33.0/24
+                    gateway:
+                      type: string
+                      example: 10.22.33.1
+                  xml:
+                    name: datum
+                xml:
+                  wrapped: true
+  /vpsas/{vpsa_id}/add_vni.json:
+    post:
+      tags:
+      - VPSA
+      description: Add a Virtual Network Interface to a VPSA.
+      operationId: add_virtual_network_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: add_virtual_network_vpsa
+        required: true
+        schema:
+          type: object
+          required:
+          - virtual_network_id
+          properties:
+            virtual_network_id:
+              type: string
+              description: Virtual Network ID.
+              example: "11"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: integer
+              message:
+                type: string
+                example: Add Virtual Network Interface Request Sent
+  /vpsas/{vpsa_id}/remove_vni.json:
+    post:
+      tags:
+      - VPSA
+      description: Remove a Virtual Network Interface from a VPSA.
+      operationId: remove_vni_from_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: remove_vni_from_vpsa
+        required: true
+        schema:
+          type: object
+          required:
+          - vni_ids
+          properties:
+            vni_ids:
+              type: array
+              items:
+                type: string
+              description: Virtual Network Interfaces IDs.
+              example:
+              - "1"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: integer
+              message:
+                type: string
+                example: Remove Virtual Network Interface Request Sent
+  /vpsas/{vpsa_id}/enable_data_reduction.json:
+    post:
+      tags:
+      - VPSA
+      description: Enables data reduction bundle on a Flash VPSA.
+      operationId: enables_data_reduction_bundle_on_flash_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Data Reduction Bundle will be available momentarily
+  /vpsas/{vpsa_id}/disable_data_reduction_bundle.json:
+    post:
+      tags:
+      - VPSA
+      description: Disables data reduction bundle on a Flash VPSA.
+      operationId: disables_data_reduction_bundle_on_flash_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Data Reduction Bundle disabled
+  /vpsas/{vpsa_id}/update_version.json:
+    post:
+      tags:
+      - VPSA
+      description: Update software version of VPSA.
+      operationId: update_version
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: update_version
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateVersionBody"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Update software version started
+  /vpsas/{vpsa_id}/cancel_scheduled_update_version.json:
+    post:
+      tags:
+      - VPSA
+      description: Cancel scheduled VPSA software version update.
+      operationId: cancel_scheduled_update_version
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Successfully cancelled scheduled update
+  /vpsas/{vpsa_id}/reschedule_update_version.json:
+    post:
+      tags:
+      - VPSA
+      description: Reschedule scheduled VPSA software version update.
+      operationId: reschedule_update_version
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: reschedule_update_version
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateVersionBody"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Update software version started
+  /vpsas/{vpsa_id}/public_zioses.json:
+    post:
+      tags:
+      - VPSA
+      description: Enable object account service for an existing VPSA Object Storage.
+      operationId: enable_object_account_servce_for_vpsa_object_storage
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: enable_object_account
+        required: true
+        schema:
+          type: object
+          required:
+          - account_name
+          - admin_username
+          - admin_password
+          - ip
+          - host
+          properties:
+            account_name:
+              type: string
+              description: The Object Storage admin account.
+              example: zios_admin
+            admin_username:
+              type: string
+              description: The Object Storage admin username.
+              example: admin
+            admin_password:
+              type: string
+              description: The Object Storage admin password.
+              example: secretpass
+            ip:
+              type: string
+              description: The Object Storage ip and port.
+              example: 1.2.3.4:11111
+            host:
+              type: string
+              description: The Object Storage host name.
+              example: vsa-00000151-zadara-web1.zadarazios.com
+            auto_approve:
+              type: boolean
+              description: Indicates wether to automatically approve account creation
+                requests. False by default.
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: Success
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  vpsa_id:
+                    type: integer
+                    xml:
+                      name: vpsa-id
+                  account_name:
+                    type: string
+                    example: zios_admin
+                    xml:
+                      name: account-name
+                  username:
+                    type: string
+                    example: admin
+                  ip:
+                    type: string
+                    example: localhost:15100
+                  host:
+                    type: string
+                    example: aaa.com
+                  auto_approve:
+                    type: boolean
+                    xml:
+                      name: auto-approve
+                  price:
+                    type: string
+                    example: "0.0"
+              message:
+                type: string
+                example: Successfully created
+    put:
+      tags:
+      - VPSA
+      description: Update object account service on an existing VPSA Object Storage.
+      operationId: update_object_account_service_for_vpsa_object_storage
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: update_object_account
+        required: true
+        schema:
+          type: object
+          properties:
+            account_name:
+              type: string
+              description: The Object Storage admin account.
+              example: zios_admin
+            admin_username:
+              type: string
+              description: The Object Storage admin username.
+              example: admin
+            admin_password:
+              type: string
+              description: The Object Storage admin password.
+              example: secretpass
+            ip:
+              type: string
+              description: The Object Storage ip and port.
+              example: 1.2.3.4:11111
+            host:
+              type: string
+              description: The Object Storage host name.
+              example: vsa-00000151-zadara-web1.zadarazios.com
+            auto_approve:
+              type: boolean
+              description: Indicates wether to automatically approve account creation
+                requests.
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: integer
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  vpsa_id:
+                    type: integer
+                    xml:
+                      name: vpsa-id
+                  account_name:
+                    type: string
+                    example: zios_admin
+                    xml:
+                      name: account-name
+                  username:
+                    type: string
+                    example: admin
+                  ip:
+                    type: string
+                    example: localhost:15100
+                  host:
+                    type: string
+                    example: aaa.com
+                  auto_approve:
+                    type: boolean
+                    xml:
+                      name: auto-approve
+                  price:
+                    type: string
+                    example: "0.0"
+              message:
+                type: string
+                example: Successfully updated
+    get:
+      tags:
+      - VPSA
+      description: Get object account service for an existing VPSA Object Storage.
+      operationId: get_object_account_servce_for_vpsa_object_storage
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  vpsa_id:
+                    type: integer
+                    xml:
+                      name: vpsa-id
+                  account_name:
+                    type: string
+                    example: zios_admin
+                    xml:
+                      name: account-name
+                  username:
+                    type: string
+                    example: admin
+                  ip:
+                    type: string
+                    example: localhost:15100
+                  host:
+                    type: string
+                    example: aaa.com
+                  auto_approve:
+                    type: boolean
+                    xml:
+                      name: auto-approve
+                  price:
+                    type: string
+                    example: "0.0"
+    delete:
+      tags:
+      - VPSA
+      description: Disable object account service from an existing VPSA Object Storage.
+      operationId: disable_object_account_servce_from_vpsa_object_storage
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: Success
+  /vpsas/{vpsa_id}/accounts.json:
+    get:
+      tags:
+      - VPSA
+      description: Get all object storage accounts for a given VPSA Object Storage.
+      operationId: list_object_storage_accounts_of_vpsa
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: Success
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    vpsa_id:
+                      type: integer
+                      xml:
+                        name: vpsa-id
+                    user_id:
+                      type: integer
+                      xml:
+                        name: user-id
+                    account_name:
+                      type: string
+                      example: acc22
+                      xml:
+                        name: account-name
+                    status:
+                      type: string
+                      example: created
+                    zios_request_id:
+                      type: integer
+                      xml:
+                        name: zios-request-id
+                    used_capacity:
+                      type: number
+                      xml:
+                        name: used-capacity
+                    containers_count:
+                      type: integer
+                      xml:
+                        name: containers-count
+                    objects_count:
+                      type: integer
+                      xml:
+                        name: objects-count
+                    created_at:
+                      type: string
+                      format: date_time
+                      xml:
+                        name: created-at
+                    updated_at:
+                      type: string
+                      format: date_time
+                      xml:
+                        name: updated-at
+                  xml:
+                    name: datum
+                xml:
+                  wrapped: true
+    post:
+      tags:
+      - VPSA
+      description: Create a new object storage account.
+      operationId: create_object_storage_account
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: body
+        name: create_object_storage_account
+        required: true
+        schema:
+          type: object
+          required:
+          - object_storage_account_name
+          - object_storage_admin_username
+          - object_storage_admin_password
+          - user_id
+          properties:
+            object_storage_account_name:
+              type: string
+              description: The new account name.
+              example: my_account
+            object_storage_admin_username:
+              type: string
+              description: The new account administrator username. The administrator
+                user will be created with the account.
+              example: admin
+            object_storage_admin_password:
+              type: string
+              description: The new account administrator password. The administrator
+                user will be created with the account.
+              example: secretpass
+            user_id:
+              type: integer
+              description: The ID of the user that creates the account.
+              example: 1
+            moderate:
+              type: boolean
+              description: When false, the account will be immediately created. When
+                true, only a request will be created and it should be approved by
+                an administrator. Default is false. Usable only for administrator
+                or auto-approved user.
+              example: false
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: Success
+              message:
+                type: string
+                example: Object Storage Account acc21 created. Email with details
+                  sent to qazadarastorage.com
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  vpsa_id:
+                    type: integer
+                    xml:
+                      name: vpsa-id
+                  user_id:
+                    type: integer
+                    xml:
+                      name: user-id
+                  account_name:
+                    type: string
+                    example: acc21
+                    xml:
+                      name: account-name
+                  status:
+                    type: string
+                    example: created
+                  zios_request_id:
+                    type: integer
+                    xml:
+                      name: zios-request-id
+                  used_capacity:
+                    type: number
+                    example: 1000
+                    xml:
+                      name: used-capacity
+                  containers_count:
+                    type: integer
+                    example: 10
+                    xml:
+                      name: containers-count
+                  objects_count:
+                    type: integer
+                    example: 100
+                    xml:
+                      name: objects-count
+                  created_at:
+                    type: string
+                    format: date_time
+                    xml:
+                      name: created-at
+                  updated_at:
+                    type: string
+                    format: date_time
+                    xml:
+                      name: updated-at
+  /vpsas/{vpsa_id}/accounts/{account_id}.json:
+    get:
+      tags:
+      - VPSA
+      description: Get an object storage account details.
+      operationId: get_object_storage_account_info
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: path
+        name: account_id
+        type: string
+        required: true
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: Success
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  vpsa_id:
+                    type: integer
+                    xml:
+                      name: vpsa-id
+                  user_id:
+                    type: integer
+                    xml:
+                      name: user-id
+                  account_name:
+                    type: string
+                    example: acc22
+                    xml:
+                      name: account-name
+                  status:
+                    type: string
+                    example: created
+                  zios_request_id:
+                    type: integer
+                    xml:
+                      name: zios-request-id
+                  used_capacity:
+                    type: number
+                    xml:
+                      name: used-capacity
+                  containers_count:
+                    type: integer
+                    xml:
+                      name: containers-count
+                  objects_count:
+                    type: integer
+                    xml:
+                      name: objects-count
+                  created_at:
+                    type: string
+                    format: date_time
+                    xml:
+                      name: created-at
+                  updated_at:
+                    type: string
+                    format: date_time
+                    xml:
+                      name: updated-at
+    delete:
+      tags:
+      - VPSA
+      description: Generates a request to remove an object storage account from a
+        VPSA Object Storage.
+      operationId: remove_account_from_vpsa_object_storage
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - $ref: "#/parameters/VpsaId"
+      - in: path
+        name: account_id
+        type: string
+        required: true
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+        "200":
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: Success
+              vpsa_request_id:
+                type: integer
+                xml:
+                  name: vpsa-request-id
+  /vpsa_requests.json:
+    get:
+      tags:
+      - Vpsa Requests
+      description: Get the list of vpsa_requests.
+      operationId: requests
+      produces:
+      - application/json
+      - application/xml
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: '1'
+                    name:
+                      type: string
+                      example: pg1
+                    action:
+                      type: string
+                    status:
+                      type: string
+                      example: pending
+                  xml:
+                    name: datum
+                xml:
+                  wrapped: true
+  /vpsa_requests/{id}.json:
+    get:
+      tags:
+      - Vpsa Requests
+      description: Get the configuration information for a single Vpsa Request.
+      operationId: request
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: '1'
+                  name:
+                    type: string
+                    example: pg1
+    delete:
+      tags:
+      - Vpsa Requests
+      description: Delete a vpsa request
+      operationId: delete_vpsa_request
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+  /vpsa_requests/{id}/approve.json:
+    post:
+      tags:
+      - Vpsa Requests
+      description: Approve a vpsa request
+      operationId: approve
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: body
+        name: approve
+        required: true
+        schema:
+          type: object
+          required:
+          - name
+          properties:
+            name:
+              type: string
+              example: pg2
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  vpsa_request_id:
+                    type: string
+                    example: '5'
+                    xml:
+                      name: vpsa-request-id
+  /vpsa_requests/{id}/deny.json:
+    post:
+      tags:
+      - Vpsa Requests
+      description: Deny a vpsa request
+      operationId: deny
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: body
+        name: deny
+        required: true
+        schema:
+          type: object
+          required:
+          - reason
+          properties:
+            reason:
+              type: string
+              example: drives unavailable
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        '200':
+          description: successful operation
+          schema:
+            xml:
+              name: response
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              data:
+                type: object
+                properties:
+                  vpsa_request_id:
+                    type: string
+                    example: '5'
+                    xml:
+                      name: vpsa-request-id
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: X-Token
+    in: header
+definitions:
+  Error:
+    type: object
+    properties:
+      status:
+        type: string
+      message:
+        type: string
+  default:
+    type: object
+    properties:
+      status:
+        type: integer
+      status_msg:
+        type: string
+        xml:
+          name: status-msg
+      message:
+        type: string
+      response:
+        type: object
+        properties:
+          status:
+            type: integer
+          message:
+            type: string
+  Cloud:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "1"
+      name:
+        type: string
+        example: AWS US East (N. Virginia) 1
+      uuid:
+        type: string
+        example: 59af475-2a28-4eb4_b9c6-9567d7fb8ae6
+      enabled:
+        type: string
+        example: "true"
+      app_engines:
+        type: array
+        items:
+          type: object
+          properties:
+            default:
+              type: string
+              example: "true"
+            memory_mb:
+              type: string
+              example: "1024"
+              xml:
+                name: memory-mb
+            name:
+              type: string
+              example: "00"
+            price:
+              type: string
+              example: "0.15"
+            specs:
+              type: string
+              example: 2 CPUs, 1GB RAM
+            vcpus:
+              type: string
+              example: "2"
+          xml:
+            name: app-engine
+        xml:
+          wrapped: true
+          name: app-engines
+      nova_url:
+        type: string
+        example: None
+        xml:
+          name: nova-url
+      auth_url:
+        type: string
+        example: None
+        xml:
+          name: auth-url
+      keystone_url:
+        type: string
+        example: None
+        xml:
+          name: keystone-url
+      drive_types:
+        type: array
+        items:
+          type: object
+          properties:
+            hourly_price_usd:
+              type: string
+              example: "0.11"
+              xml:
+                name: hourly-price-usd
+            capacity_gb:
+              type: integer
+              xml:
+                name: capacity-gb
+            name:
+              type: string
+              example: 300GB SAS 15000 RPM
+            key:
+              type: string
+              example: SAS_300GB_15KRPM
+            id:
+              type: string
+              example: "1"
+          xml:
+            name: drive-type
+        xml:
+          wrapped: true
+          name: drive-types
+      engine_types:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "1"
+            hourly_price_usd:
+              type: string
+              example: "0.49"
+              xml:
+                name: hourly-price-usd
+            name:
+              type: string
+              example: "200"
+            max_drives:
+              type: integer
+              xml:
+                name: max-drives
+            max_cache_gb:
+              type: integer
+              xml:
+                name: max-cache-gb
+            key:
+              type: string
+              example: vsa.V2.baby.vf
+            encryption_hourly_price_usd:
+              type: string
+              example: "0.49"
+              xml:
+                name: encryption-hourly-price-usd
+            specs:
+              type: string
+              example: 1 CPU, 4GB RAM
+            cache:
+              type: object
+              properties:
+                base_cache_gb:
+                  type: integer
+                  xml:
+                    name: base-cache-gb
+                max_flash_cache_gb:
+                  type: integer
+                  xml:
+                    name: max-flash-cache-gb
+                recommended_flash_cache_gb:
+                  type: integer
+                  xml:
+                    name: recommended-flash-cache-gb
+          xml:
+            name: engine-type
+        xml:
+          wrapped: true
+          name: engine-types
+      fibre_channel:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+        xml:
+          name: fibre-channel
+      flash_cache:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+          increment_gb:
+            type: integer
+            xml:
+              name: increment-gb
+        xml:
+          name: flash-cache
+      minimum_drives:
+        type: integer
+        xml:
+          name: minimum-drives
+      supports_app_engines:
+        type: boolean
+        xml:
+          name: supports-app-engines
+      zios:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+      zones:
+        type: array
+        items:
+          type: object
+          properties:
+            allocation_zone_disp_name:
+              type: string
+              example: First Zone
+              xml:
+                name: allocation-zone-disp-name
+            allocation_zone_name:
+              type: string
+              example: zone_0
+              xml:
+                name: allocation-zone-name
+          xml:
+            name: zone
+        xml:
+          wrapped: true
+      vpsa_zone_group_storage_policy_types:
+        type: array
+        items:
+          $ref: "#/definitions/vpsa_zone_group_storage_policy_type"
+        xml:
+          name: vpsa-zone-group-storage-policy-types
+          wrapped: true
+      recommended_storage_array_image_id:
+        type: integer
+        example: 1
+        xml:
+          name: recommended-storage-array-image-id
+      last_synced:
+        type: string
+        format: date_time
+        example: "2023-07-19T04:35:00Z"
+        xml:
+          name: last-synced
+      sync_status:
+        type: object
+        properties:
+          status:
+            type: string
+            example: "connectivity_error"
+          sidekiq_jid:
+            type: string
+            example: "1e09afe26fa1661f09076403"
+            xml:
+              name: sidekiq-jid
+          errors:
+            type: array
+            items:
+              type: object
+              properties:
+                err_class:
+                  type: string
+                  example: "Faraday::ConnectionFailed"
+                  xml:
+                    name: err-class
+                err_context:
+                  type: string
+                  example: "Images"
+                  xml:
+                    name: err-context
+                err_message:
+                  type: string
+                  example: "Failed to open TCP connection to 1.2.3.4:5000 (execution
+                    expired)"
+                  xml:
+                    name: err-message
+              xml:
+                name: error
+            xml:
+              wrapped: true
+        xml:
+          name: sync-status
+      organization:
+        x-EnvType: Public
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "955e1c45-d499-4de3-aa6d-2ef69983561e"
+          display_name:
+            type: string
+            example: "z_org_01"
+            xml:
+              name: display-name
+          name:
+            type: string
+            description: "Zadara organization"
+    xml:
+      name: datum
+  vpsa_zone_group_storage_policy_type:
+    type: object
+    xml:
+      name: vpsa-zone-group-storage-policy-type
+    properties:
+      id:
+        type: number
+        example: 1
+      name:
+        type: string
+        example: "Standard"
+      display_name:
+        type: string
+        example: "Standard Storage Policy"
+        xml:
+          name: display-name
+      replicas:
+        type: number
+        example: 3
+      data_fragments:
+        type: number
+        example: 1
+        xml:
+          name: data-fragments
+      parity_fragments:
+        type: number
+        example: 2
+        xml:
+          name: parity-fragments
+      enabled:
+        type: boolean
+        example: true
+      num_of_allocation_zones:
+        type: number
+        example: 3
+        xml:
+          name: num-of-allocation-zones
+      performance:
+        type: string
+        example: "High"
+      scale:
+        type: string
+        example: "Up to 1PiB of usable capacity"
+      fault_tolerance:
+        type: string
+        example: "1 failure"
+        xml:
+          name: fault-tolerance
+      utilization:
+        type: string
+        example: "70%"
+      deprecated:
+        type: boolean
+        example: false
+  Organization:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "03389219-c6a2-4941-92dd-6a75c339e9c7"
+      name:
+        type: string
+        example: "my_z_org"
+      display_name:
+        type: string
+        example: "Zadara"
+        xml:
+          name: display-name
+      country:
+        type: string
+        example: "IL"
+        description: "The 2-letters code of the organization country"
+      billing_id:
+        type: string
+        example: "ae34fa5b-bf74-43dd-805b-1f06f080082b"
+        xml:
+          name: billing-id
+      billing_bucket_id:
+        type: string
+        example: "ae34fa5b-bf74-43dd-805b-1f06f080082b"
+        xml:
+          name: billing-bucket-id
+      cost_explorer_enabled:
+        type: boolean
+        example: false
+        xml:
+          name: cost-explorer-enabled
+      tax_id:
+        type: string
+        xml:
+          name: tax-id
+      updated_at:
+        type: string
+        format: date_time
+        xml:
+          name: updated-at
+      created_at:
+        type: string
+        format: date_time
+        xml:
+          name: created-at
+      deleted_at:
+        type: string
+        format: date_time
+        xml:
+          name: deleted-at
+      parent:
+        $ref: "#/definitions/Organization"
+      children:
+        type: array
+        description: "List of all the descendants of the organization when the 'tree'
+          param is specified"
+        items:
+          $ref: "#/definitions/Organization"
+        xml:
+          wrapped: true
+      active:
+        type: boolean
+        description: "Organization has at least 1 active organization admin"
+        example: true
+      users_count:
+        type: integer
+        description: "Count of users attached to the organization"
+        example: 1
+        xml:
+          name: users-count
+      visibility:
+        type: string
+        enum:
+        - org_clouds
+        - provider_groups_clouds
+        - all_clouds
+        default: "all_clouds"
+        description: "Which clouds are visible for the organization"
+        example: "all_clouds"
+      ancestors:
+        type: array
+        description: "List of all the ancestors of the organization when a specific
+          org is retrieved"
+        items:
+          $ref: "#/definitions/Organization"
+        xml:
+          wrapped: true
+    xml:
+      name: organization
+  OrganizationParams:
+    type: object
+    required:
+    - name
+    properties:
+      name:
+        type: string
+        description: Organization name, must be unique.
+        example: "my_z_org"
+      display_name:
+        type: string
+        description: Organization name to display.
+        example: "Zadara"
+      country:
+        type: string
+        example: "IL"
+      billing_id:
+        type: string
+        description: "Billing Organization ID"
+        example: "e88475a9-41cf-4fd0-abe2-f5e5560acbb0"
+      billing_bucket_id:
+        type: string
+        description: Organization billing bucket name
+        example: "e88475a9-41cf-4fd0-abe2-f5e5560acbb0"
+      cost_explorer_enabled:
+        type: boolean
+        default: false
+        description: Cost explorer enabled for the organization. Applicable only if
+          billing_bucket_id is set.
+      tax_id:
+        type: string
+      parent_id:
+        type: string
+        description: "Parent organization id"
+        example: "ccd8b780-af96-4fc6-9ca2-8b0806e5f3e6/17137ad9-1a8e-4112-bb92-10d01305cd0f"
+  CostExplorerDetails:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 12345
+      report_date:
+        type: string
+        format: date
+        example: 2025-01-01
+        xml:
+          name: report-date
+      org_id:
+        type: string
+        example: e88475a9-41cf-4fd0-abe2-f5e5560acbb0
+        xml:
+          name: org-id
+      parent_org:
+        type: string
+        example: parent organization
+        xml:
+          name: parent-org
+      cloud:
+        type: string
+        example: cloud-01
+      cloud_id:
+        type: string
+        example: e88475a9-41cf-4fd0-abe2-f5e5560acbb0
+        xml:
+          name: cloud-id
+      customer:
+        type: string
+        example: customer-01
+      resource_type:
+        type: string
+        example: VPSA
+        xml:
+          name: resource-type
+      resource_id:
+        type: string
+        example: vsa-01010101
+        xml:
+          name: resource-id
+      resource_name:
+        type: string
+        example: STO_HDD_BKP_ZADARA
+        xml:
+          name: resource-name
+      billable_type:
+        type: string
+        example: SAS_13038GB_7200RPM
+        xml:
+          name: billable-type
+      item:
+        type: string
+        example: 14TB HDD
+      item_description:
+        type: string
+        example: 14TB HDD Drive
+        xml:
+          name: item-description
+      resource_created_at:
+        type: string
+        format: date-time
+        example: 2025-01-01T12:00:00Z
+        xml:
+          name: resource-created-at
+      resource_deleted_at:
+        type: string
+        format: date-time
+        example: 2025-01-01T12:00:00Z
+        xml:
+          name: resource-deleted-at
+      resource_status:
+        type: string
+        example: created
+        xml:
+          name: resource-status
+      compute_account_id:
+        type: string
+        example: 3883528641024603d9c0258e5e9c760e
+        xml:
+          name: compute-account-id
+      compute_account_name:
+        type: string
+        example: 12345678_ABCD
+        xml:
+          name: compute-account-name
+      compute_project_id:
+        type: string
+        example: 9ea7ee2e51a9467d1672ecadcc88e1b1
+        xml:
+          name: compute-project-id
+      compute_project_name:
+        type: string
+        example: 12345678_ABCD
+        xml:
+          name: compute-project-name
+      compute_user_id:
+        type: string
+        example: e4a9f400683c8caef8de1a3ac5ea3ca6
+        xml:
+          name: compute-user-id
+      compute_user_name:
+        type: string
+        example: compute.name
+        xml:
+          name: compute-user-name
+      vm_cpus:
+        type: integer
+        example: 32
+        xml:
+          name: vm-cpus
+      vm_ram:
+        type: integer
+        example: 64
+        xml:
+          name: vm-ram
+      volume_disk_size:
+        type: integer
+        example: 4096
+        xml:
+          name: volume-disk-size
+      vm_attached_to_uuid:
+        type: string
+        example: e4a9f400-683c-8cae-f8de-1a3ac5ea3ca6
+        xml:
+          name: vm-attached-to-uuid
+      service_type:
+        type: string
+        example: a1
+        xml:
+          name: service-type
+      compute_instance_type:
+        type: string
+        example: z2.large
+        xml:
+          name: compute-instance-type
+      compute_instance_type_aws_alias:
+        type: string
+        example: m1.xlarge
+        xml:
+          name: compute-instance-type-aws-alias
+      unit_price:
+        type: number
+        example: 0.344
+        xml:
+          name: unit-price
+      discount:
+        type: number
+        example: 0.83
+      quantity_mtd:
+        type: integer
+        example: 737
+        xml:
+          name: quantity-mtd
+      quantity_est:
+        type: integer
+        example: 737
+        xml:
+          name: quantity-est
+      hours_mtd:
+        type: integer
+        example: 737
+        xml:
+          name: hours-mtd
+      hours_est:
+        type: integer
+        example: 737
+        xml:
+          name: hours-est
+      gross_amount_mtd:
+        type: number
+        example: 63.98
+        xml:
+          name: gross-amount-mtd
+      gross_amount_est:
+        type: number
+        example: 63.98
+        xml:
+          name: gross-amount-est
+      net_amount_mtd:
+        type: number
+        example: 10.88
+        xml:
+          name: net-amount-mtd
+      net_amount_est:
+        type: number
+        example: 10.88
+        xml:
+          name: net-amount-est
+      image_source:
+        type: string
+        example: 73f05543-3672-a210-9df2f-40ab1f1764b
+        xml:
+          name: image-source
+      billing_uuid:
+        type: string
+        example: "e88475a9-41cf-4fd0-abe2-f5e5560acbb0"
+        xml:
+          name: billing-uuid
+      daily_quantity:
+        type: integer
+        example: 24
+        xml:
+          name: daily-quantity
+        description: when granularity is daily calculated quantity_mtd(today) - quantity_mtd(yesterday)
+      daily_hours:
+        type: integer
+        example: 24
+        xml:
+          name: daily-hours
+        description: when granularity is daily calculated hours_mtd(today) - hours_mtd(yesterday)
+      daily_gross_amount:
+        type: number
+        example: 95.75999
+        xml:
+          name: daily-gross-amount
+        description: when granularity is daily calculated gross_amount_mtd(today)
+          - gross_amount_mtd(yesterday)
+      daily_net_amount:
+        type: number
+        example: 95.75999
+        xml:
+          name: daily-net-amount
+        description: when granularity is daily calculated net_amount_mtd(today) -
+          net_amount_mtd(yesterday)
+      created_at:
+        type: string
+        format: date-time
+        example: 2025-01-01T12:00:00Z
+        xml:
+          name: created-at
+      updated_at:
+        type: string
+        format: date-time
+        example: 2025-01-01T12:00:00Z
+        xml:
+          name: updated-at
+      metadata:
+        type: object
+        properties:
+          estimation:
+            type: boolean
+            example: true
+    xml:
+      name: billing-details
+
+  ProviderGroup:
+    type: object
+    properties:
+      id:
+        type: string
+        example: '1'
+      name:
+        type: string
+        example: pg1
+      visibility:
+        x-roles: Platform Admin
+        type: string
+        example: specific_organizations
+        enum:
+        - specific_organizations
+        - all_users
+      visible_organizations:
+        x-roles: Platform Admin
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "03389219-c6a2-4941-92dd-6a75c339e9c7"
+            name:
+              type: string
+              example: org
+            display_name:
+              type: string
+              example: Organization
+              xml:
+                name: display-name
+          xml:
+            name: visible-organization
+        xml:
+          wrapped: true
+          name: visible-organizations
+    xml:
+      name: provider-group
+
+  Tenant:
+    type: object
+    properties:
+      id:
+        type: integer
+      user_id:
+        type: integer
+        xml:
+          name: user-id
+      username:
+        type: string
+        example: test1
+      name:
+        type: string
+        example: tenant_test1_bd8Bs
+      pretty_name:
+        type: string
+        example: "admin"
+        xml:
+          name: pretty-name
+      provider_id:
+        type: integer
+        xml:
+          name: provider-id
+      provider_name:
+        type: string
+        example: "zadara-qa18"
+        xml:
+          name: provider-name
+      internal_id:
+        type: integer
+        xml:
+          name: internal-id
+    xml:
+      name: tenant
+  UpdateVersionBody:
+    type: object
+    required:
+    - when
+    - password
+    properties:
+      when:
+        type: string
+        description: When to perform the update. "now" to peform immediately. "schedule"
+          to schedule update in the next 7 days, must include the scheduled_datetime
+          parameter.
+        example: now
+        enum:
+        - now
+        - schedule
+      password:
+        type: string
+        description: Your Provisioning Portal password
+        example: my_password
+      scheduled_datetime:
+        type: string
+        format: date_time
+        example: "2023-08-28T11:41:33.000Z"
+        description: Date and time within 30 minutes from now to the next 7 days to
+          schedule the software update.
+  Vpsa:
+    type: object
+    properties:
+      allocation_zones:
+        type: array
+        items:
+          type: string
+          example: zone_2
+          xml:
+            name: allocation-zone
+        xml:
+          wrapped: true
+          name: allocation-zones
+      cache:
+        type: object
+        properties:
+          extra_gb:
+            type: integer
+            example: 0
+            xml:
+              name: extra-gb
+          extra_partitions:
+            type: integer
+            example: 0
+            xml:
+              name: extra-partitions
+          included_gb:
+            type: integer
+            example: 20
+            xml:
+              name: included-gb
+          included_partitions:
+            type: integer
+            example: 1
+            xml:
+              name: included-partitions
+          total_gb:
+            type: integer
+            example: 20
+            xml:
+              name: total-gb
+          total_partitions:
+            type: integer
+            example: 1
+            xml:
+              name: total-partitions
+      app_engine:
+        type: object
+        properties:
+          name:
+            type: string
+            example: Small
+          key:
+            type: string
+            example: tiny
+          specs:
+            type: string
+            example: 2 CPUs, 1GB RAM
+        xml:
+          name: app-engine
+      status:
+        type: string
+        example: created
+      description:
+        type: string
+        example: testvpsa description
+      fibre_channel:
+        type: boolean
+        example: false
+        xml:
+          name: fibre-channel
+      drives:
+        type: object
+        example:
+          SATA_2793GB_7200RPM: "2"
+          SSD_7152GB_1RPM: "4"
+        properties:
+          drive_type:
+            type: string
+            example: SATA_2793GB_7200RPM
+            xml:
+              name: drive-type
+          quantity:
+            type: integer
+            example: 2
+      drive_count:
+        type: integer
+        example: 2
+        xml:
+          name: drive-count
+      engine:
+        type: object
+        properties:
+          name:
+            type: string
+            example: Basic
+          key:
+            type: string
+            example: vsa.V2.small.vf
+          specs:
+            type: string
+            example: 2 CPUs, 8GB RAM
+      nova_id:
+        type: integer
+        example: 4792
+        xml:
+          name: nova-id
+      management_url:
+        type: string
+        example: https://vsa-000003d2_aws.zadaravpsa.com
+        xml:
+          name: management-url
+      initial_passcode:
+        type: string
+        example: V3JAXQV2
+        xml:
+          name: initial-passcode
+      ip_address:
+        type: string
+        example: "10.10.1.33"
+        xml:
+          name: ip-address
+      id:
+        type: integer
+        example: 1
+      time_created_gmt:
+        type: string
+        example: "2014-01-29 02:05:31"
+        xml:
+          name: time-created-gmt
+      name:
+        type: string
+        example: testvpsa
+      locked_down:
+        type: boolean
+        example: false
+        xml:
+          name: locked-down
+      provider:
+        type: object
+        properties:
+          name:
+            type: string
+            example: AWS US East (N. Virginia) 1
+          key:
+            type: string
+            example: aws
+      product:
+        type: string
+        example: storage_array
+      type:
+        type: string
+        example: VPSA Storage Array
+      virtual_network_interfaces:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Custom network id
+              example: 1
+            ip:
+              type: string
+              description: Custom network ip address
+              example: "172.128.10.1"
+            vni_id:
+              type: integer
+              description: Virtual Network Interface id
+              example: 1
+              xml:
+                name: vni-id
+            nova_id:
+              type: integer
+              description: Custom network Nova id
+              example: 45
+              xml:
+                name: nova-id
+            vlan_id:
+              type: integer
+              description: Custom network VLAN id
+              example: 54
+              xml:
+                name: vlan-id
+            cidr:
+              type: string
+              description: Custom network cidr
+              example: "172.128.10.0/24"
+            name:
+              type: string
+              description: Custom network name
+              example: my_custom_network
+            vpsa_id:
+              type: integer
+              description: VPSA id
+              example: 1
+              xml:
+                name: vpsa-id
+          xml:
+            name: virtual-network-interface
+        xml:
+          wrapped: true
+          name: virtual-network-interfaces
+      file_lifecycle:
+        type: boolean
+        example: true
+        xml:
+          name: file-lifecycle
+      iscsi_dual_target:
+        type: boolean
+        example: true
+        xml:
+          name: iscsi-dual-target
+      scheduled_upgrade_capable:
+        type: boolean
+        example: true
+        xml:
+          name: scheduled-upgrade-capable
+      update_available:
+        type: boolean
+        example: true
+        xml:
+          name: update-available
+      upgrade_when:
+        type: string
+        description: When the VPSA software version is scheduled to be upgraded. "now"
+          means immediate upgrade. "manual" means upgrade will occur after resume.
+          Or a scheduled time when the upgrade will apply.
+        example: "2023-08-19T04:35:00Z"
+        xml:
+          name: upgrade-when
+      upgrade_target:
+        type: string
+        description: VPSA software upgrade target version
+        example: "vc-23.09-115.img"
+        xml:
+          name: upgrade-target
+      upgrade_initiator:
+        type: string
+        description: VPSA software upgrade initiator, "cc" represents Command Center
+          user, "pp" represents Provisioning Portal user.
+        xml:
+          name: upgrade-initiator
+      cancel_scheduled_upgrade_capable:
+        type: boolean
+        description: VPSA capable of processing cancellation of scheduled software
+          version upgrade.
+        example: true
+        xml:
+          name: cancel-scheduled-upgrade-capable
+      created_at:
+        type: string
+        format: date_time
+        example: "2023-07-19T04:35:00Z"
+        xml:
+          name: created-at
+      replication_service_enabled:
+        type: boolean
+        example: false
+        xml:
+          name: replication-service-enabled
+    xml:
+      name: datum
+parameters:
+  OrganizationId:
+    x-EnvType: Public
+    name: organization_id
+    in: query
+    type: string
+    format: uuid
+    description: "Include this parameter if you want to get all entities of a specific
+      organization"
+
+  IncludeDescendants:
+    x-EnvType: Public
+    name: include_descendants
+    in: query
+    type: boolean
+    description: "Set to true if you want to get entities of descendants organizations
+      too"
+  VpsaId:
+    name: vpsa_id
+    in: path
+    type: string
+    description: "VPSA id as retrieved from the /vpsas API."
+    required: true

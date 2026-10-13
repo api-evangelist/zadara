@@ -1,0 +1,309 @@
+generated: '2026-10-13'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/zadara-command-center-openapi.yml
+- openapi/zadara-object-storage-openapi.yml
+- openapi/zadara-provisioning-portal-openapi.yml
+- openapi/zadara-vpsa-openapi.yml
+vocabulary:
+  name: Zadara Domain Vocabulary
+  description: 'Terms declared by Zadara''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-13'
+  terms:
+  - term: Access Logs
+    definition: Operations involving Command Center access logs.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Cloud Users
+    definition: Operations involving Cloud's users.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Clouds
+    definition: Operations involving Clouds.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Comments
+    definition: Operations involving Comments.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Computes
+    definition: Operations involving Computes.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Custom Networks
+    definition: Operations involving Custom Networks.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Drive Types
+    definition: Operations involving Drive Types.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Drive
+    definition: Operations involving drives.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Engine types
+    definition: Operations involving APP/IO engine types.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Images
+    definition: Operations involving images.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Logs
+    definition: Operations involving central logs.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Storage Nodes
+    definition: Operations involving Storage Nodes.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Remote authentications
+    definition: Operations involving Command Center remote authentication directories.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Roles
+    definition: Operations involving Command Center roles.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Cloud Settings
+    definition: Operations involving Cloud Settings.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Software install
+    definition: Operations involving logs.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Users
+    definition: Operations involving Command Center users.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: VLAN
+    definition: Operations involving VLAN.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Volume
+    definition: Operations involving volumes.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Fault Domains
+    definition: Operations involving fault domains.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: VPSA Storage Array
+    definition: Operations involving VPSA Storage Arrays.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: VPSA Object Storage
+    definition: Operations involving VPSA Object Storage.
+    tags:
+    - Resource Group
+    source: openapi/zadara-command-center-openapi.yml
+  - term: Accounts
+    definition: Operations for Accounts.
+    tags:
+    - Resource Group
+    source: openapi/zadara-object-storage-openapi.yml
+  - term: Container Replications
+    definition: Operations for Container Replications
+    tags:
+    - Resource Group
+    source: openapi/zadara-object-storage-openapi.yml
+  - term: Containers
+    definition: Operations for Containers
+    tags:
+    - Resource Group
+    source: openapi/zadara-object-storage-openapi.yml
+  - term: Drives
+    definition: Operations involving Drives.
+    tags:
+    - Resource Group
+    source: openapi/zadara-object-storage-openapi.yml
+  - term: Load Balancer
+    definition: Operations for Load Balancer.
+    tags:
+    - Resource Group
+    source: openapi/zadara-object-storage-openapi.yml
+  - term: Object Storage Destinations
+    definition: Operations for Object Storage Destinations.
+    tags:
+    - Resource Group
+    source: openapi/zadara-object-storage-openapi.yml
+  - term: Settings
+    definition: Get / Modify Settings.
+    tags:
+    - Resource Group
+    source: openapi/zadara-object-storage-openapi.yml
+  - term: Storage Policies
+    definition: Operations for Storage Policies.
+    tags:
+    - Resource Group
+    source: openapi/zadara-object-storage-openapi.yml
+  - term: Unified Identity
+    definition: Operations for Unified Identity.
+    tags:
+    - Resource Group
+    source: openapi/zadara-object-storage-openapi.yml
+  - term: Usage Reports
+    definition: Operations for usage reports.
+    tags:
+    - Resource Group
+    source: openapi/zadara-object-storage-openapi.yml
+  - term: Virtual Controllers
+    definition: Operations for Virtual Controllers.
+    tags:
+    - Resource Group
+    source: openapi/zadara-object-storage-openapi.yml
+  - term: Authentication
+    definition: Methods for authenticating with the Provisioning Portal.
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: Billing
+    definition: Operations involving billing.
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: Cloud
+    definition: Retrieve Cloud's Configurations
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: Compute
+    definition: Compute accounts operations
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: Organizations
+    definition: Organizations
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: Prices
+    definition: Get the list of prices for all providers.
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: Providers
+    definition: Retrieve Providers Configurations
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: Tenant
+    definition: Retrieve Tenants information
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: Virtual Network
+    definition: Retrieve Vlan's Configurations
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: Vlan
+    definition: Retrieve Vlan's Configurations
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: VPSA
+    definition: VPSA-specific Operations
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: Vpsa Requests
+    definition: Vpsa Requests Actions
+    tags:
+    - Resource Group
+    source: openapi/zadara-provisioning-portal-openapi.yml
+  - term: Consistency Groups
+    definition: Operations involving Consistency Groups.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: Controllers
+    definition: Operations for Controllers.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: File Lifecycle
+    definition: Operations involving File Lifecycle.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: File Lifecycle Policies
+    definition: Operations involving File Lifecycle Policies.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: NAS
+    definition: Operations for NAS (Network Attached Storage) Users and Groups.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: Pools
+    definition: Operations involving Pools.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: RAID Groups
+    definition: Operations involving RAID Groups.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: Mirroring and Cloning
+    definition: Operations for Remote Mirroring and Cloning.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: Remote object storage
+    definition: Operations for Remote Object Storages.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: Servers
+    definition: Operations involving Servers.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: Snapshot Policies
+    definition: Operations for Snapshot Policies.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: Snapshots
+    definition: Operations for Snapshots.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: Volumes
+    definition: Operations involving Volumes.
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml
+  - term: Vpsas
+    definition: Vpsas Description
+    tags:
+    - Resource Group
+    source: openapi/zadara-vpsa-openapi.yml

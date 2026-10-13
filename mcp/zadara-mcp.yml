@@ -1,0 +1,219 @@
+generated: '2026-10-13'
+method: derived
+generator: derive-mcp-candidate.py
+source:
+- openapi/zadara-command-center-openapi.yml
+- openapi/zadara-object-storage-openapi.yml
+- openapi/zadara-provisioning-portal-openapi.yml
+- openapi/zadara-vpsa-openapi.yml
+status: candidate
+deployment:
+  mode: none
+  auth: unknown
+  verified: probed
+note: 'No MCP server was found. The pre-flight posted tools/list to /mcp on api.zadara.com, www.zadara.com, api-doc.zadara.com, partners.zadara.com;
+  verdict opaque (https://api-doc.zadara.com/mcp answered 403: the edge authenticates before it routes, which proves nothing either way). Candidate
+  tools below are derived from the 774 operation(s) in the provider''s own OpenAPI (40 listed); they describe what a server WOULD expose, not
+  one that exists.'
+tools:
+- name: list_logs
+  operationId: list_logs
+  method: GET
+  path: /access_logs.json
+  description: Return logs list.
+- name: get_all_accounts
+  operationId: get_all_accounts
+  method: GET
+  path: /zios/accounts.json
+  description: List all accounts.
+- name: get_authentication_token
+  operationId: get_authentication_token
+  method: POST
+  path: /token.json
+  description: Retrieve your authentication token without resetting it.
+- name: suspend_cgs_for_snapshot_set
+  operationId: suspend_cgs_for_snapshot_set
+  method: POST
+  path: /consistency_groups/suspend_cgs_for_snapshot_set.json
+  description: Suspend consistency groups for a snapshot set.
+- name: get_tenants
+  operationId: get_tenants
+  method: GET
+  path: /clouds/{cloud_name}/cloud_users.json
+  description: Returns a list of all the users (tenants) in a Cloud.
+- name: create_account
+  operationId: create_account
+  method: POST
+  path: /zios/accounts.json
+  description: Adds a new account.
+- name: reset_authentication_token
+  operationId: reset_authentication_token
+  method: POST
+  path: /token/reset.json
+  description: Reset and retrieve your API token.
+- name: create_snapshot_set_and_resume
+  operationId: create_snapshot_set_and_resume
+  method: POST
+  path: /consistency_groups/create_snapshot_set_and_resume.json
+  description: Create a snapshot set and resumes.
+- name: get_tenant
+  operationId: get_tenant
+  method: GET
+  path: /clouds/{cloud_name}/cloud_users/{id}.json
+  description: Returns the details for a singe Cloud user (tenant).
+- name: get_all_account_names
+  operationId: get_all_account_names
+  method: GET
+  path: /zios/accounts/account_names.json
+  description: List all account names and IDs.
+- name: get_billing_items
+  operationId: get_billing_items
+  method: GET
+  path: /billing_items.json
+  description: Download Billing Reports. The returned file is in zip format containing csv files.
+- name: clone_snapshot_set
+  operationId: clone_snapshot_set
+  method: POST
+  path: /consistency_groups/clone_snapshot_set.json
+  description: Clone a snapshot set.
+- name: list_cloud_vlans
+  operationId: list_cloud_vlans
+  method: GET
+  path: /clouds/{cloud_name}/cloud_users/vlans.json
+  description: Returns the vlans for the cloud.
+- name: get_account
+  operationId: get_account
+  method: GET
+  path: /zios/accounts/{account_id}.json
+  description: Show account.
+- name: create_cloud
+  operationId: create_cloud
+  method: POST
+  path: /clouds.json
+  description: Create a cloud
+- name: delete_clone_snapshot_set
+  operationId: delete_clone_snapshot_set
+  method: POST
+  path: /consistency_groups/delete_clone_of_snapshot_set.json
+  description: Delete a clone of a snapshot set.
+- name: list_cloud_user_comments
+  operationId: list_cloud_user_comments
+  method: GET
+  path: /clouds/{cloud_name}/cloud_users/{id}/comments.json
+  description: Returns the list of the cloud_user comments.
+- name: delete_account
+  operationId: delete_account
+  method: DELETE
+  path: /zios/accounts/{account_id}.json
+  description: Delete an account.
+- name: cloud_test_connection
+  operationId: cloud_test_connection
+  method: POST
+  path: /clouds/test_connection.json
+  description: Test connectivity to Auth, Nova and Keystone URLs of the cloud. Runs a background job and returns the job id. Job status and results
+    should be tracked with /clo
+- name: delete_snapshot_set
+  operationId: delete_snapshot_set
+  method: POST
+  path: /consistency_groups/delete_snapshot_set.json
+  description: Delete a snapshot set.
+- name: allocate_vlan
+  operationId: allocate_vlan
+  method: POST
+  path: /clouds/{cloud_name}/cloud_users/{tenant_id}/allocate_vlan_id.json
+  description: Allocate vlan for cloud user.
+- name: list_account_users
+  operationId: list_account_users
+  method: GET
+  path: /zios/accounts/{account_id}/users.json
+  description: Show an account users.
+- name: cloud_connection_test_status
+  operationId: cloud_connection_test_status
+  method: GET
+  path: /clouds/connection_test_status.json
+  description: Gets the cloud connectivity test job status and results.
+- name: cancel_suspend_for_snapshot_set
+  operationId: cancel_suspend_for_snapshot_set
+  method: POST
+  path: /consistency_groups/cancel_suspend_for_snapshot_set.json
+  description: Cancel suspend for a snapshot set.
+- name: delete_tenant
+  operationId: delete_tenant
+  method: DELETE
+  path: /clouds/{cloud_name}/cloud_users/{tenant_id}/deallocate_vlan_id.json
+  description: Deallocate vlan for cloud user.
+- name: cleanup_account
+  operationId: cleanup_account
+  method: DELETE
+  path: /zios/accounts/{account_id}/cleanup.json
+  description: Cleanup an account after deletion - deletes billing data.
+- name: update_cloud
+  operationId: update_cloud
+  method: POST
+  path: /clouds/{id}.json
+  description: Update a cloud
+- name: consistency_groups_rate_limit
+  operationId: consistency_groups_rate_limit
+  method: POST
+  path: /consistency_groups/{id}/rate_limit.json
+  description: Update a migration job rate limit
+- name: get_all_clouds
+  operationId: get_all_clouds
+  method: GET
+  path: /clouds.json
+  description: Returns a list of all Zadara Storage Clouds which are managed by this Command Center.
+- name: disable_account
+  operationId: disable_account
+  method: POST
+  path: /zios/accounts/{account_id}/disable.json
+  description: Disables an account.
+- name: delete_cloud
+  operationId: delete_cloud
+  method: DELETE
+  path: /clouds/{id}.json
+  description: Delete a cloud
+- name: show_volumes
+  operationId: show_volumes
+  method: GET
+  path: /consistency_groups/{id}/volumes.json
+  description: Show volumes of a single consistency group.
+- name: get_cloud
+  operationId: get_cloud
+  method: GET
+  path: /clouds/{name}.json
+  description: Returns the details for a single Zadara Storage Cloud.
+- name: enable_account
+  operationId: enable_account
+  method: POST
+  path: /zios/accounts/{account_id}/enable.json
+  description: Enables an account.
+- name: create_compute_account
+  operationId: create_compute_account
+  method: POST
+  path: /computes.json
+  description: Create Compute Account
+- name: get_all_zcs_containers
+  operationId: get_all_zcs_containers
+  method: GET
+  path: /containers.json
+  description: Returns a list of all containers.
+- name: list_cloud_public_ips
+  operationId: list_cloud_public_ips
+  method: GET
+  path: /clouds/{name}/public_ips.json
+  description: Returns a list of all of the cloud public IP's
+- name: get_account_requests
+  operationId: get_account_requests
+  method: GET
+  path: /requests.json
+  description: List Account Requests
+- name: get_all_organizations
+  operationId: get_all_organizations
+  method: GET
+  path: /organizations.json
+  description: Get all organizations
+- name: create_zcs_container
+  operationId: create_zcs_container
+  method: POST
+  path: /containers.json
+  description: Create a container.

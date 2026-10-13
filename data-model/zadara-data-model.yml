@@ -1,0 +1,173 @@
+generated: '2026-10-13'
+method: derived
+generator: derive-data-model.py
+source:
+- openapi/zadara-command-center-openapi.yml
+- openapi/zadara-object-storage-openapi.yml
+- openapi/zadara-provisioning-portal-openapi.yml
+- openapi/zadara-vpsa-openapi.yml
+notation: has_one = property $ref; has_many = array of $ref; belongs_to = <entity>_id field
+summary:
+  entities: 41
+  entities_in_spec: 41
+  relationships: 19
+entities:
+- name: AppEngineType
+  fields: 5
+- name: CatagoryData
+  fields: 2
+- name: Cloud
+  fields: 21
+- name: Compute
+  fields: 6
+- name: ConfigItem
+  fields: 3
+- name: CostExplorerDetails
+  fields: 48
+- name: Drive
+  fields: 23
+- name: DriveType
+  fields: 9
+- name: EndpointConfiguration
+  fields: 2
+- name: Error
+  fields: 2
+- name: FlcData
+  fields: 13
+- name: GenericZconfigKey
+  fields: 3
+- name: Group
+  fields: 5
+- name: Image
+  fields: 9
+- name: MediaScan
+  fields: 2
+- name: Node
+  fields: 20
+- name: ObsBackupJob
+  fields: 13
+- name: ObsDestination
+  fields: 10
+- name: ObsJobPerf
+  fields: 13
+- name: ObsRestoreJob
+  fields: 16
+- name: Organization
+  fields: 17
+- name: OrganizationParams
+  fields: 8
+- name: ProviderGroup
+  fields: 4
+- name: RemoteVpsa
+  fields: 13
+- name: ReplicationJob
+  fields: 39
+- name: ReplicationTarget
+  fields: 14
+- name: Snapshot
+  fields: 14
+- name: SnapshotSetParam
+  fields: 3
+- name: Tenant
+  fields: 8
+- name: UnifiedIDNode
+  fields: 7
+- name: UpdateVersionBody
+  fields: 3
+- name: User
+  fields: 4
+- name: VcNetwork
+  fields: 5
+- name: Volume
+  fields: 8
+- name: VolumeDrive
+  fields: 3
+- name: Vpsa
+  fields: 37
+- name: VpsaPool
+  fields: 8
+- name: VpsaVcNetwork
+  fields: 6
+- name: Zios
+  fields: 31
+- name: default
+  fields: 4
+- name: vpsa_zone_group_storage_policy_type
+  fields: 13
+relationships:
+- from: Volume
+  to: Vpsa
+  type: belongs_to
+  via: vpsa_id
+- from: Volume
+  to: VolumeDrive
+  type: has_one
+  via: drive
+- from: Vpsa
+  to: VpsaPool
+  type: has_many
+  via: pools
+- from: Cloud
+  to: vpsa_zone_group_storage_policy_type
+  type: has_many
+  via: vpsa_zone_group_storage_policy_types
+- from: CostExplorerDetails
+  to: Cloud
+  type: belongs_to
+  via: cloud_id
+- from: Tenant
+  to: User
+  type: belongs_to
+  via: user_id
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Uncategorized
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Documents Spreadsheets and text files
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Temporary files
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Backup files
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Archive files
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Audio files
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Disk Images
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Installers
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Image files
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Log Files
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Email Data
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Server Virtualization
+- from: FlcData
+  to: CatagoryData
+  type: has_one
+  via: Video files

@@ -1,0 +1,11 @@
+generated: '2026-10-13'
+method: none
+source: https://pypi.org/pypi/zadarapy/json
+description: Python SDK for the Zadara VPSA, Object Storage, Command Center and Provisioning Portal REST APIs, published from Zadara's own GitHub
+  organization (zadarastorage).
+packages: []
+rejected:
+- name: zadarapy
+  registry: pypi
+  reason: 'registry metadata names neither the provider''s domain nor its GitHub org: official downgraded (harvest-packages.py --audit)'
+note: 'no first-party package: every candidate a model listed was unowned (harvest-packages.py --audit)'

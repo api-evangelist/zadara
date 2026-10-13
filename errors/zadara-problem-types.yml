@@ -1,0 +1,28 @@
+generated: '2026-10-13'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/zadara-command-center-openapi.yml
+- openapi/zadara-object-storage-openapi.yml
+- openapi/zadara-provisioning-portal-openapi.yml
+- openapi/zadara-vpsa-openapi.yml
+format: custom
+envelope:
+  media_type: null
+  schema: Error
+coverage:
+  operations: 794
+  statuses_declared: 2
+problems:
+- status: 404
+  title: Not Found
+  description: Key name not found error
+  operations: 6
+  media_types: []
+  schema: null
+- status: default
+  title: null
+  description: Unexpected error
+  operations: 794
+  media_types: []
+  schema: Error

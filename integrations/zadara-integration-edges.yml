@@ -1,0 +1,16 @@
+generated: '2026-10-13'
+method: none
+source:
+- https://zapier.com/apps/zadara/integrations
+- https://n8n.io/integrations/zadara/
+- https://composio.dev/toolkits/zadara
+- https://monid.ai/tools/zadara
+checked:
+- https://composio.dev/toolkits/zadara
+- https://monid.ai/tools/zadara
+- https://n8n.io/integrations/zadara/
+- https://zapier.com/apps/zadara/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
