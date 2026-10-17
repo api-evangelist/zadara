@@ -1,0 +1,900 @@
+openapi: 3.2.0
+info:
+  title: Zadara Roles API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Roles across 6 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-object-storage-25.07.yml, zadara-vpsa-25.07.yml, zadara-command-center-openapi.yml, zadara-object-storage-openapi.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Roles
+  description: Operations involving Command Center roles.
+paths:
+  /roles.json:
+    get:
+      tags:
+      - Roles
+      description: Return roles list.
+      operationId: list_roles
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  roles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        role:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                              example: License manager
+                            permissions:
+                              type: array
+                              items:
+                                type: string
+                                example: licensing_view
+                                xml:
+                                  name: permission
+                              xml:
+                                wrapped: true
+                      xml:
+                        name: role
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  roles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        role:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                              example: License manager
+                            permissions:
+                              type: array
+                              items:
+                                type: string
+                                example: licensing_view
+                                xml:
+                                  name: permission
+                              xml:
+                                wrapped: true
+                      xml:
+                        name: role
+                    xml:
+                      wrapped: true
+      summary: List roles
+      x-summary-source: derived
+    post:
+      tags:
+      - Roles
+      description: Create role.
+      operationId: create_role
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  role:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                          example: License manager
+                        permissions:
+                          type: array
+                          items:
+                            type: string
+                            example: licensing_view
+                            xml:
+                              name: permission
+                          xml:
+                            wrapped: true
+                      xml:
+                        name: role
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  role:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                          example: License manager
+                        permissions:
+                          type: array
+                          items:
+                            type: string
+                            example: licensing_view
+                            xml:
+                              name: permission
+                          xml:
+                            wrapped: true
+                      xml:
+                        name: role
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - permissions
+              properties:
+                name:
+                  type: string
+                  example: License manager
+                permissions:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - licensing_view
+                  - licensing_manage
+        required: true
+      summary: Create role
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /roles/{id}.json:
+    get:
+      tags:
+      - Roles
+      description: Return role.
+      operationId: get_role
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  role:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                          example: License manager
+                        permissions:
+                          type: array
+                          items:
+                            type: string
+                            example: licensing_view
+                            xml:
+                              name: permission
+                          xml:
+                            wrapped: true
+                      xml:
+                        name: role
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  role:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                          example: License manager
+                        permissions:
+                          type: array
+                          items:
+                            type: string
+                            example: licensing_view
+                            xml:
+                              name: permission
+                          xml:
+                            wrapped: true
+                      xml:
+                        name: role
+                    xml:
+                      wrapped: true
+      summary: Get role
+      x-summary-source: derived
+    put:
+      tags:
+      - Roles
+      description: Edit role.
+      operationId: edit_role
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - permissions
+              properties:
+                name:
+                  type: string
+                  example: License manager
+                permissions:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - licensing_view
+                  - licensing_manage
+        required: true
+      summary: Edit role
+      x-summary-source: derived
+    delete:
+      tags:
+      - Roles
+      description: Delete role.
+      operationId: delete_role
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Delete role
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /permissions.json:
+    get:
+      tags:
+      - Roles
+      description: Return permissions list.
+      operationId: list_all_permissions
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  permissions:
+                    type: array
+                    items:
+                      type: string
+                      example: clouds_view
+                      xml:
+                        name: permission
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  permissions:
+                    type: array
+                    items:
+                      type: string
+                      example: clouds_view
+                      xml:
+                        name: permission
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: List all permissions
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /zios/roles.json:
+    get:
+      tags:
+      - Roles
+      description: Returns VPSA Object Storage roles.
+      operationId: get_zios_roles
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      roles:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: account_admin
+                            id:
+                              type: string
+                              example: 46a121a767e84adf8e57b7bcf6a575c4
+                          xml:
+                            name: role
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: list-roles-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      roles:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: account_admin
+                            id:
+                              type: string
+                              example: 46a121a767e84adf8e57b7bcf6a575c4
+                          xml:
+                            name: role
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: list-roles-response
+      summary: Get zios roles
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /roles/all_permissions.json:
+    get:
+      tags:
+      - Roles
+      description: List all available permissions.
+      operationId: getRolesAllPermissionsJson
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      permissions_count:
+                        type: integer
+                        xml:
+                          name: permissions-count
+                      permissions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            key:
+                              type: string
+                              example: drives_view
+                            type:
+                              type: string
+                              example: view
+                            name:
+                              type: string
+                              example: view
+                            read:
+                              type: string
+                              example: '1'
+                            module:
+                              type: string
+                              example: Drives
+                          xml:
+                            name: permission
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: hash
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      permissions_count:
+                        type: integer
+                        xml:
+                          name: permissions-count
+                      permissions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            key:
+                              type: string
+                              example: drives_view
+                            type:
+                              type: string
+                              example: view
+                            name:
+                              type: string
+                              example: view
+                            read:
+                              type: string
+                              example: '1'
+                            module:
+                              type: string
+                              example: Drives
+                          xml:
+                            name: permission
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: hash
+      summary: List all permissions
+      x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list_all_permissions
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /roles/{role_id}.json:
+    put:
+      tags:
+      - Roles
+      description: Update a role.
+      operationId: update_role
+      parameters:
+      - in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Operation successful
+                      status:
+                        type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Operation successful
+                      status:
+                        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - permissions
+              properties:
+                name:
+                  type: string
+                permissions:
+                  type: array
+                  description: Array of permissions names.
+                  items:
+                    type: string
+                  example:
+                  - drives_create
+                  - drives_update
+                  - drives_delete
+        required: true
+      summary: Update role
+      x-summary-source: derived
+    delete:
+      tags:
+      - Roles
+      description: Delete a role.
+      operationId: deleteRoles{roleId}Json
+      parameters:
+      - in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Operation successful
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-role-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Operation successful
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-role-response
+      summary: Delete role
+      x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: delete_role
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-object-storage-25.07.yml
+- zadara-vpsa-25.07.yml
+- zadara-command-center-openapi.yml
+- zadara-object-storage-openapi.yml
+- zadara-vpsa-openapi.yml

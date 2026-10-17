@@ -1,0 +1,358 @@
+openapi: 3.2.0
+info:
+  title: Zadara Comments API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Comments across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Comments
+  description: Operations involving Comments.
+paths:
+  /clouds/{cloud_name}/comments.json:
+    get:
+      tags:
+      - Comments
+      description: Returns a list of all comments according to selected type.
+      operationId: list_type_comments
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: List type comments
+      x-summary-source: derived
+    post:
+      tags:
+      - Comments
+      description: Create a Comment
+      operationId: create_comment
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: '**my coment**'
+                type:
+                  type: string
+                  example: Vpsa
+                  enum:
+                  - Vpsa
+                  - Zios
+                  - Drive
+                  - DriveType
+                  - Node
+                  - Cloud
+                id:
+                  type: integer
+                  example: 1
+                  description: id of the entity this comment will be attached to
+                severity:
+                  type: string
+                  enum:
+                  - low
+                  - medium
+                  - high
+                  - critical
+                  example: low
+                pin_to_dashboard:
+                  type: boolean
+                  description: Pin comment to dashboard. Cloud type comment is automatically pinned to dashboard.
+                  example: true
+        required: true
+      summary: Create comment
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/comments/{id}.json:
+    get:
+      tags:
+      - Comments
+      description: Returns the details for a single comment.
+      operationId: get_comment_details
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Get comment details
+      x-summary-source: derived
+    put:
+      tags:
+      - Comments
+      description: Edit a comment
+      operationId: edit_comment
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: '**my coment**'
+                severity:
+                  type: string
+                  enum:
+                  - low
+                  - medium
+                  - high
+                  - critical
+                  example: low
+                pin_to_dashboard:
+                  type: boolean
+                  description: Pin comment to dashboard. Cloud type comment is automatically pinned to dashboard.
+                  example: true
+        required: true
+      summary: Edit comment
+      x-summary-source: derived
+    delete:
+      tags:
+      - Comments
+      description: Delete a comment
+      operationId: delete_comment
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Delete comment
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

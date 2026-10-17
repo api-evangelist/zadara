@@ -1,0 +1,754 @@
+openapi: 3.2.0
+info:
+  title: Zadara Consistency Groups API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Consistency Groups across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Consistency Groups
+  description: Operations involving Consistency Groups.
+paths:
+  /consistency_groups/suspend_cgs_for_snapshot_set.json:
+    post:
+      tags:
+      - Consistency Groups
+      description: Suspend consistency groups for a snapshot set.
+      operationId: suspend_cgs_for_snapshot_set
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: object
+                        properties:
+                          emergency_threshold:
+                            type: string
+                            xml:
+                              name: emergency-threshold
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                    xml:
+                      name: suspend-cgs-for-snapshot-set-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: object
+                        properties:
+                          emergency_threshold:
+                            type: string
+                            xml:
+                              name: emergency-threshold
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                    xml:
+                      name: suspend-cgs-for-snapshot-set-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - snapsetid
+              - cg
+              properties:
+                snapsetid:
+                  type: string
+                  description: The snapshot set id
+                cg:
+                  type: array
+                  description: array of the cgs names
+                  items:
+                    type: string
+                  example:
+                  - cg-00000075
+                  - cg-00000076
+                  - cg-00000077
+        required: true
+      summary: Suspend cgs for snapshot set
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /consistency_groups/create_snapshot_set_and_resume.json:
+    post:
+      tags:
+      - Consistency Groups
+      description: Create a snapshot set and resumes.
+      operationId: create_snapshot_set_and_resume
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: string
+                        example: snapshot set id
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                      snapshots_details:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Snapshot'
+                        xml:
+                          name: snapshots-details
+                          wrapped: true
+                    xml:
+                      name: create-snapshot-set-and-resume-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: string
+                        example: snapshot set id
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                      snapshots_details:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Snapshot'
+                        xml:
+                          name: snapshots-details
+                          wrapped: true
+                    xml:
+                      name: create-snapshot-set-and-resume-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - snapsetid
+              properties:
+                snapsetid:
+                  type: string
+                  description: The snapshot set id
+                  example: snapshot set id
+                dsp_name:
+                  type: array
+                  items:
+                    type: string
+                  description: Display names for created snapshot
+                  example:
+                  - snap1
+                  - snap2
+                managed_for:
+                  type: array
+                  items:
+                    type: string
+                  description: For externally managed VPSA, set what the volume is managed for.
+                  example:
+                  - kuku31
+                  - kuku34
+                  - kuku33
+        required: true
+      summary: Create snapshot set and resume
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /consistency_groups/clone_snapshot_set.json:
+    post:
+      tags:
+      - Consistency Groups
+      description: Clone a snapshot set.
+      operationId: clone_snapshot_set
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: string
+                        example: snapshot set id
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                    xml:
+                      name: clone_snapshot_set-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: string
+                        example: snapshot set id
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                    xml:
+                      name: clone_snapshot_set-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - snapsetid
+              properties:
+                snapsetid:
+                  type: string
+                  description: The snapshot set id
+                  example: snapshot set id
+        required: true
+      summary: Clone snapshot set
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /consistency_groups/delete_clone_of_snapshot_set.json:
+    post:
+      tags:
+      - Consistency Groups
+      description: Delete a clone of a snapshot set.
+      operationId: delete_clone_snapshot_set
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: string
+                        example: snapshot set id
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-clone-of-snapshot-set-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: string
+                        example: snapshot set id
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-clone-of-snapshot-set-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - snapsetid
+              properties:
+                snapsetid:
+                  type: string
+                  description: The snapshot set id
+                  example: snapshot set id
+        required: true
+      summary: Delete clone snapshot set
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /consistency_groups/delete_snapshot_set.json:
+    post:
+      tags:
+      - Consistency Groups
+      description: Delete a snapshot set.
+      operationId: delete_snapshot_set
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: string
+                        example: snapshot set id
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-snapshot-set-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: string
+                        example: snapshot set id
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-snapshot-set-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - snapsetid
+              properties:
+                snapsetid:
+                  type: string
+                  description: The snapshot set id
+                  example: snapshot set id
+        required: true
+      summary: Delete snapshot set
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /consistency_groups/cancel_suspend_for_snapshot_set.json:
+    post:
+      tags:
+      - Consistency Groups
+      description: Cancel suspend for a snapshot set.
+      operationId: cancel_suspend_for_snapshot_set
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: string
+                        example: snapshot set id
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                    xml:
+                      name: cancel-suspend-for-snapshot-set-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_set_name:
+                        type: string
+                        example: snapshot set id
+                        xml:
+                          name: snapshot-set-name
+                      status:
+                        type: integer
+                    xml:
+                      name: cancel-suspend-for-snapshot-set-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - snapsetid
+              properties:
+                snapsetid:
+                  type: string
+                  description: The snapshot set id
+                  example: snapshot set id
+        required: true
+      summary: Cancel suspend for snapshot set
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /consistency_groups/{id}/rate_limit.json:
+    post:
+      tags:
+      - Consistency Groups
+      description: Update a migration job rate limit
+      operationId: consistency_groups_rate_limit
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^cg-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: set-migration-job_higher-rate-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: set-migration-job_higher-rate-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limit:
+                  type: integer
+                  description: Rate limit in MiB/s. Set to zero to disable rate limiting.
+                  example: 44
+        required: true
+      summary: Consistency groups rate limit
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    Snapshot:
+      type: object
+      xml:
+        name: snapshot
+      properties:
+        managed_for:
+          type: string
+          example: VSC
+          xml:
+            name: managed-for
+        volume_capacity_mb:
+          type: integer
+          example: 51200
+          xml:
+            name: volume-capacity-mb
+        volume_display_name:
+          type: string
+          example: my-volume
+          xml:
+            name: volume-display-name
+        volume_ext_name:
+          type: string
+          example: volume-00000048
+          xml:
+            name: volume-ext-name
+        name:
+          type: string
+          example: snap-00000002
+        status:
+          type: string
+          example: normal
+        display_name:
+          type: string
+          example: zat_snapshot_pV9xmi
+          xml:
+            name: display-name
+        cg_display_name:
+          type: string
+          example: zat_block_7eIkL3
+          xml:
+            name: cg-display-name
+        cg_name:
+          type: string
+          example: cg-00000076
+          xml:
+            name: cg-name
+        pool_name:
+          type: string
+          example: pool-00010002
+          xml:
+            name: pool-name
+        application:
+          type: string
+          example: Snapshot Manager
+        snapshot_set_id:
+          type: string
+          xml:
+            name: snapshot-set-id
+        created_at:
+          type: string
+          format: date_time
+          example: 2021-09-09T16:31:28+0300
+          xml:
+            name: created-at
+        modified_at:
+          type: string
+          format: date_time
+          example: 2021-09-09T16:31:28+0300
+          xml:
+            name: modified-at
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

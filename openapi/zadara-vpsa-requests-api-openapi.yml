@@ -1,0 +1,381 @@
+openapi: 3.2.0
+info:
+  title: Zadara Vpsa Requests API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Vpsa Requests across 2 of this provider''s published API definitions: zadara-provisioning-portal-25.07.yml, zadara-provisioning-portal-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api/v2
+tags:
+- name: Vpsa Requests
+  description: Vpsa Requests Actions
+paths:
+  /vpsa_requests.json:
+    get:
+      tags:
+      - Vpsa Requests
+      description: Get the list of vpsa_requests.
+      operationId: requests
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '1'
+                        name:
+                          type: string
+                          example: pg1
+                        action:
+                          type: string
+                        status:
+                          type: string
+                          example: pending
+                      xml:
+                        name: datum
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '1'
+                        name:
+                          type: string
+                          example: pg1
+                        action:
+                          type: string
+                        status:
+                          type: string
+                          example: pending
+                      xml:
+                        name: datum
+                    xml:
+                      wrapped: true
+      summary: Requests
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /vpsa_requests/{id}.json:
+    get:
+      tags:
+      - Vpsa Requests
+      description: Get the configuration information for a single Vpsa Request.
+      operationId: request
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: '1'
+                      name:
+                        type: string
+                        example: pg1
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: '1'
+                      name:
+                        type: string
+                        example: pg1
+      summary: Request
+      x-summary-source: derived
+    delete:
+      tags:
+      - Vpsa Requests
+      description: Delete a vpsa request
+      operationId: delete_vpsa_request
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Delete vpsa request
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /vpsa_requests/{id}/approve.json:
+    post:
+      tags:
+      - Vpsa Requests
+      description: Approve a vpsa request
+      operationId: approve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      vpsa_request_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: vpsa-request-id
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      vpsa_request_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: vpsa-request-id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  example: pg2
+        required: true
+      summary: Approve
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /vpsa_requests/{id}/deny.json:
+    post:
+      tags:
+      - Vpsa Requests
+      description: Deny a vpsa request
+      operationId: deny
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      vpsa_request_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: vpsa-request-id
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      vpsa_request_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: vpsa-request-id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - reason
+              properties:
+                reason:
+                  type: string
+                  example: drives unavailable
+        required: true
+      summary: Deny
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-provisioning-portal-25.07.yml
+- zadara-provisioning-portal-openapi.yml

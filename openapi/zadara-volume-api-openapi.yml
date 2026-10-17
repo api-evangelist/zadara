@@ -1,0 +1,274 @@
+openapi: 3.2.0
+info:
+  title: Zadara Volume API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Volume across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Volume
+  description: Operations involving volumes.
+paths:
+  /clouds/{cloud_name}/volumes.json:
+    get:
+      tags:
+      - Volume
+      description: Returns a list of all the volumes in a Zadara Storage Cloud.
+      operationId: list_cloud_volumes
+      parameters:
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  volumes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Volume'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  volumes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Volume'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: List cloud volumes
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/volume/{id}.json:
+    get:
+      tags:
+      - Volume
+      description: Returns detailed information about a single volume.
+      operationId: get_volume_information
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  volume:
+                    $ref: '#/components/schemas/Volume'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  volume:
+                    $ref: '#/components/schemas/Volume'
+      summary: Get volume information
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/volumes/{id}/replace.json:
+    post:
+      tags:
+      - Volume
+      description: Replaces a volume which is allocated to a VPSA. This command will allocate a new volume of the same drive type for the VPSA.
+      operationId: replace_allocated_volume
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Replace allocated volume
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  schemas:
+    VolumeDrive:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 5000C500C8E3257D
+        device_name:
+          type: string
+          example: /dev/sdn
+          xml:
+            name: device-name
+        url:
+          type: string
+          example: /clouds/mycloud/drives/314
+    Volume:
+      type: object
+      properties:
+        id:
+          type: string
+          example: volume-00000b9d
+        size:
+          type: integer
+          example: 13038
+        vpsa_id:
+          type: integer
+          example: 65
+          xml:
+            name: vpsa-id
+        vpsa_name:
+          type: string
+          example: 2way
+          xml:
+            name: vpsa-name
+        vpsa_internal_name:
+          type: string
+          example: vsa-00000041
+          xml:
+            name: vpsa-internal-name
+        url:
+          type: string
+          example: /clouds/mycloud/zioses/vsa-00000041
+        flc:
+          type: boolean
+          example: false
+        drive:
+          $ref: '#/components/schemas/VolumeDrive'
+      xml:
+        name: volumes
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

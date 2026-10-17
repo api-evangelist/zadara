@@ -1,0 +1,2182 @@
+openapi: 3.2.0
+info:
+  title: Zadara RAID Groups API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged RAID Groups across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: RAID Groups
+  description: Operations involving RAID Groups.
+paths:
+  /raid_groups.json:
+    get:
+      tags:
+      - RAID Groups
+      description: Return a list of RAID Groups.
+      operationId: show_raid_groups
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      min_resync_speed_default:
+                        type: integer
+                        example: 10
+                        xml:
+                          name: min-resync-speed-default
+                      max_resync_speed_default:
+                        type: integer
+                        example: 200
+                        xml:
+                          name: max-resync-speed-default
+                      raid_groups:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: RaidGroup-4
+                            display_name:
+                              type: string
+                              example: raid_group
+                              xml:
+                                name: display-name
+                            protection:
+                              type: string
+                              example: RAID1
+                            mirror_num:
+                              type: integer
+                              example: 3
+                              xml:
+                                name: mirror-num
+                            stripe_size:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: stripe-size
+                            protection_width:
+                              type: integer
+                              example: 3
+                              xml:
+                                name: protection-width
+                            capacity:
+                              type: integer
+                              example: 462
+                            available:
+                              type: integer
+                              example: 462
+                            status:
+                              type: string
+                              example: Normal
+                            ssd:
+                              type: string
+                              example: 'NO'
+                            mismatch_count:
+                              type: integer
+                              xml:
+                                name: mismatch-count
+                            resync_speed:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: resync-speed
+                            min_resync_speed:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: min-resync-speed
+                            max_resync_speed:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: max-resync-speed
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: raid-group
+                        xml:
+                          name: raid-groups
+                          wrapped: true
+                    xml:
+                      name: show-raid-groups-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      min_resync_speed_default:
+                        type: integer
+                        example: 10
+                        xml:
+                          name: min-resync-speed-default
+                      max_resync_speed_default:
+                        type: integer
+                        example: 200
+                        xml:
+                          name: max-resync-speed-default
+                      raid_groups:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: RaidGroup-4
+                            display_name:
+                              type: string
+                              example: raid_group
+                              xml:
+                                name: display-name
+                            protection:
+                              type: string
+                              example: RAID1
+                            mirror_num:
+                              type: integer
+                              example: 3
+                              xml:
+                                name: mirror-num
+                            stripe_size:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: stripe-size
+                            protection_width:
+                              type: integer
+                              example: 3
+                              xml:
+                                name: protection-width
+                            capacity:
+                              type: integer
+                              example: 462
+                            available:
+                              type: integer
+                              example: 462
+                            status:
+                              type: string
+                              example: Normal
+                            ssd:
+                              type: string
+                              example: 'NO'
+                            mismatch_count:
+                              type: integer
+                              xml:
+                                name: mismatch-count
+                            resync_speed:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: resync-speed
+                            min_resync_speed:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: min-resync-speed
+                            max_resync_speed:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: max-resync-speed
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: raid-group
+                        xml:
+                          name: raid-groups
+                          wrapped: true
+                    xml:
+                      name: show-raid-groups-response
+      summary: Show raid groups
+      x-summary-source: derived
+    post:
+      tags:
+      - RAID Groups
+      description: Create a RAID Group.Operation will fail if drives are not from the same capacity (override with force option)
+      operationId: create_raid_group
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-raid-group-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-raid-group-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - display_name
+              - protection
+              - disk
+              properties:
+                display_name:
+                  type: string
+                  description: The RAID group display name
+                  example: my-raid-group
+                protection:
+                  type: string
+                  enum:
+                  - RAID1
+                  - RAID5
+                  - RAID6
+                  description: protection type
+                  example: RAID1
+                disk:
+                  type: string
+                  description: A comma-separated list of Drive IDs.
+                  example: volume-000002fe,volume-000002ff
+                protection_width:
+                  type: integer
+                  description: Number of drives in the RAID protection, not including hot spare.
+                stripe_size:
+                  type: integer
+                  enum:
+                  - 4
+                  - 16
+                  - 32
+                  - 64
+                  - 128
+                  - 256
+                  description: Size of the stripe per Disk. Required for RAID6.
+                hot_spare:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                force:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+        required: true
+      summary: Create raid group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/{id}.json:
+    get:
+      tags:
+      - RAID Groups
+      description: Return information for one RAID Group.
+      operationId: get_raid_group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^RaidGroup-[0-9]+$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: SSD
+                        xml:
+                          name: status-msg
+                      raid_group:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          display_name:
+                            type: string
+                            xml:
+                              name: display-name
+                          Uuid:
+                            type: string
+                          protection:
+                            type: string
+                          mirror_num:
+                            type: integer
+                            xml:
+                              name: mirror-num
+                          stripe_size:
+                            type: string
+                            xml:
+                              name: stripe-size
+                          protection_width:
+                            type: integer
+                            xml:
+                              name: protection-width
+                          capacity:
+                            type: integer
+                          available:
+                            type: integer
+                          status:
+                            type: string
+                          ssd:
+                            type: string
+                          mismatch_count:
+                            type: integer
+                            xml:
+                              name: mismatch-count
+                          resync_speed:
+                            type: integer
+                            xml:
+                              name: resync-speed
+                          min_resync_speed:
+                            type: integer
+                            xml:
+                              name: min-resync-speed
+                          max_resync_speed:
+                            type: integer
+                            xml:
+                              name: max-resync-speed
+                          comment:
+                            type: string
+                          created_at:
+                            type: string
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            xml:
+                              name: modified-at
+                          disks_count:
+                            type: integer
+                            xml:
+                              name: disks-count
+                          disks:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: disk
+                            xml:
+                              wrapped: true
+                          hot_spare:
+                            type: string
+                            xml:
+                              name: hot-spare
+                          volumes_count:
+                            type: integer
+                            xml:
+                              name: volumes-count
+                          volumes:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                display_name:
+                                  type: string
+                                  xml:
+                                    name: display-name
+                                capacity:
+                                  type: integer
+                              xml:
+                                name: volume
+                            xml:
+                              wrapped: true
+                        xml:
+                          name: raid-group
+                    xml:
+                      name: show_one_raid_group-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: SSD
+                        xml:
+                          name: status-msg
+                      raid_group:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          display_name:
+                            type: string
+                            xml:
+                              name: display-name
+                          Uuid:
+                            type: string
+                          protection:
+                            type: string
+                          mirror_num:
+                            type: integer
+                            xml:
+                              name: mirror-num
+                          stripe_size:
+                            type: string
+                            xml:
+                              name: stripe-size
+                          protection_width:
+                            type: integer
+                            xml:
+                              name: protection-width
+                          capacity:
+                            type: integer
+                          available:
+                            type: integer
+                          status:
+                            type: string
+                          ssd:
+                            type: string
+                          mismatch_count:
+                            type: integer
+                            xml:
+                              name: mismatch-count
+                          resync_speed:
+                            type: integer
+                            xml:
+                              name: resync-speed
+                          min_resync_speed:
+                            type: integer
+                            xml:
+                              name: min-resync-speed
+                          max_resync_speed:
+                            type: integer
+                            xml:
+                              name: max-resync-speed
+                          comment:
+                            type: string
+                          created_at:
+                            type: string
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            xml:
+                              name: modified-at
+                          disks_count:
+                            type: integer
+                            xml:
+                              name: disks-count
+                          disks:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: disk
+                            xml:
+                              wrapped: true
+                          hot_spare:
+                            type: string
+                            xml:
+                              name: hot-spare
+                          volumes_count:
+                            type: integer
+                            xml:
+                              name: volumes-count
+                          volumes:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                display_name:
+                                  type: string
+                                  xml:
+                                    name: display-name
+                                capacity:
+                                  type: integer
+                              xml:
+                                name: volume
+                            xml:
+                              wrapped: true
+                        xml:
+                          name: raid-group
+                    xml:
+                      name: show_one_raid_group-response
+      summary: Get raid group
+      x-summary-source: derived
+    delete:
+      tags:
+      - RAID Groups
+      description: Delete a RAID Group. The RAID Group must be part of any Pool.
+      operationId: delete_raid_group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-raid-group-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-raid-group-response
+      summary: Delete raid group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/free.json:
+    get:
+      tags:
+      - RAID Groups
+      description: Return a list of free RAID Groups which are not part of any Pool.
+      operationId: get_free_raid_groups
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  count:
+                    type: integer
+                  raid_groups:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: RaidGroup-4
+                        display_name:
+                          type: string
+                          example: raid_group
+                          xml:
+                            name: display-name
+                        protection:
+                          type: string
+                          example: RAID1
+                        mirror_num:
+                          type: integer
+                          xml:
+                            name: mirror-num
+                        stripe_size:
+                          type: integer
+                          xml:
+                            name: stripe-size
+                        protection_width:
+                          type: integer
+                          xml:
+                            name: protection-width
+                        capacity:
+                          type: integer
+                        available:
+                          type: integer
+                        status:
+                          type: string
+                          example: Normal
+                        ssd:
+                          type: string
+                          example: 'NO'
+                        mismatch_count:
+                          type: integer
+                          xml:
+                            name: mismatch-count
+                        resync_speed:
+                          type: integer
+                          xml:
+                            name: resync-speed
+                        min_resync_speed:
+                          type: integer
+                          xml:
+                            name: min-resync-speed
+                        max_resync_speed:
+                          type: integer
+                          xml:
+                            name: max-resync-speed
+                        created_at:
+                          type: string
+                          format: date_time
+                          xml:
+                            name: created-at
+                        modified_at:
+                          type: string
+                          format: date_time
+                          xml:
+                            name: modified-at
+                      xml:
+                        name: raid-group
+                    xml:
+                      name: raid-groups
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  count:
+                    type: integer
+                  raid_groups:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: RaidGroup-4
+                        display_name:
+                          type: string
+                          example: raid_group
+                          xml:
+                            name: display-name
+                        protection:
+                          type: string
+                          example: RAID1
+                        mirror_num:
+                          type: integer
+                          xml:
+                            name: mirror-num
+                        stripe_size:
+                          type: integer
+                          xml:
+                            name: stripe-size
+                        protection_width:
+                          type: integer
+                          xml:
+                            name: protection-width
+                        capacity:
+                          type: integer
+                        available:
+                          type: integer
+                        status:
+                          type: string
+                          example: Normal
+                        ssd:
+                          type: string
+                          example: 'NO'
+                        mismatch_count:
+                          type: integer
+                          xml:
+                            name: mismatch-count
+                        resync_speed:
+                          type: integer
+                          xml:
+                            name: resync-speed
+                        min_resync_speed:
+                          type: integer
+                          xml:
+                            name: min-resync-speed
+                        max_resync_speed:
+                          type: integer
+                          xml:
+                            name: max-resync-speed
+                        created_at:
+                          type: string
+                          format: date_time
+                          xml:
+                            name: created-at
+                        modified_at:
+                          type: string
+                          format: date_time
+                          xml:
+                            name: modified-at
+                      xml:
+                        name: raid-group
+                    xml:
+                      name: raid-groups
+                      wrapped: true
+      summary: Get free raid groups
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/{id}/disks.json:
+    get:
+      tags:
+      - RAID Groups
+      description: Return the list of drives in a RAID Group.
+      operationId: get_drives_in_raid_group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^RaidGroup-[0-9]+$
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      disks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00002576
+                            display_name:
+                              type: string
+                              example: drive-001
+                              xml:
+                                name: display-name
+                            disk_type:
+                              type: string
+                              example: SATA_465GB_7200RPM
+                              xml:
+                                name: disk-type
+                            disk_uuid:
+                              type: string
+                              example: 6000000000BC614E187D90340A867A8F
+                              xml:
+                                name: disk-uuid
+                            storage_node:
+                              type: string
+                              example: ubuntu_sata-31
+                              xml:
+                                name: storage-node
+                            vpartition_id:
+                              type: integer
+                              xml:
+                                name: vpartition-id
+                            raid_group_name:
+                              type: string
+                              example: RaidGroup-4
+                              xml:
+                                name: raid-group-name
+                            usage:
+                              type: string
+                              example: In_use
+                            status:
+                              type: string
+                              example: Normal
+                            capacity:
+                              type: integer
+                            allocation_group:
+                              type: string
+                              example: 1e881a0c-97f5-4e1c-8c48-0975e23b
+                              xml:
+                                name: allocation-group
+                            cache:
+                              type: string
+                              example: 'NO'
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: disk
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show_disks_in_raid_group-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      disks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00002576
+                            display_name:
+                              type: string
+                              example: drive-001
+                              xml:
+                                name: display-name
+                            disk_type:
+                              type: string
+                              example: SATA_465GB_7200RPM
+                              xml:
+                                name: disk-type
+                            disk_uuid:
+                              type: string
+                              example: 6000000000BC614E187D90340A867A8F
+                              xml:
+                                name: disk-uuid
+                            storage_node:
+                              type: string
+                              example: ubuntu_sata-31
+                              xml:
+                                name: storage-node
+                            vpartition_id:
+                              type: integer
+                              xml:
+                                name: vpartition-id
+                            raid_group_name:
+                              type: string
+                              example: RaidGroup-4
+                              xml:
+                                name: raid-group-name
+                            usage:
+                              type: string
+                              example: In_use
+                            status:
+                              type: string
+                              example: Normal
+                            capacity:
+                              type: integer
+                            allocation_group:
+                              type: string
+                              example: 1e881a0c-97f5-4e1c-8c48-0975e23b
+                              xml:
+                                name: allocation-group
+                            cache:
+                              type: string
+                              example: 'NO'
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: disk
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show_disks_in_raid_group-response
+      summary: Get drives in raid group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/{id}/rename.json:
+    post:
+      tags:
+      - RAID Groups
+      description: Update a RAID Group's name.
+      operationId: rename_raid_group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^RaidGroup-[0-9]+$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-raid-group-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-raid-group-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - newname
+              properties:
+                newname:
+                  type: string
+                  description: Raid group new name
+                  example: new-raid-group-name
+        required: true
+      summary: Rename raid group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/{id}/resync_speed.json:
+    post:
+      tags:
+      - RAID Groups
+      description: Update a RAID Group's resync speed.
+      operationId: update_raid_group_resync_speed
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^RaidGroup-[0-9]+$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-resync-speed-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-resync-speed-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - min
+              - max
+              properties:
+                min:
+                  type: integer
+                  description: Minimum speed in MB per second. Resync is done at minimum speed while there are Server IOs
+                  example: 10
+                max:
+                  type: integer
+                  description: Maximum speed in MB per second. Resync is done at maximum speed when there are no Server IOs
+                  example: 100
+        required: true
+      summary: Update raid group resync speed
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/{id}/scrub.json:
+    post:
+      tags:
+      - RAID Groups
+      description: Trigger a Media Scan of the RAID Group. Parity inconsistency will be fixed. The result of the process will be logged in the VPSA Event-Log.
+      operationId: start_raid_group_media_scan
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^RaidGroup-[0-9]+$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: scrub-raid-group-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: scrub-raid-group-response
+      summary: Start raid group media scan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/{id}/pause_scrub.json:
+    post:
+      tags:
+      - RAID Groups
+      description: Pause the Media Scan of a RAID Group.
+      operationId: pause_raid_group_media_scan
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^RaidGroup-[0-9]+$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-scrub-resync-speed-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-scrub-resync-speed-response
+      summary: Pause raid group media scan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/{id}/cancel_scrub.json:
+    post:
+      tags:
+      - RAID Groups
+      description: cancel the running Media Scan of a RAID Group.
+      operationId: cancel_raid_group_media_scan
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^RaidGroup-[0-9]+$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: cancel-scrub-raid-group-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: cancel-scrub-raid-group-response
+      summary: Cancel raid group media scan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/{id}/hot_spares.json:
+    post:
+      tags:
+      - RAID Groups
+      description: Add a hot spare to a RAID Group.
+      operationId: add_hot_spare_to_raid_group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^RaidGroup-[0-9]+$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: add-hot-spare-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: add-hot-spare-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - disk
+              properties:
+                disk:
+                  type: string
+                  description: ID of the Drive to add as a Hot Spare.
+                  example: drive-002
+                force:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+        required: true
+      summary: Add hot spare to raid group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/{id}/hot_spares/remove.json:
+    post:
+      tags:
+      - RAID Groups
+      description: Remove the hot spare from a RAID Group.
+      operationId: remove_hot_spare_from_raid_group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^RaidGroup-[0-9]+$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: remove-hot-spare-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: remove-hot-spare-response
+      summary: Remove hot spare from raid group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/{id}/repair.json:
+    post:
+      tags:
+      - RAID Groups
+      description: Repairs a degraded RAID group with an available drive. This function will first attempt to detect if there are any available drives, and will only proceed if one is found. This function should be used with caution.
+      operationId: repair_raid_group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^RaidGroup-[0-9]+$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: repair-raid-group-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raidgroup_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raidgroup-name
+                      status:
+                        type: integer
+                    xml:
+                      name: repair-raid-group-response
+      summary: Repair raid group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/{id}/performance.json:
+    get:
+      tags:
+      - RAID Groups
+      description: Returns the last 60 data points of performance data for the specified interval.
+      operationId: get_raid_group_performance
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^RaidGroup-[0-9]+$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raid_group_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raid-group-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rd_iops:
+                              type: integer
+                              xml:
+                                name: rd-iops
+                            rd_iotime:
+                              type: number
+                              xml:
+                                name: rd-iotime
+                            rd_bandwidth:
+                              type: number
+                              xml:
+                                name: rd-bandwidth
+                            rd_queue_len:
+                              type: integer
+                              xml:
+                                name: rd-queue-len
+                            wrt_iops:
+                              type: integer
+                              xml:
+                                name: wrt-iops
+                            wrt_iotime:
+                              type: number
+                              xml:
+                                name: wrt-iotime
+                            wrt_bandwidth:
+                              type: number
+                              xml:
+                                name: wrt-bandwidth
+                            wrt_queue_len:
+                              type: integer
+                              xml:
+                                name: wrt-queue-len
+                            point:
+                              type: integer
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_raid_group_perf-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      raid_group_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: raid-group-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rd_iops:
+                              type: integer
+                              xml:
+                                name: rd-iops
+                            rd_iotime:
+                              type: number
+                              xml:
+                                name: rd-iotime
+                            rd_bandwidth:
+                              type: number
+                              xml:
+                                name: rd-bandwidth
+                            rd_queue_len:
+                              type: integer
+                              xml:
+                                name: rd-queue-len
+                            wrt_iops:
+                              type: integer
+                              xml:
+                                name: wrt-iops
+                            wrt_iotime:
+                              type: number
+                              xml:
+                                name: wrt-iotime
+                            wrt_bandwidth:
+                              type: number
+                              xml:
+                                name: wrt-bandwidth
+                            wrt_queue_len:
+                              type: integer
+                              xml:
+                                name: wrt-queue-len
+                            point:
+                              type: integer
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_raid_group_perf-response
+      summary: Get raid group performance
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /raid_groups/scrub_policy.json:
+    get:
+      tags:
+      - RAID Groups
+      description: Return configured Media Scan policy.
+      operationId: get_scrub_policy
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  response:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        xml:
+                          name: status-msg
+                      media_scan:
+                        $ref: '#/components/schemas/MediaScan'
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  response:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        xml:
+                          name: status-msg
+                      media_scan:
+                        $ref: '#/components/schemas/MediaScan'
+      summary: Get scrub policy
+      x-summary-source: derived
+    post:
+      tags:
+      - RAID Groups
+      description: Set Media Scan policy for raid groups.
+      operationId: set_scrub_policy
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  response:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        xml:
+                          name: status-msg
+                      media_scan:
+                        $ref: '#/components/schemas/MediaScan'
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  response:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        xml:
+                          name: status-msg
+                      media_scan:
+                        $ref: '#/components/schemas/MediaScan'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - scrub_policy
+              properties:
+                scrub_policy:
+                  type: string
+                  description: new policy to set. to disable Media Scan, set policy to "0 0 0 0 0" or "disable".
+                  example: 0 1 4 * *
+        required: true
+      summary: Set scrub policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    MediaScan:
+      type: object
+      xml:
+        name: media-scan
+      properties:
+        policy:
+          type: string
+          example: 0 1 4 * *
+        number:
+          type: integer
+          example: 1
+  parameters:
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

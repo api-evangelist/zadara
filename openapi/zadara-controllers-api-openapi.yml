@@ -1,0 +1,2131 @@
+openapi: 3.2.0
+info:
+  title: Zadara Controllers API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Controllers across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Controllers
+  description: Operations for Controllers.
+paths:
+  /vcontrollers.json:
+    get:
+      tags:
+      - Controllers
+      description: Get a list of Controllers.
+      operationId: get_all_controllers
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: error
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: error
+                      status:
+                        type: integer
+                        example: 0
+                      count:
+                        type: integer
+                        example: 2
+                        xml:
+                          name: vcontrollers-count
+                      vcontrollers:
+                        type: array
+                        xml:
+                          wrapped: true
+                        items:
+                          type: object
+                          xml:
+                            name: vcontroller
+                          properties:
+                            name:
+                              type: string
+                              example: vsa-00000038_vc-1
+                            display_name:
+                              type: string
+                              example: vsa-00000038_vc-1
+                              xml:
+                                name: display-name
+                            index:
+                              type: string
+                              example: '1'
+                            state:
+                              type: string
+                              example: standby
+                            target:
+                              type: string
+                              example: iqn.2011-04.com.zadarastorage:vsa-00000038:1
+                            iscsi_ip:
+                              type: string
+                              example: 3.112.112.2
+                              xml:
+                                name: iscsi-ip
+                            iscsi_ipv6:
+                              type: string
+                              example: 2001:db8:85a3::8a2e:370:7002
+                              xml:
+                                name: iscsi-ipv6
+                            mgmt_ip:
+                              type: string
+                              example: 10.2.10.40
+                              xml:
+                                name: mgmt-ip
+                            mgmt_ipv6:
+                              type: string
+                              example: 2001:db8:85a3::8a2e:370:7002
+                              xml:
+                                name: mgmt-ipv6
+                            be_ip:
+                              type: string
+                              example: 150.50.3.126
+                              xml:
+                                name: be-ip
+                            fe_ip:
+                              type: string
+                              example: 150.50.2.126
+                              xml:
+                                name: fe-ip
+                            fe_ipv6:
+                              type: string
+                              example: 2001:db8:85a3::8a2e:370:7002
+                              xml:
+                                name: fe-ipv6
+                            fe_cidr:
+                              type: number
+                              example: 24
+                              xml:
+                                name: fe-cidr
+                            fe_ipv6_cidr:
+                              type: number
+                              example: 24
+                              xml:
+                                name: fe-ipv6-cidr
+                            fe_vlan:
+                              type: number
+                              example: 50
+                              xml:
+                                name: fe-vlan
+                            fe_gateway:
+                              type: string
+                              example: 150.50.2.21
+                              xml:
+                                name: fe-gateway
+                            fe_ipv6_gateway:
+                              type: string
+                              example: 2001:14:14::1
+                              xml:
+                                name: fe-ipv6-gateway
+                            software_ver:
+                              type: string
+                              example: 20.01-179
+                              xml:
+                                name: software-ver
+                            heartbeat1:
+                              type: string
+                              example: ok
+                            heartbeat2:
+                              type: string
+                              example: ok
+                            fe_heartbeat:
+                              type: string
+                              example: ok
+                              xml:
+                                name: fe-heartbeat
+                            vpsa_chap_user:
+                              type: string
+                              example: myvpsa
+                              xml:
+                                name: vpsa-chap-user
+                            vpsa_chap_secret:
+                              type: string
+                              example: L4Jx5xidZDEH
+                              xml:
+                                name: vpsa-chap-secret
+                            host_chap_user:
+                              type: string
+                              example: None
+                              xml:
+                                name: host-chap-user
+                            host_chap_secret:
+                              type: string
+                              example: None
+                              xml:
+                                name: host-chap-secret
+                            ike_psk:
+                              type: string
+                              example: ABCE2144EDCD42259CF8C97D78F82BE3
+                              xml:
+                                name: ike-psk
+                            encryption_password_set:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-password-set
+                            is_encryption_active:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: is-encryption-active
+                            encryption_kms_key_id:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-kms-key-id
+                            encryption_kms_key_name:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-kms-key-name
+                            encryption_kms_key_region:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-kms-key-region
+                            encryption_kms_type:
+                              type: string
+                              example: none
+                              xml:
+                                name: encryption-kms-type
+                            encryption_kms_set_date:
+                              type: string
+                              example: 0000-00-00T00:00:00+0000
+                              xml:
+                                name: encryption-kms-set-date
+                            encryption_kms_restore_date:
+                              type: string
+                              example: 0000-00-00T00:00:00+0000
+                              xml:
+                                name: encryption-kms-restore-date
+                            sn_host:
+                              type: string
+                              example: qa10_sn1
+                              xml:
+                                name: sn-host
+                            cache_size:
+                              type: integer
+                              example: 20
+                              xml:
+                                name: cache-size
+                            cpu_usage_alert:
+                              type: integer
+                              example: 95
+                              xml:
+                                name: cpu-usage-alert
+                            mem_usage_alert:
+                              type: integer
+                              example: 90
+                              xml:
+                                name: mem-usage-alert
+                            cpu_docker_usage_alert:
+                              type: integer
+                              example: 95
+                              xml:
+                                name: cpu-docker-usage-alert
+                            mem_docker_usage_alert:
+                              type: integer
+                              example: 95
+                              xml:
+                                name: mem-docker-usage-alert
+                            recycle_bin:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: recycle-bin
+                            recycle_bin_grace_period:
+                              type: integer
+                              example: 0
+                              description: Grace period in hours
+                              xml:
+                                name: recycle-bin-grace-period
+                            dm_concurrency_level:
+                              type: integer
+                              example: 1
+                              xml:
+                                name: dm-concurrency-level
+                            nfs4_disable_idmapping:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: nfs4-disable-idmapping
+                            raid_read_mode:
+                              type: string
+                              example: round_robin
+                              xml:
+                                name: raid-read-mode
+                            allocation_zone_name:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone-name
+                            allocation_zone_display_name:
+                              type: string
+                              example: zone-0
+                              xml:
+                                name: allocation-zone-display-name
+                            smb_unix_charset:
+                              type: string
+                              example: UTF-8
+                              xml:
+                                name: smb-unix-charset
+                            smb_dos_charset:
+                              type: string
+                              example: CP850
+                              xml:
+                                name: smb-dos-charset
+                            vpsa_uuid:
+                              type: string
+                              example: B8A379E4051348BDA3BE4D1DC3BB24A6
+                              xml:
+                                name: vpsa-uuid
+                            sod_end_time:
+                              type: string
+                              example: None
+                              xml:
+                                name: sod-end-time
+                            wwpn_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wwpn-count
+                            integrity_status:
+                              type: string
+                              example: not-applicable
+                              xml:
+                                name: integrity-status
+                            iser_support:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: iser-support
+                    xml:
+                      name: show-vcontrollers-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: error
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: error
+                      status:
+                        type: integer
+                        example: 0
+                      count:
+                        type: integer
+                        example: 2
+                        xml:
+                          name: vcontrollers-count
+                      vcontrollers:
+                        type: array
+                        xml:
+                          wrapped: true
+                        items:
+                          type: object
+                          xml:
+                            name: vcontroller
+                          properties:
+                            name:
+                              type: string
+                              example: vsa-00000038_vc-1
+                            display_name:
+                              type: string
+                              example: vsa-00000038_vc-1
+                              xml:
+                                name: display-name
+                            index:
+                              type: string
+                              example: '1'
+                            state:
+                              type: string
+                              example: standby
+                            target:
+                              type: string
+                              example: iqn.2011-04.com.zadarastorage:vsa-00000038:1
+                            iscsi_ip:
+                              type: string
+                              example: 3.112.112.2
+                              xml:
+                                name: iscsi-ip
+                            iscsi_ipv6:
+                              type: string
+                              example: 2001:db8:85a3::8a2e:370:7002
+                              xml:
+                                name: iscsi-ipv6
+                            mgmt_ip:
+                              type: string
+                              example: 10.2.10.40
+                              xml:
+                                name: mgmt-ip
+                            mgmt_ipv6:
+                              type: string
+                              example: 2001:db8:85a3::8a2e:370:7002
+                              xml:
+                                name: mgmt-ipv6
+                            be_ip:
+                              type: string
+                              example: 150.50.3.126
+                              xml:
+                                name: be-ip
+                            fe_ip:
+                              type: string
+                              example: 150.50.2.126
+                              xml:
+                                name: fe-ip
+                            fe_ipv6:
+                              type: string
+                              example: 2001:db8:85a3::8a2e:370:7002
+                              xml:
+                                name: fe-ipv6
+                            fe_cidr:
+                              type: number
+                              example: 24
+                              xml:
+                                name: fe-cidr
+                            fe_ipv6_cidr:
+                              type: number
+                              example: 24
+                              xml:
+                                name: fe-ipv6-cidr
+                            fe_vlan:
+                              type: number
+                              example: 50
+                              xml:
+                                name: fe-vlan
+                            fe_gateway:
+                              type: string
+                              example: 150.50.2.21
+                              xml:
+                                name: fe-gateway
+                            fe_ipv6_gateway:
+                              type: string
+                              example: 2001:14:14::1
+                              xml:
+                                name: fe-ipv6-gateway
+                            software_ver:
+                              type: string
+                              example: 20.01-179
+                              xml:
+                                name: software-ver
+                            heartbeat1:
+                              type: string
+                              example: ok
+                            heartbeat2:
+                              type: string
+                              example: ok
+                            fe_heartbeat:
+                              type: string
+                              example: ok
+                              xml:
+                                name: fe-heartbeat
+                            vpsa_chap_user:
+                              type: string
+                              example: myvpsa
+                              xml:
+                                name: vpsa-chap-user
+                            vpsa_chap_secret:
+                              type: string
+                              example: L4Jx5xidZDEH
+                              xml:
+                                name: vpsa-chap-secret
+                            host_chap_user:
+                              type: string
+                              example: None
+                              xml:
+                                name: host-chap-user
+                            host_chap_secret:
+                              type: string
+                              example: None
+                              xml:
+                                name: host-chap-secret
+                            ike_psk:
+                              type: string
+                              example: ABCE2144EDCD42259CF8C97D78F82BE3
+                              xml:
+                                name: ike-psk
+                            encryption_password_set:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-password-set
+                            is_encryption_active:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: is-encryption-active
+                            encryption_kms_key_id:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-kms-key-id
+                            encryption_kms_key_name:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-kms-key-name
+                            encryption_kms_key_region:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-kms-key-region
+                            encryption_kms_type:
+                              type: string
+                              example: none
+                              xml:
+                                name: encryption-kms-type
+                            encryption_kms_set_date:
+                              type: string
+                              example: 0000-00-00T00:00:00+0000
+                              xml:
+                                name: encryption-kms-set-date
+                            encryption_kms_restore_date:
+                              type: string
+                              example: 0000-00-00T00:00:00+0000
+                              xml:
+                                name: encryption-kms-restore-date
+                            sn_host:
+                              type: string
+                              example: qa10_sn1
+                              xml:
+                                name: sn-host
+                            cache_size:
+                              type: integer
+                              example: 20
+                              xml:
+                                name: cache-size
+                            cpu_usage_alert:
+                              type: integer
+                              example: 95
+                              xml:
+                                name: cpu-usage-alert
+                            mem_usage_alert:
+                              type: integer
+                              example: 90
+                              xml:
+                                name: mem-usage-alert
+                            cpu_docker_usage_alert:
+                              type: integer
+                              example: 95
+                              xml:
+                                name: cpu-docker-usage-alert
+                            mem_docker_usage_alert:
+                              type: integer
+                              example: 95
+                              xml:
+                                name: mem-docker-usage-alert
+                            recycle_bin:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: recycle-bin
+                            recycle_bin_grace_period:
+                              type: integer
+                              example: 0
+                              description: Grace period in hours
+                              xml:
+                                name: recycle-bin-grace-period
+                            dm_concurrency_level:
+                              type: integer
+                              example: 1
+                              xml:
+                                name: dm-concurrency-level
+                            nfs4_disable_idmapping:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: nfs4-disable-idmapping
+                            raid_read_mode:
+                              type: string
+                              example: round_robin
+                              xml:
+                                name: raid-read-mode
+                            allocation_zone_name:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone-name
+                            allocation_zone_display_name:
+                              type: string
+                              example: zone-0
+                              xml:
+                                name: allocation-zone-display-name
+                            smb_unix_charset:
+                              type: string
+                              example: UTF-8
+                              xml:
+                                name: smb-unix-charset
+                            smb_dos_charset:
+                              type: string
+                              example: CP850
+                              xml:
+                                name: smb-dos-charset
+                            vpsa_uuid:
+                              type: string
+                              example: B8A379E4051348BDA3BE4D1DC3BB24A6
+                              xml:
+                                name: vpsa-uuid
+                            sod_end_time:
+                              type: string
+                              example: None
+                              xml:
+                                name: sod-end-time
+                            wwpn_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wwpn-count
+                            integrity_status:
+                              type: string
+                              example: not-applicable
+                              xml:
+                                name: integrity-status
+                            iser_support:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: iser-support
+                    xml:
+                      name: show-vcontrollers-response
+      summary: Get all controllers
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /vcontrollers/virtual_networks.json:
+    get:
+      tags:
+      - Controllers
+      description: Get a list of Controller Virtual Networks.
+      operationId: get_all_controllers_virtual_networks
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      vnis:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            ip:
+                              type: string
+                              example: 10.213.44.2
+                            ipv6:
+                              type: string
+                              example: None
+                            gateway:
+                              type: string
+                              example: 10.213.44.1
+                            ipv6_gateway:
+                              type: string
+                              example: None
+                              xml:
+                                name: ipv6-gateway
+                            netmask:
+                              type: string
+                              example: 255.255.255.252
+                            ipv6_netmask:
+                              type: string
+                              example: None
+                              xml:
+                                name: ipv6-netmask
+                            vlan_id:
+                              type: integer
+                              xml:
+                                name: vlan-id
+                            interface:
+                              type: string
+                              example: vni0
+                            net_uuid:
+                              type: string
+                              example: '13'
+                              xml:
+                                name: net-uuid
+                          xml:
+                            name: vni
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-vnis-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      vnis:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            ip:
+                              type: string
+                              example: 10.213.44.2
+                            ipv6:
+                              type: string
+                              example: None
+                            gateway:
+                              type: string
+                              example: 10.213.44.1
+                            ipv6_gateway:
+                              type: string
+                              example: None
+                              xml:
+                                name: ipv6-gateway
+                            netmask:
+                              type: string
+                              example: 255.255.255.252
+                            ipv6_netmask:
+                              type: string
+                              example: None
+                              xml:
+                                name: ipv6-netmask
+                            vlan_id:
+                              type: integer
+                              xml:
+                                name: vlan-id
+                            interface:
+                              type: string
+                              example: vni0
+                            net_uuid:
+                              type: string
+                              example: '13'
+                              xml:
+                                name: net-uuid
+                          xml:
+                            name: vni
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-vnis-response
+      summary: Get all controllers virtual networks
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /vcontrollers/network_interfaces.json:
+    get:
+      tags:
+      - Controllers
+      description: Get the list of network interfaces.
+      operationId: get_vcontrollers_network_interfaces
+      security:
+      - api_key: []
+      parameters:
+      - in: query
+        name: no_public
+        description: Omit public network interface.
+        schema:
+          type: boolean
+      - in: query
+        name: force_public
+        description: Include a public network interface even when the VPSA has no public ip set.
+        schema:
+          type: boolean
+      - in: query
+        name: show_outnet
+        description: Include outnet network interface.
+        schema:
+          type: boolean
+      - in: query
+        name: skip_vnis
+        description: Omit Virtual Network Interface network interfaces.
+        schema:
+          type: boolean
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: success
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: success
+                      status:
+                        type: integer
+                        example: 0
+                      interfaces:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: vflb0
+                            interface_simple_name:
+                              type: string
+                              example: public
+                              xml:
+                                name: interface-simple-name
+                            ip:
+                              type: string
+                              example: 180.80.8.2
+                            ipv6:
+                              type: string
+                              example: 2001:db8:3333:4444:5555:6666:7777:8888
+                            display_name:
+                              type: string
+                              example: Public IP - 180.80.8.2
+                              xml:
+                                name: display-name
+                            vfloating_ip:
+                              type: string
+                              example: 180.80.8.2
+                              xml:
+                                name: vfloating-ip
+                          xml:
+                            name: interface
+                        xml:
+                          wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: success
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: success
+                      status:
+                        type: integer
+                        example: 0
+                      interfaces:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: vflb0
+                            interface_simple_name:
+                              type: string
+                              example: public
+                              xml:
+                                name: interface-simple-name
+                            ip:
+                              type: string
+                              example: 180.80.8.2
+                            ipv6:
+                              type: string
+                              example: 2001:db8:3333:4444:5555:6666:7777:8888
+                            display_name:
+                              type: string
+                              example: Public IP - 180.80.8.2
+                              xml:
+                                name: display-name
+                            vfloating_ip:
+                              type: string
+                              example: 180.80.8.2
+                              xml:
+                                name: vfloating-ip
+                          xml:
+                            name: interface
+                        xml:
+                          wrapped: true
+      summary: Get vcontrollers network interfaces
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /vcontrollers/failover.json:
+    post:
+      tags:
+      - Controllers
+      description: Failover the active Controller.
+      operationId: failover_controller
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: failover-vcontroller-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: failover-vcontroller-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+      summary: Failover controller
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /vcontrollers/state.json:
+    get:
+      tags:
+      - Controllers
+      description: Shows the state of the virtual controllers.
+      operationId: show_virtual_controllers_states
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: error
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: error
+                      status:
+                        example: 0
+                        type: integer
+                      count:
+                        example: 2
+                        type: integer
+                        xml:
+                          name: vcontrollers-count
+                      vcontrollers:
+                        xml:
+                          wrapped: true
+                        type: array
+                        items:
+                          type: object
+                          xml:
+                            name: vcontroller
+                          properties:
+                            index:
+                              type: integer
+                              example: 0
+                            name:
+                              type: string
+                              example: vsa-00000006-vc-1
+                            state:
+                              type: string
+                              example: offline
+                            encryption_password_set:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-password-set
+                            is_encryption_active:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: is-encryption-active
+                            mgmt_ip:
+                              type: string
+                              example: 10.2.44.23
+                              xml:
+                                name: mgmt-ip
+                            mgmt_ipv6:
+                              type: string
+                              xml:
+                                name: mgmt-ipv6
+                            software_version:
+                              type: string
+                              example: '00.00'
+                              xml:
+                                name: software-version
+                            recycle_bin:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: recycle-bin
+                            recycle_bin_grace_period:
+                              type: integer
+                              example: 168
+                              xml:
+                                name: recycle-bin-grace-period
+                            target:
+                              type: string
+                              example: iqn.2011-04.com.zadara:vsa-00000006:8B300F836BD84556B1826C3C12A7E717:1
+                            iscsi_ip:
+                              type: string
+                              example: 10.2.44.21
+                              xml:
+                                name: iscsi-ip
+                            iscsi_ipv6:
+                              type: string
+                              xml:
+                                name: iscsi-ipv6
+                            vpsa_chap_user:
+                              type: string
+                              example: kuku31
+                              xml:
+                                name: vpsa-chap-user
+                            vpsa_chap_secret:
+                              type: string
+                              example: du2PkXXZ3oPu
+                              xml:
+                                name: vpsa-chap-secret
+                            host_chap_user:
+                              type: string
+                              xml:
+                                name: host-chap-user
+                            host_chap_secret:
+                              type: string
+                              xml:
+                                name: host-chap-secret
+                    xml:
+                      name: show-vcontrollers_state-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: error
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: error
+                      status:
+                        example: 0
+                        type: integer
+                      count:
+                        example: 2
+                        type: integer
+                        xml:
+                          name: vcontrollers-count
+                      vcontrollers:
+                        xml:
+                          wrapped: true
+                        type: array
+                        items:
+                          type: object
+                          xml:
+                            name: vcontroller
+                          properties:
+                            index:
+                              type: integer
+                              example: 0
+                            name:
+                              type: string
+                              example: vsa-00000006-vc-1
+                            state:
+                              type: string
+                              example: offline
+                            encryption_password_set:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-password-set
+                            is_encryption_active:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: is-encryption-active
+                            mgmt_ip:
+                              type: string
+                              example: 10.2.44.23
+                              xml:
+                                name: mgmt-ip
+                            mgmt_ipv6:
+                              type: string
+                              xml:
+                                name: mgmt-ipv6
+                            software_version:
+                              type: string
+                              example: '00.00'
+                              xml:
+                                name: software-version
+                            recycle_bin:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: recycle-bin
+                            recycle_bin_grace_period:
+                              type: integer
+                              example: 168
+                              xml:
+                                name: recycle-bin-grace-period
+                            target:
+                              type: string
+                              example: iqn.2011-04.com.zadara:vsa-00000006:8B300F836BD84556B1826C3C12A7E717:1
+                            iscsi_ip:
+                              type: string
+                              example: 10.2.44.21
+                              xml:
+                                name: iscsi-ip
+                            iscsi_ipv6:
+                              type: string
+                              xml:
+                                name: iscsi-ipv6
+                            vpsa_chap_user:
+                              type: string
+                              example: kuku31
+                              xml:
+                                name: vpsa-chap-user
+                            vpsa_chap_secret:
+                              type: string
+                              example: du2PkXXZ3oPu
+                              xml:
+                                name: vpsa-chap-secret
+                            host_chap_user:
+                              type: string
+                              xml:
+                                name: host-chap-user
+                            host_chap_secret:
+                              type: string
+                              xml:
+                                name: host-chap-secret
+                    xml:
+                      name: show-vcontrollers_state-response
+      summary: Show virtual controllers states
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /vcontrollers/restart_service.json:
+    post:
+      tags:
+      - Controllers
+      description: Restart NFS/SMB file share service.
+      operationId: restart_service
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                    xml:
+                      name: restart-service-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                    xml:
+                      name: restart-service-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_name:
+                  type: string
+                  enum:
+                  - zsamba
+                  - nfs-server
+                  example: zsamba
+                  description: The file share service to restart (zsamba/nfs-server)
+        required: true
+      summary: Restart service
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /vcontrollers/{id}/sessions.json:
+    get:
+      tags:
+      - Controllers
+      description: Lists vcontroller's sessions.
+      operationId: lists_vcontrollers_sessions
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^vsa-[0-9a-f]{8}-vc-[0-9]$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      sessions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            access_type:
+                              type: string
+                              example: ISCSI
+                              xml:
+                                name: access-type
+                            initiator:
+                              type: string
+                              example: iqn.1991-05.com.microsoft:vm91_win2008r2.zadara.lab
+                            target:
+                              type: string
+                              example: iqn.test.com.zadarastorage:vsa-00000000:1
+                            count:
+                              type: integer
+                            vc:
+                              type: integer
+                            server_name:
+                              type: string
+                              example: srv-00000003
+                              xml:
+                                name: server-name
+                            server_display_name:
+                              type: string
+                              example: VM91_WIN2008R2
+                              xml:
+                                name: server-display-name
+                          xml:
+                            name: session
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      sessions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            access_type:
+                              type: string
+                              example: ISCSI
+                              xml:
+                                name: access-type
+                            initiator:
+                              type: string
+                              example: iqn.1991-05.com.microsoft:vm91_win2008r2.zadara.lab
+                            target:
+                              type: string
+                              example: iqn.test.com.zadarastorage:vsa-00000000:1
+                            count:
+                              type: integer
+                            vc:
+                              type: integer
+                            server_name:
+                              type: string
+                              example: srv-00000003
+                              xml:
+                                name: server-name
+                            server_display_name:
+                              type: string
+                              example: VM91_WIN2008R2
+                              xml:
+                                name: server-display-name
+                          xml:
+                            name: session
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+      summary: Lists vcontrollers sessions
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /vcontrollers/{id}/performance.json:
+    get:
+      tags:
+      - Controllers
+      description: Returns the last 60 data points of performance data for the specified interval.
+      operationId: get_controllers_performance
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^vsa-[0-9a-f]{8}-vc-[0-9]$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vcontroller_name:
+                        type: string
+                        example: vsa-00000968_vc-0
+                        xml:
+                          name: vcontroller-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            cpu_user:
+                              type: number
+                              example: 20.0
+                              xml:
+                                name: cpu-user
+                            cpu_system:
+                              type: number
+                              example: 9.0
+                              xml:
+                                name: cpu-system
+                            cpu_iowait:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: cpu-iowait
+                            cpu_idle:
+                              type: number
+                              example: 71.0
+                              xml:
+                                name: cpu-idle
+                            mem_alloc:
+                              type: number
+                              example: 39.0
+                              xml:
+                                name: mem-alloc
+                            gb_wrt:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: gb-wrt
+                            gb_rd:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: gb-rd
+                            zcache_data_dirty:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-dirty
+                            zcache_meta_dirty:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-meta-dirty
+                            point:
+                              type: integer
+                              example: 1386985440
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_vcontroller_perf-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vcontroller_name:
+                        type: string
+                        example: vsa-00000968_vc-0
+                        xml:
+                          name: vcontroller-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            cpu_user:
+                              type: number
+                              example: 20.0
+                              xml:
+                                name: cpu-user
+                            cpu_system:
+                              type: number
+                              example: 9.0
+                              xml:
+                                name: cpu-system
+                            cpu_iowait:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: cpu-iowait
+                            cpu_idle:
+                              type: number
+                              example: 71.0
+                              xml:
+                                name: cpu-idle
+                            mem_alloc:
+                              type: number
+                              example: 39.0
+                              xml:
+                                name: mem-alloc
+                            gb_wrt:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: gb-wrt
+                            gb_rd:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: gb-rd
+                            zcache_data_dirty:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-dirty
+                            zcache_meta_dirty:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-meta-dirty
+                            point:
+                              type: integer
+                              example: 1386985440
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_vcontroller_perf-response
+      summary: Get controllers performance
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /vcontrollers/{id}/cache_performance.json:
+    get:
+      tags:
+      - Controllers
+      description: Returns the last 60 data points of cache performance data for the specified interval.
+      operationId: get_cache_performence
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^vsa-[0-9a-f]{8}-vc-[0-9]$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      zcache_name:
+                        type: string
+                        example: None
+                        xml:
+                          name: zcache-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      zcache_usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rd_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-iops
+                            rd_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-iotime
+                            rd_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-bandwidth
+                            rd_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-queue-len
+                            wrt_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-iops
+                            wrt_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-iotime
+                            wrt_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-bandwidth
+                            wrt_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-queue-len
+                            point:
+                              type: integer
+                              example: 1386985536
+                          xml:
+                            name: zcache-usage
+                        xml:
+                          name: zcache-usages
+                          wrapped: true
+                    xml:
+                      name: get_zcache_perf-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      zcache_name:
+                        type: string
+                        example: None
+                        xml:
+                          name: zcache-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      zcache_usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rd_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-iops
+                            rd_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-iotime
+                            rd_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-bandwidth
+                            rd_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-queue-len
+                            wrt_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-iops
+                            wrt_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-iotime
+                            wrt_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-bandwidth
+                            wrt_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-queue-len
+                            point:
+                              type: integer
+                              example: 1386985536
+                          xml:
+                            name: zcache-usage
+                        xml:
+                          name: zcache-usages
+                          wrapped: true
+                    xml:
+                      name: get_zcache_perf-response
+      summary: Get cache performence
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /vcontrollers/{id}/cache_stats.json:
+    get:
+      tags:
+      - Controllers
+      description: Returns the last 60 data points of cache stats data for the specified interval.
+      operationId: get_cache_stats
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^vsa-[0-9a-f]{8}-vc-[0-9]$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      zcache_name:
+                        type: string
+                        example: None
+                        xml:
+                          name: zcache-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            zcache_data_dirty:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-dirty
+                            zcache_meta_dirty:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-meta-dirty
+                            zcache_data_clean:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-clean
+                            zcache_meta_clean:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-meta-clean
+                            zcache_data_cb_util:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-cb-util
+                            zcache_meta_cb_util:
+                              type: number
+                              example: 96.0
+                              xml:
+                                name: zcache-meta-cb-util
+                            zcache_data_read_hit:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-read-hit
+                            zcache_meta_read_hit:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-meta-read-hit
+                            zcache_data_write_hit:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-write-hit
+                            zcache_meta_write_hit:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-meta-write-hit
+                            point:
+                              type: integer
+                              example: 1427966949
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get-cache-stats-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      zcache_name:
+                        type: string
+                        example: None
+                        xml:
+                          name: zcache-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            zcache_data_dirty:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-dirty
+                            zcache_meta_dirty:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-meta-dirty
+                            zcache_data_clean:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-clean
+                            zcache_meta_clean:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-meta-clean
+                            zcache_data_cb_util:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-cb-util
+                            zcache_meta_cb_util:
+                              type: number
+                              example: 96.0
+                              xml:
+                                name: zcache-meta-cb-util
+                            zcache_data_read_hit:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-read-hit
+                            zcache_meta_read_hit:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-meta-read-hit
+                            zcache_data_write_hit:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-data-write-hit
+                            zcache_meta_write_hit:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: zcache-meta-write-hit
+                            point:
+                              type: integer
+                              example: 1427966949
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get-cache-stats-response
+      summary: Get cache stats
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  parameters:
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

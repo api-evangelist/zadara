@@ -1,0 +1,686 @@
+openapi: 3.2.0
+info:
+  title: Zadara File Lifecycle API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged File Lifecycle across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: File Lifecycle
+  description: Operations involving File Lifecycle.
+paths:
+  /flc/categories_settings.json:
+    get:
+      tags:
+      - File Lifecycle
+      description: Show file lifecycle categories and their file extensions.
+      operationId: get_all_categories
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      categories:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            extensions_count:
+                              type: integer
+                              example: 13
+                              xml:
+                                name: extensions-count
+                            category_ext_name:
+                              type: string
+                              example: category-00000002
+                              xml:
+                                name: category-ext-name
+                            category_name:
+                              type: string
+                              example: Email Data
+                              xml:
+                                name: category-name
+                            extension:
+                              type: string
+                              example: pst
+                          xml:
+                            name: category
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-flc-categories-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      categories:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            extensions_count:
+                              type: integer
+                              example: 13
+                              xml:
+                                name: extensions-count
+                            category_ext_name:
+                              type: string
+                              example: category-00000002
+                              xml:
+                                name: category-ext-name
+                            category_name:
+                              type: string
+                              example: Email Data
+                              xml:
+                                name: category-name
+                            extension:
+                              type: string
+                              example: pst
+                          xml:
+                            name: category
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-flc-categories-response
+      summary: Get all categories
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc/create_category.json:
+    post:
+      tags:
+      - File Lifecycle
+      description: Create a new file lifecycle category with its file extensions.
+      operationId: create_category
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      category_ext_name:
+                        type: string
+                        xml:
+                          name: category-ext-name
+                    xml:
+                      name: create-flc-category-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      category_ext_name:
+                        type: string
+                        xml:
+                          name: category-ext-name
+                    xml:
+                      name: create-flc-category-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - displayname
+              - file_extensions
+              properties:
+                displayname:
+                  type: string
+                  description: Category name.
+                  example: Video Files
+                file_extensions:
+                  type: string
+                  description: File extensions list.
+                  example: avi,mpg,mpeg
+        required: true
+      summary: Create category
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc/update_category.json:
+    post:
+      tags:
+      - File Lifecycle
+      description: Update an existing file lifecycle category to change its file extensions.
+      operationId: update_category
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: update-flc-category-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: update-flc-category-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - category
+              - file_extensions
+              properties:
+                category:
+                  type: string
+                  pattern: ^category-[0-9a-f]{8}$
+                  description: Existing category ID ('category-ext-name' field).
+                  example: category-00000010
+                file_extensions:
+                  type: string
+                  description: File extensions list.
+                  example: avi,mpg,mpeg
+        required: true
+      summary: Update category
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc/rename_category.json:
+    post:
+      tags:
+      - File Lifecycle
+      description: Rename an existing file lifecycle category.
+      operationId: rename_category
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-flc-category-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-flc-category-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - category
+              - displayname
+              properties:
+                category:
+                  type: string
+                  pattern: ^category-[0-9a-f]{8}$
+                  description: Existing category ID ('category-ext-name' field).
+                  example: category-00000010
+                displayname:
+                  type: string
+                  description: New category name.
+                  example: Audio Files
+        required: true
+      summary: Rename category
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc/delete_category.json:
+    delete:
+      tags:
+      - File Lifecycle
+      description: Delete a file lifecycle category.
+      operationId: delete_category
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-flc-category-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-flc-category-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - category
+              properties:
+                category:
+                  type: string
+                  pattern: ^category-[0-9a-f]{8}$
+                  description: Category ID ('category-ext-name' field).
+                  example: category-00000010
+        required: true
+      summary: Delete category
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc/flc_data.json:
+    get:
+      tags:
+      - File Lifecycle
+      description: get flc data.
+      operationId: get_flc_data
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - in: query
+        name: resources
+        description: The resources_str is json string in the format:{chart_name:{name:<name>,type:<type>}}
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: count
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  status_msg:
+                    type: string
+                    example: An error occured while receiving performance data. Please try again later.
+                    xml:
+                      name: status-msg
+                  resources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: volume-0000013c
+                        type:
+                          type: string
+                          example: utilization_by_file_type
+                        usages:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/FlcData'
+                          xml:
+                            wrapped: true
+                        capacity:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/FlcData'
+                          xml:
+                            wrapped: true
+                        last_update:
+                          type: array
+                          items:
+                            type: string
+                            example: 01/01/2024 23:59:59
+                            xml:
+                              name: last-update
+                          xml:
+                            name: last-update
+                            wrapped: true
+                        status:
+                          type: integer
+                          format: int32
+                      xml:
+                        name: resource
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  status_msg:
+                    type: string
+                    example: An error occured while receiving performance data. Please try again later.
+                    xml:
+                      name: status-msg
+                  resources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: volume-0000013c
+                        type:
+                          type: string
+                          example: utilization_by_file_type
+                        usages:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/FlcData'
+                          xml:
+                            wrapped: true
+                        capacity:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/FlcData'
+                          xml:
+                            wrapped: true
+                        last_update:
+                          type: array
+                          items:
+                            type: string
+                            example: 01/01/2024 23:59:59
+                            xml:
+                              name: last-update
+                          xml:
+                            name: last-update
+                            wrapped: true
+                        status:
+                          type: integer
+                          format: int32
+                      xml:
+                        name: resource
+                    xml:
+                      wrapped: true
+      summary: Get flc data
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    CatagoryData:
+      type: object
+      properties:
+        Capacity:
+          type: integer
+          format: int64
+          example: 1095680000000
+        Order:
+          type: integer
+          format: int32
+          example: 1
+    FlcData:
+      type: object
+      properties:
+        Uncategorized:
+          $ref: '#/components/schemas/CatagoryData'
+        Documents Spreadsheets and text files:
+          $ref: '#/components/schemas/CatagoryData'
+        Temporary files:
+          $ref: '#/components/schemas/CatagoryData'
+        Backup files:
+          $ref: '#/components/schemas/CatagoryData'
+        Archive files:
+          $ref: '#/components/schemas/CatagoryData'
+        Audio files:
+          $ref: '#/components/schemas/CatagoryData'
+        Disk Images:
+          $ref: '#/components/schemas/CatagoryData'
+        Installers:
+          $ref: '#/components/schemas/CatagoryData'
+        Image files:
+          $ref: '#/components/schemas/CatagoryData'
+        Log Files:
+          $ref: '#/components/schemas/CatagoryData'
+        Email Data:
+          $ref: '#/components/schemas/CatagoryData'
+        Server Virtualization:
+          $ref: '#/components/schemas/CatagoryData'
+        Video files:
+          $ref: '#/components/schemas/CatagoryData'
+      xml:
+        name: usage
+  parameters:
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

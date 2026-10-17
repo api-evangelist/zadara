@@ -1,0 +1,484 @@
+openapi: 3.2.0
+info:
+  title: Zadara Drive Types API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Drive Types across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Drive Types
+  description: Operations involving Drive Types.
+paths:
+  /clouds/{cloud_name}/drive_types.json:
+    get:
+      tags:
+      - Drive Types
+      description: Returns a list of Drive Types.
+      operationId: list_drive_types
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drive_types:
+                    type: array
+                    xml:
+                      name: drive-types
+                      wrapped: true
+                    items:
+                      $ref: '#/components/schemas/DriveType'
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drive_types:
+                    type: array
+                    xml:
+                      name: drive-types
+                      wrapped: true
+                    items:
+                      $ref: '#/components/schemas/DriveType'
+                  count:
+                    type: integer
+      summary: List drive types
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/drive_types/{id}.json:
+    get:
+      tags:
+      - Drive Types
+      description: Returns details of a single Drive Type.
+      operationId: get_drive_type_details
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drive_type:
+                    $ref: '#/components/schemas/DriveType'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drive_type:
+                    $ref: '#/components/schemas/DriveType'
+      summary: Get drive type details
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/drive_types/{id}/drives.json:
+    get:
+      tags:
+      - Drive Types
+      description: Returns all of the drives for a Drive Type.
+      operationId: list_drive_of_drive_type
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drives:
+                    type: array
+                    xml:
+                      wrapped: true
+                    items:
+                      type: object
+                      xml:
+                        name: drive
+                      properties:
+                        device_name:
+                          type: string
+                          example: /dev/sdg
+                          xml:
+                            name: device-name
+                        node:
+                          type: string
+                          example: ubuntu_sata-31
+                        address:
+                          type: string
+                          example: 0:32:6 (Ad:En:Sl)
+                        product_id:
+                          type: string
+                          example: TOSHIBA PX02SMF020
+                          xml:
+                            name: product-id
+                        capacity:
+                          type: integer
+                          example: 2000
+                        licensed:
+                          type: boolean
+                          example: true
+                        status:
+                          type: string
+                          example: Allocated
+                        vpsa:
+                          type: string
+                          example: vsa_b-3
+                        volume:
+                          type: string
+                          example: volume-00003e8f
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drives:
+                    type: array
+                    xml:
+                      wrapped: true
+                    items:
+                      type: object
+                      xml:
+                        name: drive
+                      properties:
+                        device_name:
+                          type: string
+                          example: /dev/sdg
+                          xml:
+                            name: device-name
+                        node:
+                          type: string
+                          example: ubuntu_sata-31
+                        address:
+                          type: string
+                          example: 0:32:6 (Ad:En:Sl)
+                        product_id:
+                          type: string
+                          example: TOSHIBA PX02SMF020
+                          xml:
+                            name: product-id
+                        capacity:
+                          type: integer
+                          example: 2000
+                        licensed:
+                          type: boolean
+                          example: true
+                        status:
+                          type: string
+                          example: Allocated
+                        vpsa:
+                          type: string
+                          example: vsa_b-3
+                        volume:
+                          type: string
+                          example: volume-00003e8f
+                  count:
+                    type: integer
+      summary: List drive of drive type
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/drive_types/{id}/comments.json:
+    get:
+      tags:
+      - Drive Types
+      description: Returns the list of the drive type comments.
+      operationId: list_drive_type_comments
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  comments:
+                    type: array
+                    xml:
+                      wrapped: true
+                    items:
+                      type: object
+                      xml:
+                        name: comment
+                      properties:
+                        content:
+                          type: string
+                          example: '**test comment**'
+                        severity_id:
+                          type: string
+                          example: '0'
+                          xml:
+                            name: severity-id
+                        severity_name:
+                          type: string
+                          example: critical
+                          xml:
+                            name: severity-name
+                        created_by:
+                          type: string
+                          example: '1'
+                          xml:
+                            name: created-by
+                        created_at:
+                          type: string
+                          example: '2017-01-04T12:23:02+02:00'
+                          xml:
+                            name: created-at
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  comments:
+                    type: array
+                    xml:
+                      wrapped: true
+                    items:
+                      type: object
+                      xml:
+                        name: comment
+                      properties:
+                        content:
+                          type: string
+                          example: '**test comment**'
+                        severity_id:
+                          type: string
+                          example: '0'
+                          xml:
+                            name: severity-id
+                        severity_name:
+                          type: string
+                          example: critical
+                          xml:
+                            name: severity-name
+                        created_by:
+                          type: string
+                          example: '1'
+                          xml:
+                            name: created-by
+                        created_at:
+                          type: string
+                          example: '2017-01-04T12:23:02+02:00'
+                          xml:
+                            name: created-at
+                  count:
+                    type: integer
+      summary: List drive type comments
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    DriveType:
+      type: object
+      xml:
+        name: drive-type
+      properties:
+        name:
+          type: string
+          example: SSD CACHE DRIVES
+        type:
+          type: string
+          example: SSD
+        size:
+          type: integer
+          example: 0
+        rpm:
+          type: integer
+          example: 0
+        inventory:
+          type: object
+          properties:
+            used:
+              type: integer
+              example: 1
+            disabled:
+              type: integer
+              example: 0
+            free:
+              type: integer
+              example: 12
+            total:
+              type: integer
+              example: 13
+        total:
+          type: integer
+          example: 13
+        product_id:
+          type: string
+          example: SmrtStor TXA2D20200GA6001
+          xml:
+            name: product-id
+        internal_id:
+          type: integer
+          example: 1
+          xml:
+            name: internal-id
+        internal_name:
+          type: string
+          example: SSD_CACHE_DRIVES
+          xml:
+            name: internal-name
+  parameters:
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

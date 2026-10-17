@@ -1,0 +1,884 @@
+openapi: 3.2.0
+info:
+  title: Zadara Unified Identity API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Unified Identity across 2 of this provider''s published API definitions: zadara-object-storage-25.07.yml, zadara-object-storage-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Unified Identity
+  description: Operations for Unified Identity.
+paths:
+  /zios/unified_identity/register_unified_id_active_node.json:
+    post:
+      tags:
+      - Unified Identity
+      description: Registers the current node as a active. To be run from a node with no unified id role.
+      operationId: register_unified_id_active_node
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      summary: Register unified id active node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/unified_identity/add_unified_id_standby_node.json:
+    post:
+      tags:
+      - Unified Identity
+      description: Adds a new standby node to active. To be run from a active node.
+      operationId: add_unified_id_standby_node
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                standby_node_domain:
+                  type: string
+        description: Parameters for adding the standby.
+        required: true
+      summary: Add unified id standby node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/unified_identity/register_unified_id_standby_node.json:
+    post:
+      tags:
+      - Unified Identity
+      description: Registers the current node as a standby. To be run from a node with no unified id role.
+      operationId: register_unified_id_standby_node
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - active_node_domain
+              - active_node_access
+              - active_node_secret
+              - interface
+              properties:
+                active_node_domain:
+                  type: string
+                  description: The domain name of the active.
+                  example: active.example.com
+                active_node_access:
+                  type: string
+                  description: The access key for the active.
+                  example: access_key
+                active_node_secret:
+                  type: string
+                  description: The secret key for the active.
+                  example: secret_key
+                interface:
+                  type: string
+                  enum:
+                  - fe
+                  - outnet
+                  description: The network interface to use for connection.
+                  example: fe
+                test_only:
+                  type: boolean
+                  description: If true, performs a test connection to active node without persisting changes.
+                  example: false
+        description: Parameters for registering the standby.
+        required: true
+      summary: Register unified id standby node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/unified_identity/detach_unified_id_node.json:
+    post:
+      tags:
+      - Unified Identity
+      description: Detaches a node from the cluster. To be run from either active or standby node. If the active node is detached, a new active node must be registered.
+      operationId: detach_unified_id_node
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      summary: Detach unified id node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/unified_identity/nodes.json:
+    get:
+      tags:
+      - Unified Identity
+      description: Retrieves a list of all nodes in the cluster. To be run from either active or standby node.
+      operationId: show_nodes
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      nodes_count:
+                        type: integer
+                        example: 1
+                        xml:
+                          name: nodes-count
+                      uso_nodes:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/UnifiedIDNode'
+                        xml:
+                          name: uso-nodes
+                          wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      nodes_count:
+                        type: integer
+                        example: 1
+                        xml:
+                          name: nodes-count
+                      uso_nodes:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/UnifiedIDNode'
+                        xml:
+                          name: uso-nodes
+                          wrapped: true
+      summary: Show nodes
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/unified_identity/nodes/{id}.json:
+    get:
+      tags:
+      - Unified Identity
+      description: Retrieves details of a specific node. To be run from either active or standby node.
+      operationId: show_one_node
+      parameters:
+      - in: path
+        name: id
+        description: The ID of the server to retrieve details for.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      uso_node:
+                        $ref: '#/components/schemas/UnifiedIDNode'
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      uso_node:
+                        $ref: '#/components/schemas/UnifiedIDNode'
+      summary: Show one node
+      x-summary-source: derived
+    delete:
+      tags:
+      - Unified Identity
+      description: Removes a standby node which is pending registration. to be run from active node.
+      operationId: remove_unified_id_standby_node
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The domain name of the standby node to remove.
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Successfully removed the requested Standby Node.
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Successfully removed the requested Standby Node.
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force:
+                  type: string
+                  description: force the removal of standby instance in 'unavailable' state.
+                  enum:
+                  - 'YES'
+                  - 'NO'
+      summary: Remove unified id standby node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/unified_identity/show_credentials.json:
+    get:
+      tags:
+      - Unified Identity
+      description: Shows unified identity credentials of node.
+      operationId: show_credentials
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                      credentials:
+                        type: object
+                        properties:
+                          server_id:
+                            type: integer
+                            example: 1
+                            xml:
+                              name: server-id
+                          domain:
+                            type: string
+                            example: vsa-000000fe-zadara-qa17.zadarazios.com
+                          access:
+                            type: string
+                            example: access_key
+                          secret:
+                            type: string
+                            example: secret_key
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                      credentials:
+                        type: object
+                        properties:
+                          server_id:
+                            type: integer
+                            example: 1
+                            xml:
+                              name: server-id
+                          domain:
+                            type: string
+                            example: vsa-000000fe-zadara-qa17.zadarazios.com
+                          access:
+                            type: string
+                            example: access_key
+                          secret:
+                            type: string
+                            example: secret_key
+                    xml:
+                      name: response
+      summary: Show credentials
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/unified_identity/identity_witness_server.json:
+    post:
+      tags:
+      - Unified Identity
+      description: Sets the Identity-witness server required for unified identity.
+      operationId: set_identity_witness_server
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: An error occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Successfully set the provided host '172.16.4.122' as Identity-Witness server.
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: An error occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Successfully set the provided host '172.16.4.122' as Identity-Witness server.
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - identity_witness_host
+              properties:
+                identity_witness_host:
+                  type: string
+                  description: The IP/DNS address of Identity-witness server.
+                  example: server.example.com
+        description: Parameters for setting Identity-witness server.
+        required: true
+      summary: Set identity witness server
+      x-summary-source: derived
+    delete:
+      tags:
+      - Unified Identity
+      description: Removes the set Identity-witness server.
+      operationId: remove_identity_witness_server
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: An error occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Successfully removed the current USO Identity-Witness host '172.16.4.122'
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: An error occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Successfully removed the current USO Identity-Witness host '172.16.4.122'
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: response
+      summary: Remove identity witness server
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    UnifiedIDNode:
+      type: object
+      properties:
+        server_id:
+          type: integer
+          example: 1
+          xml:
+            name: server-id
+        vsa_id:
+          type: integer
+          example: 204
+          xml:
+            name: vsa-id
+        hostname:
+          type: string
+          example: vsa-000000cc-zadara-qa17.zadarazios.com
+        role:
+          type: string
+          enum:
+          - active
+          - standby
+          example: active
+        state:
+          type: string
+          enum:
+          - normal
+          - pending_registration
+          - restore
+          - stopped
+          - degraded
+          - failed
+          example: normal
+        gtid_executed:
+          type: string
+          example: d54f1f04-2a54-11f0-8cca-aaaa2222220a:597
+          xml:
+            name: gtid-executed
+        version:
+          type: string
+          example: 25.07-104
+      xml:
+        name: uso-node
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-object-storage-25.07.yml
+- zadara-object-storage-openapi.yml

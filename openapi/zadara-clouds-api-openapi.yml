@@ -1,0 +1,1274 @@
+openapi: 3.2.0
+info:
+  title: Zadara Clouds API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Clouds across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Clouds
+  description: Operations involving Clouds.
+paths:
+  /clouds.json:
+    get:
+      tags:
+      - Clouds
+      description: Returns a list of all Zadara Storage Clouds which are managed by this Command Center.
+      operationId: get_all_clouds
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  clouds:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: cloud1
+                        resources:
+                          type: object
+                          properties:
+                            used_memory:
+                              type: integer
+                              xml:
+                                name: used-memory
+                            total_memory:
+                              type: integer
+                              xml:
+                                name: total-memory
+                            used_vcpus:
+                              type: integer
+                              xml:
+                                name: used-vcpus
+                            total_vcpus:
+                              type: integer
+                              xml:
+                                name: total-vcpus
+                            used_drives:
+                              type: integer
+                              xml:
+                                name: used-drives
+                            total_drives:
+                              type: integer
+                              xml:
+                                name: total-drives
+                            used_capacity:
+                              type: integer
+                              xml:
+                                name: used-capacity
+                            total_capacity:
+                              type: integer
+                              xml:
+                                name: total-capacity
+                            used_cache:
+                              type: integer
+                              xml:
+                                name: used-cache
+                            total_cache:
+                              type: integer
+                              xml:
+                                name: total-cache
+                        inventory:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                example: SAS 136GB 15000RPM
+                              used:
+                                type: integer
+                              total:
+                                type: integer
+                            xml:
+                              name: inventory
+                          xml:
+                            wrapped: true
+                        networking:
+                          type: object
+                          properties:
+                            be_allocated_count:
+                              type: integer
+                              xml:
+                                name: be-allocated-count
+                            be_range_end:
+                              type: string
+                              example: 170.70.3.255
+                              xml:
+                                name: be-range-end
+                            be_range_start:
+                              type: string
+                              example: 170.70.3.0
+                              xml:
+                                name: be-range-start
+                            be_total_count:
+                              type: integer
+                              xml:
+                                name: be-total-count
+                            cloud_id:
+                              type: integer
+                              xml:
+                                name: cloud-id
+                            fe_allocated_count:
+                              type: integer
+                              xml:
+                                name: fe-allocated-count
+                            fe_range_end:
+                              type: string
+                              example: 170.70.2.255
+                              xml:
+                                name: fe-range-end
+                            fe_range_start:
+                              type: string
+                              example: 170.70.2.0
+                              xml:
+                                name: fe-range-start
+                            fe_total_count:
+                              type: integer
+                              xml:
+                                name: fe-total-count
+                            hb_allocated_count:
+                              type: integer
+                              xml:
+                                name: hb-allocated-count
+                            hb_range_end:
+                              type: string
+                              example: 170.70.0.255
+                              xml:
+                                name: hb-range-end
+                            hb_range_start:
+                              type: string
+                              example: 170.70.0.0
+                              xml:
+                                name: hb-range-start
+                            hb_total_count:
+                              type: integer
+                              xml:
+                                name: hb-total-count
+                            id:
+                              type: integer
+                      xml:
+                        name: cloud
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  clouds:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: cloud1
+                        resources:
+                          type: object
+                          properties:
+                            used_memory:
+                              type: integer
+                              xml:
+                                name: used-memory
+                            total_memory:
+                              type: integer
+                              xml:
+                                name: total-memory
+                            used_vcpus:
+                              type: integer
+                              xml:
+                                name: used-vcpus
+                            total_vcpus:
+                              type: integer
+                              xml:
+                                name: total-vcpus
+                            used_drives:
+                              type: integer
+                              xml:
+                                name: used-drives
+                            total_drives:
+                              type: integer
+                              xml:
+                                name: total-drives
+                            used_capacity:
+                              type: integer
+                              xml:
+                                name: used-capacity
+                            total_capacity:
+                              type: integer
+                              xml:
+                                name: total-capacity
+                            used_cache:
+                              type: integer
+                              xml:
+                                name: used-cache
+                            total_cache:
+                              type: integer
+                              xml:
+                                name: total-cache
+                        inventory:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                example: SAS 136GB 15000RPM
+                              used:
+                                type: integer
+                              total:
+                                type: integer
+                            xml:
+                              name: inventory
+                          xml:
+                            wrapped: true
+                        networking:
+                          type: object
+                          properties:
+                            be_allocated_count:
+                              type: integer
+                              xml:
+                                name: be-allocated-count
+                            be_range_end:
+                              type: string
+                              example: 170.70.3.255
+                              xml:
+                                name: be-range-end
+                            be_range_start:
+                              type: string
+                              example: 170.70.3.0
+                              xml:
+                                name: be-range-start
+                            be_total_count:
+                              type: integer
+                              xml:
+                                name: be-total-count
+                            cloud_id:
+                              type: integer
+                              xml:
+                                name: cloud-id
+                            fe_allocated_count:
+                              type: integer
+                              xml:
+                                name: fe-allocated-count
+                            fe_range_end:
+                              type: string
+                              example: 170.70.2.255
+                              xml:
+                                name: fe-range-end
+                            fe_range_start:
+                              type: string
+                              example: 170.70.2.0
+                              xml:
+                                name: fe-range-start
+                            fe_total_count:
+                              type: integer
+                              xml:
+                                name: fe-total-count
+                            hb_allocated_count:
+                              type: integer
+                              xml:
+                                name: hb-allocated-count
+                            hb_range_end:
+                              type: string
+                              example: 170.70.0.255
+                              xml:
+                                name: hb-range-end
+                            hb_range_start:
+                              type: string
+                              example: 170.70.0.0
+                              xml:
+                                name: hb-range-start
+                            hb_total_count:
+                              type: integer
+                              xml:
+                                name: hb-total-count
+                            id:
+                              type: integer
+                      xml:
+                        name: cloud
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get all clouds
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{name}.json:
+    get:
+      tags:
+      - Clouds
+      description: Returns the details for a single Zadara Storage Cloud.
+      operationId: get_cloud
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cloud:
+                    type: object
+                    properties:
+                      resources:
+                        type: object
+                        properties:
+                          used_memory:
+                            type: integer
+                            xml:
+                              name: used-memory
+                          total_memory:
+                            type: integer
+                            xml:
+                              name: total-memory
+                          used_vcpus:
+                            type: integer
+                            xml:
+                              name: used-vcpus
+                          total_vcpus:
+                            type: integer
+                            xml:
+                              name: total-vcpus
+                          used_drives:
+                            type: integer
+                            xml:
+                              name: used-drives
+                          total_drives:
+                            type: integer
+                            xml:
+                              name: total-drives
+                          used_capacity:
+                            type: integer
+                            xml:
+                              name: used-capacity
+                          total_capacity:
+                            type: integer
+                            xml:
+                              name: total-capacity
+                          used_cache:
+                            type: integer
+                            xml:
+                              name: used-cache
+                          total_cache:
+                            type: integer
+                            xml:
+                              name: total-cache
+                      inventory:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: SAS 136GB 15000RPM
+                            used:
+                              type: integer
+                            total:
+                              type: integer
+                          xml:
+                            name: inventory
+                        xml:
+                          wrapped: true
+                      networking:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          cloud_id:
+                            type: integer
+                            xml:
+                              name: cloud-id
+                          fe_range_start:
+                            type: string
+                            example: 10.2.31.21
+                            xml:
+                              name: fe-range-start
+                          fe_range_end:
+                            type: string
+                            example: 10.2.31.199
+                            xml:
+                              name: fe-range-end
+                          fe_total_count:
+                            type: integer
+                            xml:
+                              name: fe-total-count
+                          be_range_start:
+                            type: string
+                            example: 10.3.31.21
+                            xml:
+                              name: be-range-start
+                          be_range_end:
+                            type: string
+                            example: 10.3.31.254
+                            xml:
+                              name: be-range-end
+                          be_total_count:
+                            type: integer
+                            xml:
+                              name: be-total-count
+                          hb_range_start:
+                            type: string
+                            example: 10.0.31.21
+                            xml:
+                              name: hb-range-start
+                          hb_range_end:
+                            type: string
+                            example: 10.0.31.254
+                            xml:
+                              name: hb-range-end
+                          hb_total_count:
+                            type: integer
+                            xml:
+                              name: hb-total-count
+                          fe_allocated_count:
+                            type: integer
+                            xml:
+                              name: fe-allocated-count
+                          be_allocated_count:
+                            type: integer
+                            xml:
+                              name: be-allocated-count
+                          hb_allocated_count:
+                            type: integer
+                            xml:
+                              name: hb-allocated-count
+                          public_ips_total_count:
+                            type: integer
+                            xml:
+                              name: public-ips-total-count
+                          public_ips_allocated_count:
+                            type: integer
+                            xml:
+                              name: public-ips-allocated-count
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cloud:
+                    type: object
+                    properties:
+                      resources:
+                        type: object
+                        properties:
+                          used_memory:
+                            type: integer
+                            xml:
+                              name: used-memory
+                          total_memory:
+                            type: integer
+                            xml:
+                              name: total-memory
+                          used_vcpus:
+                            type: integer
+                            xml:
+                              name: used-vcpus
+                          total_vcpus:
+                            type: integer
+                            xml:
+                              name: total-vcpus
+                          used_drives:
+                            type: integer
+                            xml:
+                              name: used-drives
+                          total_drives:
+                            type: integer
+                            xml:
+                              name: total-drives
+                          used_capacity:
+                            type: integer
+                            xml:
+                              name: used-capacity
+                          total_capacity:
+                            type: integer
+                            xml:
+                              name: total-capacity
+                          used_cache:
+                            type: integer
+                            xml:
+                              name: used-cache
+                          total_cache:
+                            type: integer
+                            xml:
+                              name: total-cache
+                      inventory:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: SAS 136GB 15000RPM
+                            used:
+                              type: integer
+                            total:
+                              type: integer
+                          xml:
+                            name: inventory
+                        xml:
+                          wrapped: true
+                      networking:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          cloud_id:
+                            type: integer
+                            xml:
+                              name: cloud-id
+                          fe_range_start:
+                            type: string
+                            example: 10.2.31.21
+                            xml:
+                              name: fe-range-start
+                          fe_range_end:
+                            type: string
+                            example: 10.2.31.199
+                            xml:
+                              name: fe-range-end
+                          fe_total_count:
+                            type: integer
+                            xml:
+                              name: fe-total-count
+                          be_range_start:
+                            type: string
+                            example: 10.3.31.21
+                            xml:
+                              name: be-range-start
+                          be_range_end:
+                            type: string
+                            example: 10.3.31.254
+                            xml:
+                              name: be-range-end
+                          be_total_count:
+                            type: integer
+                            xml:
+                              name: be-total-count
+                          hb_range_start:
+                            type: string
+                            example: 10.0.31.21
+                            xml:
+                              name: hb-range-start
+                          hb_range_end:
+                            type: string
+                            example: 10.0.31.254
+                            xml:
+                              name: hb-range-end
+                          hb_total_count:
+                            type: integer
+                            xml:
+                              name: hb-total-count
+                          fe_allocated_count:
+                            type: integer
+                            xml:
+                              name: fe-allocated-count
+                          be_allocated_count:
+                            type: integer
+                            xml:
+                              name: be-allocated-count
+                          hb_allocated_count:
+                            type: integer
+                            xml:
+                              name: hb-allocated-count
+                          public_ips_total_count:
+                            type: integer
+                            xml:
+                              name: public-ips-total-count
+                          public_ips_allocated_count:
+                            type: integer
+                            xml:
+                              name: public-ips-allocated-count
+      summary: Get cloud
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{name}/public_ips.json:
+    get:
+      tags:
+      - Clouds
+      description: Returns a list of all of the cloud public IP's
+      operationId: list_cloud_public_ips
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: status
+        required: true
+        description: Show only assigned or free ip's
+        schema:
+          type: string
+          enum:
+          - assigned
+          - free
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  public_ips:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        cloud_id:
+                          type: integer
+                          xml:
+                            name: cloud-id
+                        vpsa_id:
+                          type: integer
+                          xml:
+                            name: vpsa-id
+                        public_address:
+                          type: string
+                          example: 192.168.10.42
+                          xml:
+                            name: public-address
+                        vlan:
+                          type: integer
+                        label:
+                          type: string
+                          example: e_pub_192_168_10_0
+                        netmask:
+                          type: string
+                          example: 255.255.255.0
+                        address:
+                          type: string
+                          example: 192.168.10.42
+                        internal_id:
+                          type: integer
+                          xml:
+                            name: internal-id
+                        network_label:
+                          type: string
+                          example: FE_MGMT_FEBOND_2
+                          xml:
+                            name: network-label
+                        gateway:
+                          type: string
+                          example: 192.168.10.1
+                        created_at:
+                          type: string
+                          format: date_time
+                          example: '2017-01-04T12:23:02+02:00'
+                          xml:
+                            name: created-at
+                        updated_at:
+                          type: string
+                          format: date_time
+                          example: '2017-01-04T12:23:02+02:00'
+                          xml:
+                            name: updated-at
+                      xml:
+                        name: public-ip
+                    xml:
+                      name: public-ips
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  public_ips:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        cloud_id:
+                          type: integer
+                          xml:
+                            name: cloud-id
+                        vpsa_id:
+                          type: integer
+                          xml:
+                            name: vpsa-id
+                        public_address:
+                          type: string
+                          example: 192.168.10.42
+                          xml:
+                            name: public-address
+                        vlan:
+                          type: integer
+                        label:
+                          type: string
+                          example: e_pub_192_168_10_0
+                        netmask:
+                          type: string
+                          example: 255.255.255.0
+                        address:
+                          type: string
+                          example: 192.168.10.42
+                        internal_id:
+                          type: integer
+                          xml:
+                            name: internal-id
+                        network_label:
+                          type: string
+                          example: FE_MGMT_FEBOND_2
+                          xml:
+                            name: network-label
+                        gateway:
+                          type: string
+                          example: 192.168.10.1
+                        created_at:
+                          type: string
+                          format: date_time
+                          example: '2017-01-04T12:23:02+02:00'
+                          xml:
+                            name: created-at
+                        updated_at:
+                          type: string
+                          format: date_time
+                          example: '2017-01-04T12:23:02+02:00'
+                          xml:
+                            name: updated-at
+                      xml:
+                        name: public-ip
+                    xml:
+                      name: public-ips
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: List cloud public ips
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/zsnap.json:
+    post:
+      tags:
+      - Clouds
+      description: Creates a Zsnap for the Command Center's Virtual Machine.
+      operationId: create_cloud_vms_zsnap
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prefix:
+                  type: string
+                  example: myzsnap
+        required: true
+      summary: Create cloud vms zsnap
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/upgrade.json:
+    post:
+      tags:
+      - Clouds
+      description: Upgrade a Cloud.
+      operationId: upgrade_cloud
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - package
+              properties:
+                package:
+                  type: string
+                  example: 14.07.100
+                components:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - vpsas
+                  - ccvm
+                  description: Upgrade only the specified component types. sns - upgrade all Storage Nodes. vpsas - upgrade all VPSA. ccvm - upgrade the CCVM
+        required: true
+      summary: Upgrade cloud
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/shutdown.json:
+    post:
+      tags:
+      - Clouds
+      description: Shutdown a Cloud.
+      operationId: shutdown_cloud
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Shutdown cloud
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/rename.json:
+    post:
+      tags:
+      - Clouds
+      description: Rename a Cloud.
+      operationId: rename_cloud
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                package:
+                  type: string
+                settings_file:
+                  type: string
+                  description: Settings file
+                  format: binary
+      summary: Rename cloud
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/set_cube.json:
+    post:
+      tags:
+      - Clouds
+      description: Set cube package from the local repository.
+      operationId: set_cube_from_local_repo
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: cube package change sent
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: cube package change sent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - package
+              properties:
+                package:
+                  type: string
+                  example: 14.07.100
+        required: true
+      summary: Set cube from local repo
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsa_zone_group_storage_policy_types.json:
+    get:
+      tags:
+      - Clouds
+      description: Get cloud's zios storage policy types.
+      operationId: get_redundancy_level_policies
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsa_zone_group_storage_policy_types:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                          example: 3 way
+                        internal_name:
+                          type: string
+                          example: 3_way
+                          xml:
+                            name: internal-name
+                        data_fragments:
+                          type: integer
+                          example: 6
+                          xml:
+                            name: data-fragments
+                        parity_fragments:
+                          type: integer
+                          example: 8
+                          xml:
+                            name: parity-fragments
+                        replicas:
+                          type: integer
+                      xml:
+                        name: vpsa-zone-group-storage-policy-type
+                    xml:
+                      name: vpsa-zone-group-storage-policy-types
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsa_zone_group_storage_policy_types:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                          example: 3 way
+                        internal_name:
+                          type: string
+                          example: 3_way
+                          xml:
+                            name: internal-name
+                        data_fragments:
+                          type: integer
+                          example: 6
+                          xml:
+                            name: data-fragments
+                        parity_fragments:
+                          type: integer
+                          example: 8
+                          xml:
+                            name: parity-fragments
+                        replicas:
+                          type: integer
+                      xml:
+                        name: vpsa-zone-group-storage-policy-type
+                    xml:
+                      name: vpsa-zone-group-storage-policy-types
+                      wrapped: true
+      summary: Get redundancy level policies
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

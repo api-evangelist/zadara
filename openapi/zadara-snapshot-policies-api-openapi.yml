@@ -1,0 +1,1425 @@
+openapi: 3.2.0
+info:
+  title: Zadara Snapshot Policies API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Snapshot Policies across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Snapshot Policies
+  description: Operations for Snapshot Policies.
+paths:
+  /snapshot_policies.json:
+    get:
+      tags:
+      - Snapshot Policies
+      description: Return a list of Snapshot Policies.
+      operationId: get_all_snapshot_policies
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      snapshot_policies:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: policy-00000002
+                            display_name:
+                              type: string
+                              example: Hourly Snapshots for a Day
+                              xml:
+                                name: display-name
+                            create_policy:
+                              type: string
+                              example: 0 * * * *
+                              xml:
+                                name: create-policy
+                            delete_policy:
+                              type: string
+                              example: N24
+                              xml:
+                                name: delete-policy
+                            destination_delete_policy:
+                              type: string
+                              example: N24
+                              xml:
+                                name: destination-delete-policy
+                            paused:
+                              type: string
+                              example: 'NO'
+                            create_empty:
+                              type: boolean
+                              xml:
+                                name: create-empty
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: snapshot-policy
+                        xml:
+                          name: snapshot-policies
+                          wrapped: true
+                    xml:
+                      name: show-snapshot-policies-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      snapshot_policies:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: policy-00000002
+                            display_name:
+                              type: string
+                              example: Hourly Snapshots for a Day
+                              xml:
+                                name: display-name
+                            create_policy:
+                              type: string
+                              example: 0 * * * *
+                              xml:
+                                name: create-policy
+                            delete_policy:
+                              type: string
+                              example: N24
+                              xml:
+                                name: delete-policy
+                            destination_delete_policy:
+                              type: string
+                              example: N24
+                              xml:
+                                name: destination-delete-policy
+                            paused:
+                              type: string
+                              example: 'NO'
+                            create_empty:
+                              type: boolean
+                              xml:
+                                name: create-empty
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: snapshot-policy
+                        xml:
+                          name: snapshot-policies
+                          wrapped: true
+                    xml:
+                      name: show-snapshot-policies-response
+      summary: Get all snapshot policies
+      x-summary-source: derived
+    post:
+      tags:
+      - Snapshot Policies
+      description: Create a Snapshot Policy.
+      operationId: create_snapshot_policy
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_policy_name:
+                        type: string
+                        example: policy-00000005
+                        xml:
+                          name: snapshot-policy-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-snapshot-policy-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_policy_name:
+                        type: string
+                        example: policy-00000005
+                        xml:
+                          name: snapshot-policy-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-snapshot-policy-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - create_policy
+              - delete_policy
+              properties:
+                name:
+                  type: string
+                  description: Snapshot policy name
+                  example: my-policy
+                create_policy:
+                  type: string
+                  description: Define the minimal interval of snapshot creation. The format is similar to a cron job - Minute, Hour, Day of Month, Month, Day Of Week (Minute supports random value - D0)
+                  example: 5 * * * *
+                delete_policy:
+                  type: string
+                  description: minutes hours days or N number_of_snapshots_to_keep.
+                  example: N7
+                destination_policy:
+                  type: string
+                  description: Relevant only for Remote Mirroring where the remote Volume snapshot deletion policy is different than the source Volume. Set N number_of_snapshots_to_keep.
+                  example: N6
+                empty:
+                  type: string
+                  description: Allow empty creation snapshots (snapshot even when no data has changed)
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'NO'
+                attach:
+                  type: string
+                  description: Attach policy by default for new volumes
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'NO'
+        required: true
+      summary: Create snapshot policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /snapshot_policies/{id}.json:
+    get:
+      tags:
+      - Snapshot Policies
+      description: Show a Snapshot Policy.
+      operationId: get_snapshot_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^policy-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      snapshot_policy:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: policy-00000002
+                          display_name:
+                            type: string
+                            example: Hourly Snapshots for a Day
+                            xml:
+                              name: display-name
+                          create_policy:
+                            type: string
+                            example: 0 * * * *
+                            xml:
+                              name: create-policy
+                          delete_policy:
+                            type: string
+                            example: N24
+                            xml:
+                              name: delete-policy
+                          destination_delete_policy:
+                            type: string
+                            example: N24
+                            xml:
+                              name: destination-delete-policy
+                          paused:
+                            type: string
+                            example: 'NO'
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          create_empty:
+                            type: string
+                            xml:
+                              name: create-empty
+                          attach:
+                            type: string
+                          destination:
+                            type: string
+                        xml:
+                          name: snapshot-policy
+                    xml:
+                      name: show-one-snapshot-policy-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      snapshot_policy:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: policy-00000002
+                          display_name:
+                            type: string
+                            example: Hourly Snapshots for a Day
+                            xml:
+                              name: display-name
+                          create_policy:
+                            type: string
+                            example: 0 * * * *
+                            xml:
+                              name: create-policy
+                          delete_policy:
+                            type: string
+                            example: N24
+                            xml:
+                              name: delete-policy
+                          destination_delete_policy:
+                            type: string
+                            example: N24
+                            xml:
+                              name: destination-delete-policy
+                          paused:
+                            type: string
+                            example: 'NO'
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          create_empty:
+                            type: string
+                            xml:
+                              name: create-empty
+                          attach:
+                            type: string
+                          destination:
+                            type: string
+                        xml:
+                          name: snapshot-policy
+                    xml:
+                      name: show-one-snapshot-policy-response
+      summary: Get snapshot policy
+      x-summary-source: derived
+    delete:
+      tags:
+      - Snapshot Policies
+      description: Delete a Snapshot Policy. The policy must not be attached to any Volume
+      operationId: delete_snapshot_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_policy_name:
+                        type: string
+                        example: policy-00000005
+                        xml:
+                          name: snapshot-policy-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-snapshot-policy-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_policy_name:
+                        type: string
+                        example: policy-00000005
+                        xml:
+                          name: snapshot-policy-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-snapshot-policy-response
+      summary: Delete snapshot policy
+      x-summary-source: derived
+    put:
+      tags:
+      - Snapshot Policies
+      description: Update a Snapshot Policy creation and deletion rules. The update will apply to all Volumes to which this policy is applied
+      operationId: update_snapshot_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_policy_name:
+                        type: string
+                        example: policy-00000003
+                        xml:
+                          name: snapshot-policy-name
+                      status:
+                        type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_policy_name:
+                        type: string
+                        example: policy-00000003
+                        xml:
+                          name: snapshot-policy-name
+                      status:
+                        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - create_policy
+              - delete_policy
+              properties:
+                displayname:
+                  type: string
+                  description: Snapshot policy name
+                  example: my-policy
+                create_policy:
+                  type: string
+                  description: Define the minimal interval of snapshot creation. The format is similar to a cron job - Minute, Hour, Day of Month, Month, Day Of Week (Minute supports random value - D0)
+                  example: 5 * * * *
+                delete_policy:
+                  type: string
+                  description: minutes hours days or N number_of_snapshots_to_keep.
+                  example: N7
+                destination_policy:
+                  type: string
+                  description: Relevant only for Remote Mirroring where the remote Volume snapshot deletion policy is different than the source Volume. Set N number_of_snapshots_to_keep.
+                  example: N6
+                empty:
+                  type: string
+                  description: Allow empty creation snapshots (snapshot even when no data has changed)
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'NO'
+        required: true
+      summary: Update snapshot policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /snapshot_policies/{id}/rename.json:
+    post:
+      tags:
+      - Snapshot Policies
+      description: Rename a Snapshot Policy.
+      operationId: rename_snapshot_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^policy-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_policy_name:
+                        type: string
+                        example: policy-00000003
+                        xml:
+                          name: snapshot-policy-name
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-snapshot-policy-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_policy_name:
+                        type: string
+                        example: policy-00000003
+                        xml:
+                          name: snapshot-policy-name
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-snapshot-policy-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - new_name
+              properties:
+                new_name:
+                  type: string
+                  description: Snapshot policy new name
+                  example: my-policy
+        required: true
+      summary: Rename snapshot policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /snapshot_policies/{id}/volumes.json:
+    get:
+      tags:
+      - Snapshot Policies
+      description: Show Volumes using a Snapshot Policy.
+      operationId: show_vol_by_snapshot_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^policy-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      volumes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000001
+                            display_name:
+                              type: string
+                              example: test
+                              xml:
+                                name: display-name
+                            cg_display_name:
+                              type: string
+                              example: test
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: cg-name
+                            cg_user_created:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cg-user-created
+                            pool_display_name:
+                              type: string
+                              example: p1
+                              xml:
+                                name: pool-display-name
+                            pool_name:
+                              type: string
+                              example: pool-00000001
+                              xml:
+                                name: pool-name
+                            status:
+                              type: string
+                              example: Available
+                            virtual_capacity:
+                              type: integer
+                              xml:
+                                name: virtual-capacity
+                            server_name:
+                              type: string
+                              example: my_server
+                              xml:
+                                name: server-name
+                            data_type:
+                              type: string
+                              example: File-System
+                              xml:
+                                name: data-type
+                            thin:
+                              type: string
+                              example: 'NO'
+                            encryption:
+                              type: string
+                              example: 'NO'
+                            encryption_key_size:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-key-size
+                            allocated_capacity:
+                              type: number
+                              xml:
+                                name: allocated-capacity
+                            data_copies_capacity:
+                              type: number
+                              xml:
+                                name: data-copies-capacity
+                            access_type:
+                              type: string
+                              xml:
+                                name: access-type
+                            read_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: read-only
+                            nfs_export_path:
+                              type: string
+                              example: 150.50.2.133:/export/test
+                              xml:
+                                name: nfs-export-path
+                            smb_export_path:
+                              type: string
+                              example: \\150.50.2.133\test
+                              xml:
+                                name: smb-export-path
+                            mount_sync:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: mount-sync
+                            atime_update:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: atime-update
+                            ext_metering:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: ext-metering
+                            images_repo:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: images-repo
+                            nfs_root_squash:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: nfs-root-squash
+                            smb_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-only
+                            smb_guest:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-guest
+                            smb_windows_acl:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-windows-acl
+                            smb_map_archive:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-map-archive
+                            smb_file_create_mask:
+                              type: string
+                              example: '0744'
+                              xml:
+                                name: smb-file-create-mask
+                            smb_dir_create_mask:
+                              type: string
+                              example: '0755'
+                              xml:
+                                name: smb-dir-create-mask
+                            smb_aio_size:
+                              type: integer
+                              xml:
+                                name: smb-aio-size
+                            smb_browseable:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-browseable
+                            smb_hidden_files:
+                              type: string
+                              xml:
+                                name: smb-hidden-files
+                            smb_encryption_mode:
+                              type: string
+                              example: desired
+                              xml:
+                                name: smb-encryption-mode
+                            smb_hide_unreadable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unreadable
+                            smb_hide_unwriteable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unwriteable
+                            smb_hide_dot_files:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-dot-files
+                            smb_store_dos_attributes:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-store-dos-attributes
+                            capacity_history:
+                              type: integer
+                              xml:
+                                name: capacity-history
+                            alert_mode:
+                              type: integer
+                              xml:
+                                name: alert-mode
+                            uquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: uquota-state
+                            gquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: gquota-state
+                            pquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: pquota-state
+                            target:
+                              type: string
+                            lun:
+                              type: string
+                            cache:
+                              type: string
+                            tenant_id:
+                              type: integer
+                              xml:
+                                name: tenant-id
+                            has_mirror:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-mirror
+                            has_backup:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-backup
+                            has_snapshots:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: has-snapshots
+                            shadow_copy_enabled:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: shadow-copy-enabled
+                            is_shadow_copy_clone:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: is-shadow-copy-clone
+                            read_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-iops-limit
+                            read_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-mbps-limit
+                            write_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-iops-limit
+                            write_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-mbps-limit
+                            thresholds:
+                              type: string
+                            comment:
+                              type: string
+                              example: my_comment
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                            snapshots_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: snapshots-count
+                          xml:
+                            name: volume
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      volumes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000001
+                            display_name:
+                              type: string
+                              example: test
+                              xml:
+                                name: display-name
+                            cg_display_name:
+                              type: string
+                              example: test
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: cg-name
+                            cg_user_created:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cg-user-created
+                            pool_display_name:
+                              type: string
+                              example: p1
+                              xml:
+                                name: pool-display-name
+                            pool_name:
+                              type: string
+                              example: pool-00000001
+                              xml:
+                                name: pool-name
+                            status:
+                              type: string
+                              example: Available
+                            virtual_capacity:
+                              type: integer
+                              xml:
+                                name: virtual-capacity
+                            server_name:
+                              type: string
+                              example: my_server
+                              xml:
+                                name: server-name
+                            data_type:
+                              type: string
+                              example: File-System
+                              xml:
+                                name: data-type
+                            thin:
+                              type: string
+                              example: 'NO'
+                            encryption:
+                              type: string
+                              example: 'NO'
+                            encryption_key_size:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-key-size
+                            allocated_capacity:
+                              type: number
+                              xml:
+                                name: allocated-capacity
+                            data_copies_capacity:
+                              type: number
+                              xml:
+                                name: data-copies-capacity
+                            access_type:
+                              type: string
+                              xml:
+                                name: access-type
+                            read_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: read-only
+                            nfs_export_path:
+                              type: string
+                              example: 150.50.2.133:/export/test
+                              xml:
+                                name: nfs-export-path
+                            smb_export_path:
+                              type: string
+                              example: \\150.50.2.133\test
+                              xml:
+                                name: smb-export-path
+                            mount_sync:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: mount-sync
+                            atime_update:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: atime-update
+                            ext_metering:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: ext-metering
+                            images_repo:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: images-repo
+                            nfs_root_squash:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: nfs-root-squash
+                            smb_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-only
+                            smb_guest:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-guest
+                            smb_windows_acl:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-windows-acl
+                            smb_map_archive:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-map-archive
+                            smb_file_create_mask:
+                              type: string
+                              example: '0744'
+                              xml:
+                                name: smb-file-create-mask
+                            smb_dir_create_mask:
+                              type: string
+                              example: '0755'
+                              xml:
+                                name: smb-dir-create-mask
+                            smb_aio_size:
+                              type: integer
+                              xml:
+                                name: smb-aio-size
+                            smb_browseable:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-browseable
+                            smb_hidden_files:
+                              type: string
+                              xml:
+                                name: smb-hidden-files
+                            smb_encryption_mode:
+                              type: string
+                              example: desired
+                              xml:
+                                name: smb-encryption-mode
+                            smb_hide_unreadable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unreadable
+                            smb_hide_unwriteable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unwriteable
+                            smb_hide_dot_files:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-dot-files
+                            smb_store_dos_attributes:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-store-dos-attributes
+                            capacity_history:
+                              type: integer
+                              xml:
+                                name: capacity-history
+                            alert_mode:
+                              type: integer
+                              xml:
+                                name: alert-mode
+                            uquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: uquota-state
+                            gquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: gquota-state
+                            pquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: pquota-state
+                            target:
+                              type: string
+                            lun:
+                              type: string
+                            cache:
+                              type: string
+                            tenant_id:
+                              type: integer
+                              xml:
+                                name: tenant-id
+                            has_mirror:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-mirror
+                            has_backup:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-backup
+                            has_snapshots:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: has-snapshots
+                            shadow_copy_enabled:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: shadow-copy-enabled
+                            is_shadow_copy_clone:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: is-shadow-copy-clone
+                            read_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-iops-limit
+                            read_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-mbps-limit
+                            write_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-iops-limit
+                            write_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-mbps-limit
+                            thresholds:
+                              type: string
+                            comment:
+                              type: string
+                              example: my_comment
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                            snapshots_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: snapshots-count
+                          xml:
+                            name: volume
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+      summary: Show vol by snapshot policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

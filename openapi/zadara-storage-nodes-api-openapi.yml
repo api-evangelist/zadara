@@ -1,0 +1,1883 @@
+openapi: 3.2.0
+info:
+  title: Zadara Storage Nodes API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Storage Nodes across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Storage Nodes
+  description: Operations involving Storage Nodes.
+paths:
+  /clouds/{cloud_name}/nodes.json:
+    get:
+      tags:
+      - Storage Nodes
+      description: Returns a list of all Storage Nodes in a Zadara Storage Cloud.
+      operationId: get_all_storage_nodes
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  nodes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Node'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  nodes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Node'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get all storage nodes
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}.json:
+    get:
+      tags:
+      - Storage Nodes
+      description: Returns a single Storage Node.
+      operationId: get_storage_node
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  node:
+                    $ref: '#/components/schemas/Node'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  node:
+                    $ref: '#/components/schemas/Node'
+      summary: Get storage node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/drives.json:
+    get:
+      tags:
+      - Storage Nodes
+      description: Returns the details for a Storage Node's drives.
+      operationId: get_storage_node_drives
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drives:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        internal_name:
+                          type: string
+                          example: volume-00003e4c
+                          xml:
+                            name: internal-name
+                        node:
+                          type: string
+                          example: ubuntu_sata-51
+                        size:
+                          type: integer
+                        type:
+                          type: string
+                          example: SAS 136GB 15000RPM
+                        address:
+                          type: string
+                          example: 0:0:7 (Ad:En:Sl)
+                        product_id:
+                          type: string
+                          example: SEAGATE ST3300657SS-H
+                          xml:
+                            name: product-id
+                        status:
+                          type: string
+                          example: Available
+                      xml:
+                        name: drive
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drives:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        internal_name:
+                          type: string
+                          example: volume-00003e4c
+                          xml:
+                            name: internal-name
+                        node:
+                          type: string
+                          example: ubuntu_sata-51
+                        size:
+                          type: integer
+                        type:
+                          type: string
+                          example: SAS 136GB 15000RPM
+                        address:
+                          type: string
+                          example: 0:0:7 (Ad:En:Sl)
+                        product_id:
+                          type: string
+                          example: SEAGATE ST3300657SS-H
+                          xml:
+                            name: product-id
+                        status:
+                          type: string
+                          example: Available
+                      xml:
+                        name: drive
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get storage node drives
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/cache_partitions.json:
+    get:
+      tags:
+      - Storage Nodes
+      description: Returns the details for a Storage Node's cache partitions.
+      operationId: get_sn_cache_partitions_details
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cache_partitions:
+                    type: object
+                    properties:
+                      cache_partition:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: volume-0000000d
+                          drive:
+                            type: object
+                            properties:
+                              device_name:
+                                type: string
+                                example: /dev/sdl
+                                xml:
+                                  name: device-name
+                              url:
+                                type: string
+                                example: /clouds/openstack/vpsas/2
+                              name:
+                                type: string
+                                example: Udi1407
+                          size:
+                            type: integer
+                        xml:
+                          name: cache-partition
+                    xml:
+                      name: cache-partitions
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cache_partitions:
+                    type: object
+                    properties:
+                      cache_partition:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: volume-0000000d
+                          drive:
+                            type: object
+                            properties:
+                              device_name:
+                                type: string
+                                example: /dev/sdl
+                                xml:
+                                  name: device-name
+                              url:
+                                type: string
+                                example: /clouds/openstack/vpsas/2
+                              name:
+                                type: string
+                                example: Udi1407
+                          size:
+                            type: integer
+                        xml:
+                          name: cache-partition
+                    xml:
+                      name: cache-partitions
+                  count:
+                    type: integer
+      summary: Get sn cache partitions details
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/virtual_controllers.json:
+    get:
+      tags:
+      - Storage Nodes
+      description: Returns the details of the Virtual Controllers which are running inside a Storage Node's.
+      operationId: get_sn_vcs_details
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  virtual_controllers:
+                    type: object
+                    xml:
+                      name: virtual-controllers
+                    properties:
+                      virtual_controller:
+                        type: object
+                        xml:
+                          name: virtual-controller
+                        properties:
+                          name:
+                            type: string
+                            example: vc-0:a_final
+                          status:
+                            type: string
+                            example: Active
+                          protection:
+                            type: string
+                            example: Baby (V2)
+                          ofed_version:
+                            type: string
+                            example: 4.4-OFED.4.4.2.0.7.0.30+zadara06
+                            xml:
+                              name: ofed-version
+                          ofed_short_version:
+                            type: string
+                            example: '4.4'
+                            xml:
+                              name: ofed-short-version
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  virtual_controllers:
+                    type: object
+                    xml:
+                      name: virtual-controllers
+                    properties:
+                      virtual_controller:
+                        type: object
+                        xml:
+                          name: virtual-controller
+                        properties:
+                          name:
+                            type: string
+                            example: vc-0:a_final
+                          status:
+                            type: string
+                            example: Active
+                          protection:
+                            type: string
+                            example: Baby (V2)
+                          ofed_version:
+                            type: string
+                            example: 4.4-OFED.4.4.2.0.7.0.30+zadara06
+                            xml:
+                              name: ofed-version
+                          ofed_short_version:
+                            type: string
+                            example: '4.4'
+                            xml:
+                              name: ofed-short-version
+                  count:
+                    type: integer
+      summary: Get sn vcs details
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/evacuate_vcs.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Evacuate a Storage Node from all Virtual Controllers. The Virtual Controllers will be deleted and re_spawned on a different Storage Node.
+      operationId: evacoate_vc_from_sn
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force:
+                  type: boolean
+                  description: In case the Storage Node that hosts the VC is offline and marked for decommission, use the force flag to allow the VC relocation.
+                  example: true
+        required: true
+      summary: Evacoate vc from sn
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/evacuate_drives.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Evacuate a Storage Node from all allocated drives. Replacement drives for the affected VPSA will be allocated from other Storage Nodes
+      operationId: evacoated_drives_from_sn
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Evacoated drives from sn
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/failover.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Failover a Storage Node.
+      operationId: failover_storage_node
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Storage Node failover initiated.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Storage Node failover initiated.
+      summary: Failover storage node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/reboot.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Reboot a Storage Node.
+      operationId: reboot_storage_node
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force:
+                  type: boolean
+                  example: true
+                power_cycle:
+                  type: boolean
+                  example: true
+        required: true
+      summary: Reboot storage node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/shutdown.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Shutdown a Storage Node.
+      operationId: shutdown_storage_node
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force:
+                  type: boolean
+                  example: true
+        required: true
+      summary: Shutdown storage node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/zsnap.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Create a Storage Node Zsnap.
+      operationId: zsnap_storage_node
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - prefix
+              properties:
+                prefix:
+                  type: string
+                  example: zsnap1
+        required: true
+      summary: Zsnap storage node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/license.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Activate a license key for a Storage Node.
+      operationId: license_storage_node
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key
+              properties:
+                key:
+                  type: string
+                  example: 552AA-7AAAR-CVVVW-G3378-V776N
+        required: true
+      summary: License storage node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/refresh_license.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Refresh a Storage Node's license status.
+      operationId: refresh_sn_license_status
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Refresh sn license status
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/import_drives.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Import new drives for a Storage Node.
+      operationId: import_sn_new_drives
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Import sn new drives
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{id}/check_configuration.json:
+    get:
+      tags:
+      - Storage Nodes
+      description: Check the configuration for a Storage Node.
+      operationId: get_sn_conf
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  configuration:
+                    type: string
+                    example: (configuration data...)
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  configuration:
+                    type: string
+                    example: (configuration data...)
+      summary: Get sn conf
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{node_name}/install.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Install a Storage Node.
+      operationId: install_sn
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: node_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - package
+              properties:
+                package:
+                  type: string
+                  example: 14.07.100
+        required: true
+      summary: Install sn
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{node_name}/upgrade.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Upgrade a Storage Node.
+      operationId: upgrade_sn
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: node_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - package
+              properties:
+                package:
+                  type: string
+                  example: 14.07.100
+        required: true
+      summary: Upgrade sn
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{node_name}/upgrade_fw.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Upgrade a Storage Node MegaRaid/Drives firmware.
+      operationId: upgrade_sn_megaraid_and_drives_firmware
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: node_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - components
+              properties:
+                components:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - drive
+                    - fw
+                  example:
+                  - drive
+        required: true
+      summary: Upgrade sn megaraid and drives firmware
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{node_name}/get_scheduling_status.json:
+    get:
+      tags:
+      - Storage Nodes
+      description: Returns schedulable services status.
+      operationId: get_schedulable_services_status
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: node_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  services:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        service_name:
+                          type: string
+                          example: nova_volume
+                          xml:
+                            name: service-name
+                        created_at:
+                          type: string
+                          example: '2018-12-26 13:05:11'
+                          xml:
+                            name: created-at
+                        sched:
+                          type: string
+                          example: disabled
+                        updated_at:
+                          type: string
+                          example: '2019-01-08 16:05:34'
+                          xml:
+                            name: updated-at
+                        updated_sec_ago:
+                          type: integer
+                          xml:
+                            name: updated-sec-ago
+                      xml:
+                        name: service
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  services:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        service_name:
+                          type: string
+                          example: nova_volume
+                          xml:
+                            name: service-name
+                        created_at:
+                          type: string
+                          example: '2018-12-26 13:05:11'
+                          xml:
+                            name: created-at
+                        sched:
+                          type: string
+                          example: disabled
+                        updated_at:
+                          type: string
+                          example: '2019-01-08 16:05:34'
+                          xml:
+                            name: updated-at
+                        updated_sec_ago:
+                          type: integer
+                          xml:
+                            name: updated-sec-ago
+                      xml:
+                        name: service
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get schedulable services status
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/nodes/{node_name}/set_scheduling_status.json:
+    post:
+      tags:
+      - Storage Nodes
+      description: Enable/Disable node's drive/vc schedualing.
+      operationId: set_scheduling_status
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: node_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - service
+              - action
+              properties:
+                service:
+                  type: string
+                  example: drive
+                  enum:
+                  - drive
+                  - vc
+                action:
+                  type: string
+                  example: enable
+                  enum:
+                  - enable
+                  - disable
+        required: true
+      summary: Set scheduling status
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  parameters:
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+  schemas:
+    Node:
+      type: object
+      xml:
+        name: node
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          example: ubuntu_sata-51
+        status:
+          type: string
+          example: Normal
+        absent:
+          type: boolean
+        ofed_version:
+          type: string
+          example: 4.4-OFED.4.4.2.0.7.0.30+zadara06
+          xml:
+            name: ofed-version
+        ofed_short_version:
+          type: string
+          example: '4.4'
+          xml:
+            name: ofed-short-version
+        information:
+          type: object
+          properties:
+            bios_version:
+              type: string
+              example: 2.2.2
+              xml:
+                name: bios-version
+            system_manufacturer:
+              type: string
+              example: Dell Inc.
+              xml:
+                name: system-manufacturer
+            system_product_name:
+              type: string
+              example: PowerEdge R720xd
+              xml:
+                name: system-product-name
+            system_serial_number:
+              type: string
+              example: GG2J022
+              xml:
+                name: system-serial-number
+            baseboard_serial_number:
+              type: string
+              example: ..CN7016345D0021.
+              xml:
+                name: baseboard-serial-number
+            chassis_serial_number:
+              type: string
+              example: GG2J022
+              xml:
+                name: chassis-serial-number
+            mr_info:
+              type: object
+              properties:
+                adp_info:
+                  type: object
+                  properties:
+                    adp_no:
+                      type: string
+                      example: '0'
+                      xml:
+                        name: adp-no
+                    product_name:
+                      type: string
+                      example: PERC H710P Mini
+                      xml:
+                        name: product-name
+                    target_fw_ver:
+                      type: string
+                      example: None
+                      xml:
+                        name: target-fw-ver
+                    upgrade_recommended:
+                      type: string
+                      example: 'no'
+                      xml:
+                        name: upgrade-recommended
+                    cur_fw_ver:
+                      type: string
+                      example: 21.2.0-0007
+                      xml:
+                        name: cur-fw-ver
+                  xml:
+                    name: adp-info
+              xml:
+                name: mr-info
+            cpu_infos:
+              type: object
+              properties:
+                cpu_info:
+                  type: object
+                  properties:
+                    cpu_cores:
+                      type: string
+                      example: '6'
+                      xml:
+                        name: cpu-cores
+                    physical_id:
+                      type: string
+                      example: '0'
+                      xml:
+                        name: physical-id
+                    cpu_MHz:
+                      type: string
+                      example: '1199.863'
+                      xml:
+                        name: cpu-MHz
+                    model_name:
+                      type: string
+                      example: Intel(R) Xeon(R) CPU E5-2630 0  2.30GHz
+                      xml:
+                        name: model-name
+                    cache_size:
+                      type: string
+                      example: 15360 KB
+                      xml:
+                        name: cache-size
+                  xml:
+                    name: cpu-info
+              xml:
+                name: cpu-infos
+            uptime_since:
+              type: string
+              example: '2016-05-29 12:02:50'
+              xml:
+                name: uptime-since
+        nic_information:
+          type: array
+          items:
+            type: object
+            properties:
+              pci_address:
+                type: string
+                example: '0000:04:00.0'
+                xml:
+                  name: pci-address
+              general_info:
+                type: string
+                example: Mellanox Technologies MT27520 Family ConnectX-3 Pro
+                xml:
+                  name: general-info
+              interfaces:
+                type: string
+                example: eth10G1 f4:52:14:78:f3:b0, eth10G2 f4:52:14:78:f3:b1
+              roles:
+                type: string
+                example: BE, FE
+              firmware:
+                type: string
+                example: 2.33.8000
+              speed:
+                type: string
+                example: 40000 Mb/s
+              product_name:
+                type: string
+                example: CX314A - ConnectX-3 Pro QSFP
+                xml:
+                  name: product-name
+              part_number:
+                type: string
+                example: MCX314A-BCCT
+                xml:
+                  name: part-number
+            xml:
+              name: nic-information
+          xml:
+            name: nic-information
+            wrapped: true
+        services:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: zadara_sn
+              version:
+                type: string
+                example: 00.00-1400
+              status:
+                type: string
+                example: Online
+              status_badge_class:
+                type: string
+                example: label_success
+                xml:
+                  name: status-badge-class
+            xml:
+              name: service
+          xml:
+            wrapped: true
+        resources:
+          type: object
+          properties:
+            used_vcpus:
+              type: integer
+              xml:
+                name: used-vcpus
+            total_vcpus:
+              type: integer
+              xml:
+                name: total-vcpus
+            used_memory:
+              type: integer
+              xml:
+                name: used-memory
+            total_memory:
+              type: integer
+              xml:
+                name: total-memory
+        drives:
+          type: array
+          items:
+            type: object
+            properties:
+              drive_type:
+                type: string
+                example: SAS 136GB 15000RPM
+                xml:
+                  name: drive-type
+              used:
+                type: integer
+              total:
+                type: integer
+              faulty:
+                type: integer
+            xml:
+              name: drive
+          xml:
+            wrapped: true
+        fault_domain:
+          type: string
+          example: FD_2
+          xml:
+            name: fault-domain
+        master:
+          type: boolean
+        slave:
+          type: boolean
+        faulty_services:
+          type: array
+          items:
+            type: string
+            xml:
+              name: faulty-service
+          xml:
+            name: faulty-services
+            wrapped: true
+        config_role:
+          type: string
+          example: ccmaster
+          xml:
+            name: config-role
+        macs:
+          type: object
+          properties:
+            febond:
+              type: string
+            extmgmt:
+              type: string
+            bebond:
+              type: string
+            novabridge:
+              type: string
+        ips:
+          type: object
+          properties:
+            fe_ip:
+              type: string
+              xml:
+                name: fe-ip
+            be_ip:
+              type: string
+              xml:
+                name: be-ip
+            heartbeat_ip:
+              type: string
+              xml:
+                name: heartbeat-ip
+            extmgmt_ip:
+              type: string
+              xml:
+                name: extmgmt-ip
+            ipmi_ip:
+              type: string
+              xml:
+                name: ipmi-ip
+        virtual_controllers:
+          type: integer
+          xml:
+            name: virtual-controllers
+        license:
+          type: object
+          properties:
+            key:
+              type: string
+              example: '...'
+            active:
+              type: boolean
+            temporary:
+              type: boolean
+            disabled:
+              type: boolean
+            licensed_drives:
+              type: string
+              xml:
+                name: licensed-drives
+            total_drives:
+              type: integer
+              xml:
+                name: total-drives
+            expires:
+              type: string
+            first_activated:
+              type: string
+              example: '2014-06-10'
+              xml:
+                name: first-activated
+            last_activated:
+              type: string
+              example: '2014-06-25'
+              xml:
+                name: last-activated
+            next_activation:
+              type: string
+              example: '2014-06-26'
+              xml:
+                name: next-activation
+            message:
+              type: string
+            status:
+              type: string
+              example: Active
+            badge_class:
+              type: string
+              example: success
+              xml:
+                name: badge-class
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

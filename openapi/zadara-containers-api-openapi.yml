@@ -1,0 +1,2262 @@
+openapi: 3.2.0
+info:
+  title: Zadara Containers API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Containers across 4 of this provider''s published API definitions: zadara-object-storage-25.07.yml, zadara-vpsa-25.07.yml, zadara-object-storage-openapi.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Containers
+  description: Operations for Containers
+paths:
+  /zios/accounts/{account_id}/containers/{container_name}/quota.json:
+    get:
+      tags:
+      - Containers
+      description: Get the container's quota settings
+      operationId: get_container_quota_settings
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: container_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      quota_enabled_containers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            container_name:
+                              type: string
+                              example: cont1
+                              xml:
+                                name: container-name
+                            total_bytes:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: total-bytes
+                            quota_bytes:
+                              type: string
+                              example: '1'
+                              xml:
+                                name: quota-bytes
+                            warning_threshold:
+                              type: string
+                              example: '75'
+                              xml:
+                                name: warning-threshold
+                            emergency_threshold:
+                              type: string
+                              example: '90'
+                              xml:
+                                name: emergency-threshold
+                            notify_account_admin:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: notify-account-admin
+                          xml:
+                            name: quota-enabled-container
+                        xml:
+                          name: quota-enabled-containers
+                          wrapped: true
+                    xml:
+                      name: get-container-quota-settings-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      quota_enabled_containers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            container_name:
+                              type: string
+                              example: cont1
+                              xml:
+                                name: container-name
+                            total_bytes:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: total-bytes
+                            quota_bytes:
+                              type: string
+                              example: '1'
+                              xml:
+                                name: quota-bytes
+                            warning_threshold:
+                              type: string
+                              example: '75'
+                              xml:
+                                name: warning-threshold
+                            emergency_threshold:
+                              type: string
+                              example: '90'
+                              xml:
+                                name: emergency-threshold
+                            notify_account_admin:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: notify-account-admin
+                          xml:
+                            name: quota-enabled-container
+                        xml:
+                          name: quota-enabled-containers
+                          wrapped: true
+                    xml:
+                      name: get-container-quota-settings-response
+      summary: Get container quota settings
+      x-summary-source: derived
+    post:
+      tags:
+      - Containers
+      description: Set the container's quota settings
+      operationId: set_container_quota_settings
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: container_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: set-container-quota-settings-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: set-container-quota-settings-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - container_quota_bytes_toggle
+              properties:
+                container_quota_bytes_toggle:
+                  type: boolean
+                  description: Enable capacity quota
+                  example: true
+                container_quota_bytes_in_gib:
+                  type: integer
+                  description: Quota by capacity (in GiB)
+                  example: 1
+        required: true
+      summary: Set container quota settings
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/{account_id}/containers/{container_name}/flush_logs.json:
+    post:
+      tags:
+      - Containers
+      description: Flush the container logs
+      operationId: flush_container_logs
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: container_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: flush_logs-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: flush_logs-response
+      summary: Flush container logs
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /containers.json:
+    get:
+      tags:
+      - Containers
+      description: Returns a list of all containers.
+      operationId: get_all_zcs_containers
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      containers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: container-00000001
+                            display_name:
+                              type: string
+                              example: n1
+                              xml:
+                                name: display-name
+                            image_name:
+                              type: string
+                              example: img-00000001
+                              xml:
+                                name: image-name
+                            image_display_name:
+                              type: string
+                              example: nginx
+                              xml:
+                                name: image-display-name
+                            image_id:
+                              type: integer
+                              xml:
+                                name: image-id
+                            memory_pool_name:
+                              type: string
+                              example: dgroup-00000001
+                              xml:
+                                name: memory-pool-name
+                            memory_pool_display_name:
+                              type: string
+                              example: default_dgroup
+                              xml:
+                                name: memory-pool-display-name
+                            status:
+                              type: string
+                              example: normal
+                            entrypoint:
+                              type: string
+                              example: None
+                            ip:
+                              type: string
+                              example: '...'
+                            udp:
+                              type: string
+                              example: 'True'
+                            use_public_ip:
+                              type: integer
+                              xml:
+                                name: use-public-ip
+                            docker_id:
+                              type: string
+                              example: b6466ad59d55e66b9313af29e7a62bd823ad7c283420b39e77a44e600d322d1c
+                              xml:
+                                name: docker-id
+                            play_mode:
+                              type: integer
+                              xml:
+                                name: play-mode
+                            server_id:
+                              type: integer
+                              xml:
+                                name: server-id
+                            exit_code:
+                              type: integer
+                              xml:
+                                name: exit-code
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                            started_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: started-at
+                            exit_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: exit-at
+                            ports:
+                              type: array
+                              items:
+                                type: string
+                                xml:
+                                  name: port
+                              xml:
+                                wrapped: true
+                            volumes:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  path:
+                                    type: string
+                                    example: '...'
+                                  access:
+                                    type: string
+                                    example: rw
+                                  display_name:
+                                    type: string
+                                    example: aaa
+                                    xml:
+                                      name: display-name
+                                  data_type:
+                                    type: string
+                                    example: File-System
+                                    xml:
+                                      name: data-type
+                                  name:
+                                    type: string
+                                    example: volume-00000002
+                                  is_block:
+                                    type: integer
+                                    xml:
+                                      name: is-block
+                                xml:
+                                  name: volume
+                              xml:
+                                wrapped: true
+                            envvars:
+                              type: array
+                              items:
+                                type: string
+                                xml:
+                                  name: envvar
+                              xml:
+                                wrapped: true
+                            args:
+                              type: array
+                              items:
+                                type: string
+                                xml:
+                                  name: arg
+                              xml:
+                                wrapped: true
+                          xml:
+                            name: container
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-containers-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      containers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: container-00000001
+                            display_name:
+                              type: string
+                              example: n1
+                              xml:
+                                name: display-name
+                            image_name:
+                              type: string
+                              example: img-00000001
+                              xml:
+                                name: image-name
+                            image_display_name:
+                              type: string
+                              example: nginx
+                              xml:
+                                name: image-display-name
+                            image_id:
+                              type: integer
+                              xml:
+                                name: image-id
+                            memory_pool_name:
+                              type: string
+                              example: dgroup-00000001
+                              xml:
+                                name: memory-pool-name
+                            memory_pool_display_name:
+                              type: string
+                              example: default_dgroup
+                              xml:
+                                name: memory-pool-display-name
+                            status:
+                              type: string
+                              example: normal
+                            entrypoint:
+                              type: string
+                              example: None
+                            ip:
+                              type: string
+                              example: '...'
+                            udp:
+                              type: string
+                              example: 'True'
+                            use_public_ip:
+                              type: integer
+                              xml:
+                                name: use-public-ip
+                            docker_id:
+                              type: string
+                              example: b6466ad59d55e66b9313af29e7a62bd823ad7c283420b39e77a44e600d322d1c
+                              xml:
+                                name: docker-id
+                            play_mode:
+                              type: integer
+                              xml:
+                                name: play-mode
+                            server_id:
+                              type: integer
+                              xml:
+                                name: server-id
+                            exit_code:
+                              type: integer
+                              xml:
+                                name: exit-code
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                            started_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: started-at
+                            exit_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: exit-at
+                            ports:
+                              type: array
+                              items:
+                                type: string
+                                xml:
+                                  name: port
+                              xml:
+                                wrapped: true
+                            volumes:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  path:
+                                    type: string
+                                    example: '...'
+                                  access:
+                                    type: string
+                                    example: rw
+                                  display_name:
+                                    type: string
+                                    example: aaa
+                                    xml:
+                                      name: display-name
+                                  data_type:
+                                    type: string
+                                    example: File-System
+                                    xml:
+                                      name: data-type
+                                  name:
+                                    type: string
+                                    example: volume-00000002
+                                  is_block:
+                                    type: integer
+                                    xml:
+                                      name: is-block
+                                xml:
+                                  name: volume
+                              xml:
+                                wrapped: true
+                            envvars:
+                              type: array
+                              items:
+                                type: string
+                                xml:
+                                  name: envvar
+                              xml:
+                                wrapped: true
+                            args:
+                              type: array
+                              items:
+                                type: string
+                                xml:
+                                  name: arg
+                              xml:
+                                wrapped: true
+                          xml:
+                            name: container
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-containers-response
+      summary: Get all zcs containers
+      x-summary-source: derived
+    post:
+      tags:
+      - Containers
+      description: Create a container.
+      operationId: create_zcs_container
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_name:
+                        type: string
+                        example: container-00000001
+                        xml:
+                          name: container-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-container-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_name:
+                        type: string
+                        example: container-00000001
+                        xml:
+                          name: container-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-container-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - imagename
+              - use_public_ip
+              properties:
+                name:
+                  type: string
+                  description: A text label to assign to the ZCS container.  For example 'web-01', 'database', etc.  May not contain a single quote (') character.  Required.
+                imagename:
+                  type: string
+                  pattern: ^img-[0-9a-f]{8}$
+                use_public_ip:
+                  type: string
+                  description: If set to 'YES', the ZCS container will listen on VPSA's public IP address (only valid on VPSAs with a public IP address).  If set to 'NO', the container will listen on the same private IP address that is used for addressing the storage.  Optional (set to 'NO' by default).
+                start:
+                  type: string
+                  description: If set to 'YES', the ZCS container will be started immediately after creation.  If 'NO', it will not be started. Required.
+                volumes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        pattern: ^volume-[0-9a-f]{8}$
+                        example: volume-00000001
+                      path:
+                        type: string
+                        example: /vol1
+                      access:
+                        type: string
+                        example: rw
+                  description: Volumes to attach to container (access_type:vol-name:path)
+                  example:
+                  - name: volume-00000001
+                    path: /vol1
+                    access: rw
+                  - name: volume-00000002
+                    path: /vol2
+                    access: r
+                ports:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      protocol:
+                        type: string
+                        example: tcp
+                      low:
+                        type: integer
+                        example: 22
+                      high:
+                        type: integer
+                        example: 35
+                      internal_low:
+                        type: integer
+                        example: 9999
+                  description: Exposed ports (optional)
+                  example:
+                  - protocol: tcp
+                    low: 22
+                    high: 35
+                    internal_low: 9999
+                  - protocol: udp
+                    low: 33
+                    high: 35
+                args:
+                  type: array
+                  items:
+                    type: string
+                  description: A Python list of Python dictionaries that contain arguments to pass to the ZCS container entry point program or script as defined by "entrypoint".  If passed as a string, a conversion to a Python list via json.loads will be attempted.  Every list item should be a dictionary that contains one key, "arg", whose value is the argument to pass to the ZCS container.  For example, if the entrypoint is "/usr/sbin/sshd" these arguments will be passed to sshd.  e.g. ' [{"arg":"-p 2222"},{"arg":"-f /etc/ssh/sshd_config"}]'
+                envvars:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      variable:
+                        type: string
+                        example: IP_ADDRESS
+                      value:
+                        type: string
+                        example: 172.20.125.100
+                  description: Environment variables
+                  example:
+                  - variable: IP_ADDRESS
+                    value: 172.20.125.100
+                  - variable: USERNAME
+                    value: zcs_container_01
+                  - variable: PASSWORD
+                    value: very_strong_password
+                entrypoint:
+                  type: string
+                  description: The full path to the program or script inside the ZCS container to run when the container starts.  For exmple "/usr/local/bin/entry.sh"
+                link:
+                  type: array
+                  items:
+                    type: string
+                  description: A Python list that contain container identifiers that will be linked to the new container An example would be '["container-00000001" , "container-00000002"]'
+                memorypoolname:
+                  type: string
+                  description: Container memory pool
+        required: true
+      summary: Create zcs container
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /containers/{id}.json:
+    get:
+      tags:
+      - Containers
+      description: Show one container details.
+      operationId: get_zcs_container
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^container-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  response:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      container:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: container-00000002
+                          display_name:
+                            type: string
+                            example: n1
+                            xml:
+                              name: display-name
+                          image_name:
+                            type: string
+                            example: img-00000001
+                            xml:
+                              name: image-name
+                          image_display_name:
+                            type: string
+                            example: nginx
+                            xml:
+                              name: image-display-name
+                          image_id:
+                            type: integer
+                            xml:
+                              name: image-id
+                          memory_pool_name:
+                            type: string
+                            example: dgroup-00000001
+                            xml:
+                              name: memory-pool-name
+                          memory_pool_display_name:
+                            type: string
+                            example: default_dgroup
+                            xml:
+                              name: memory-pool-display-name
+                          status:
+                            type: string
+                            example: normal
+                          entrypoint:
+                            type: string
+                            example: None
+                          ip:
+                            type: string
+                            example: '...'
+                          udp:
+                            type: string
+                            example: 'True'
+                          use_public_ip:
+                            type: integer
+                            xml:
+                              name: use-public-ip
+                          docker_id:
+                            type: string
+                            example: b6466ad59d55e66b9313af29e7a62bd823ad7c283420b39e77a44e600d322d1c
+                            xml:
+                              name: docker-id
+                          play_mode:
+                            type: integer
+                            xml:
+                              name: play-mode
+                          server_id:
+                            type: integer
+                            xml:
+                              name: server-id
+                          exit_code:
+                            type: integer
+                            xml:
+                              name: exit-code
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          started_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: started-at
+                          exit_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: exit-at
+                          ports:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: port
+                            xml:
+                              wrapped: true
+                          volumes:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                path:
+                                  type: string
+                                  example: '...'
+                                access:
+                                  type: string
+                                  example: rw
+                                display_name:
+                                  type: string
+                                  example: aaa
+                                  xml:
+                                    name: display-name
+                                data_type:
+                                  type: string
+                                  example: File-System
+                                  xml:
+                                    name: data-type
+                                name:
+                                  type: string
+                                  example: volume-00000002
+                                is_block:
+                                  type: integer
+                                  xml:
+                                    name: is-block
+                              xml:
+                                name: volume
+                            xml:
+                              wrapped: true
+                          envvars:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: envvar
+                            xml:
+                              wrapped: true
+                          args:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: arg
+                            xml:
+                              wrapped: true
+                          links:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: link
+                            xml:
+                              wrapped: true
+                          is_running:
+                            type: string
+                            xml:
+                              name: is-running
+                          should_run:
+                            type: string
+                            xml:
+                              name: should-run
+                          comment:
+                            type: string
+                          dgroup_name:
+                            type: string
+                            xml:
+                              name: dgroup-name
+                          dgroup_display_name:
+                            type: string
+                            xml:
+                              name: dgroup-display-name
+                    xml:
+                      name: show-one-container-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  response:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      container:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: container-00000002
+                          display_name:
+                            type: string
+                            example: n1
+                            xml:
+                              name: display-name
+                          image_name:
+                            type: string
+                            example: img-00000001
+                            xml:
+                              name: image-name
+                          image_display_name:
+                            type: string
+                            example: nginx
+                            xml:
+                              name: image-display-name
+                          image_id:
+                            type: integer
+                            xml:
+                              name: image-id
+                          memory_pool_name:
+                            type: string
+                            example: dgroup-00000001
+                            xml:
+                              name: memory-pool-name
+                          memory_pool_display_name:
+                            type: string
+                            example: default_dgroup
+                            xml:
+                              name: memory-pool-display-name
+                          status:
+                            type: string
+                            example: normal
+                          entrypoint:
+                            type: string
+                            example: None
+                          ip:
+                            type: string
+                            example: '...'
+                          udp:
+                            type: string
+                            example: 'True'
+                          use_public_ip:
+                            type: integer
+                            xml:
+                              name: use-public-ip
+                          docker_id:
+                            type: string
+                            example: b6466ad59d55e66b9313af29e7a62bd823ad7c283420b39e77a44e600d322d1c
+                            xml:
+                              name: docker-id
+                          play_mode:
+                            type: integer
+                            xml:
+                              name: play-mode
+                          server_id:
+                            type: integer
+                            xml:
+                              name: server-id
+                          exit_code:
+                            type: integer
+                            xml:
+                              name: exit-code
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          started_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: started-at
+                          exit_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: exit-at
+                          ports:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: port
+                            xml:
+                              wrapped: true
+                          volumes:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                path:
+                                  type: string
+                                  example: '...'
+                                access:
+                                  type: string
+                                  example: rw
+                                display_name:
+                                  type: string
+                                  example: aaa
+                                  xml:
+                                    name: display-name
+                                data_type:
+                                  type: string
+                                  example: File-System
+                                  xml:
+                                    name: data-type
+                                name:
+                                  type: string
+                                  example: volume-00000002
+                                is_block:
+                                  type: integer
+                                  xml:
+                                    name: is-block
+                              xml:
+                                name: volume
+                            xml:
+                              wrapped: true
+                          envvars:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: envvar
+                            xml:
+                              wrapped: true
+                          args:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: arg
+                            xml:
+                              wrapped: true
+                          links:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: link
+                            xml:
+                              wrapped: true
+                          is_running:
+                            type: string
+                            xml:
+                              name: is-running
+                          should_run:
+                            type: string
+                            xml:
+                              name: should-run
+                          comment:
+                            type: string
+                          dgroup_name:
+                            type: string
+                            xml:
+                              name: dgroup-name
+                          dgroup_display_name:
+                            type: string
+                            xml:
+                              name: dgroup-display-name
+                    xml:
+                      name: show-one-container-response
+      summary: Get zcs container
+      x-summary-source: derived
+    delete:
+      tags:
+      - Containers
+      description: Delete a container.
+      operationId: delete_zcs_container
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^container-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_name:
+                        type: string
+                        example: container-00000001
+                        xml:
+                          name: container-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-container-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_name:
+                        type: string
+                        example: container-00000001
+                        xml:
+                          name: container-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-container-response
+      summary: Delete zcs container
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /containers/{id}/start.json:
+    post:
+      tags:
+      - Containers
+      description: Start a container.
+      operationId: start_zcs_container
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^container-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_name:
+                        type: string
+                        example: container-00000001
+                        xml:
+                          name: container-name
+                      status:
+                        type: integer
+                    xml:
+                      name: start-container-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_name:
+                        type: string
+                        example: container-00000001
+                        xml:
+                          name: container-name
+                      status:
+                        type: integer
+                    xml:
+                      name: start-container-response
+      summary: Start zcs container
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /containers/{id}/stop.json:
+    post:
+      tags:
+      - Containers
+      description: Stop a container.
+      operationId: stop_zcs_container
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^container-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_name:
+                        type: string
+                        example: container-00000001
+                        xml:
+                          name: container-name
+                      status:
+                        type: integer
+                    xml:
+                      name: stop-container-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_name:
+                        type: string
+                        example: container-00000001
+                        xml:
+                          name: container-name
+                      status:
+                        type: integer
+                    xml:
+                      name: stop-container-response
+      summary: Stop zcs container
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /containers/{id}/performance.json:
+    get:
+      tags:
+      - Containers
+      description: Returns the last 60 data points of performance data for the specified interval.
+      operationId: get_container_performance
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - in: path
+        name: id
+        description: container id
+        required: true
+        schema:
+          type: string
+          pattern: ^container-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_name:
+                        type: string
+                        example: container-00000001
+                        xml:
+                          name: container-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            mem_used:
+                              type: number
+                              xml:
+                                name: mem-used
+                            time:
+                              type: string
+                              example: 2014-08-27T11:50:45+0300
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_container_perf-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_name:
+                        type: string
+                        example: container-00000001
+                        xml:
+                          name: container-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            mem_used:
+                              type: number
+                              xml:
+                                name: mem-used
+                            time:
+                              type: string
+                              example: 2014-08-27T11:50:45+0300
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_container_perf-response
+      summary: Get container performance
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /container_memory_pools.json:
+    get:
+      tags:
+      - Containers
+      description: Returns a list of all container memory pools.
+      operationId: get_all_memory_pools
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      container_memory_pools:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: dgroup-00000001
+                            display_name:
+                              type: string
+                              example: n1
+                              xml:
+                                name: display-name
+                            mb:
+                              type: string
+                              example: '333'
+                            containers:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  display_name:
+                                    type: string
+                                    example: aaa
+                                    xml:
+                                      name: display-name
+                                  name:
+                                    type: string
+                                    example: volume-00000002
+                                xml:
+                                  name: container
+                              xml:
+                                wrapped: true
+                          xml:
+                            name: container-memory-pool
+                        xml:
+                          name: container-memory-pools
+                          wrapped: true
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      container_memory_pools:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: dgroup-00000001
+                            display_name:
+                              type: string
+                              example: n1
+                              xml:
+                                name: display-name
+                            mb:
+                              type: string
+                              example: '333'
+                            containers:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  display_name:
+                                    type: string
+                                    example: aaa
+                                    xml:
+                                      name: display-name
+                                  name:
+                                    type: string
+                                    example: volume-00000002
+                                xml:
+                                  name: container
+                              xml:
+                                wrapped: true
+                          xml:
+                            name: container-memory-pool
+                        xml:
+                          name: container-memory-pools
+                          wrapped: true
+                    xml:
+                      name: response
+      summary: Get all memory pools
+      x-summary-source: derived
+    post:
+      tags:
+      - Containers
+      description: Create a container memory pool.
+      operationId: create_memory_pool
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_memory_pool_name:
+                        type: string
+                        example: dgroup-00000001
+                        xml:
+                          name: container-memory-pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_memory_pool_name:
+                        type: string
+                        example: dgroup-00000001
+                        xml:
+                          name: container-memory-pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - mb
+              properties:
+                name:
+                  type: string
+                  description: Display name
+                  example: cmpool1
+                mb:
+                  type: integer
+                  description: memory limit (MB)
+                  example: 1500
+        description: Display name and memory limit in MB
+        required: true
+      summary: Create memory pool
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /container_memory_pools/{id}.json:
+    get:
+      tags:
+      - Containers
+      description: Show one container memory pool details.
+      operationId: get_memory_pool
+      parameters:
+      - in: path
+        name: id
+        description: memory pool id
+        required: true
+        schema:
+          type: string
+          pattern: ^dgroup-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      container_memory_pool:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: dgroup-00000001
+                          display_name:
+                            type: string
+                            example: n1
+                            xml:
+                              name: display-name
+                          mb:
+                            type: string
+                            example: '333'
+                          containers:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                display_name:
+                                  type: string
+                                  example: aaa
+                                  xml:
+                                    name: display-name
+                                name:
+                                  type: string
+                                  example: volume-00000002
+                              xml:
+                                name: container
+                            xml:
+                              wrapped: true
+                        xml:
+                          name: container-memory-pool
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      container_memory_pool:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: dgroup-00000001
+                          display_name:
+                            type: string
+                            example: n1
+                            xml:
+                              name: display-name
+                          mb:
+                            type: string
+                            example: '333'
+                          containers:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                display_name:
+                                  type: string
+                                  example: aaa
+                                  xml:
+                                    name: display-name
+                                name:
+                                  type: string
+                                  example: volume-00000002
+                              xml:
+                                name: container
+                            xml:
+                              wrapped: true
+                        xml:
+                          name: container-memory-pool
+                    xml:
+                      name: response
+      summary: Get memory pool
+      x-summary-source: derived
+    delete:
+      tags:
+      - Containers
+      description: Delete a container memory pool.
+      operationId: delete_memory_pool
+      parameters:
+      - in: path
+        name: id
+        description: memory pool id
+        required: true
+        schema:
+          type: string
+          pattern: ^dgroup-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_memory_pool_name:
+                        type: string
+                        example: dgroup-00000001
+                        xml:
+                          name: container-memory-pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_memory_pool_name:
+                        type: string
+                        example: dgroup-00000001
+                        xml:
+                          name: container-memory-pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      summary: Delete memory pool
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /container_memory_pools/{id}/performance.json:
+    get:
+      tags:
+      - Containers
+      description: Returns the last 60 data points of performance data for the specified interval.
+      operationId: memory_pool_performence
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_memory_pool_name:
+                        type: string
+                        example: dgroup-00000001
+                        xml:
+                          name: container-memory-pool-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            mem_used:
+                              type: number
+                              xml:
+                                name: mem-used
+                            time:
+                              type: string
+                              example: 2014-08-27T11:50:45+0300
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      container_memory_pool_name:
+                        type: string
+                        example: dgroup-00000001
+                        xml:
+                          name: container-memory-pool-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            mem_used:
+                              type: number
+                              xml:
+                                name: mem-used
+                            time:
+                              type: string
+                              example: 2014-08-27T11:50:45+0300
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+      summary: Memory pool performence
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-object-storage-25.07.yml
+- zadara-vpsa-25.07.yml
+- zadara-object-storage-openapi.yml
+- zadara-vpsa-openapi.yml

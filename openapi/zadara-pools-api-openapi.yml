@@ -1,0 +1,4477 @@
+openapi: 3.2.0
+info:
+  title: Zadara Pools API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Pools across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Pools
+  description: Operations involving Pools.
+paths:
+  /pools.json:
+    get:
+      tags:
+      - Pools
+      description: Show all Pools.
+      operationId: get_all_pools
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      pools:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: pool-00000001
+                            display_name:
+                              type: string
+                              example: poolrenamed
+                              xml:
+                                name: display-name
+                            status:
+                              type: string
+                              example: normal
+                            capacity:
+                              type: integer
+                              minimum: 1
+                              example: 462
+                            available_capacity:
+                              type: number
+                              example: 451.875
+                              xml:
+                                name: available-capacity
+                            version:
+                              type: integer
+                              example: 2
+                            data_type:
+                              type: string
+                              example: None
+                              xml:
+                                name: data-type
+                            mount_sync:
+                              type: string
+                              example: None
+                              xml:
+                                name: mount-sync
+                            access_time_update:
+                              type: string
+                              example: None
+                              xml:
+                                name: access-time-update
+                            raid_group_name:
+                              type: string
+                              example: raid_group_renamed
+                              xml:
+                                name: raid-group-name
+                            mode:
+                              type: string
+                              example: simple
+                            stripe_size:
+                              type: integer
+                              example: 64
+                              xml:
+                                name: stripe-size
+                            cache:
+                              type: string
+                              example: 'NO'
+                            cow_cache:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cow-cache
+                            capacity_mode:
+                              type: string
+                              example: normal
+                              xml:
+                                name: capacity-mode
+                            capacity_history:
+                              type: integer
+                              example: 10
+                              xml:
+                                name: capacity-history
+                            alert_mode:
+                              type: integer
+                              example: 360
+                              xml:
+                                name: alert-mode
+                            protected_mode:
+                              type: integer
+                              example: 60
+                              xml:
+                                name: protected-mode
+                            emergency_mode:
+                              type: integer
+                              example: 100
+                              xml:
+                                name: emergency-mode
+                            chunk_size:
+                              type: integer
+                              example: 256
+                              xml:
+                                name: chunk-size
+                            type:
+                              type: string
+                              example: OLTP
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: pool
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-pools-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      pools:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: pool-00000001
+                            display_name:
+                              type: string
+                              example: poolrenamed
+                              xml:
+                                name: display-name
+                            status:
+                              type: string
+                              example: normal
+                            capacity:
+                              type: integer
+                              minimum: 1
+                              example: 462
+                            available_capacity:
+                              type: number
+                              example: 451.875
+                              xml:
+                                name: available-capacity
+                            version:
+                              type: integer
+                              example: 2
+                            data_type:
+                              type: string
+                              example: None
+                              xml:
+                                name: data-type
+                            mount_sync:
+                              type: string
+                              example: None
+                              xml:
+                                name: mount-sync
+                            access_time_update:
+                              type: string
+                              example: None
+                              xml:
+                                name: access-time-update
+                            raid_group_name:
+                              type: string
+                              example: raid_group_renamed
+                              xml:
+                                name: raid-group-name
+                            mode:
+                              type: string
+                              example: simple
+                            stripe_size:
+                              type: integer
+                              example: 64
+                              xml:
+                                name: stripe-size
+                            cache:
+                              type: string
+                              example: 'NO'
+                            cow_cache:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cow-cache
+                            capacity_mode:
+                              type: string
+                              example: normal
+                              xml:
+                                name: capacity-mode
+                            capacity_history:
+                              type: integer
+                              example: 10
+                              xml:
+                                name: capacity-history
+                            alert_mode:
+                              type: integer
+                              example: 360
+                              xml:
+                                name: alert-mode
+                            protected_mode:
+                              type: integer
+                              example: 60
+                              xml:
+                                name: protected-mode
+                            emergency_mode:
+                              type: integer
+                              example: 100
+                              xml:
+                                name: emergency-mode
+                            chunk_size:
+                              type: integer
+                              example: 256
+                              xml:
+                                name: chunk-size
+                            type:
+                              type: string
+                              example: OLTP
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: pool
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-pools-response
+      summary: Get all pools
+      x-summary-source: derived
+    post:
+      tags:
+      - Pools
+      description: Create a Pool. Pool can be created either from disks or from raid groups.
+      operationId: create_pool
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-pool-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-pool-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - display_name
+              properties:
+                display_name:
+                  type: string
+                  description: The new pool display name
+                  example: new-pool
+                capacity:
+                  type: string
+                  minimum: 1
+                  description: The new pool capacity followed by the letter G
+                  x-VpsaType: hybrid
+                  example: 30G
+                cache:
+                  type: string
+                  description: Indicate whether the Pool will utilize the VPSA SSD cache. All Pools marked YES share the same cache capacity.
+                  x-VpsaType: hybrid
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  default: 'NO'
+                  example: 'NO'
+                force:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  default: 'NO'
+                  example: 'NO'
+                cooloffhours:
+                  type: string
+                  example: '1'
+                cowcache:
+                  type: boolean
+                  description: 'Indicate whether snapshot Copy-On-Write operations are Cached. Default: YES'
+                  x-VpsaType: hybrid
+                  default: true
+                mode:
+                  type: string
+                  enum:
+                  - stripe
+                  - simple
+                  description: Indicate whether RAID groups are concatinated or striped inside the Pool.
+                  x-VpsaType: hybrid
+                  default: simple
+                raid_groups:
+                  type: string
+                  pattern: (?:RaidGroup-[0-9]+[,]?)+
+                  description: Comma separated list of RAID Group IDs.
+                  example: RaidGroup-4
+                disks:
+                  type: string
+                  pattern: (?:volume-[0-9a-f]{8}[,]?)+
+                  description: Comma separated list of disk IDs.
+                  example: volume-00000d56,volume-00000d57
+                pooltype:
+                  type: string
+                  enum:
+                  - Transactional Workloads
+                  - Repository Storage
+                  - Archival Storage
+                  - IOPs-Optimized
+                  - Balanced
+                  - Throughput-Optimized
+                  - Depot
+                  - Depot Storage
+                  description: 'The new pool type. VPSA Storage Array: Repository Storage, Transactional Workloads, Archival Storage, Depot Storage. VPSA Flash Array: IOPs-Optimized, Balanced, Throughput-Optimized.'
+                  example: Repository Storage
+        required: true
+      summary: Create pool
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}.json:
+    get:
+      tags:
+      - Pools
+      description: Show Pool details.
+      operationId: get_pool
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      pool:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: pool-00000001
+                          display_name:
+                            type: string
+                            example: poolrenamed
+                            xml:
+                              name: display-name
+                          status:
+                            type: string
+                            example: normal
+                          capacity:
+                            type: integer
+                            minimum: 1
+                          available_capacity:
+                            type: number
+                            xml:
+                              name: available-capacity
+                          version:
+                            type: integer
+                          data_type:
+                            type: string
+                            example: None
+                            xml:
+                              name: data-type
+                          mount_sync:
+                            type: string
+                            example: None
+                            xml:
+                              name: mount-sync
+                          access_time_update:
+                            type: string
+                            example: None
+                            xml:
+                              name: access-time-update
+                          raid_group_name:
+                            type: string
+                            example: raid_group_renamed
+                            xml:
+                              name: raid-group-name
+                          mode:
+                            type: string
+                            example: simple
+                          stripe_size:
+                            type: integer
+                            example: 64
+                            xml:
+                              name: stripe-size
+                          cache:
+                            type: string
+                            example: 'NO'
+                          cow_cache:
+                            type: string
+                            example: 'NO'
+                            xml:
+                              name: cow-cache
+                          capacity_mode:
+                            type: string
+                            example: normal
+                            xml:
+                              name: capacity-mode
+                          capacity_history:
+                            type: integer
+                            example: 10
+                            xml:
+                              name: capacity-history
+                          alert_mode:
+                            type: integer
+                            example: 360
+                            xml:
+                              name: alert-mode
+                          protected_mode:
+                            type: integer
+                            example: 60
+                            xml:
+                              name: protected-mode
+                          emergency_mode:
+                            type: integer
+                            example: 100
+                            xml:
+                              name: emergency-mode
+                          chunk_size:
+                            type: integer
+                            example: 256
+                            xml:
+                              name: chunk-size
+                          type:
+                            type: string
+                            example: OLTP
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          metadata_capacity:
+                            type: number
+                            xml:
+                              name: metadata-capacity
+                          av_protected_capacity:
+                            type: number
+                            xml:
+                              name: av-protected-capacity
+                          provisioned_capacity:
+                            type: number
+                            xml:
+                              name: provisioned-capacity
+                          ssd:
+                            type: object
+                            properties:
+                              reserved_capacity:
+                                type: number
+                                xml:
+                                  name: reserved-capacity
+                              usable_capacity:
+                                type: number
+                                xml:
+                                  name: usable-capacity
+                              used_capacity:
+                                type: number
+                                xml:
+                                  name: used-capacity
+                              free_capacity:
+                                type: number
+                                xml:
+                                  name: free-capacity
+                              used_by_data_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-data-capacity
+                              used_by_metadata_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-metadata-capacity
+                              usable_shrinked_capacity:
+                                type: number
+                                xml:
+                                  name: usable-shrinked-capacity
+                              data_segments_capacity:
+                                type: number
+                                xml:
+                                  name: data-segments-capacity
+                              metadata_segments_capacity:
+                                type: number
+                                xml:
+                                  name: metadata-segments-capacity
+                              stale_capacity:
+                                type: number
+                                xml:
+                                  name: stale-capacity
+                              free_segments_capacity:
+                                type: number
+                                xml:
+                                  name: free-segments-capacity
+                              free_segments_percent:
+                                type: number
+                                xml:
+                                  name: free-segments-percent
+                          hdd:
+                            type: object
+                            properties:
+                              reserved_capacity:
+                                type: number
+                                xml:
+                                  name: reserved-capacity
+                              usable_capacity:
+                                type: number
+                                xml:
+                                  name: usable-capacity
+                              used_capacity:
+                                type: number
+                                xml:
+                                  name: used-capacity
+                              free_capacity:
+                                type: number
+                                xml:
+                                  name: free-capacity
+                              used_by_data_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-data-capacity
+                              used_by_metadata_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-metadata-capacity
+                              usable_shrinked_capacity:
+                                type: number
+                                xml:
+                                  name: usable-shrinked-capacity
+                              data_segments_capacity:
+                                type: number
+                                xml:
+                                  name: data-segments-capacity
+                              metadata_segments_capacity:
+                                type: number
+                                xml:
+                                  name: metadata-segments-capacity
+                              stale_capacity:
+                                type: number
+                                xml:
+                                  name: stale-capacity
+                              free_segments_capacity:
+                                type: number
+                                xml:
+                                  name: free-segments-capacity
+                              free_segments_percent:
+                                type: number
+                                xml:
+                                  name: free-segments-percent
+                          obs:
+                            type: object
+                            properties:
+                              reserved_capacity:
+                                type: number
+                                xml:
+                                  name: reserved-capacity
+                              usable_capacity:
+                                type: number
+                                xml:
+                                  name: usable-capacity
+                              used_capacity:
+                                type: number
+                                xml:
+                                  name: used-capacity
+                              free_capacity:
+                                type: number
+                                xml:
+                                  name: free-capacity
+                              used_by_data_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-data-capacity
+                              used_by_metadata_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-metadata-capacity
+                              usable_shrinked_capacity:
+                                type: number
+                                xml:
+                                  name: usable-shrinked-capacity
+                              data_segments_capacity:
+                                type: number
+                                xml:
+                                  name: data-segments-capacity
+                              metadata_segments_capacity:
+                                type: number
+                                xml:
+                                  name: metadata-segments-capacity
+                              stale_capacity:
+                                type: number
+                                xml:
+                                  name: stale-capacity
+                              free_segments_capacity:
+                                type: number
+                                xml:
+                                  name: free-segments-capacity
+                              free_segments_percent:
+                                type: number
+                                xml:
+                                  name: free-segments-percent
+                          antivirus:
+                            type: string
+                          maintenance_mode:
+                            type: string
+                            xml:
+                              name: maintenance-mode
+                          cool_off_hours:
+                            type: integer
+                            xml:
+                              name: cool-off-hours
+                          thresholds:
+                            type: string
+                          comment:
+                            type: string
+                    xml:
+                      name: show-one-pool-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      pool:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: pool-00000001
+                          display_name:
+                            type: string
+                            example: poolrenamed
+                            xml:
+                              name: display-name
+                          status:
+                            type: string
+                            example: normal
+                          capacity:
+                            type: integer
+                            minimum: 1
+                          available_capacity:
+                            type: number
+                            xml:
+                              name: available-capacity
+                          version:
+                            type: integer
+                          data_type:
+                            type: string
+                            example: None
+                            xml:
+                              name: data-type
+                          mount_sync:
+                            type: string
+                            example: None
+                            xml:
+                              name: mount-sync
+                          access_time_update:
+                            type: string
+                            example: None
+                            xml:
+                              name: access-time-update
+                          raid_group_name:
+                            type: string
+                            example: raid_group_renamed
+                            xml:
+                              name: raid-group-name
+                          mode:
+                            type: string
+                            example: simple
+                          stripe_size:
+                            type: integer
+                            example: 64
+                            xml:
+                              name: stripe-size
+                          cache:
+                            type: string
+                            example: 'NO'
+                          cow_cache:
+                            type: string
+                            example: 'NO'
+                            xml:
+                              name: cow-cache
+                          capacity_mode:
+                            type: string
+                            example: normal
+                            xml:
+                              name: capacity-mode
+                          capacity_history:
+                            type: integer
+                            example: 10
+                            xml:
+                              name: capacity-history
+                          alert_mode:
+                            type: integer
+                            example: 360
+                            xml:
+                              name: alert-mode
+                          protected_mode:
+                            type: integer
+                            example: 60
+                            xml:
+                              name: protected-mode
+                          emergency_mode:
+                            type: integer
+                            example: 100
+                            xml:
+                              name: emergency-mode
+                          chunk_size:
+                            type: integer
+                            example: 256
+                            xml:
+                              name: chunk-size
+                          type:
+                            type: string
+                            example: OLTP
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          metadata_capacity:
+                            type: number
+                            xml:
+                              name: metadata-capacity
+                          av_protected_capacity:
+                            type: number
+                            xml:
+                              name: av-protected-capacity
+                          provisioned_capacity:
+                            type: number
+                            xml:
+                              name: provisioned-capacity
+                          ssd:
+                            type: object
+                            properties:
+                              reserved_capacity:
+                                type: number
+                                xml:
+                                  name: reserved-capacity
+                              usable_capacity:
+                                type: number
+                                xml:
+                                  name: usable-capacity
+                              used_capacity:
+                                type: number
+                                xml:
+                                  name: used-capacity
+                              free_capacity:
+                                type: number
+                                xml:
+                                  name: free-capacity
+                              used_by_data_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-data-capacity
+                              used_by_metadata_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-metadata-capacity
+                              usable_shrinked_capacity:
+                                type: number
+                                xml:
+                                  name: usable-shrinked-capacity
+                              data_segments_capacity:
+                                type: number
+                                xml:
+                                  name: data-segments-capacity
+                              metadata_segments_capacity:
+                                type: number
+                                xml:
+                                  name: metadata-segments-capacity
+                              stale_capacity:
+                                type: number
+                                xml:
+                                  name: stale-capacity
+                              free_segments_capacity:
+                                type: number
+                                xml:
+                                  name: free-segments-capacity
+                              free_segments_percent:
+                                type: number
+                                xml:
+                                  name: free-segments-percent
+                          hdd:
+                            type: object
+                            properties:
+                              reserved_capacity:
+                                type: number
+                                xml:
+                                  name: reserved-capacity
+                              usable_capacity:
+                                type: number
+                                xml:
+                                  name: usable-capacity
+                              used_capacity:
+                                type: number
+                                xml:
+                                  name: used-capacity
+                              free_capacity:
+                                type: number
+                                xml:
+                                  name: free-capacity
+                              used_by_data_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-data-capacity
+                              used_by_metadata_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-metadata-capacity
+                              usable_shrinked_capacity:
+                                type: number
+                                xml:
+                                  name: usable-shrinked-capacity
+                              data_segments_capacity:
+                                type: number
+                                xml:
+                                  name: data-segments-capacity
+                              metadata_segments_capacity:
+                                type: number
+                                xml:
+                                  name: metadata-segments-capacity
+                              stale_capacity:
+                                type: number
+                                xml:
+                                  name: stale-capacity
+                              free_segments_capacity:
+                                type: number
+                                xml:
+                                  name: free-segments-capacity
+                              free_segments_percent:
+                                type: number
+                                xml:
+                                  name: free-segments-percent
+                          obs:
+                            type: object
+                            properties:
+                              reserved_capacity:
+                                type: number
+                                xml:
+                                  name: reserved-capacity
+                              usable_capacity:
+                                type: number
+                                xml:
+                                  name: usable-capacity
+                              used_capacity:
+                                type: number
+                                xml:
+                                  name: used-capacity
+                              free_capacity:
+                                type: number
+                                xml:
+                                  name: free-capacity
+                              used_by_data_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-data-capacity
+                              used_by_metadata_capacity:
+                                type: number
+                                xml:
+                                  name: used-by-metadata-capacity
+                              usable_shrinked_capacity:
+                                type: number
+                                xml:
+                                  name: usable-shrinked-capacity
+                              data_segments_capacity:
+                                type: number
+                                xml:
+                                  name: data-segments-capacity
+                              metadata_segments_capacity:
+                                type: number
+                                xml:
+                                  name: metadata-segments-capacity
+                              stale_capacity:
+                                type: number
+                                xml:
+                                  name: stale-capacity
+                              free_segments_capacity:
+                                type: number
+                                xml:
+                                  name: free-segments-capacity
+                              free_segments_percent:
+                                type: number
+                                xml:
+                                  name: free-segments-percent
+                          antivirus:
+                            type: string
+                          maintenance_mode:
+                            type: string
+                            xml:
+                              name: maintenance-mode
+                          cool_off_hours:
+                            type: integer
+                            xml:
+                              name: cool-off-hours
+                          thresholds:
+                            type: string
+                          comment:
+                            type: string
+                    xml:
+                      name: show-one-pool-response
+      summary: Get pool
+      x-summary-source: derived
+    delete:
+      tags:
+      - Pools
+      description: Delete a Pool. The Pool must be empty.
+      operationId: delete_pool
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-pool-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-pool-response
+      summary: Delete pool
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/rename.json:
+    post:
+      tags:
+      - Pools
+      description: Rename a Pool.
+      operationId: rename_pool
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-pool-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-pool-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - new_name
+              properties:
+                new_name:
+                  type: string
+                  description: The pool new name
+                  example: new-pool-name
+        required: true
+      summary: Rename pool
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/raid_groups.json:
+    get:
+      tags:
+      - Pools
+      description: Return the list of RAID Groups in a Pool.
+      operationId: get_raid_groups_in_pool
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      raid_groups:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: RaidGroup-4
+                            display_name:
+                              type: string
+                              example: raid_group_renamed
+                              xml:
+                                name: display-name
+                            protection:
+                              type: string
+                              example: RAID1
+                            mirror_num:
+                              type: integer
+                              example: 3
+                              xml:
+                                name: mirror-num
+                            stripe_size:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: stripe-size
+                            protection_width:
+                              type: integer
+                              example: 3
+                              xml:
+                                name: protection-width
+                            capacity:
+                              type: integer
+                              example: 462
+                            available:
+                              type: integer
+                              example: 0
+                            status:
+                              type: string
+                              example: Recovering 37%
+                            ssd:
+                              type: string
+                              example: 'NO'
+                            mismatch_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: mismatch-count
+                            resync_speed:
+                              type: integer
+                              example: 74
+                              xml:
+                                name: resync-speed
+                            min_resync_speed:
+                              type: integer
+                              example: 28
+                              xml:
+                                name: min-resync-speed
+                            max_resync_speed:
+                              type: integer
+                              example: 75
+                              xml:
+                                name: max-resync-speed
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: raid-group
+                        xml:
+                          name: raid-groups
+                          wrapped: true
+                    xml:
+                      name: show-raid-groups-in-pool-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      raid_groups:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: RaidGroup-4
+                            display_name:
+                              type: string
+                              example: raid_group_renamed
+                              xml:
+                                name: display-name
+                            protection:
+                              type: string
+                              example: RAID1
+                            mirror_num:
+                              type: integer
+                              example: 3
+                              xml:
+                                name: mirror-num
+                            stripe_size:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: stripe-size
+                            protection_width:
+                              type: integer
+                              example: 3
+                              xml:
+                                name: protection-width
+                            capacity:
+                              type: integer
+                              example: 462
+                            available:
+                              type: integer
+                              example: 0
+                            status:
+                              type: string
+                              example: Recovering 37%
+                            ssd:
+                              type: string
+                              example: 'NO'
+                            mismatch_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: mismatch-count
+                            resync_speed:
+                              type: integer
+                              example: 74
+                              xml:
+                                name: resync-speed
+                            min_resync_speed:
+                              type: integer
+                              example: 28
+                              xml:
+                                name: min-resync-speed
+                            max_resync_speed:
+                              type: integer
+                              example: 75
+                              xml:
+                                name: max-resync-speed
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: raid-group
+                        xml:
+                          name: raid-groups
+                          wrapped: true
+                    xml:
+                      name: show-raid-groups-in-pool-response
+      summary: Get raid groups in pool
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/volumes.json:
+    get:
+      tags:
+      - Pools
+      description: Return the list of Volumes in a Pool.
+      operationId: get_volumes_in_pool
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      volumes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000004
+                            display_name:
+                              type: string
+                              example: Example_Volume
+                              xml:
+                                name: display-name
+                            cg_display_name:
+                              type: string
+                              example: Example_Volume
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-0000003c
+                              xml:
+                                name: cg-name
+                            cg_user_created:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cg-user-created
+                            pool_display_name:
+                              type: string
+                              example: Pool_0
+                              xml:
+                                name: pool-display-name
+                            pool_name:
+                              type: string
+                              example: pool-00000002
+                              xml:
+                                name: pool-name
+                            status:
+                              type: string
+                              example: In_use
+                              xml:
+                                name: status
+                            virtual_capacity:
+                              type: integer
+                              xml:
+                                name: virtual-capacity
+                            server_name:
+                              type: string
+                              example: Multiple(2)
+                              xml:
+                                name: server-name
+                            data_type:
+                              type: string
+                              example: File-System
+                              xml:
+                                name: data-type
+                            thin:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: thin
+                            encryption:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: encryption
+                            encryption_key_size:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-key-size
+                            allocated_capacity:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: allocated-capacity
+                            data_copies_capacity:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: data-copies-capacity
+                            access_type:
+                              type: string
+                              example: NFS
+                              xml:
+                                name: access-type
+                            read_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: read-only
+                            nfs_export_path:
+                              type: string
+                              example: 172.31.224.103:/export/Example_Volume
+                              xml:
+                                name: nfs-export-path
+                            smb_export_path:
+                              type: string
+                              example: \\172.31.224.103\Example_Volume
+                              xml:
+                                name: smb-export-path
+                            mount_sync:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: mount-sync
+                            atime_update:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: atime-update
+                            read_ahead_kb:
+                              type: integer
+                              example: 512
+                              xml:
+                                name: read-ahead-kb
+                            ext_metering:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: ext-metering
+                            images_repo:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: images-repo
+                            nfs_root_squash:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: nfs-root-squash
+                            smb_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-only
+                            smb_guest:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-guest
+                            smb_windows_acl:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-windows-acl
+                            smb_map_archive:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-map-archive
+                            smb_file_create_mask:
+                              type: string
+                              example: '0744'
+                              xml:
+                                name: smb-file-create-mask
+                            smb_dir_create_mask:
+                              type: string
+                              example: '0755'
+                              xml:
+                                name: smb-dir-create-mask
+                            smb_aio_size:
+                              type: integer
+                              xml:
+                                name: smb-aio-size
+                            smb_browseable:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-browseable
+                            smb_hidden_files:
+                              type: string
+                              example: None
+                              xml:
+                                name: smb-hidden-files
+                            smb_encryption_mode:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: smb-encryption-mode
+                            smb_hide_unreadable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unreadable
+                            smb_hide_unwriteable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unwriteable
+                            smb_hide_dot_files:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-dot-files
+                            smb_store_dos_attributes:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-store-dos-attributes
+                            smb_enable_oplocks:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-enable-oplocks
+                            capacity_history:
+                              type: integer
+                              example: 60
+                              xml:
+                                name: capacity-history
+                            alert_mode:
+                              type: integer
+                              example: 360
+                              xml:
+                                name: alert-mode
+                            uquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: uquota-state
+                            gquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: gquota-state
+                            pquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: pquota-state
+                            target:
+                              type: string
+                              example: None
+                              xml:
+                                name: target
+                            lun:
+                              type: string
+                              example: None
+                              xml:
+                                name: lun
+                            cache:
+                              type: string
+                              example: None
+                              xml:
+                                name: cache
+                            tenant_id:
+                              type: integer
+                              example: 18
+                              xml:
+                                name: tenant-id
+                            has_mirror:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-mirror
+                            has_backup:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-backup
+                            has_snapshots:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: has-snapshots
+                            shadow_copy_enabled:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: shadow-copy-enabled
+                            is_shadow_copy_clone:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: is-shadow-copy-clone
+                            read_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-iops-limit
+                            read_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-mbps-limit
+                            write_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-iops-limit
+                            write_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-mbps-limit
+                            thresholds:
+                              type: string
+                              example: None
+                              xml:
+                                name: thresholds
+                            comment:
+                              type: string
+                              example: None
+                              xml:
+                                name: comment
+                            server_ext_names:
+                              type: string
+                              example: srv-00000001,srv-00000002
+                              xml:
+                                name: server-ext-names
+                            created_at:
+                              type: string
+                              format: date_time
+                              example: 2023-05-23T17:54:14+0300
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              example: 2023-05-24T10:18:43+0300
+                              xml:
+                                name: modified-at
+                            snapshots_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: snapshots-count
+                          xml:
+                            name: volume
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-volumes-in-pool-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      volumes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000004
+                            display_name:
+                              type: string
+                              example: Example_Volume
+                              xml:
+                                name: display-name
+                            cg_display_name:
+                              type: string
+                              example: Example_Volume
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-0000003c
+                              xml:
+                                name: cg-name
+                            cg_user_created:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cg-user-created
+                            pool_display_name:
+                              type: string
+                              example: Pool_0
+                              xml:
+                                name: pool-display-name
+                            pool_name:
+                              type: string
+                              example: pool-00000002
+                              xml:
+                                name: pool-name
+                            status:
+                              type: string
+                              example: In_use
+                              xml:
+                                name: status
+                            virtual_capacity:
+                              type: integer
+                              xml:
+                                name: virtual-capacity
+                            server_name:
+                              type: string
+                              example: Multiple(2)
+                              xml:
+                                name: server-name
+                            data_type:
+                              type: string
+                              example: File-System
+                              xml:
+                                name: data-type
+                            thin:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: thin
+                            encryption:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: encryption
+                            encryption_key_size:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-key-size
+                            allocated_capacity:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: allocated-capacity
+                            data_copies_capacity:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: data-copies-capacity
+                            access_type:
+                              type: string
+                              example: NFS
+                              xml:
+                                name: access-type
+                            read_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: read-only
+                            nfs_export_path:
+                              type: string
+                              example: 172.31.224.103:/export/Example_Volume
+                              xml:
+                                name: nfs-export-path
+                            smb_export_path:
+                              type: string
+                              example: \\172.31.224.103\Example_Volume
+                              xml:
+                                name: smb-export-path
+                            mount_sync:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: mount-sync
+                            atime_update:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: atime-update
+                            read_ahead_kb:
+                              type: integer
+                              example: 512
+                              xml:
+                                name: read-ahead-kb
+                            ext_metering:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: ext-metering
+                            images_repo:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: images-repo
+                            nfs_root_squash:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: nfs-root-squash
+                            smb_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-only
+                            smb_guest:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-guest
+                            smb_windows_acl:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-windows-acl
+                            smb_map_archive:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-map-archive
+                            smb_file_create_mask:
+                              type: string
+                              example: '0744'
+                              xml:
+                                name: smb-file-create-mask
+                            smb_dir_create_mask:
+                              type: string
+                              example: '0755'
+                              xml:
+                                name: smb-dir-create-mask
+                            smb_aio_size:
+                              type: integer
+                              xml:
+                                name: smb-aio-size
+                            smb_browseable:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-browseable
+                            smb_hidden_files:
+                              type: string
+                              example: None
+                              xml:
+                                name: smb-hidden-files
+                            smb_encryption_mode:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: smb-encryption-mode
+                            smb_hide_unreadable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unreadable
+                            smb_hide_unwriteable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unwriteable
+                            smb_hide_dot_files:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-dot-files
+                            smb_store_dos_attributes:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-store-dos-attributes
+                            smb_enable_oplocks:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-enable-oplocks
+                            capacity_history:
+                              type: integer
+                              example: 60
+                              xml:
+                                name: capacity-history
+                            alert_mode:
+                              type: integer
+                              example: 360
+                              xml:
+                                name: alert-mode
+                            uquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: uquota-state
+                            gquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: gquota-state
+                            pquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: pquota-state
+                            target:
+                              type: string
+                              example: None
+                              xml:
+                                name: target
+                            lun:
+                              type: string
+                              example: None
+                              xml:
+                                name: lun
+                            cache:
+                              type: string
+                              example: None
+                              xml:
+                                name: cache
+                            tenant_id:
+                              type: integer
+                              example: 18
+                              xml:
+                                name: tenant-id
+                            has_mirror:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-mirror
+                            has_backup:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-backup
+                            has_snapshots:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: has-snapshots
+                            shadow_copy_enabled:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: shadow-copy-enabled
+                            is_shadow_copy_clone:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: is-shadow-copy-clone
+                            read_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-iops-limit
+                            read_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-mbps-limit
+                            write_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-iops-limit
+                            write_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-mbps-limit
+                            thresholds:
+                              type: string
+                              example: None
+                              xml:
+                                name: thresholds
+                            comment:
+                              type: string
+                              example: None
+                              xml:
+                                name: comment
+                            server_ext_names:
+                              type: string
+                              example: srv-00000001,srv-00000002
+                              xml:
+                                name: server-ext-names
+                            created_at:
+                              type: string
+                              format: date_time
+                              example: 2023-05-23T17:54:14+0300
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              example: 2023-05-24T10:18:43+0300
+                              xml:
+                                name: modified-at
+                            snapshots_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: snapshots-count
+                          xml:
+                            name: volume
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-volumes-in-pool-response
+      summary: Get volumes in pool
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/expand.json:
+    post:
+      tags:
+      - Pools
+      description: Add additional RAID Groups Or OBS Tier to a Pool.
+      operationId: expand_pool
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: expand-pool-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: expand-pool-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                raid_groups:
+                  type: string
+                  description: Cannot be used with `obsdestname`. Comma separated list of RAID Group IDs.
+                  pattern: (?:RaidGroup-[0-9]+[,]?)+
+                  example: RaidGroup-4
+                capacity:
+                  type: string
+                  minimum: 1
+                  description: Capacity in GB followed by the letter G.
+                  example: 30G
+                obsdestname:
+                  type: string
+                  description: Object storage destination name. Cannot be used with `raid_groups`
+                  example: obsdst-00000001
+                cloud_size:
+                  type: string
+                  description: Object storage size (multiple of 20).
+                  example: '40'
+                sse:
+                  type: string
+                  description: Encryption type.
+                  example: AES256
+        required: true
+      summary: Expand pool
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/shrink.json:
+    post:
+      tags:
+      - Pools
+      description: Remove a RAID Group / Shrink OBS from a Pool.
+      operationId: shrink_pool
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: shrink-pool-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: shrink-pool-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                raid_group:
+                  type: string
+                  pattern: ^RaidGroup-[0-9]+$
+                  description: RAID Group ID.
+                  example: RaidGroup-4
+                obsshrinksize:
+                  type: integer
+                  description: OBS size to shrink. (Multiples of 20)
+                  example: 40
+        required: true
+      summary: Shrink pool
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/cancel_shrink.json:
+    post:
+      tags:
+      - Pools
+      description: Cancel a Pool Shrink.
+      operationId: cancel_shrink_pool
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: cancel-shrink-pool-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: cancel-shrink-pool-response
+      summary: Cancel shrink pool
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/update_ssd_cool_off.json:
+    post:
+      tags:
+      - Pools
+      description: Update ssd cool off.
+      operationId: update_ssd_cool_off
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: update-pool-ssd-cool-off-period-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: update-pool-ssd-cool-off-period-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - cool_off_hours
+              properties:
+                cool_off_hours:
+                  type: integer
+                  example: 2
+        required: true
+      summary: Update ssd cool off
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/update_protection.json:
+    post:
+      tags:
+      - Pools
+      description: Update free capacity alert notification settings for a Pool.
+      operationId: update_pool_capacity_alerts
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-pool-capacity-alerts-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-pool-capacity-alerts-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                capacityhistory:
+                  type: integer
+                  description: Window size in minutes which is used to calculate the rate of which free Pool capacity is consumed. This rate is used to calculate the estimated time until a Pool is full.
+                effectivecapacityhistory:
+                  type: integer
+                  description: Window size in minutes which is used to calculate the rate of which free Pool effective capacity is consumed. This rate is used to calculate the estimated time until a Pool is full.
+                  x-VpsaType: VPSA Flash Array
+                alertmode:
+                  type: integer
+                  description: Send an alert when it is estimated that the Pool will be at full capacity in this many minutes.
+                effectivealertmode:
+                  type: integer
+                  description: Send an alert when it is estimated that the Pool will be at full effective capacity in this many minutes.
+                  x-VpsaType: VPSA Flash Array
+                protectedmode:
+                  type: integer
+                  description: Block Volume/Share/Pool creation when it's estimated that the Pool will be full in this many minutes.
+                effectiveprotectedmode:
+                  type: integer
+                  description: Block Volume/Share/Pool creation when it's estimated that the Pool effective capacity will be full in this many minutes.
+                  x-VpsaType: VPSA Flash Array
+                emergencymode:
+                  type: integer
+                  description: Delete snapshots, starting with the oldest, when the Pool has less than this number of GB left.
+                effectiveemergencymode:
+                  type: integer
+                  description: Delete snapshots, starting with the oldest, when the Pool effective capacity has less than this number of GB left.
+                  x-VpsaType: VPSA Flash Array
+        required: true
+      summary: Update pool capacity alerts
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/destination_volumes.json:
+    get:
+      tags:
+      - Pools
+      description: List Remote Mirroring Destination Volumes in a Pool.
+      operationId: get_pool_mirror_destination_volumes
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      volumes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000001
+                            display_name:
+                              type: string
+                              example: volume
+                              xml:
+                                name: display-name
+                            cg_display_name:
+                              type: string
+                              example: remotevolume
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: cg-name
+                            cg_user_created:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cg-user-created
+                            pool_display_name:
+                              type: string
+                              example: pool
+                              xml:
+                                name: pool-display-name
+                            pool_name:
+                              type: string
+                              example: pool-00000001
+                              xml:
+                                name: pool-name
+                            virtual_capacity:
+                              type: integer
+                              xml:
+                                name: virtual-capacity
+                            data_type:
+                              type: string
+                              example: BLOCK
+                              xml:
+                                name: data-type
+                            thin:
+                              type: string
+                              example: 'YES'
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: volume
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-dst-volumes-in-pool-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      volumes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000001
+                            display_name:
+                              type: string
+                              example: volume
+                              xml:
+                                name: display-name
+                            cg_display_name:
+                              type: string
+                              example: remotevolume
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: cg-name
+                            cg_user_created:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cg-user-created
+                            pool_display_name:
+                              type: string
+                              example: pool
+                              xml:
+                                name: pool-display-name
+                            pool_name:
+                              type: string
+                              example: pool-00000001
+                              xml:
+                                name: pool-name
+                            virtual_capacity:
+                              type: integer
+                              xml:
+                                name: virtual-capacity
+                            data_type:
+                              type: string
+                              example: BLOCK
+                              xml:
+                                name: data-type
+                            thin:
+                              type: string
+                              example: 'YES'
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: volume
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-dst-volumes-in-pool-response
+      summary: Get pool mirror destination volumes
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/destination_volume_data.json:
+    get:
+      tags:
+      - Pools
+      description: Get Destination Volume Capacity Data.
+      operationId: get_pool_destination_volume_data
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^cg-[0-9a-f]{8}$
+      - in: query
+        name: volname
+        required: true
+        description: Destination Volume Name
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: show-dst-volume-capacity-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      volume_capacity:
+                        type: object
+                        xml:
+                          name: volume-capacity
+                        properties:
+                          allocated_capacity:
+                            type: number
+                            example: 25.96875
+                            xml:
+                              name: allocated-capacity
+                          data_copies_capacity:
+                            type: number
+                            example: 0.0078125
+                            xml:
+                              name: data-copies-capacity
+                          name:
+                            type: string
+                            example: volume-00000001
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: show-dst-volume-capacity-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      volume_capacity:
+                        type: object
+                        xml:
+                          name: volume-capacity
+                        properties:
+                          allocated_capacity:
+                            type: number
+                            example: 25.96875
+                            xml:
+                              name: allocated-capacity
+                          data_copies_capacity:
+                            type: number
+                            example: 0.0078125
+                            xml:
+                              name: data-copies-capacity
+                          name:
+                            type: string
+                            example: volume-00000001
+      summary: Get pool destination volume data
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/toggle_cache.json:
+    post:
+      tags:
+      - Pools
+      description: Toggle cache for a Pool.
+      operationId: set_pool_cache
+      x-VpsaType: hybrid
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: attach-pool-to-cache-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: attach-pool-to-cache-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - command
+              properties:
+                command:
+                  type: string
+                  description: argument to set enable / disable cache
+                  example: enable
+                  enum:
+                  - enable
+                  - disable
+                cowcache:
+                  type: boolean
+                  description: argument to set COW caching
+                  example: true
+        required: true
+      summary: Set pool cache
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/cow_cache.json:
+    post:
+      tags:
+      - Pools
+      description: Toggle copy on write cache for a Pool.
+      operationId: set_pool_cowcache
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-pool-cow-cache-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-pool-cow-cache-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cowcache:
+                  type: boolean
+                  description: argument to set COW caching
+                  example: true
+        required: true
+      summary: Set pool cowcache
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/volumes_in_recycle_bin.json:
+    get:
+      tags:
+      - Pools
+      description: Show a pool's volumes in recycle bin
+      operationId: get_volumes_in_pool_recycle_bin
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      volumes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000001
+                            display_name:
+                              type: string
+                              example: smb1
+                              xml:
+                                name: display-name
+                            cg_display_name:
+                              type: string
+                              example: smb1
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: cg-name
+                            cg_user_created:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cg-user-created
+                            pool_display_name:
+                              type: string
+                              example: RAID-10-Pool-1
+                              xml:
+                                name: pool-display-name
+                            pool_name:
+                              type: string
+                              example: pool-00010001
+                              xml:
+                                name: pool-name
+                            pool_version:
+                              type: integer
+                              xml:
+                                name: pool-version
+                            status:
+                              type: string
+                              example: In_use
+                            virtual_capacity:
+                              type: integer
+                              xml:
+                                name: virtual-capacity
+                            server_name:
+                              type: string
+                              example: VM110
+                              xml:
+                                name: server-name
+                            av_scan_policy_name:
+                              type: string
+                              xml:
+                                name: av-scan-policy-name
+                            provisioned_capacity:
+                              type: integer
+                              xml:
+                                name: provisioned-capacity
+                            server_ext_names:
+                              type: string
+                              example: srv-00000001
+                              xml:
+                                name: server-ext-names
+                            life_cycle_policy_display_name:
+                              type: string
+                              xml:
+                                name: life-cycle-policy-display-name
+                            life_cycle_policy_ext_name:
+                              type: string
+                              xml:
+                                name: life-cycle-policy-ext-name
+                            thin:
+                              type: string
+                              example: 'NO'
+                            encryption:
+                              type: string
+                              example: 'NO'
+                            encryption_key_size:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-key-size
+                            total_capacity:
+                              type: number
+                              xml:
+                                name: total-capacity
+                            available_capacity:
+                              type: number
+                              xml:
+                                name: available-capacity
+                            num_of_filesystem_objects:
+                              type: integer
+                              xml:
+                                name: num-of-filesystem-objects
+                            capacity_mode:
+                              type: string
+                              example: normal
+                              xml:
+                                name: capacity-mode
+                            allocated_capacity:
+                              type: number
+                              xml:
+                                name: allocated-capacity
+                            data_copies_capacity:
+                              type: number
+                              xml:
+                                name: data-copies-capacity
+                            access_type:
+                              type: string
+                              example: SMB
+                              xml:
+                                name: access-type
+                            read_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: read-only
+                            nfs_export_path:
+                              type: string
+                              example: 10.2.4.157:/export/smb1
+                              xml:
+                                name: nfs-export-path
+                            smb_export_path:
+                              type: string
+                              example: \\10.2.4.157\smb1
+                              xml:
+                                name: smb-export-path
+                            additional_smb_export_paths_count:
+                              type: integer
+                              xml:
+                                name: additional-smb-export-paths-count
+                            mount_sync:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: mount-sync
+                            atime_update:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: atime-update
+                            read_ahead_kb:
+                              type: integer
+                              xml:
+                                name: read-ahead-kb
+                            ext_metering:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: ext-metering
+                            images_repo:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: images-repo
+                            flc_db:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: flc-db
+                            quarantine_repo:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: quarantine-repo
+                            audit_repo:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: audit-repo
+                            nfs_root_squash:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: nfs-root-squash
+                            nfs_all_squash:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: nfs-all-squash
+                            nfs_anon_uid:
+                              type: string
+                              xml:
+                                name: nfs-anon-uid
+                            nfs_anon_gid:
+                              type: string
+                              xml:
+                                name: nfs-anon-gid
+                            smb_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-only
+                            smb_guest:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-guest
+                            smb_windows_acl:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-windows-acl
+                            smb_map_archive:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-map-archive
+                            smb_file_create_mask:
+                              type: string
+                              example: '0744'
+                              xml:
+                                name: smb-file-create-mask
+                            smb_dir_create_mask:
+                              type: string
+                              example: '0755'
+                              xml:
+                                name: smb-dir-create-mask
+                            smb_aio_size:
+                              type: integer
+                              xml:
+                                name: smb-aio-size
+                            smb_browseable:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-browseable
+                            smb_hidden_files:
+                              type: string
+                              xml:
+                                name: smb-hidden-files
+                            smb_encryption_mode:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: smb-encryption-mode
+                            smb_case_sensitive:
+                              type: string
+                              example: AUTO
+                              xml:
+                                name: smb-case-sensitive
+                            smb_mangled_names:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-mangled-names
+                            smb_hide_unreadable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unreadable
+                            smb_hide_unwriteable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unwriteable
+                            smb_hide_dot_files:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-dot-files
+                            smb_store_dos_attributes:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-store-dos-attributes
+                            smb_enable_oplocks:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-enable-oplocks
+                            audit_enable:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: audit-enable
+                            capacity_history:
+                              type: integer
+                              xml:
+                                name: capacity-history
+                            alert_mode:
+                              type: integer
+                              xml:
+                                name: alert-mode
+                            emergency_mode_mb:
+                              type: integer
+                              xml:
+                                name: emergency-mode-mb
+                            auto_expand_on_emergency:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: auto-expand-on-emergency
+                            auto_expand_by:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: auto-expand-by
+                            max_capacity:
+                              type: integer
+                              example: 102400
+                              xml:
+                                name: max-capacity
+                            uquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: uquota-state
+                            gquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: gquota-state
+                            pquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: pquota-state
+                            target:
+                              type: string
+                            lun:
+                              type: string
+                            cache:
+                              type: string
+                            tenant_id:
+                              type: integer
+                              xml:
+                                name: tenant-id
+                            has_mirror:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-mirror
+                            has_backup:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-backup
+                            is_remote_clone_source:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: is-remote-clone-source
+                            has_snapshots:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-snapshots
+                            shadow_copy_enabled:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: shadow-copy-enabled
+                            is_shadow_copy_clone:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: is-shadow-copy-clone
+                            read_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-iops-limit
+                            read_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-mbps-limit
+                            write_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-iops-limit
+                            write_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-mbps-limit
+                            read_iops_capping:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-iops-capping
+                            read_mbps_capping:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-mbps-capping
+                            write_iops_capping:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-iops-capping
+                            write_mbps_capping:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-mbps-capping
+                            compress:
+                              type: string
+                              example: NO/Globally disabled
+                            dedupe:
+                              type: string
+                              example: NO/Globally disabled
+                            mtr_histograms:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: mtr-histograms
+                            flc_state:
+                              type: string
+                              example: FLC_NONE
+                              xml:
+                                name: flc-state
+                            flc_scan_state:
+                              type: string
+                              example: FLC_SCAN_NONE
+                              xml:
+                                name: flc-scan-state
+                            flc_scan_progress:
+                              type: number
+                              xml:
+                                name: flc-scan-progress
+                            flc_scan_remaining_time_seconds:
+                              type: integer
+                              xml:
+                                name: flc-scan-remaining-time-seconds
+                            thresholds:
+                              type: string
+                            comment:
+                              type: string
+                            created_at:
+                              type: string
+                              format: date_time
+                              example: 2021-09-09T16:31:28+0300
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              example: 2021-09-14T14:49:53+0300
+                              xml:
+                                name: modified-at
+                            deleted:
+                              type: string
+                              example: 2023-04-12T10:29:33+0300
+                              description: Shows when the volume was moved to recycle bin
+                            data_type:
+                              type: string
+                              example: File-System
+                              xml:
+                                name: data-type
+                            flc_policy_name:
+                              type: string
+                              xml:
+                                name: flc-policy-name
+                            snapshots_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: snapshots-count
+                          xml:
+                            name: volume
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-volumes-in-recycle-bin-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      volumes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000001
+                            display_name:
+                              type: string
+                              example: smb1
+                              xml:
+                                name: display-name
+                            cg_display_name:
+                              type: string
+                              example: smb1
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: cg-name
+                            cg_user_created:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cg-user-created
+                            pool_display_name:
+                              type: string
+                              example: RAID-10-Pool-1
+                              xml:
+                                name: pool-display-name
+                            pool_name:
+                              type: string
+                              example: pool-00010001
+                              xml:
+                                name: pool-name
+                            pool_version:
+                              type: integer
+                              xml:
+                                name: pool-version
+                            status:
+                              type: string
+                              example: In_use
+                            virtual_capacity:
+                              type: integer
+                              xml:
+                                name: virtual-capacity
+                            server_name:
+                              type: string
+                              example: VM110
+                              xml:
+                                name: server-name
+                            av_scan_policy_name:
+                              type: string
+                              xml:
+                                name: av-scan-policy-name
+                            provisioned_capacity:
+                              type: integer
+                              xml:
+                                name: provisioned-capacity
+                            server_ext_names:
+                              type: string
+                              example: srv-00000001
+                              xml:
+                                name: server-ext-names
+                            life_cycle_policy_display_name:
+                              type: string
+                              xml:
+                                name: life-cycle-policy-display-name
+                            life_cycle_policy_ext_name:
+                              type: string
+                              xml:
+                                name: life-cycle-policy-ext-name
+                            thin:
+                              type: string
+                              example: 'NO'
+                            encryption:
+                              type: string
+                              example: 'NO'
+                            encryption_key_size:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: encryption-key-size
+                            total_capacity:
+                              type: number
+                              xml:
+                                name: total-capacity
+                            available_capacity:
+                              type: number
+                              xml:
+                                name: available-capacity
+                            num_of_filesystem_objects:
+                              type: integer
+                              xml:
+                                name: num-of-filesystem-objects
+                            capacity_mode:
+                              type: string
+                              example: normal
+                              xml:
+                                name: capacity-mode
+                            allocated_capacity:
+                              type: number
+                              xml:
+                                name: allocated-capacity
+                            data_copies_capacity:
+                              type: number
+                              xml:
+                                name: data-copies-capacity
+                            access_type:
+                              type: string
+                              example: SMB
+                              xml:
+                                name: access-type
+                            read_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: read-only
+                            nfs_export_path:
+                              type: string
+                              example: 10.2.4.157:/export/smb1
+                              xml:
+                                name: nfs-export-path
+                            smb_export_path:
+                              type: string
+                              example: \\10.2.4.157\smb1
+                              xml:
+                                name: smb-export-path
+                            additional_smb_export_paths_count:
+                              type: integer
+                              xml:
+                                name: additional-smb-export-paths-count
+                            mount_sync:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: mount-sync
+                            atime_update:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: atime-update
+                            read_ahead_kb:
+                              type: integer
+                              xml:
+                                name: read-ahead-kb
+                            ext_metering:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: ext-metering
+                            images_repo:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: images-repo
+                            flc_db:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: flc-db
+                            quarantine_repo:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: quarantine-repo
+                            audit_repo:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: audit-repo
+                            nfs_root_squash:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: nfs-root-squash
+                            nfs_all_squash:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: nfs-all-squash
+                            nfs_anon_uid:
+                              type: string
+                              xml:
+                                name: nfs-anon-uid
+                            nfs_anon_gid:
+                              type: string
+                              xml:
+                                name: nfs-anon-gid
+                            smb_only:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-only
+                            smb_guest:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-guest
+                            smb_windows_acl:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-windows-acl
+                            smb_map_archive:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-map-archive
+                            smb_file_create_mask:
+                              type: string
+                              example: '0744'
+                              xml:
+                                name: smb-file-create-mask
+                            smb_dir_create_mask:
+                              type: string
+                              example: '0755'
+                              xml:
+                                name: smb-dir-create-mask
+                            smb_aio_size:
+                              type: integer
+                              xml:
+                                name: smb-aio-size
+                            smb_browseable:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-browseable
+                            smb_hidden_files:
+                              type: string
+                              xml:
+                                name: smb-hidden-files
+                            smb_encryption_mode:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: smb-encryption-mode
+                            smb_case_sensitive:
+                              type: string
+                              example: AUTO
+                              xml:
+                                name: smb-case-sensitive
+                            smb_mangled_names:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-mangled-names
+                            smb_hide_unreadable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unreadable
+                            smb_hide_unwriteable:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-unwriteable
+                            smb_hide_dot_files:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-hide-dot-files
+                            smb_store_dos_attributes:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: smb-store-dos-attributes
+                            smb_enable_oplocks:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: smb-enable-oplocks
+                            audit_enable:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: audit-enable
+                            capacity_history:
+                              type: integer
+                              xml:
+                                name: capacity-history
+                            alert_mode:
+                              type: integer
+                              xml:
+                                name: alert-mode
+                            emergency_mode_mb:
+                              type: integer
+                              xml:
+                                name: emergency-mode-mb
+                            auto_expand_on_emergency:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: auto-expand-on-emergency
+                            auto_expand_by:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: auto-expand-by
+                            max_capacity:
+                              type: integer
+                              example: 102400
+                              xml:
+                                name: max-capacity
+                            uquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: uquota-state
+                            gquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: gquota-state
+                            pquota_state:
+                              type: string
+                              example: 'off'
+                              xml:
+                                name: pquota-state
+                            target:
+                              type: string
+                            lun:
+                              type: string
+                            cache:
+                              type: string
+                            tenant_id:
+                              type: integer
+                              xml:
+                                name: tenant-id
+                            has_mirror:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-mirror
+                            has_backup:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-backup
+                            is_remote_clone_source:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: is-remote-clone-source
+                            has_snapshots:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: has-snapshots
+                            shadow_copy_enabled:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: shadow-copy-enabled
+                            is_shadow_copy_clone:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: is-shadow-copy-clone
+                            read_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-iops-limit
+                            read_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-mbps-limit
+                            write_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-iops-limit
+                            write_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-mbps-limit
+                            read_iops_capping:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-iops-capping
+                            read_mbps_capping:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-mbps-capping
+                            write_iops_capping:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-iops-capping
+                            write_mbps_capping:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-mbps-capping
+                            compress:
+                              type: string
+                              example: NO/Globally disabled
+                            dedupe:
+                              type: string
+                              example: NO/Globally disabled
+                            mtr_histograms:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: mtr-histograms
+                            flc_state:
+                              type: string
+                              example: FLC_NONE
+                              xml:
+                                name: flc-state
+                            flc_scan_state:
+                              type: string
+                              example: FLC_SCAN_NONE
+                              xml:
+                                name: flc-scan-state
+                            flc_scan_progress:
+                              type: number
+                              xml:
+                                name: flc-scan-progress
+                            flc_scan_remaining_time_seconds:
+                              type: integer
+                              xml:
+                                name: flc-scan-remaining-time-seconds
+                            thresholds:
+                              type: string
+                            comment:
+                              type: string
+                            created_at:
+                              type: string
+                              format: date_time
+                              example: 2021-09-09T16:31:28+0300
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              example: 2021-09-14T14:49:53+0300
+                              xml:
+                                name: modified-at
+                            deleted:
+                              type: string
+                              example: 2023-04-12T10:29:33+0300
+                              description: Shows when the volume was moved to recycle bin
+                            data_type:
+                              type: string
+                              example: File-System
+                              xml:
+                                name: data-type
+                            flc_policy_name:
+                              type: string
+                              xml:
+                                name: flc-policy-name
+                            snapshots_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: snapshots-count
+                          xml:
+                            name: volume
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-volumes-in-recycle-bin-response
+      summary: Get volumes in pool recycle bin
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /pools/{id}/performance.json:
+    get:
+      tags:
+      - Pools
+      description: Returns the last 60 data points of performance data for the specified interval.
+      operationId: get_pool_performance
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^r?pool-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rd_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-iops
+                            rd_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-iotime
+                            rd_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-bandwidth
+                            rd_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-queue-len
+                            wrt_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-iops
+                            wrt_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-iotime
+                            wrt_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-bandwidth
+                            wrt_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-queue-len
+                            point:
+                              type: integer
+                              example: 1386985186
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_pool_perf-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      pool_name:
+                        type: string
+                        example: pool-00000001
+                        xml:
+                          name: pool-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rd_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-iops
+                            rd_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-iotime
+                            rd_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-bandwidth
+                            rd_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-queue-len
+                            wrt_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-iops
+                            wrt_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-iotime
+                            wrt_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-bandwidth
+                            wrt_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-queue-len
+                            point:
+                              type: integer
+                              example: 1386985186
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_pool_perf-response
+      summary: Get pool performance
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  parameters:
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

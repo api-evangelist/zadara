@@ -1,0 +1,1790 @@
+openapi: 3.2.0
+info:
+  title: Zadara Virtual Controllers API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Virtual Controllers across 2 of this provider''s published API definitions: zadara-object-storage-25.07.yml, zadara-object-storage-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Virtual Controllers
+  description: Operations for Virtual Controllers.
+paths:
+  /zios/virtual_controllers.json:
+    get:
+      tags:
+      - Virtual Controllers
+      description: Get a list of Virtual Controllers.
+      operationId: get_all_virtual_controllers
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      vcs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: vc-0
+                            vc_index:
+                              type: integer
+                              xml:
+                                name: vc-index
+                            storage_node:
+                              type: string
+                              example: qa14_sn4
+                              xml:
+                                name: storage-node
+                            role:
+                              type: string
+                              example: proxy+storage
+                            display_role:
+                              type: string
+                              example: proxy+storage
+                              xml:
+                                name: display-role
+                            vc_state:
+                              type: string
+                              example: created
+                              xml:
+                                name: vc-state
+                            proxy_state:
+                              type: string
+                              example: OBJ_NORMAL
+                              xml:
+                                name: proxy-state
+                            integrity:
+                              type: string
+                              example: normal
+                            manager_role:
+                              type: string
+                              example: ring master
+                              xml:
+                                name: manager-role
+                            region_id:
+                              type: integer
+                              xml:
+                                name: region-id
+                            zone_id:
+                              type: integer
+                              xml:
+                                name: zone-id
+                            policy_type:
+                              type: integer
+                              xml:
+                                name: policy-type
+                            allocation_zone:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone
+                            allocation_zone_display_name:
+                              type: string
+                              example: secondary
+                              xml:
+                                name: allocation-zone-display-name
+                            status:
+                              type: string
+                              example: created
+                            fe_ip:
+                              type: string
+                              example: None
+                              xml:
+                                name: fe-ip
+                            fe_ipv6:
+                              type: string
+                              example: 2003:cdba::3256:13
+                              xml:
+                                name: fe-ipv6
+                            be_ip:
+                              type: string
+                              example: 10.3.14.75
+                              xml:
+                                name: be-ip
+                            lb_group_name:
+                              type: string
+                              example: lbg-00000004
+                              xml:
+                                name: lb-group-name
+                            lb_group_owner:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: lb-group-owner
+                            lb_group_priority:
+                              type: integer
+                              xml:
+                                name: lb-group-priority
+                            lb_group_configured:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: lb-group-configured
+                            lb_state:
+                              type: string
+                              example: NotConfigured
+                              xml:
+                                name: lb-state
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: vc
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show_vcs-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      vcs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: vc-0
+                            vc_index:
+                              type: integer
+                              xml:
+                                name: vc-index
+                            storage_node:
+                              type: string
+                              example: qa14_sn4
+                              xml:
+                                name: storage-node
+                            role:
+                              type: string
+                              example: proxy+storage
+                            display_role:
+                              type: string
+                              example: proxy+storage
+                              xml:
+                                name: display-role
+                            vc_state:
+                              type: string
+                              example: created
+                              xml:
+                                name: vc-state
+                            proxy_state:
+                              type: string
+                              example: OBJ_NORMAL
+                              xml:
+                                name: proxy-state
+                            integrity:
+                              type: string
+                              example: normal
+                            manager_role:
+                              type: string
+                              example: ring master
+                              xml:
+                                name: manager-role
+                            region_id:
+                              type: integer
+                              xml:
+                                name: region-id
+                            zone_id:
+                              type: integer
+                              xml:
+                                name: zone-id
+                            policy_type:
+                              type: integer
+                              xml:
+                                name: policy-type
+                            allocation_zone:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone
+                            allocation_zone_display_name:
+                              type: string
+                              example: secondary
+                              xml:
+                                name: allocation-zone-display-name
+                            status:
+                              type: string
+                              example: created
+                            fe_ip:
+                              type: string
+                              example: None
+                              xml:
+                                name: fe-ip
+                            fe_ipv6:
+                              type: string
+                              example: 2003:cdba::3256:13
+                              xml:
+                                name: fe-ipv6
+                            be_ip:
+                              type: string
+                              example: 10.3.14.75
+                              xml:
+                                name: be-ip
+                            lb_group_name:
+                              type: string
+                              example: lbg-00000004
+                              xml:
+                                name: lb-group-name
+                            lb_group_owner:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: lb-group-owner
+                            lb_group_priority:
+                              type: integer
+                              xml:
+                                name: lb-group-priority
+                            lb_group_configured:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: lb-group-configured
+                            lb_state:
+                              type: string
+                              example: NotConfigured
+                              xml:
+                                name: lb-state
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: vc
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show_vcs-response
+      summary: Get all virtual controllers
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/{vc_index}.json:
+    get:
+      tags:
+      - Virtual Controllers
+      description: Get one Virtual Controller.
+      operationId: get_virtual_controller
+      parameters:
+      - in: path
+        name: vc_index
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vc:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: vc-0
+                          vc_index:
+                            type: integer
+                            xml:
+                              name: vc-index
+                          storage_node:
+                            type: string
+                            example: qa14_sn4
+                            xml:
+                              name: storage-node
+                          role:
+                            type: string
+                            example: proxy+storage
+                          display_role:
+                            type: string
+                            example: proxy+storage
+                            xml:
+                              name: display-role
+                          vc_state:
+                            type: string
+                            example: created
+                            xml:
+                              name: vc-state
+                          proxy_state:
+                            type: string
+                            example: OBJ_NORMAL
+                            xml:
+                              name: proxy-state
+                          integrity:
+                            type: string
+                            example: normal
+                          manager_role:
+                            type: string
+                            example: ring master
+                            xml:
+                              name: manager-role
+                          region_id:
+                            type: integer
+                            xml:
+                              name: region-id
+                          zone_id:
+                            type: integer
+                            xml:
+                              name: zone-id
+                          policy_type:
+                            type: integer
+                            xml:
+                              name: policy-type
+                          allocation_zone:
+                            type: string
+                            example: zone_0
+                            xml:
+                              name: allocation-zone
+                          allocation_zone_display_name:
+                            type: string
+                            example: secondary
+                            xml:
+                              name: allocation-zone-display-name
+                          status:
+                            type: string
+                            example: created
+                          fe_ip:
+                            type: string
+                            example: None
+                            xml:
+                              name: fe-ip
+                          fe_ipv6:
+                            type: string
+                            example: 2003:cdba::3256:13
+                            xml:
+                              name: fe-ipv6
+                          be_ip:
+                            type: string
+                            example: 10.3.14.75
+                            xml:
+                              name: be-ip
+                          lb_group_name:
+                            type: string
+                            example: lbg-00000004
+                            xml:
+                              name: lb-group-name
+                          lb_group_owner:
+                            type: string
+                            example: 'NO'
+                            xml:
+                              name: lb-group-owner
+                          lb_group_priority:
+                            type: integer
+                            xml:
+                              name: lb-group-priority
+                          lb_group_configured:
+                            type: string
+                            example: 'YES'
+                            xml:
+                              name: lb-group-configured
+                          lb_state:
+                            type: string
+                            example: NotConfigured
+                            xml:
+                              name: lb-state
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                    xml:
+                      name: get-virtual-controller-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vc:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: vc-0
+                          vc_index:
+                            type: integer
+                            xml:
+                              name: vc-index
+                          storage_node:
+                            type: string
+                            example: qa14_sn4
+                            xml:
+                              name: storage-node
+                          role:
+                            type: string
+                            example: proxy+storage
+                          display_role:
+                            type: string
+                            example: proxy+storage
+                            xml:
+                              name: display-role
+                          vc_state:
+                            type: string
+                            example: created
+                            xml:
+                              name: vc-state
+                          proxy_state:
+                            type: string
+                            example: OBJ_NORMAL
+                            xml:
+                              name: proxy-state
+                          integrity:
+                            type: string
+                            example: normal
+                          manager_role:
+                            type: string
+                            example: ring master
+                            xml:
+                              name: manager-role
+                          region_id:
+                            type: integer
+                            xml:
+                              name: region-id
+                          zone_id:
+                            type: integer
+                            xml:
+                              name: zone-id
+                          policy_type:
+                            type: integer
+                            xml:
+                              name: policy-type
+                          allocation_zone:
+                            type: string
+                            example: zone_0
+                            xml:
+                              name: allocation-zone
+                          allocation_zone_display_name:
+                            type: string
+                            example: secondary
+                            xml:
+                              name: allocation-zone-display-name
+                          status:
+                            type: string
+                            example: created
+                          fe_ip:
+                            type: string
+                            example: None
+                            xml:
+                              name: fe-ip
+                          fe_ipv6:
+                            type: string
+                            example: 2003:cdba::3256:13
+                            xml:
+                              name: fe-ipv6
+                          be_ip:
+                            type: string
+                            example: 10.3.14.75
+                            xml:
+                              name: be-ip
+                          lb_group_name:
+                            type: string
+                            example: lbg-00000004
+                            xml:
+                              name: lb-group-name
+                          lb_group_owner:
+                            type: string
+                            example: 'NO'
+                            xml:
+                              name: lb-group-owner
+                          lb_group_priority:
+                            type: integer
+                            xml:
+                              name: lb-group-priority
+                          lb_group_configured:
+                            type: string
+                            example: 'YES'
+                            xml:
+                              name: lb-group-configured
+                          lb_state:
+                            type: string
+                            example: NotConfigured
+                            xml:
+                              name: lb-state
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                    xml:
+                      name: get-virtual-controller-response
+      summary: Get virtual controller
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/{vc_index}/drives.json:
+    get:
+      tags:
+      - Virtual Controllers
+      description: Returns the drives list for a virtual controller.
+      operationId: get_virtual_controller_drives
+      parameters:
+      - in: path
+        name: vc_index
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      disks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-000002d0
+                            display_name:
+                              type: string
+                              example: drive-000
+                              xml:
+                                name: display-name
+                            disk_type:
+                              type: string
+                              example: SAS_278GB_10000RPM
+                              xml:
+                                name: disk-type
+                            disk_uuid:
+                              type: string
+                              example: 5000C5006C1F604B
+                              xml:
+                                name: disk-uuid
+                            storage_node:
+                              type: string
+                              example: test2_sn2
+                              xml:
+                                name: storage-node
+                            vc:
+                              type: string
+                              example: vc-0
+                            allocation_zone:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone
+                            allocation_zone_display_name:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone-display-name
+                            storage_policy:
+                              type: string
+                              example: abc
+                              xml:
+                                name: storage-policy
+                            status:
+                              type: string
+                              example: Normal
+                            capacity:
+                              type: integer
+                            used_capacity:
+                              type: integer
+                              xml:
+                                name: used-capacity
+                            avail_capacity:
+                              type: integer
+                              xml:
+                                name: avail-capacity
+                            total_capacity:
+                              type: integer
+                              xml:
+                                name: total-capacity
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: disk
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get-virtual-controller-drives-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      disks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-000002d0
+                            display_name:
+                              type: string
+                              example: drive-000
+                              xml:
+                                name: display-name
+                            disk_type:
+                              type: string
+                              example: SAS_278GB_10000RPM
+                              xml:
+                                name: disk-type
+                            disk_uuid:
+                              type: string
+                              example: 5000C5006C1F604B
+                              xml:
+                                name: disk-uuid
+                            storage_node:
+                              type: string
+                              example: test2_sn2
+                              xml:
+                                name: storage-node
+                            vc:
+                              type: string
+                              example: vc-0
+                            allocation_zone:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone
+                            allocation_zone_display_name:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone-display-name
+                            storage_policy:
+                              type: string
+                              example: abc
+                              xml:
+                                name: storage-policy
+                            status:
+                              type: string
+                              example: Normal
+                            capacity:
+                              type: integer
+                            used_capacity:
+                              type: integer
+                              xml:
+                                name: used-capacity
+                            avail_capacity:
+                              type: integer
+                              xml:
+                                name: avail-capacity
+                            total_capacity:
+                              type: integer
+                              xml:
+                                name: total-capacity
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: disk
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get-virtual-controller-drives-response
+      summary: Get virtual controller drives
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/remove_proxy_vcs.json:
+    delete:
+      tags:
+      - Virtual Controllers
+      description: Remove proxy VCs.
+      operationId: delete_proxy_virtual_controller
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - quantity
+              properties:
+                quantity:
+                  type: integer
+                  description: Number of VCs to remove
+                  example: 2
+                region_id:
+                  type: integer
+                  description: Region ID (For Multi Region VPSA object storage)
+                  example: 2
+        required: true
+      summary: Delete proxy virtual controller
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/remove_replicator_vcs.json:
+    delete:
+      tags:
+      - Virtual Controllers
+      description: Remove replicator VCs.
+      operationId: delete_replicator_virtual_controller
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 1073791826
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 1073791826
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - quantity
+              properties:
+                quantity:
+                  type: integer
+                  description: Number of VCs to remove
+                  minimum: 1
+                  example: 2
+                region_id:
+                  type: integer
+                  description: Region ID (For Multi Region VPSA object storage)
+                  example: 2
+        required: true
+      summary: Delete replicator virtual controller
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/{id}/cpu_stats.json:
+    get:
+      tags:
+      - Virtual Controllers
+      description: Retrieves metering statistics for the controller for the specified interval.
+      operationId: get_cpu_stats
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: count
+        description: Number of points in returned data.
+        schema:
+          type: integer
+      - in: query
+        name: interval
+        description: The interval to collect statistics for, in seconds.
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      example: 1711623420
+                    cpu_user:
+                      type: integer
+                      example: 5
+                      xml:
+                        name: cpu-user
+                    cpu_kernel:
+                      type: integer
+                      example: 2
+                      xml:
+                        name: cpu-kernel
+                  xml:
+                    name: object
+            application/xml:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      example: 1711623420
+                    cpu_user:
+                      type: integer
+                      example: 5
+                      xml:
+                        name: cpu-user
+                    cpu_kernel:
+                      type: integer
+                      example: 2
+                      xml:
+                        name: cpu-kernel
+                  xml:
+                    name: object
+      summary: Get cpu stats
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/{id}/memory_stats.json:
+    get:
+      tags:
+      - Virtual Controllers
+      description: Retrieves metering statistics for the controller for the specified interval.
+      operationId: get_vc_memory_stats
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: count
+        description: Number of points in returned data.
+        schema:
+          type: integer
+          default: 30
+      - in: query
+        name: interval
+        description: The interval to collect statistics for, in seconds.
+        schema:
+          type: integer
+          default: 60
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      example: 1711620690
+                    memory_allocated:
+                      type: integer
+                      example: 16
+                      xml:
+                        name: memory-allocated
+                  xml:
+                    name: object
+            application/xml:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      example: 1711620690
+                    memory_allocated:
+                      type: integer
+                      example: 16
+                      xml:
+                        name: memory-allocated
+                  xml:
+                    name: object
+      summary: Get vc memory stats
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/{id}/iops.json:
+    get:
+      tags:
+      - Virtual Controllers
+      description: Shows IOPs metering on a VC.
+      operationId: show_iops_metring_of_vc
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: service
+        schema:
+          type: string
+          enum:
+          - proxy
+      - in: query
+        name: interval
+        schema:
+          type: integer
+      - in: query
+        name: count
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    iops_put:
+                      type: number
+                      xml:
+                        name: iops-put
+                    iops_delete:
+                      type: number
+                      xml:
+                        name: iops-delete
+                    iops_get:
+                      type: number
+                      xml:
+                        name: iops-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    iops_put:
+                      type: number
+                      xml:
+                        name: iops-put
+                    iops_delete:
+                      type: number
+                      xml:
+                        name: iops-delete
+                    iops_get:
+                      type: number
+                      xml:
+                        name: iops-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Show iops metring of vc
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/{id}/latency.json:
+    get:
+      tags:
+      - Virtual Controllers
+      description: Shows latency metering (ms) on a VC.
+      operationId: show_latency_metering_on_vc
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: service
+        schema:
+          type: string
+          enum:
+          - proxy
+      - in: query
+        name: interval
+        schema:
+          type: integer
+      - in: query
+        name: count
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    latency_put:
+                      type: integer
+                      xml:
+                        name: latency-put
+                    latency_delete:
+                      type: integer
+                      xml:
+                        name: latency-delete
+                    latency_get:
+                      type: integer
+                      xml:
+                        name: latency-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    latency_put:
+                      type: integer
+                      xml:
+                        name: latency-put
+                    latency_delete:
+                      type: integer
+                      xml:
+                        name: latency-delete
+                    latency_get:
+                      type: integer
+                      xml:
+                        name: latency-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Show latency metering on vc
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/{id}/throughput.json:
+    get:
+      tags:
+      - Virtual Controllers
+      description: Shows bandwidth throughput metering (B/s) on a VC.
+      operationId: show_bandwidth_throughput_metering_on_vc
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: service
+        schema:
+          type: string
+          enum:
+          - proxy
+      - in: query
+        name: interval
+        schema:
+          type: integer
+      - in: query
+        name: count
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    throughput_put:
+                      type: number
+                      xml:
+                        name: throughput-put
+                    throughput_delete:
+                      type: integer
+                      xml:
+                        name: throughput-delete
+                    throughput_get:
+                      type: number
+                      xml:
+                        name: throughput-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    throughput_put:
+                      type: number
+                      xml:
+                        name: throughput-put
+                    throughput_delete:
+                      type: integer
+                      xml:
+                        name: throughput-delete
+                    throughput_get:
+                      type: number
+                      xml:
+                        name: throughput-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Show bandwidth throughput metering on vc
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/{id}/replication_iops.json:
+    get:
+      tags:
+      - Virtual Controllers
+      description: Shows Replicator VC Container Replication IOPs metering.
+      operationId: get_vc_replication_iops
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: interval
+        schema:
+          type: integer
+      - in: query
+        name: count
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: number
+                      description: IO count for PUT operation
+                      example: 123
+                    DELETE:
+                      type: number
+                      description: IO count for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: number
+                      description: IO count for PUT operation
+                      example: 123
+                    DELETE:
+                      type: number
+                      description: IO count for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Get vc replication iops
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/{id}/replication_throughput.json:
+    get:
+      tags:
+      - Virtual Controllers
+      description: Shows Replicator VC Container Replication throughput metering.
+      operationId: get_vc_replication_throughput
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: interval
+        schema:
+          type: integer
+      - in: query
+        name: count
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: number
+                      description: Throughput for PUT operation
+                      example: 123
+                    DELETE:
+                      type: number
+                      description: Throughput for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: number
+                      description: Throughput for PUT operation
+                      example: 123
+                    DELETE:
+                      type: number
+                      description: Throughput for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Get vc replication throughput
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/virtual_controllers/{id}/replication_latency.json:
+    get:
+      tags:
+      - Virtual Controllers
+      description: Shows Replicator VC Container Replication mean latency metering.
+      operationId: get_vc_replication_latency
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: interval
+        schema:
+          type: integer
+      - in: query
+        name: count
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: number
+                      description: Mean latency for PUT operation
+                      example: 123
+                    DELETE:
+                      type: number
+                      description: Mean latency for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: number
+                      description: Mean latency for PUT operation
+                      example: 123
+                    DELETE:
+                      type: number
+                      description: Mean latency for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Get vc replication latency
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-object-storage-25.07.yml
+- zadara-object-storage-openapi.yml

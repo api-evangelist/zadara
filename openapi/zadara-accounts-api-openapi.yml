@@ -1,0 +1,2260 @@
+openapi: 3.2.0
+info:
+  title: Zadara Accounts API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Accounts across 2 of this provider''s published API definitions: zadara-object-storage-25.07.yml, zadara-object-storage-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Accounts
+  description: Operations for Accounts.
+paths:
+  /zios/accounts.json:
+    get:
+      tags:
+      - Accounts
+      description: List all accounts.
+      operationId: get_all_accounts
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      - in: query
+        name: active
+        description: Retrieves only active accounts. Relevant only when using remote authentication.
+        schema:
+          type: boolean
+      - in: query
+        name: filter_field
+        description: A field to filter the accounts by.
+        schema:
+          type: string
+          enum:
+          - name
+          - id
+      - in: query
+        name: filter_value
+        description: A substring to filter the accounts by.
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      accounts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            update_time:
+                              type: string
+                              example: '146182175.08'
+                              xml:
+                                name: update-time
+                            name:
+                              type: string
+                              example: zios_admin
+                            is_system_account:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: is-system-account
+                            public_url_list:
+                              type: array
+                              items:
+                                type: string
+                                example: https://vsa-0000018f-zadara.zadarazios.com:443/v1/AUTH_91ea5bd5cdc04adb9f5e3c00a346c463
+                                xml:
+                                  name: public-url
+                              xml:
+                                name: public-url-list
+                                wrapped: true
+                            enabled:
+                              type: string
+                              example: 'True'
+                            email:
+                              type: string
+                              example: eyalzadarastorage.com
+                            state:
+                              type: string
+                              example: normal
+                            create_time:
+                              type: string
+                              example: '1461821754.96'
+                              xml:
+                                name: create-time
+                            id:
+                              type: string
+                              example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                            description:
+                              type: string
+                              example: None
+                          xml:
+                            name: account
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-accounts-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      accounts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            update_time:
+                              type: string
+                              example: '146182175.08'
+                              xml:
+                                name: update-time
+                            name:
+                              type: string
+                              example: zios_admin
+                            is_system_account:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: is-system-account
+                            public_url_list:
+                              type: array
+                              items:
+                                type: string
+                                example: https://vsa-0000018f-zadara.zadarazios.com:443/v1/AUTH_91ea5bd5cdc04adb9f5e3c00a346c463
+                                xml:
+                                  name: public-url
+                              xml:
+                                name: public-url-list
+                                wrapped: true
+                            enabled:
+                              type: string
+                              example: 'True'
+                            email:
+                              type: string
+                              example: eyalzadarastorage.com
+                            state:
+                              type: string
+                              example: normal
+                            create_time:
+                              type: string
+                              example: '1461821754.96'
+                              xml:
+                                name: create-time
+                            id:
+                              type: string
+                              example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                            description:
+                              type: string
+                              example: None
+                          xml:
+                            name: account
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-accounts-response
+      summary: Get all accounts
+      x-summary-source: derived
+    post:
+      tags:
+      - Accounts
+      description: Adds a new account.
+      operationId: create_account
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      account_id:
+                        type: string
+                        example: da39fd0e8a484156af0c22e84d936da0
+                        xml:
+                          name: account-id
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      account_id:
+                        type: string
+                        example: da39fd0e8a484156af0c22e84d936da0
+                        xml:
+                          name: account-id
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  description: Account name
+        required: true
+      summary: Create account
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/account_names.json:
+    get:
+      tags:
+      - Accounts
+      description: List all account names and IDs.
+      operationId: get_all_account_names
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      - in: query
+        name: all
+        description: Retrieve all accounts even when exceeding max page size (10000).
+        schema:
+          type: boolean
+      - in: query
+        name: filter_field
+        description: A field to filter the accounts by.
+        schema:
+          type: string
+          enum:
+          - name
+          - id
+      - in: query
+        name: filter_value
+        description: A substring to filter the accounts by.
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                        example: 1
+                      accounts:
+                        type: array
+                        xml:
+                          wrapped: true
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: zios_admin
+                            id:
+                              type: string
+                              example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                          xml:
+                            name: account
+                    xml:
+                      name: show-account-names-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                        example: 1
+                      accounts:
+                        type: array
+                        xml:
+                          wrapped: true
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: zios_admin
+                            id:
+                              type: string
+                              example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                          xml:
+                            name: account
+                    xml:
+                      name: show-account-names-response
+      summary: Get all account names
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/{account_id}.json:
+    get:
+      tags:
+      - Accounts
+      description: 'Show account.
+
+
+        Permissions: account_admin.'
+      x-roles: account_admin
+      operationId: get_account
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      account:
+                        type: object
+                        properties:
+                          update_time:
+                            type: string
+                            example: '1461821755.08'
+                            xml:
+                              name: update-time
+                          name:
+                            type: string
+                            example: zios_admin
+                          is_system_account:
+                            type: string
+                            example: 'True'
+                            xml:
+                              name: is-system-account
+                          public_url_list:
+                            type: array
+                            items:
+                              type: string
+                              example: https://vsa-0000018f-zadara.zadarazios.com:443/v1/AUTH_91ea5bd5cdc04adb9f5e3c00a346c463
+                              xml:
+                                name: public-url
+                            xml:
+                              name: public-url-list
+                              wrapped: true
+                          enabled:
+                            type: string
+                            example: 'True'
+                          email:
+                            type: string
+                            example: eyalzadarastorage.com
+                          state:
+                            type: string
+                            example: normal
+                          create_time:
+                            type: string
+                            example: '1461821754.96'
+                            xml:
+                              name: create-time
+                          id:
+                            type: string
+                            example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                          description:
+                            type: string
+                            example: None
+                    xml:
+                      name: show-one-account-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      account:
+                        type: object
+                        properties:
+                          update_time:
+                            type: string
+                            example: '1461821755.08'
+                            xml:
+                              name: update-time
+                          name:
+                            type: string
+                            example: zios_admin
+                          is_system_account:
+                            type: string
+                            example: 'True'
+                            xml:
+                              name: is-system-account
+                          public_url_list:
+                            type: array
+                            items:
+                              type: string
+                              example: https://vsa-0000018f-zadara.zadarazios.com:443/v1/AUTH_91ea5bd5cdc04adb9f5e3c00a346c463
+                              xml:
+                                name: public-url
+                            xml:
+                              name: public-url-list
+                              wrapped: true
+                          enabled:
+                            type: string
+                            example: 'True'
+                          email:
+                            type: string
+                            example: eyalzadarastorage.com
+                          state:
+                            type: string
+                            example: normal
+                          create_time:
+                            type: string
+                            example: '1461821754.96'
+                            xml:
+                              name: create-time
+                          id:
+                            type: string
+                            example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                          description:
+                            type: string
+                            example: None
+                    xml:
+                      name: show-one-account-response
+      summary: Get account
+      x-summary-source: derived
+    delete:
+      tags:
+      - Accounts
+      description: Delete an account.
+      operationId: delete_account
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: delete-account-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: delete-account-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - force
+              properties:
+                force:
+                  type: string
+                  description: force a deletion
+                  enum:
+                  - 'YES'
+                  - 'NO'
+        required: true
+      summary: Delete account
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/{account_id}/users.json:
+    get:
+      tags:
+      - Accounts
+      description: 'Show an account users.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: list_account_users
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            update_time:
+                              type: string
+                              example: '1462073035.42'
+                              xml:
+                                name: update-time
+                            name:
+                              type: string
+                              example: eyal
+                            enabled:
+                              type: string
+                              example: 'True'
+                            id:
+                              type: string
+                              example: 507ab47f362a4299aabe2f6e622c9b5s
+                            create_time:
+                              type: string
+                              example: '1461821754.97'
+                              xml:
+                                name: create-time
+                            init_password_changed:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: init-password-changed
+                            role_list:
+                              type: array
+                              items:
+                                type: string
+                                example: zios_admin
+                                xml:
+                                  name: role
+                              xml:
+                                name: role-list
+                                wrapped: true
+                            is_system_user:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: is-system-user
+                            account_name:
+                              type: string
+                              example: zios_admin
+                              xml:
+                                name: account-name
+                            account_id:
+                              type: string
+                              example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                              xml:
+                                name: account-id
+                          xml:
+                            name: user
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-users-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            update_time:
+                              type: string
+                              example: '1462073035.42'
+                              xml:
+                                name: update-time
+                            name:
+                              type: string
+                              example: eyal
+                            enabled:
+                              type: string
+                              example: 'True'
+                            id:
+                              type: string
+                              example: 507ab47f362a4299aabe2f6e622c9b5s
+                            create_time:
+                              type: string
+                              example: '1461821754.97'
+                              xml:
+                                name: create-time
+                            init_password_changed:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: init-password-changed
+                            role_list:
+                              type: array
+                              items:
+                                type: string
+                                example: zios_admin
+                                xml:
+                                  name: role
+                              xml:
+                                name: role-list
+                                wrapped: true
+                            is_system_user:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: is-system-user
+                            account_name:
+                              type: string
+                              example: zios_admin
+                              xml:
+                                name: account-name
+                            account_id:
+                              type: string
+                              example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                              xml:
+                                name: account-id
+                          xml:
+                            name: user
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-users-response
+      summary: List account users
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/{account_id}/cleanup.json:
+    delete:
+      tags:
+      - Accounts
+      description: Cleanup an account after deletion - deletes billing data.
+      operationId: cleanup_account
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: cleanup-account-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: cleanup-account-response
+      summary: Cleanup account
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/{account_id}/disable.json:
+    post:
+      tags:
+      - Accounts
+      description: Disables an account.
+      operationId: disable_account
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: disable-account-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: disable-account-response
+      summary: Disable account
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/{account_id}/enable.json:
+    post:
+      tags:
+      - Accounts
+      description: Enables an account.
+      operationId: enable_account
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: enable-account-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: enable-account-response
+      summary: Enable account
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /requests.json:
+    get:
+      tags:
+      - Accounts
+      description: List Account Requests
+      operationId: get_account_requests
+      parameters:
+      - in: query
+        name: state
+        description: Account request state
+        schema:
+          type: string
+          enum:
+          - pending
+          - approved
+          - denied
+      - in: query
+        name: limit
+        description: items per page
+        schema:
+          type: string
+      - in: query
+        name: page
+        description: page number
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      count:
+                        type: integer
+                      requests:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            arguments:
+                              type: object
+                              properties:
+                                username:
+                                  type: string
+                                  example: a8
+                                account:
+                                  type: string
+                                  example: a8
+                                email:
+                                  type: string
+                                  example: johndoegmail.com
+                            action:
+                              type: string
+                              example: register_account
+                            decided_by:
+                              type: string
+                              xml:
+                                name: decided-by
+                            decided_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: decided-at
+                            requested_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: requested-at
+                          xml:
+                            name: request
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      count:
+                        type: integer
+                      requests:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            arguments:
+                              type: object
+                              properties:
+                                username:
+                                  type: string
+                                  example: a8
+                                account:
+                                  type: string
+                                  example: a8
+                                email:
+                                  type: string
+                                  example: johndoegmail.com
+                            action:
+                              type: string
+                              example: register_account
+                            decided_by:
+                              type: string
+                              xml:
+                                name: decided-by
+                            decided_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: decided-at
+                            requested_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: requested-at
+                          xml:
+                            name: request
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+      summary: Get account requests
+      x-summary-source: derived
+    post:
+      tags:
+      - Accounts
+      description: Create Account Requests
+      operationId: create_account_requests
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: string
+                        example: '0'
+                      request_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: request-id
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: string
+                        example: '0'
+                      request_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: request-id
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - request_action
+              - arguments
+              properties:
+                request_action:
+                  type: string
+                  enum:
+                  - register_account
+                arguments:
+                  type: object
+                  description: Object containing username, account, email and password.
+        required: true
+      summary: Create account requests
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /requests/{id}/approve.json:
+    post:
+      tags:
+      - Accounts
+      description: Approve an account request.
+      operationId: approve_request
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      account_id:
+                        type: string
+                        example: 11b6d6ea0fdf43b6b39b5558bb2a95a6
+                        xml:
+                          name: account-id
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      account_id:
+                        type: string
+                        example: 11b6d6ea0fdf43b6b39b5558bb2a95a6
+                        xml:
+                          name: account-id
+                    xml:
+                      name: response
+      summary: Approve request
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /requests/{id}/deny.json:
+    post:
+      tags:
+      - Accounts
+      description: Deny an account request.
+      operationId: deny_request
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      request_id:
+                        type: string
+                        example: '33'
+                        xml:
+                          name: request-id
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      request_id:
+                        type: string
+                        example: '33'
+                        xml:
+                          name: request-id
+                    xml:
+                      name: response
+      summary: Deny request
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/{id}/iops.json:
+    get:
+      tags:
+      - Accounts
+      description: Shows IOPs metering of an account.
+      operationId: show_iops_metering_of_account
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - $ref: '#/components/parameters/subserver'
+      - $ref: '#/components/parameters/service'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  objects:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        time:
+                          type: integer
+                        iops_put:
+                          type: number
+                          xml:
+                            name: iops-put
+                        iops_delete:
+                          type: number
+                          xml:
+                            name: iops-delete
+                        iops_get:
+                          type: number
+                          xml:
+                            name: iops-get
+                      xml:
+                        name: object
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  objects:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        time:
+                          type: integer
+                        iops_put:
+                          type: number
+                          xml:
+                            name: iops-put
+                        iops_delete:
+                          type: number
+                          xml:
+                            name: iops-delete
+                        iops_get:
+                          type: number
+                          xml:
+                            name: iops-get
+                      xml:
+                        name: object
+                    xml:
+                      wrapped: true
+      summary: Show iops metering of account
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/{id}/latency.json:
+    get:
+      tags:
+      - Accounts
+      description: Shows latency metering (ms) of an account.
+      operationId: show_latency_metering_of_account
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - $ref: '#/components/parameters/subserver'
+      - $ref: '#/components/parameters/service'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  objects:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        time:
+                          type: integer
+                        latency_put:
+                          type: integer
+                          xml:
+                            name: latency-put
+                        latency_delete:
+                          type: integer
+                          xml:
+                            name: latency-delete
+                        latency_get:
+                          type: integer
+                          xml:
+                            name: latency-get
+                      xml:
+                        name: object
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  objects:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        time:
+                          type: integer
+                        latency_put:
+                          type: integer
+                          xml:
+                            name: latency-put
+                        latency_delete:
+                          type: integer
+                          xml:
+                            name: latency-delete
+                        latency_get:
+                          type: integer
+                          xml:
+                            name: latency-get
+                      xml:
+                        name: object
+                    xml:
+                      wrapped: true
+      summary: Show latency metering of account
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/{id}/throughput.json:
+    get:
+      tags:
+      - Accounts
+      description: Shows bandwidth throughput metering (B/s) of an account.
+      operationId: show_bandwidth_throughput_metering_of_account
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - $ref: '#/components/parameters/subserver'
+      - $ref: '#/components/parameters/service'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  objects:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        time:
+                          type: integer
+                        throughput_put:
+                          type: number
+                          xml:
+                            name: throughput-put
+                        throughput_delete:
+                          type: integer
+                          xml:
+                            name: throughput-delete
+                        throughput_get:
+                          type: number
+                          xml:
+                            name: throughput-get
+                      xml:
+                        name: object
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  objects:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        time:
+                          type: integer
+                        throughput_put:
+                          type: number
+                          xml:
+                            name: throughput-put
+                        throughput_delete:
+                          type: integer
+                          xml:
+                            name: throughput-delete
+                        throughput_get:
+                          type: number
+                          xml:
+                            name: throughput-get
+                      xml:
+                        name: object
+                    xml:
+                      wrapped: true
+      summary: Show bandwidth throughput metering of account
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/export.json:
+    get:
+      tags:
+      - Accounts
+      description: Exports all accounts in a CSV format.
+      operationId: export_accounts_in_csv_format
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/default'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/default'
+      summary: Export accounts in csv format
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/{id}/quota_notification.json:
+    get:
+      tags:
+      - Accounts
+      description: Gets the account quota details.
+      operationId: get_account_quota_details
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                      count:
+                        type: integer
+                        example: 1
+                        xml:
+                          name: quota-accounts-count
+                      quota_enabled_accounts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: zios_admin
+                            notify_account_admin:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: notify-account-admin
+                            total_bytes:
+                              type: string
+                              example: '37844156416'
+                              xml:
+                                name: total-bytes
+                            quota_bytes:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: quota-bytes
+                            warning_threshold:
+                              type: string
+                              example: '75'
+                              xml:
+                                name: warning-threshold
+                            emergency_threshold:
+                              type: string
+                              example: '90'
+                              xml:
+                                name: emergency-threshold
+                            is_daily:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: is-daily
+                            account_id:
+                              type: string
+                              example: a6d75befda444065a56ff9de98429d48
+                              xml:
+                                name: account-id
+                          xml:
+                            name: quota-enabled-account
+                        xml:
+                          name: quota-enabled-accounts
+                          wrapped: true
+                    xml:
+                      name: get-account-quota-details-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                      count:
+                        type: integer
+                        example: 1
+                        xml:
+                          name: quota-accounts-count
+                      quota_enabled_accounts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: zios_admin
+                            notify_account_admin:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: notify-account-admin
+                            total_bytes:
+                              type: string
+                              example: '37844156416'
+                              xml:
+                                name: total-bytes
+                            quota_bytes:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: quota-bytes
+                            warning_threshold:
+                              type: string
+                              example: '75'
+                              xml:
+                                name: warning-threshold
+                            emergency_threshold:
+                              type: string
+                              example: '90'
+                              xml:
+                                name: emergency-threshold
+                            is_daily:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: is-daily
+                            account_id:
+                              type: string
+                              example: a6d75befda444065a56ff9de98429d48
+                              xml:
+                                name: account-id
+                          xml:
+                            name: quota-enabled-account
+                        xml:
+                          name: quota-enabled-accounts
+                          wrapped: true
+                    xml:
+                      name: get-account-quota-details-response
+      summary: Get account quota details
+      x-summary-source: derived
+    post:
+      tags:
+      - Accounts
+      description: Sets the account quota notification.
+      operationId: set_account_quota_notification
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: set-account-quota-notification-status-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: set-account-quota-notification-status-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - enable
+              properties:
+                enable:
+                  type: boolean
+                  example: true
+                is_daily:
+                  type: boolean
+                  example: true
+                  description: Controls the frequency of the notification. Can be daily or one time.
+        required: true
+      summary: Set account quota notification
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/accounts/{id}/quota_by_capacity.json:
+    post:
+      tags:
+      - Accounts
+      description: Zios Admin can set the account quota by capacity.
+      operationId: set_account_quota_by_capacity
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: set-account-quota-by-capacity-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: an error has occured
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: an error has occured
+                      status:
+                        type: integer
+                        example: 0
+                    xml:
+                      name: set-account-quota-by-capacity-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - enable
+              properties:
+                enable:
+                  type: boolean
+                  example: true
+                quota_by_capacity_gib:
+                  type: integer
+                  description: Account quota by capacity (in GiB)
+                  example: 1
+        required: true
+      summary: Set account quota by capacity
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  parameters:
+    count:
+      name: count
+      in: query
+      required: false
+      description: The number of data points
+      schema:
+        type: integer
+        default: 30
+        minimum: 1
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+    service:
+      in: query
+      name: service
+      required: true
+      description: e.g. proxy
+      schema:
+        type: string
+    subserver:
+      in: query
+      name: subserver
+      required: true
+      description: e.g. object
+      schema:
+        type: string
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 60
+        minimum: 1
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    default:
+      type: object
+      properties:
+        status:
+          type: integer
+        status_msg:
+          type: string
+          xml:
+            name: status-msg
+        message:
+          type: string
+        response:
+          type: object
+          properties:
+            status:
+              type: integer
+            message:
+              type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-object-storage-25.07.yml
+- zadara-object-storage-openapi.yml

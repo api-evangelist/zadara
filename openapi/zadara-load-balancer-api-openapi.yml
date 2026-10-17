@@ -1,0 +1,683 @@
+openapi: 3.2.0
+info:
+  title: Zadara Load Balancer API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Load Balancer across 2 of this provider''s published API definitions: zadara-object-storage-25.07.yml, zadara-object-storage-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Load Balancer
+  description: Operations for Load Balancer.
+paths:
+  /zios/load_balancer_groups.json:
+    get:
+      tags:
+      - Load Balancer
+      description: Get a list of Load Balancer Groups.
+      operationId: get_load_balancer_groups
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      lbgs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: lbg-00000001
+                            vrid:
+                              type: integer
+                            ip_v4:
+                              type: string
+                              example: None
+                              xml:
+                                name: ip-v4
+                            ip_v6:
+                              type: string
+                              example: 2003:cdba::3256:23
+                              xml:
+                                name: ip-v6
+                            region_id:
+                              type: integer
+                              xml:
+                                name: region-id
+                            allocation_zone:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone
+                            allocation_zone_display_name:
+                              type: string
+                              example: primary
+                              xml:
+                                name: allocation-zone-display-name
+                            vcs:
+                              type: string
+                              example: vc-1,vc-3,vc-5,vc-7,vc-8
+                            master_vc:
+                              type: string
+                              example: vc-8
+                              xml:
+                                name: master-vc
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: lbg
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-lbgs-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      lbgs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: lbg-00000001
+                            vrid:
+                              type: integer
+                            ip_v4:
+                              type: string
+                              example: None
+                              xml:
+                                name: ip-v4
+                            ip_v6:
+                              type: string
+                              example: 2003:cdba::3256:23
+                              xml:
+                                name: ip-v6
+                            region_id:
+                              type: integer
+                              xml:
+                                name: region-id
+                            allocation_zone:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone
+                            allocation_zone_display_name:
+                              type: string
+                              example: primary
+                              xml:
+                                name: allocation-zone-display-name
+                            vcs:
+                              type: string
+                              example: vc-1,vc-3,vc-5,vc-7,vc-8
+                            master_vc:
+                              type: string
+                              example: vc-8
+                              xml:
+                                name: master-vc
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: lbg
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-lbgs-response
+      summary: Get load balancer groups
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/load_balancer_groups/{id}.json:
+    get:
+      tags:
+      - Load Balancer
+      description: Get info of a specific Load Balancer Group.
+      operationId: get_load_balancer_group
+      parameters:
+      - $ref: '#/components/parameters/lbgName'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      lbg:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: lbg-00000001
+                          vrid:
+                            type: integer
+                          ip_v4:
+                            type: string
+                            example: None
+                            xml:
+                              name: ip-v4
+                          ip_v6:
+                            type: string
+                            example: 2003:cdba::3256:23
+                            xml:
+                              name: ip-v6
+                          region_id:
+                            type: integer
+                            xml:
+                              name: region-id
+                          allocation_zone:
+                            type: string
+                            example: zone_0
+                            xml:
+                              name: allocation-zone
+                          allocation_zone_display_name:
+                            type: string
+                            example: primary
+                            xml:
+                              name: allocation-zone-display-name
+                          vcs:
+                            type: string
+                            example: vc-1,vc-3,vc-5,vc-7,vc-8
+                          master_vc:
+                            type: string
+                            example: vc-8
+                            xml:
+                              name: master-vc
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                    xml:
+                      name: show-one-lbg-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      lbg:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: lbg-00000001
+                          vrid:
+                            type: integer
+                          ip_v4:
+                            type: string
+                            example: None
+                            xml:
+                              name: ip-v4
+                          ip_v6:
+                            type: string
+                            example: 2003:cdba::3256:23
+                            xml:
+                              name: ip-v6
+                          region_id:
+                            type: integer
+                            xml:
+                              name: region-id
+                          allocation_zone:
+                            type: string
+                            example: zone_0
+                            xml:
+                              name: allocation-zone
+                          allocation_zone_display_name:
+                            type: string
+                            example: primary
+                            xml:
+                              name: allocation-zone-display-name
+                          vcs:
+                            type: string
+                            example: vc-1,vc-3,vc-5,vc-7,vc-8
+                          master_vc:
+                            type: string
+                            example: vc-8
+                            xml:
+                              name: master-vc
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                    xml:
+                      name: show-one-lbg-response
+      summary: Get load balancer group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/load_balancer_groups/{id}/iops.json:
+    get:
+      tags:
+      - Load Balancer
+      description: Shows IOPs metering of a load balancer group.
+      operationId: get_iop_metering_load_balancer_group
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - $ref: '#/components/parameters/lbgName'
+      - in: query
+        name: service
+        required: true
+        schema:
+          type: string
+          enum:
+          - proxy
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    iops_put:
+                      type: number
+                      xml:
+                        name: iops-put
+                    iops_delete:
+                      type: number
+                      xml:
+                        name: iops-delete
+                    iops_get:
+                      type: number
+                      xml:
+                        name: iops-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    iops_put:
+                      type: number
+                      xml:
+                        name: iops-put
+                    iops_delete:
+                      type: number
+                      xml:
+                        name: iops-delete
+                    iops_get:
+                      type: number
+                      xml:
+                        name: iops-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Get iop metering load balancer group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/load_balancer_groups/{id}/latency.json:
+    get:
+      tags:
+      - Load Balancer
+      description: Shows latency metering (ms) of a load balancer group.
+      operationId: get_latency_metering_load_balancer_group
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - $ref: '#/components/parameters/lbgName'
+      - in: query
+        name: service
+        required: true
+        schema:
+          type: string
+          enum:
+          - proxy
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    latency_put:
+                      type: integer
+                      xml:
+                        name: latency-put
+                    latency_delete:
+                      type: integer
+                      xml:
+                        name: latency-delete
+                    latency_get:
+                      type: integer
+                      xml:
+                        name: latency-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    latency_put:
+                      type: integer
+                      xml:
+                        name: latency-put
+                    latency_delete:
+                      type: integer
+                      xml:
+                        name: latency-delete
+                    latency_get:
+                      type: integer
+                      xml:
+                        name: latency-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Get latency metering load balancer group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/load_balancer_groups/{id}/throughput.json:
+    get:
+      tags:
+      - Load Balancer
+      description: Shows bandwidth throughput metering (B/s) of a load balancer group.
+      operationId: get_throughput_metering_load_balancer_group
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - $ref: '#/components/parameters/lbgName'
+      - in: query
+        name: service
+        required: true
+        schema:
+          type: string
+          enum:
+          - proxy
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    throughput_put:
+                      type: number
+                      xml:
+                        name: throughput-put
+                    throughput_delete:
+                      type: integer
+                      xml:
+                        name: throughput-delete
+                    throughput_get:
+                      type: number
+                      xml:
+                        name: throughput-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    throughput_put:
+                      type: number
+                      xml:
+                        name: throughput-put
+                    throughput_delete:
+                      type: integer
+                      xml:
+                        name: throughput-delete
+                    throughput_get:
+                      type: number
+                      xml:
+                        name: throughput-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Get throughput metering load balancer group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  parameters:
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 60
+        minimum: 1
+    count:
+      name: count
+      in: query
+      required: false
+      description: The number of data points
+      schema:
+        type: integer
+        default: 30
+        minimum: 1
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+    lbgName:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+        pattern: ^lbg-[0-9]+
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-object-storage-25.07.yml
+- zadara-object-storage-openapi.yml

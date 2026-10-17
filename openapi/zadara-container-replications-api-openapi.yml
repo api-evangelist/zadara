@@ -1,0 +1,1314 @@
+openapi: 3.2.0
+info:
+  title: Zadara Container Replications API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Container Replications across 2 of this provider''s published API definitions: zadara-object-storage-25.07.yml, zadara-object-storage-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Container Replications
+  description: Operations for Container Replications
+paths:
+  /zios/container_replications.json:
+    get:
+      tags:
+      - Container Replications
+      x-roles: account_admin
+      description: Show container replication jobs.
+      operationId: show_container_replication_jobs
+      parameters:
+      - in: query
+        name: src_bucket
+        description: Filter by source bucket of replication.
+        schema:
+          type: string
+      - in: query
+        name: include_deleted
+        description: Show also deleted replication jobs.
+        schema:
+          type: boolean
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: show-container-replications-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      replication_jobs_count:
+                        type: integer
+                        example: 1
+                        xml:
+                          name: replication-jobs-count
+                      replication_jobs:
+                        type: array
+                        xml:
+                          name: replication-jobs
+                          wrapped: true
+                        items:
+                          $ref: '#/components/schemas/ReplicationJob'
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: show-container-replications-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      replication_jobs_count:
+                        type: integer
+                        example: 1
+                        xml:
+                          name: replication-jobs-count
+                      replication_jobs:
+                        type: array
+                        xml:
+                          name: replication-jobs
+                          wrapped: true
+                        items:
+                          $ref: '#/components/schemas/ReplicationJob'
+      summary: Show container replication jobs
+      x-summary-source: derived
+    post:
+      tags:
+      - Container Replications
+      x-roles: account_admin
+      description: Create a container replication job.
+      operationId: create_container_replication
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: create-container-replication-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: create-container-replication-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - display_name
+              - src_bucket
+              - target_id
+              - dst_bucket
+              properties:
+                display_name:
+                  type: string
+                  description: Display Name for container replication
+                  example: replication 1
+                src_bucket:
+                  type: string
+                  description: Source bucket name for replication
+                  example: bucket1
+                target_id:
+                  type: string
+                  description: Replication Target ID
+                  example: target-7162313
+                dst_bucket:
+                  type: string
+                  description: Destination bucket name for replication
+                  example: us-east-1
+                prefix:
+                  type: string
+                  description: Bucket objects prefix to replicate
+                  example: abc
+                  default: ''
+                delete_propagation:
+                  type: boolean
+                  description: Delete propagation
+                  example: true
+                  default: false
+                delete_marker_propagation:
+                  type: boolean
+                  description: Delete marker propagation
+                  example: true
+                  default: false
+                force_dest_bucket_creation:
+                  type: boolean
+                  description: Force destination bucket creation
+                  example: true
+                  default: false
+        required: true
+      summary: Create container replication
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/container_replications/{id}.json:
+    get:
+      tags:
+      - Container Replications
+      x-roles: account_admin
+      description: Show one container replication job.
+      operationId: show_one_container_replication_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: include_deleted
+        description: Show deleted replication job.
+        schema:
+          type: boolean
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: show-one-container-replication-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      replication_jobs_count:
+                        type: integer
+                        example: 1
+                        xml:
+                          name: replication-jobs-count
+                      replication_jobs:
+                        type: array
+                        xml:
+                          name: replication-jobs
+                          wrapped: true
+                        items:
+                          $ref: '#/components/schemas/ReplicationJob'
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: show-one-container-replication-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      replication_jobs_count:
+                        type: integer
+                        example: 1
+                        xml:
+                          name: replication-jobs-count
+                      replication_jobs:
+                        type: array
+                        xml:
+                          name: replication-jobs
+                          wrapped: true
+                        items:
+                          $ref: '#/components/schemas/ReplicationJob'
+      summary: Show one container replication job
+      x-summary-source: derived
+    put:
+      tags:
+      - Container Replications
+      x-roles: account_admin
+      description: Update a container replication job.
+      operationId: update_container_replication
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: update-container-replication-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: update-container-replication-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                delete_propagation:
+                  type: boolean
+                  description: Delete propagation
+                  example: true
+                delete_marker_propagation:
+                  type: boolean
+                  description: Delete marker propagation
+                  example: true
+        required: true
+      summary: Update container replication
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/container_replications/{id}/delete.json:
+    delete:
+      tags:
+      - Container Replications
+      x-roles: account_admin
+      description: Delete a container replication job.
+      operationId: delete_container_replication
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-container-replication-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-container-replication-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force:
+                  type: string
+                  description: Force delete replication job when target is unreachable.
+                  example: 'YES'
+                  enum:
+                  - 'YES'
+                  - 'NO'
+      summary: Delete container replication
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/container_replications/{id}/pause.json:
+    post:
+      tags:
+      - Container Replications
+      description: Pause a container replication job.
+      operationId: pause_container_replication
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-container-replication-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-container-replication-response
+      summary: Pause container replication
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/container_replications/{id}/resume.json:
+    post:
+      tags:
+      - Container Replications
+      x-roles: account_admin
+      description: Resume a container replication job.
+      operationId: resume_container_replication
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: resume-container-replication-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: resume-container-replication-response
+      summary: Resume container replication
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/container_replications/{id}/io_count.json:
+    get:
+      tags:
+      - Container Replications
+      x-roles: account_admin
+      description: Show IO count history of a replication job.
+      operationId: show_container_replication_io_count
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: src_account_id
+        required: true
+        description: Replication job source account id.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/interval'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: integer
+                      description: IO count for PUT operation
+                      example: 123
+                    DELETE:
+                      type: integer
+                      description: IO count for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+            application/xml:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: integer
+                      description: IO count for PUT operation
+                      example: 123
+                    DELETE:
+                      type: integer
+                      description: IO count for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+      summary: Show container replication io count
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/container_replications/{id}/bandwidth.json:
+    get:
+      tags:
+      - Container Replications
+      x-roles: account_admin
+      description: Show bandwidth history of a replication job.
+      operationId: show_container_replication_bandwidth
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: src_account_id
+        required: true
+        description: Replication job source account id.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/interval'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: integer
+                      description: Bandwidth for PUT operation
+                      example: 123
+                    DELETE:
+                      type: integer
+                      description: Bandwidth for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+            application/xml:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: integer
+                      description: Bandwidth for PUT operation
+                      example: 123
+                    DELETE:
+                      type: integer
+                      description: Bandwidth for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+      summary: Show container replication bandwidth
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/container_replications/{id}/latency.json:
+    get:
+      tags:
+      - Container Replications
+      x-roles: account_admin
+      description: Show mean latency history of a replication job.
+      operationId: show_container_replication_latency
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: src_account_id
+        required: true
+        description: Replication job source account id.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/interval'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: integer
+                      description: Mean latency for PUT operation
+                      example: 123
+                    DELETE:
+                      type: integer
+                      description: Mean latency for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+            application/xml:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT:
+                      type: integer
+                      description: Mean latency for PUT operation
+                      example: 123
+                    DELETE:
+                      type: integer
+                      description: Mean latency for DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+      summary: Show container replication latency
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/container_replications/{id}/io_count_errors.json:
+    get:
+      tags:
+      - Container Replications
+      x-roles: account_admin
+      description: Show IO count errors history of a replication job.
+      operationId: show_container_replication_io_count_errors
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: src_account_id
+        required: true
+        description: Replication job source account id.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/interval'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT_400:
+                      xml:
+                        name: PUT-400
+                      type: integer
+                      description: IO count errors for 400 PUT operation
+                      example: 123
+                    PUT_403:
+                      xml:
+                        name: PUT-403
+                      type: integer
+                      description: IO count errors for 403 PUT operation
+                      example: 123
+                    PUT_404:
+                      xml:
+                        name: PUT-404
+                      type: integer
+                      description: IO count errors for 404 PUT operation
+                      example: 123
+                    PUT_500:
+                      xml:
+                        name: PUT-500
+                      type: integer
+                      description: IO count errors for 500 PUT operation
+                      example: 123
+                    PUT_503:
+                      xml:
+                        name: PUT-503
+                      type: integer
+                      description: IO count errors for 503 PUT operation
+                      example: 123
+                    DELETE_400:
+                      xml:
+                        name: DELETE-400
+                      type: integer
+                      description: IO count errors for 400 DELETE operation
+                      example: 123
+                    DELETE_403:
+                      xml:
+                        name: DELETE-403
+                      type: integer
+                      description: IO count errors for 403 DELETE operation
+                      example: 123
+                    DELETE_404:
+                      xml:
+                        name: DELETE-404
+                      type: integer
+                      description: IO count errors for 404 DELETE operation
+                      example: 123
+                    DELETE_500:
+                      xml:
+                        name: DELETE-500
+                      type: integer
+                      description: IO count errors for 500 DELETE operation
+                      example: 123
+                    DELETE_503:
+                      xml:
+                        name: DELETE-503
+                      type: integer
+                      description: IO count errors for 503 DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+            application/xml:
+              schema:
+                xml:
+                  name: objects
+                  wrapped: true
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      description: epoch unix time
+                      example: 1733394960
+                    PUT_400:
+                      xml:
+                        name: PUT-400
+                      type: integer
+                      description: IO count errors for 400 PUT operation
+                      example: 123
+                    PUT_403:
+                      xml:
+                        name: PUT-403
+                      type: integer
+                      description: IO count errors for 403 PUT operation
+                      example: 123
+                    PUT_404:
+                      xml:
+                        name: PUT-404
+                      type: integer
+                      description: IO count errors for 404 PUT operation
+                      example: 123
+                    PUT_500:
+                      xml:
+                        name: PUT-500
+                      type: integer
+                      description: IO count errors for 500 PUT operation
+                      example: 123
+                    PUT_503:
+                      xml:
+                        name: PUT-503
+                      type: integer
+                      description: IO count errors for 503 PUT operation
+                      example: 123
+                    DELETE_400:
+                      xml:
+                        name: DELETE-400
+                      type: integer
+                      description: IO count errors for 400 DELETE operation
+                      example: 123
+                    DELETE_403:
+                      xml:
+                        name: DELETE-403
+                      type: integer
+                      description: IO count errors for 403 DELETE operation
+                      example: 123
+                    DELETE_404:
+                      xml:
+                        name: DELETE-404
+                      type: integer
+                      description: IO count errors for 404 DELETE operation
+                      example: 123
+                    DELETE_500:
+                      xml:
+                        name: DELETE-500
+                      type: integer
+                      description: IO count errors for 500 DELETE operation
+                      example: 123
+                    DELETE_503:
+                      xml:
+                        name: DELETE-503
+                      type: integer
+                      description: IO count errors for 503 DELETE operation
+                      example: 123
+                  xml:
+                    name: object
+      summary: Show container replication io count errors
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    ReplicationJob:
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date_time
+          xml:
+            name: created-at
+        modified_at:
+          type: string
+          format: date_time
+          xml:
+            name: modified-at
+        state:
+          type: string
+          example: enabled
+        display_name:
+          type: string
+          example: local job
+          xml:
+            name: display-name
+        source_account:
+          type: string
+          example: 104248df08414c659b269e09b355b08b
+          xml:
+            name: source-account
+        source_bucket:
+          type: string
+          example: src1
+          xml:
+            name: source-bucket
+        destination_bucket:
+          type: string
+          example: target1
+          xml:
+            name: destination-bucket
+        destination_ssl:
+          type: boolean
+          example: true
+          xml:
+            name: destination-ssl
+        target_id:
+          type: string
+          example: replication-target-1727775350
+          xml:
+            name: target-id
+        prefix:
+          type: string
+          example: abc
+        methods:
+          type: array
+          items:
+            type: string
+            xml:
+              name: method
+          example:
+          - put
+          - delete
+          xml:
+            wrapped: true
+        delete_propagation:
+          type: string
+          enum:
+          - 'True'
+          - 'False'
+          example: 'False'
+          xml:
+            name: delete-propagation
+        delete_marker_propagation:
+          type: string
+          enum:
+          - 'True'
+          - 'False'
+          example: 'False'
+          xml:
+            name: delete-marker-propagation
+        replication_type:
+          type: string
+          example: AP
+          xml:
+            name: replication-type
+        mode:
+          type: integer
+          example: 2
+        paused_at:
+          type: string
+          format: date_time
+          xml:
+            name: paused-at
+        resumed_at:
+          type: string
+          format: date_time
+          xml:
+            name: resumed-at
+        replication_id:
+          type: string
+          example: replication-conf-1727775630
+          xml:
+            name: replication-id
+        num_batches:
+          type: integer
+          example: 0
+          xml:
+            name: num-batches
+        bytes:
+          type: integer
+          example: 1677721600
+        replicated:
+          type: integer
+          example: 800
+        failed_put:
+          type: integer
+          example: 0
+          xml:
+            name: failed-put
+        failed_delete:
+          type: integer
+          example: 0
+          xml:
+            name: failed-delete
+        failed_objects:
+          type: integer
+          example: 0
+          xml:
+            name: failed-objects
+        deleted:
+          type: integer
+          example: 0
+        source_container_objects:
+          type: integer
+          example: 0
+          xml:
+            name: source-container-objects
+        source_container_versions_objects:
+          type: integer
+          example: 800
+          xml:
+            name: source-container-versions-objects
+        source_container_bytes:
+          type: integer
+          example: 1677721600
+          xml:
+            name: source-container-bytes
+        destination_container_objects:
+          type: integer
+          example: 0
+          xml:
+            name: destination-container-objects
+        destination_container_versions_objects:
+          type: integer
+          example: 800
+          xml:
+            name: destination-container-versions-objects
+        destination_container_bytes:
+          type: integer
+          example: 1677721600
+          xml:
+            name: destination-container-bytes
+        last_object_replicated_creation_time:
+          type: string
+          format: date_time
+          example: '1747207152.0'
+          xml:
+            name: last-object-replicated-creation-time
+        last_full_sync_time:
+          type: string
+          format: date_time
+          example: '0'
+          xml:
+            name: last-full-sync-time
+        disable_count:
+          type: string
+          example: Not-Applicable
+          xml:
+            name: disable-count
+        state_changed_at:
+          type: string
+          format: date_time
+          example: '1747206851.9546416'
+          xml:
+            name: state-changed-at
+        last_replicated_time:
+          type: string
+          format: date_time
+          example: '1747207204.0'
+          xml:
+            name: last-replicated-time
+        target_display_name:
+          type: string
+          example: target.displayName
+          xml:
+            name: target-display-name
+        replication_lag:
+          type: string
+          example: Sync Completed
+          xml:
+            name: replication-lag
+        disable_percentage:
+          type: string
+          example: 10%
+          xml:
+            name: disable-percentage
+      xml:
+        name: replication-job
+  parameters:
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 60
+        minimum: 1
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-object-storage-25.07.yml
+- zadara-object-storage-openapi.yml

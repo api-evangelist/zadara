@@ -1,0 +1,4165 @@
+openapi: 3.2.0
+info:
+  title: Zadara Mirroring and Cloning API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Mirroring and Cloning across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Mirroring and Cloning
+  description: Operations for Remote Mirroring and Cloning.
+paths:
+  /mirror_jobs.json:
+    get:
+      tags:
+      - Mirroring and Cloning
+      description: Show all Remote Mirror Jobs.
+      operationId: show_vpsa_mirror_jobs
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      vpsa_mirror_jobs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            job_name:
+                              type: string
+                              example: srcjvpsa-00000001
+                              xml:
+                                name: job-name
+                            job_display_name:
+                              type: string
+                              example: mirror
+                              xml:
+                                name: job-display-name
+                            src:
+                              type: object
+                              properties:
+                                provider:
+                                  type: string
+                                  example: openstack
+                                vpsa_display_name:
+                                  type: string
+                                  example: myvpsa
+                                  xml:
+                                    name: vpsa-display-name
+                                cg_display_name:
+                                  type: string
+                                  example: volume
+                                  xml:
+                                    name: cg-display-name
+                                cg_name:
+                                  type: string
+                                  example: cg-00000001
+                                  xml:
+                                    name: cg-name
+                                pool_display_name:
+                                  type: string
+                                  example: poolrenamed
+                                  xml:
+                                    name: pool-display-name
+                            dst:
+                              type: object
+                              properties:
+                                provider:
+                                  type: string
+                                  example: openstack
+                                vpsa_display_name:
+                                  type: string
+                                  example: myvpsa2
+                                  xml:
+                                    name: vpsa-display-name
+                                cg_display_name:
+                                  type: string
+                                  example: remotevolume
+                                  xml:
+                                    name: cg-display-name
+                                cg_name:
+                                  type: string
+                                  example: None
+                                  xml:
+                                    name: cg-name
+                                pool_display_name:
+                                  type: string
+                                  example: pool
+                                  xml:
+                                    name: pool-display-name
+                            status:
+                              type: string
+                              example: Idle
+                            rpo:
+                              type: string
+                              example: '2013-09-27 02:10:20'
+                            wan_optimization:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: wan-optimization
+                            avg_sync_rate_kb_sec:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: avg-sync-rate-kb-sec
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: vpsa-mirror-job
+                        xml:
+                          name: vpsa-mirror-jobs
+                          wrapped: true
+                    xml:
+                      name: show-vpsa-mirror-jobs-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      vpsa_mirror_jobs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            job_name:
+                              type: string
+                              example: srcjvpsa-00000001
+                              xml:
+                                name: job-name
+                            job_display_name:
+                              type: string
+                              example: mirror
+                              xml:
+                                name: job-display-name
+                            src:
+                              type: object
+                              properties:
+                                provider:
+                                  type: string
+                                  example: openstack
+                                vpsa_display_name:
+                                  type: string
+                                  example: myvpsa
+                                  xml:
+                                    name: vpsa-display-name
+                                cg_display_name:
+                                  type: string
+                                  example: volume
+                                  xml:
+                                    name: cg-display-name
+                                cg_name:
+                                  type: string
+                                  example: cg-00000001
+                                  xml:
+                                    name: cg-name
+                                pool_display_name:
+                                  type: string
+                                  example: poolrenamed
+                                  xml:
+                                    name: pool-display-name
+                            dst:
+                              type: object
+                              properties:
+                                provider:
+                                  type: string
+                                  example: openstack
+                                vpsa_display_name:
+                                  type: string
+                                  example: myvpsa2
+                                  xml:
+                                    name: vpsa-display-name
+                                cg_display_name:
+                                  type: string
+                                  example: remotevolume
+                                  xml:
+                                    name: cg-display-name
+                                cg_name:
+                                  type: string
+                                  example: None
+                                  xml:
+                                    name: cg-name
+                                pool_display_name:
+                                  type: string
+                                  example: pool
+                                  xml:
+                                    name: pool-display-name
+                            status:
+                              type: string
+                              example: Idle
+                            rpo:
+                              type: string
+                              example: '2013-09-27 02:10:20'
+                            wan_optimization:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: wan-optimization
+                            avg_sync_rate_kb_sec:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: avg-sync-rate-kb-sec
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: vpsa-mirror-job
+                        xml:
+                          name: vpsa-mirror-jobs
+                          wrapped: true
+                    xml:
+                      name: show-vpsa-mirror-jobs-response
+      summary: Show vpsa mirror jobs
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /mirror_jobs/{id}.json:
+    get:
+      tags:
+      - Mirroring and Cloning
+      description: Show One Remote Mirror Jobs.
+      operationId: show_remote_mirror_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^(src|dst)jvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job:
+                        type: object
+                        properties:
+                          job_name:
+                            type: string
+                            example: srcjvpsa-00000001
+                            xml:
+                              name: job-name
+                          job_display_name:
+                            type: string
+                            example: mirror
+                            xml:
+                              name: job-display-name
+                          src:
+                            type: object
+                            properties:
+                              provider:
+                                type: string
+                                example: openstack
+                              vpsa_display_name:
+                                type: string
+                                example: myvpsa
+                                xml:
+                                  name: vpsa-display-name
+                              cg_display_name:
+                                type: string
+                                example: volume
+                                xml:
+                                  name: cg-display-name
+                              cg_name:
+                                type: string
+                                example: cg-00000001
+                                xml:
+                                  name: cg-name
+                              pool_display_name:
+                                type: string
+                                example: pool1
+                                xml:
+                                  name: pool-display-name
+                              vpsa_uuid:
+                                type: string
+                                example: 909A8E663A3044B6A353CE290F892276
+                                xml:
+                                  name: vpsa-uuid
+                              limited_higher_rate_in_KBS:
+                                type: string
+                                xml:
+                                  name: limited-higher-rate-in-KBS
+                              comment:
+                                type: string
+                          dst:
+                            type: object
+                            properties:
+                              provider:
+                                type: string
+                                example: openstack
+                              vpsa_display_name:
+                                type: string
+                                example: myvpsa2
+                                xml:
+                                  name: vpsa-display-name
+                              cg_display_name:
+                                type: string
+                                example: remotevolume
+                                xml:
+                                  name: cg-display-name
+                              cg_name:
+                                type: string
+                                example: None
+                                xml:
+                                  name: cg-name
+                              pool_display_name:
+                                type: string
+                                example: pool2
+                                xml:
+                                  name: pool-display-name
+                              vpsa_uuid:
+                                type: string
+                                example: 909A8E663A3044B6A353CE290F892276
+                                xml:
+                                  name: vpsa-uuid
+                          status:
+                            type: string
+                            example: Idle
+                          rpo:
+                            type: string
+                            example: '2013-09-27 02:10:20'
+                          wan_optimization:
+                            type: string
+                            example: 'YES'
+                            xml:
+                              name: wan-optimization
+                          avg_sync_rate_kb_sec:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: avg-sync-rate-kb-sec
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          compress:
+                            type: string
+                            example: 'NO'
+                          dedupe:
+                            type: string
+                            example: 'NO'
+                        xml:
+                          name: vpsa-mirror-job
+                    xml:
+                      name: show-one-vpsa-mirror-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job:
+                        type: object
+                        properties:
+                          job_name:
+                            type: string
+                            example: srcjvpsa-00000001
+                            xml:
+                              name: job-name
+                          job_display_name:
+                            type: string
+                            example: mirror
+                            xml:
+                              name: job-display-name
+                          src:
+                            type: object
+                            properties:
+                              provider:
+                                type: string
+                                example: openstack
+                              vpsa_display_name:
+                                type: string
+                                example: myvpsa
+                                xml:
+                                  name: vpsa-display-name
+                              cg_display_name:
+                                type: string
+                                example: volume
+                                xml:
+                                  name: cg-display-name
+                              cg_name:
+                                type: string
+                                example: cg-00000001
+                                xml:
+                                  name: cg-name
+                              pool_display_name:
+                                type: string
+                                example: pool1
+                                xml:
+                                  name: pool-display-name
+                              vpsa_uuid:
+                                type: string
+                                example: 909A8E663A3044B6A353CE290F892276
+                                xml:
+                                  name: vpsa-uuid
+                              limited_higher_rate_in_KBS:
+                                type: string
+                                xml:
+                                  name: limited-higher-rate-in-KBS
+                              comment:
+                                type: string
+                          dst:
+                            type: object
+                            properties:
+                              provider:
+                                type: string
+                                example: openstack
+                              vpsa_display_name:
+                                type: string
+                                example: myvpsa2
+                                xml:
+                                  name: vpsa-display-name
+                              cg_display_name:
+                                type: string
+                                example: remotevolume
+                                xml:
+                                  name: cg-display-name
+                              cg_name:
+                                type: string
+                                example: None
+                                xml:
+                                  name: cg-name
+                              pool_display_name:
+                                type: string
+                                example: pool2
+                                xml:
+                                  name: pool-display-name
+                              vpsa_uuid:
+                                type: string
+                                example: 909A8E663A3044B6A353CE290F892276
+                                xml:
+                                  name: vpsa-uuid
+                          status:
+                            type: string
+                            example: Idle
+                          rpo:
+                            type: string
+                            example: '2013-09-27 02:10:20'
+                          wan_optimization:
+                            type: string
+                            example: 'YES'
+                            xml:
+                              name: wan-optimization
+                          avg_sync_rate_kb_sec:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: avg-sync-rate-kb-sec
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          compress:
+                            type: string
+                            example: 'NO'
+                          dedupe:
+                            type: string
+                            example: 'NO'
+                        xml:
+                          name: vpsa-mirror-job
+                    xml:
+                      name: show-one-vpsa-mirror-job-response
+      summary: Show remote mirror job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /mirror_jobs/{id}/pause.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Pause a Remote Mirror Job.
+      operationId: pause_vpsa_mirror_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^(src|dst)jvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job_name:
+                        type: string
+                        example: srcjvpsa-00000001
+                        xml:
+                          name: vpsa-mirror-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-vpsa-mirror-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job_name:
+                        type: string
+                        example: srcjvpsa-00000001
+                        xml:
+                          name: vpsa-mirror-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-vpsa-mirror-job-response
+      summary: Pause vpsa mirror job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /mirror_jobs/{id}/continue.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Continue a Paused Remote Mirror Job.
+      operationId: continue_vpsa_mirror_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^(src|dst)jvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job_name:
+                        type: string
+                        example: srcjvpsa-00000001
+                        xml:
+                          name: vpsa-mirror-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: continue-vpsa-mirror-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job_name:
+                        type: string
+                        example: srcjvpsa-00000001
+                        xml:
+                          name: vpsa-mirror-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: continue-vpsa-mirror-job-response
+      summary: Continue vpsa mirror job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /mirror_jobs/{id}/break.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Breaks a Remote Mirror Job.
+      operationId: break_vpsa_mirror_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^(src|dst)jvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job_name:
+                        type: string
+                        example: srcjvpsa-00000001
+                        xml:
+                          name: vpsa-mirror-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: break-vpsa-mirror-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job_name:
+                        type: string
+                        example: srcjvpsa-00000001
+                        xml:
+                          name: vpsa-mirror-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: break-vpsa-mirror-job-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inherited:
+                  type: string
+                  description: Assign source WWID to target volume. Relevant only for Block type volume.
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'NO'
+        required: true
+      summary: Break vpsa mirror job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /mirror_jobs/{id}/rate_limit.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Update a mirror job rate limit (kb/s)
+      operationId: update_mirror_rate_limit
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^(src|dst)jvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job_name:
+                        type: string
+                        example: srcjvpsa-00000001
+                        xml:
+                          name: vpsa-mirror-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: set-higher-rate-vpsa-mirror-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job_name:
+                        type: string
+                        example: srcjvpsa-00000001
+                        xml:
+                          name: vpsa-mirror-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: set-higher-rate-vpsa-mirror-job-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limit:
+                  type: integer
+                  description: Rate limit in kb/s
+                  example: 44
+        required: true
+      summary: Update mirror rate limit
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_vpsas.json:
+    get:
+      tags:
+      - Mirroring and Cloning
+      description: List all Remote VPSAs.
+      operationId: show_remote_vpsas
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                        xml:
+                          name: remote-vpsas-count
+                      remote_vpsas:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/RemoteVpsa'
+                        xml:
+                          name: remote-vpsas
+                          wrapped: true
+                    xml:
+                      name: show-remote-vpsas-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                        xml:
+                          name: remote-vpsas-count
+                      remote_vpsas:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/RemoteVpsa'
+                        xml:
+                          name: remote-vpsas
+                          wrapped: true
+                    xml:
+                      name: show-remote-vpsas-response
+      summary: Show remote vpsas
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_vpsas/discover.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Discover and connect a Remote VPSA. Must supply User credentials of the remote VPSA and define if the discovery is done via a Public IP or the Management IP
+      operationId: discover_remote_vpsa
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000001
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                    xml:
+                      name: discover-remote-vpsa-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000001
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                    xml:
+                      name: discover-remote-vpsa-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - ip
+              - user
+              - password
+              properties:
+                ip:
+                  type: string
+                  description: IP of VPSA to discover
+                  example: 11.22.33.44
+                user:
+                  type: string
+                  description: username of VPSA to discover
+                  example: johndoe
+                password:
+                  type: string
+                  description: password of VPSA to discover
+                  example: mysupersecretpassword
+                interface:
+                  type: string
+                  description: Set interface to use for connecting the remote vpsa
+                  enum:
+                  - public
+                  - vni0
+                  - fe
+                  example: public
+                  default: fe
+                report_failures:
+                  type: boolean
+                  description: Control alerts about connectivity issues with the Remote VPSA
+                  example: true
+                proxyhost:
+                  type: string
+                  description: If using proxy, the proxy host
+                  example: 11.22.33.44
+                proxyport:
+                  type: integer
+                  description: If using proxy, the proxy port
+                  example: 88
+                proxyusername:
+                  type: string
+                  description: If using proxy with authentication, the proxy username
+                  example: johndoe
+                proxypassword:
+                  type: string
+                  description: If using proxy with authentication, the proxy user password
+                  example: mysupersecretpassword
+        required: true
+      summary: Discover remote vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_vpsas/{id}.json:
+    get:
+      tags:
+      - Mirroring and Cloning
+      description: Get information about a single Remote VPSA.
+      operationId: show_remote_vpsa
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      remote_vpsa:
+                        $ref: '#/components/schemas/RemoteVpsa'
+                    xml:
+                      name: show-one-remote-vpsa-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      remote_vpsa:
+                        $ref: '#/components/schemas/RemoteVpsa'
+                    xml:
+                      name: show-one-remote-vpsa-response
+      summary: Show remote vpsa
+      x-summary-source: derived
+    put:
+      tags:
+      - Mirroring and Cloning
+      description: Update a remote vpsa configuration
+      operationId: update_remote_vpsa_configuration
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000002
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-remote-vpsa-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000002
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-remote-vpsa-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limit:
+                  type: integer
+                  description: Rate limit in MiB/s
+                  example: 44
+                report_failures:
+                  type: boolean
+                  description: Control alerts about connectivity issues with the Remote VPSA
+                  example: true
+        required: true
+      summary: Update remote vpsa configuration
+      x-summary-source: derived
+    delete:
+      tags:
+      - Mirroring and Cloning
+      description: Delete the local record of a Remote VPSA.
+      operationId: remove_remote_vpsa
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000001
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-remote-vpsa-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000001
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-remote-vpsa-response
+      summary: Remove remote vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_vpsas/{id}/refresh.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Refresh discovered data about a Remote VPSA.
+      operationId: refresh_remote_vpsa
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000001
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                    xml:
+                      name: refresh-discovery-data-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000001
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                    xml:
+                      name: refresh-discovery-data-response
+      summary: Refresh remote vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_vpsas/{id}/pools.json:
+    get:
+      tags:
+      - Mirroring and Cloning
+      description: List the Pools in a Remote VPSA.
+      operationId: get_remote_vpsa_pools
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000002
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      remote_pools:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: rpool-00000002
+                            remote_display_name:
+                              type: string
+                              example: pool
+                              xml:
+                                name: remote-display-name
+                            capacity:
+                              type: string
+                              example: '133'
+                            free_capacity:
+                              type: string
+                              example: '129'
+                              xml:
+                                name: free-capacity
+                            mode:
+                              type: string
+                              example: simple
+                            stripe_size:
+                              type: string
+                              example: '64'
+                              xml:
+                                name: stripe-size
+                            version:
+                              type: string
+                              example: '2'
+                          xml:
+                            name: remote-pool
+                        xml:
+                          name: remote-pools
+                          wrapped: true
+                    xml:
+                      name: show-remote-pools-in-remote-vpsa-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000002
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      remote_pools:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: rpool-00000002
+                            remote_display_name:
+                              type: string
+                              example: pool
+                              xml:
+                                name: remote-display-name
+                            capacity:
+                              type: string
+                              example: '133'
+                            free_capacity:
+                              type: string
+                              example: '129'
+                              xml:
+                                name: free-capacity
+                            mode:
+                              type: string
+                              example: simple
+                            stripe_size:
+                              type: string
+                              example: '64'
+                              xml:
+                                name: stripe-size
+                            version:
+                              type: string
+                              example: '2'
+                          xml:
+                            name: remote-pool
+                        xml:
+                          name: remote-pools
+                          wrapped: true
+                    xml:
+                      name: show-remote-pools-in-remote-vpsa-response
+      summary: Get remote vpsa pools
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_vpsas/{id}/suggested_jobs.json:
+    get:
+      tags:
+      - Mirroring and Cloning
+      description: List Volumes on the remote VPSA which are candidates for resuming Remote Mirroring relationship. Typically, those Volumes were part of a mirror relationship in the past and still have a snapshots that correlates to an existing snapshot in the local VPSA. Those identical snapshots will be used to resume mirroring relationship
+      operationId: get_suggested_mirror_jobs
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rvpsa-[0-9a-f]{8}$
+      - in: query
+        name: cgname
+        required: true
+        description: CG ID for the local Volume.
+        schema:
+          type: string
+          pattern: ^cg-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      sugested_jobs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            dst_cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: dst-cg-name
+                            dst_cg_display_name:
+                              type: string
+                              example: remotevolume
+                              xml:
+                                name: dst-cg-display-name
+                            dst_snap_name:
+                              type: string
+                              example: snap-00000001
+                              xml:
+                                name: dst-snap-name
+                            dst_snap_display_name:
+                              type: string
+                              example: s_r3-1380240620852
+                              xml:
+                                name: dst-snap-display-name
+                            src_snap_name:
+                              type: string
+                              example: snap-00000003
+                              xml:
+                                name: src-snap-name
+                            src_snap_display_name:
+                              type: string
+                              example: s_r3-1380240620852
+                              xml:
+                                name: src-snap-display-name
+                            sync_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: sync-at
+                            snaps_todelete:
+                              type: integer
+                              xml:
+                                name: snaps-todelete
+                            dst_data_changed:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: dst-data-changed
+                          xml:
+                            name: sugested-job
+                        xml:
+                          name: sugested-jobs
+                          wrapped: true
+                    xml:
+                      name: get-dst-job-for-resume-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      sugested_jobs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            dst_cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: dst-cg-name
+                            dst_cg_display_name:
+                              type: string
+                              example: remotevolume
+                              xml:
+                                name: dst-cg-display-name
+                            dst_snap_name:
+                              type: string
+                              example: snap-00000001
+                              xml:
+                                name: dst-snap-name
+                            dst_snap_display_name:
+                              type: string
+                              example: s_r3-1380240620852
+                              xml:
+                                name: dst-snap-display-name
+                            src_snap_name:
+                              type: string
+                              example: snap-00000003
+                              xml:
+                                name: src-snap-name
+                            src_snap_display_name:
+                              type: string
+                              example: s_r3-1380240620852
+                              xml:
+                                name: src-snap-display-name
+                            sync_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: sync-at
+                            snaps_todelete:
+                              type: integer
+                              xml:
+                                name: snaps-todelete
+                            dst_data_changed:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: dst-data-changed
+                          xml:
+                            name: sugested-job
+                        xml:
+                          name: sugested-jobs
+                          wrapped: true
+                    xml:
+                      name: get-dst-job-for-resume-response
+      summary: Get suggested mirror jobs
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_vpsas/{id}/resume_mirror_job.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Resume a Remote Mirroring relationship between a local Volume snapshot and an remote Volume Snapshot on the remote VPSA
+      operationId: resume_broken_mirror
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job_name:
+                        type: string
+                        example: srcjvpsa-00000002
+                        xml:
+                          name: vpsa-mirror-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: resume-vpsa-mirror-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      vpsa_mirror_job_name:
+                        type: string
+                        example: srcjvpsa-00000002
+                        xml:
+                          name: vpsa-mirror-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: resume-vpsa-mirror-job-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - displayname
+              - policy
+              - wanoptimization
+              - snapname
+              - remote_snapname
+              properties:
+                displayname:
+                  type: string
+                  description: Display name for resumed mirror.
+                  example: my-mirror
+                policy:
+                  type: string
+                  pattern: ^policy-[0-9a-f]{8}$
+                  description: Policy ID
+                  example: policy-00000001
+                dedupe:
+                  type: string
+                  description: Enable Dedupe For Mirror.
+                  x-VpsaType: VPSA Flash Array
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                compress:
+                  type: string
+                  description: Enable Compression For Mirror.
+                  x-VpsaType: VPSA Flash Array
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                wanoptimization:
+                  type: string
+                  description: enable WAN optimization.
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                snapname:
+                  type: string
+                  pattern: ^snap-[0-9a-f]{8}$
+                  description: The local Snapshot ID.
+                  example: snap-00000001
+                remote_snapname:
+                  type: string
+                  pattern: ^snap-[0-9a-f]{8}$
+                  description: ID of a Remote Snapshot to resume from.
+                  example: snap-00000003
+                force:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+        required: true
+      summary: Resume broken mirror
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_vpsas/{id}/rate_limit.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Update a remote vpsa rate limit (MiB/s)
+      operationId: update_remote_vpsa_rate
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000002
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-remote-vpsa-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_vpsa_name:
+                        type: string
+                        example: rvpsa-00000002
+                        xml:
+                          name: remote-vpsa-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-remote-vpsa-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limit:
+                  type: integer
+                  description: Rate limit in MiB/s
+                  example: 44
+        required: true
+      summary: Update remote vpsa rate
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /consistency_groups/{jobname}/attach_snapshot_policy.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Attach a Snapshot Policy to a Volume.
+      operationId: attach_snapshot_policy_to_vpsa_mirror_job
+      parameters:
+      - in: path
+        name: jobname
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_rule_name:
+                        type: string
+                        example: rule-0000000f
+                        xml:
+                          name: snapshot-rule-name
+                      status:
+                        type: integer
+                    xml:
+                      name: attach-snapshot-policy-to-vpsa-mirror-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_rule_name:
+                        type: string
+                        example: rule-0000000f
+                        xml:
+                          name: snapshot-rule-name
+                      status:
+                        type: integer
+                    xml:
+                      name: attach-snapshot-policy-to-vpsa-mirror-job-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - policyname
+              properties:
+                policyname:
+                  type: string
+                  pattern: ^policy-[0-9a-f]{8}$
+                  description: A policy ID.
+                  example: policy-00000001
+        required: true
+      summary: Attach snapshot policy to vpsa mirror job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /mirror_jobs/{id}/attach_snapshot_policy.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Adds an additional snapshot policy to an existing mirror job.
+      operationId: add_mirror_snapshot_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^(src|dst)jvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_rule_name:
+                        type: string
+                        example: rule-0000000d
+                        xml:
+                          name: snapshot-rule-name
+                      status:
+                        type: integer
+                    xml:
+                      name: add-mirror-snapshot-policy-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_rule_name:
+                        type: string
+                        example: rule-0000000d
+                        xml:
+                          name: snapshot-rule-name
+                      status:
+                        type: integer
+                    xml:
+                      name: add-mirror-snapshot-policy-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - policyname
+              properties:
+                policyname:
+                  type: string
+                  example: policy-00000001
+        required: true
+      summary: Add mirror snapshot policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /mirror_jobs/{job_id}/detach_snapshot_policy.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Detach a Snapshot Policy from a Mirror job.
+      operationId: detach_snapshot_policy_from_vol
+      parameters:
+      - in: path
+        name: job_id
+        required: true
+        schema:
+          type: string
+          pattern: ^(src|dst)jvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_rule_name:
+                        type: string
+                        example: rule-0000000d
+                        xml:
+                          name: snapshot-rule-name
+                      status:
+                        type: integer
+                    xml:
+                      name: detach-snapshot-policy-from-vol-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      snapshot_rule_name:
+                        type: string
+                        example: rule-0000000d
+                        xml:
+                          name: snapshot-rule-name
+                      status:
+                        type: integer
+                    xml:
+                      name: detach-snapshot-policy-from-vol-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - snaprule
+              properties:
+                snaprule:
+                  type: string
+                  example: rule-00000001
+        required: true
+      summary: Detach snapshot policy from vol
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /mirror_jobs/{id}/set_wan_optimization.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Update a Mirror's WAN optimization.
+      operationId: update_mirror_wan_optimization
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^(src|dst)jvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: set-vpsa-mirror-job-wan-optimization-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: set-vpsa-mirror-job-wan-optimization-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wan_optimization:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'NO'
+        required: true
+      summary: Update mirror wan optimization
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /mirror_jobs/{id}/snapshots.json:
+    get:
+      tags:
+      - Mirroring and Cloning
+      description: Get all snapshots created by a mirror job.
+      operationId: get_snapshots
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^(src|dst)jvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      snapshots:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: snap-00000d2b
+                            display_name:
+                              type: string
+                              example: s_ra-1505204453226
+                              xml:
+                                name: display-name
+                            status:
+                              type: string
+                              example: normal
+                            cg_display_name:
+                              type: string
+                              example: c
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: cg-name
+                            pool_name:
+                              type: string
+                              example: pool-00000001
+                              xml:
+                                name: pool-name
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                            volume_ext_name:
+                              type: string
+                              example: volume-00000001
+                              xml:
+                                name: volume-ext-name
+                            volume_display_name:
+                              type: string
+                              example: v1
+                              xml:
+                                name: volume-display-name
+                            volume_capacity_mb:
+                              type: integer
+                              xml:
+                                name: volume-capacity-mb
+                          xml:
+                            name: snapshot
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-snapshots-on-cg-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      snapshots:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: snap-00000d2b
+                            display_name:
+                              type: string
+                              example: s_ra-1505204453226
+                              xml:
+                                name: display-name
+                            status:
+                              type: string
+                              example: normal
+                            cg_display_name:
+                              type: string
+                              example: c
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: cg-name
+                            pool_name:
+                              type: string
+                              example: pool-00000001
+                              xml:
+                                name: pool-name
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                            volume_ext_name:
+                              type: string
+                              example: volume-00000001
+                              xml:
+                                name: volume-ext-name
+                            volume_display_name:
+                              type: string
+                              example: v1
+                              xml:
+                                name: volume-display-name
+                            volume_capacity_mb:
+                              type: integer
+                              xml:
+                                name: volume-capacity-mb
+                          xml:
+                            name: snapshot
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-snapshots-on-cg-response
+      summary: Get snapshots
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /mirror_jobs/{id}/clone_snapshot.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Clone a mirror job's snapshot into a volume.
+      operationId: clone_mirror_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^(src|dst)jvpsa-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      cg_name:
+                        type: string
+                        example: cg-00000008
+                        xml:
+                          name: cg-name
+                      status:
+                        type: integer
+                    xml:
+                      name: clone-cg-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      cg_name:
+                        type: string
+                        example: cg-00000008
+                        xml:
+                          name: cg-name
+                      status:
+                        type: integer
+                    xml:
+                      name: clone-cg-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - snapshot
+              - clone_name
+              properties:
+                snapshot:
+                  type: string
+                  description: the snapshot to clone
+                  example: snap-000003f5
+                clone_name:
+                  type: string
+                  description: The name for the new volume.
+                  example: my_clone
+        required: true
+      summary: Clone mirror job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_vpsas/{id}/volumes.json:
+    get:
+      tags:
+      - Mirroring and Cloning
+      description: List the Volumes in a Remote VPSA.
+      operationId: show_remote_cgs
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      cgs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: cg-00000001
+                            display_name:
+                              type: string
+                              example: blk1
+                              xml:
+                                name: display-name
+                            volume_name:
+                              type: string
+                              example: volume-00000001
+                              xml:
+                                name: volume-name
+                            data_type:
+                              type: string
+                              example: BLOCK
+                              xml:
+                                name: data-type
+                            provisioned_capacity:
+                              type: integer
+                              xml:
+                                name: provisioned-capacity
+                            encryption:
+                              type: string
+                              example: 'NO'
+                          xml:
+                            name: cg
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-remote-cgs-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      cgs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: cg-00000001
+                            display_name:
+                              type: string
+                              example: blk1
+                              xml:
+                                name: display-name
+                            volume_name:
+                              type: string
+                              example: volume-00000001
+                              xml:
+                                name: volume-name
+                            data_type:
+                              type: string
+                              example: BLOCK
+                              xml:
+                                name: data-type
+                            provisioned_capacity:
+                              type: integer
+                              xml:
+                                name: provisioned-capacity
+                            encryption:
+                              type: string
+                              example: 'NO'
+                          xml:
+                            name: cg
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-remote-cgs-response
+      summary: Show remote cgs
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_vpsas/{id}/snapshots.json:
+    get:
+      tags:
+      - Mirroring and Cloning
+      description: List the snapshots in a Remote VPSA volume.
+      operationId: show_remote_snapshots_on_cg
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: cgname
+        description: cg name. (e.g. cg-00000001)
+        schema:
+          type: string
+          pattern: ^cg-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      snapshots:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: snap-0000005b
+                            display_name:
+                              type: string
+                              example: clone
+                              xml:
+                                name: display-name
+                            created_at_utc:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at-utc
+                            volume_ext_name:
+                              type: string
+                              example: volume-00000001
+                              xml:
+                                name: volume-ext-name
+                            volume_display_name:
+                              type: string
+                              example: v1
+                              xml:
+                                name: volume-display-name
+                            volume_capacity_mb:
+                              type: integer
+                              xml:
+                                name: volume-capacity-mb
+                          xml:
+                            name: snapshot
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-remote-snapshots-on-cg-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      snapshots:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: snap-0000005b
+                            display_name:
+                              type: string
+                              example: clone
+                              xml:
+                                name: display-name
+                            created_at_utc:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at-utc
+                            volume_ext_name:
+                              type: string
+                              example: volume-00000001
+                              xml:
+                                name: volume-ext-name
+                            volume_display_name:
+                              type: string
+                              example: v1
+                              xml:
+                                name: volume-display-name
+                            volume_capacity_mb:
+                              type: integer
+                              xml:
+                                name: volume-capacity-mb
+                          xml:
+                            name: snapshot
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-remote-snapshots-on-cg-response
+      summary: Show remote snapshots on cg
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /volumes/remote_clone.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Create a Remote Clone.
+      operationId: create_remote_clone
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: Message returned if action was not successful
+                        example: call temporarily blocked. Please retry later
+                      remote_clone_job_name:
+                        type: string
+                        example: dstrclone-00000004
+                        xml:
+                          name: remote-clone-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-remote-clone-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: Message returned if action was not successful
+                        example: call temporarily blocked. Please retry later
+                      remote_clone_job_name:
+                        type: string
+                        example: dstrclone-00000004
+                        xml:
+                          name: remote-clone-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-remote-clone-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - displayname
+              - volname
+              - poolname
+              - remote_clone_mode
+              - vpsaname
+              - snapname
+              properties:
+                displayname:
+                  type: string
+                  description: The new remote clone name
+                  example: my-volume
+                volname:
+                  type: string
+                  description: Destination volume name
+                  example: my-volume
+                poolname:
+                  type: string
+                  description: Pool to create remote clone
+                  example: pool-00010001
+                remote_clone_mode:
+                  type: string
+                  description: Remote Clone mode
+                  enum:
+                  - clone
+                  - retrieve
+                  example: clone
+                vpsaname:
+                  type: string
+                  description: The source vpsa name
+                  example: rvpsa-00000002
+                snapname:
+                  type: string
+                  pattern: ^snap-[0-9a-f]{8}$
+                  description: The source snapshot name
+                  example: snap-0000005f
+                dedupe:
+                  type: string
+                  description: Enable Dedupe For Remote Clone.
+                  x-VpsaType: VPSA Flash Array
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                compress:
+                  type: string
+                  description: Enable compress For Remote Clone.
+                  x-VpsaType: VPSA Flash Array
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                encrypted:
+                  type: string
+                  description: Enable encryption for this Remote Clone.
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+        required: true
+      summary: Create remote clone
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_clones.json:
+    get:
+      tags:
+      - Mirroring and Cloning
+      description: List the VPSA Remote Clones.
+      operationId: get_all_remote_clones
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      remote_clone_jobs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            job_name:
+                              type: string
+                              example: dstrclone-00000004
+                              xml:
+                                name: job-name
+                            job_display_name:
+                              type: string
+                              example: cloned
+                              xml:
+                                name: job-display-name
+                            mode:
+                              type: string
+                              example: Clone
+                            comment:
+                              type: string
+                              example: None
+                            src:
+                              type: object
+                              properties:
+                                provider:
+                                  type: string
+                                  example: zadaratest1
+                                vpsa_display_name:
+                                  type: string
+                                  example: testvpsa
+                                  xml:
+                                    name: vpsa-display-name
+                                vpsa_uuid:
+                                  type: string
+                                  example: 81441176117A46DEB6C48253C321DD89
+                                  xml:
+                                    name: vpsa-uuid
+                                snap_display_name:
+                                  type: string
+                                  example: clone
+                                  xml:
+                                    name: snap-display-name
+                                snap_name:
+                                  type: string
+                                  example: snap-0000005b
+                                  xml:
+                                    name: snap-name
+                                volume_name:
+                                  type: string
+                                  example: None
+                                  xml:
+                                    name: volume-name
+                                volume_display_name:
+                                  type: string
+                                  example: None
+                                  xml:
+                                    name: volume-display-name
+                            dst:
+                              type: object
+                              properties:
+                                provider:
+                                  type: string
+                                  example: zadaratest1
+                                vpsa_display_name:
+                                  type: string
+                                  example: testvpsa2
+                                  xml:
+                                    name: vpsa-display-name
+                                vpsa_uuid:
+                                  type: string
+                                  example: 20DB8067FC5B45C79DB2C39F3CFF93F0
+                                  xml:
+                                    name: vpsa-uuid
+                                cg_display_name:
+                                  type: string
+                                  example: cloned
+                                  xml:
+                                    name: cg-display-name
+                                cg_name:
+                                  type: string
+                                  example: cg-00000005
+                                  xml:
+                                    name: cg-name
+                            status:
+                              type: string
+                              example: Syncing
+                            compress:
+                              type: string
+                              example: 'YES'
+                            dedupe:
+                              type: string
+                              example: 'YES'
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: remote-clone-job
+                        xml:
+                          name: remote-clone-jobs
+                          wrapped: true
+                    xml:
+                      name: show-remote-clone-jobs-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      remote_clone_jobs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            job_name:
+                              type: string
+                              example: dstrclone-00000004
+                              xml:
+                                name: job-name
+                            job_display_name:
+                              type: string
+                              example: cloned
+                              xml:
+                                name: job-display-name
+                            mode:
+                              type: string
+                              example: Clone
+                            comment:
+                              type: string
+                              example: None
+                            src:
+                              type: object
+                              properties:
+                                provider:
+                                  type: string
+                                  example: zadaratest1
+                                vpsa_display_name:
+                                  type: string
+                                  example: testvpsa
+                                  xml:
+                                    name: vpsa-display-name
+                                vpsa_uuid:
+                                  type: string
+                                  example: 81441176117A46DEB6C48253C321DD89
+                                  xml:
+                                    name: vpsa-uuid
+                                snap_display_name:
+                                  type: string
+                                  example: clone
+                                  xml:
+                                    name: snap-display-name
+                                snap_name:
+                                  type: string
+                                  example: snap-0000005b
+                                  xml:
+                                    name: snap-name
+                                volume_name:
+                                  type: string
+                                  example: None
+                                  xml:
+                                    name: volume-name
+                                volume_display_name:
+                                  type: string
+                                  example: None
+                                  xml:
+                                    name: volume-display-name
+                            dst:
+                              type: object
+                              properties:
+                                provider:
+                                  type: string
+                                  example: zadaratest1
+                                vpsa_display_name:
+                                  type: string
+                                  example: testvpsa2
+                                  xml:
+                                    name: vpsa-display-name
+                                vpsa_uuid:
+                                  type: string
+                                  example: 20DB8067FC5B45C79DB2C39F3CFF93F0
+                                  xml:
+                                    name: vpsa-uuid
+                                cg_display_name:
+                                  type: string
+                                  example: cloned
+                                  xml:
+                                    name: cg-display-name
+                                cg_name:
+                                  type: string
+                                  example: cg-00000005
+                                  xml:
+                                    name: cg-name
+                            status:
+                              type: string
+                              example: Syncing
+                            compress:
+                              type: string
+                              example: 'YES'
+                            dedupe:
+                              type: string
+                              example: 'YES'
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: remote-clone-job
+                        xml:
+                          name: remote-clone-jobs
+                          wrapped: true
+                    xml:
+                      name: show-remote-clone-jobs-response
+      summary: Get all remote clones
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_clones/{id}.json:
+    get:
+      tags:
+      - Mirroring and Cloning
+      description: Show a Remote Clone.
+      operationId: get_remote_clone
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      remote_clone_job:
+                        type: object
+                        properties:
+                          job_name:
+                            type: string
+                            example: dstrclone-00000004
+                            xml:
+                              name: job-name
+                          job_display_name:
+                            type: string
+                            example: cloned
+                            xml:
+                              name: job-display-name
+                          mode:
+                            type: string
+                            example: Clone
+                          comment:
+                            type: string
+                            example: None
+                          src:
+                            type: object
+                            properties:
+                              provider:
+                                type: string
+                                example: zadaratest1
+                              vpsa_display_name:
+                                type: string
+                                example: testvpsa
+                                xml:
+                                  name: vpsa-display-name
+                              vpsa_uuid:
+                                type: string
+                                example: 81441176117A46DEB6C48253C321DD89
+                                xml:
+                                  name: vpsa-uuid
+                              snap_display_name:
+                                type: string
+                                example: clone
+                                xml:
+                                  name: snap-display-name
+                              snap_name:
+                                type: string
+                                example: snap-0000005b
+                                xml:
+                                  name: snap-name
+                              volume_name:
+                                type: string
+                                example: None
+                                xml:
+                                  name: volume-name
+                              volume_display_name:
+                                type: string
+                                example: None
+                                xml:
+                                  name: volume-display-name
+                          dst:
+                            type: object
+                            properties:
+                              provider:
+                                type: string
+                                example: zadaratest1
+                              vpsa_display_name:
+                                type: string
+                                example: testvpsa2
+                                xml:
+                                  name: vpsa-display-name
+                              vpsa_uuid:
+                                type: string
+                                example: 20DB8067FC5B45C79DB2C39F3CFF93F0
+                                xml:
+                                  name: vpsa-uuid
+                              cg_display_name:
+                                type: string
+                                example: cloned
+                                xml:
+                                  name: cg-display-name
+                              cg_name:
+                                type: string
+                                example: cg-00000005
+                                xml:
+                                  name: cg-name
+                          status:
+                            type: string
+                            example: Syncing
+                          compress:
+                            type: string
+                            example: 'YES'
+                          dedupe:
+                            type: string
+                            example: 'YES'
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                        xml:
+                          name: remote-clone-job
+                    xml:
+                      name: show-one-remote-clone-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      remote_clone_job:
+                        type: object
+                        properties:
+                          job_name:
+                            type: string
+                            example: dstrclone-00000004
+                            xml:
+                              name: job-name
+                          job_display_name:
+                            type: string
+                            example: cloned
+                            xml:
+                              name: job-display-name
+                          mode:
+                            type: string
+                            example: Clone
+                          comment:
+                            type: string
+                            example: None
+                          src:
+                            type: object
+                            properties:
+                              provider:
+                                type: string
+                                example: zadaratest1
+                              vpsa_display_name:
+                                type: string
+                                example: testvpsa
+                                xml:
+                                  name: vpsa-display-name
+                              vpsa_uuid:
+                                type: string
+                                example: 81441176117A46DEB6C48253C321DD89
+                                xml:
+                                  name: vpsa-uuid
+                              snap_display_name:
+                                type: string
+                                example: clone
+                                xml:
+                                  name: snap-display-name
+                              snap_name:
+                                type: string
+                                example: snap-0000005b
+                                xml:
+                                  name: snap-name
+                              volume_name:
+                                type: string
+                                example: None
+                                xml:
+                                  name: volume-name
+                              volume_display_name:
+                                type: string
+                                example: None
+                                xml:
+                                  name: volume-display-name
+                          dst:
+                            type: object
+                            properties:
+                              provider:
+                                type: string
+                                example: zadaratest1
+                              vpsa_display_name:
+                                type: string
+                                example: testvpsa2
+                                xml:
+                                  name: vpsa-display-name
+                              vpsa_uuid:
+                                type: string
+                                example: 20DB8067FC5B45C79DB2C39F3CFF93F0
+                                xml:
+                                  name: vpsa-uuid
+                              cg_display_name:
+                                type: string
+                                example: cloned
+                                xml:
+                                  name: cg-display-name
+                              cg_name:
+                                type: string
+                                example: cg-00000005
+                                xml:
+                                  name: cg-name
+                          status:
+                            type: string
+                            example: Syncing
+                          compress:
+                            type: string
+                            example: 'YES'
+                          dedupe:
+                            type: string
+                            example: 'YES'
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                        xml:
+                          name: remote-clone-job
+                    xml:
+                      name: show-one-remote-clone-job-response
+      summary: Get remote clone
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_clones/{id}/pause.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Pause a Remote Clone Job.
+      operationId: pause_remote_clone
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_clone_job_name:
+                        type: string
+                        example: dstrclone-00000004
+                        xml:
+                          name: remote-clone-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-remote-clone-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_clone_job_name:
+                        type: string
+                        example: dstrclone-00000004
+                        xml:
+                          name: remote-clone-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-remote-clone-job-response
+      summary: Pause remote clone
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_clones/{id}/continue.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Continue a Paused Remote Clone Job.
+      operationId: resume_remote_clone_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_clone_job_name:
+                        type: string
+                        example: dstrclone-00000004
+                        xml:
+                          name: remote-clone-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-remote-clone-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_clone_job_name:
+                        type: string
+                        example: dstrclone-00000004
+                        xml:
+                          name: remote-clone-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-remote-clone-job-response
+      summary: Resume remote clone job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_clones/{id}/break.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Breaks a Remote Clone Job.
+      operationId: break_remote_clone_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_clone_job_name:
+                        type: string
+                        example: dstrclone-00000004
+                        xml:
+                          name: remote-clone-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: break-remote-clone-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_clone_job_name:
+                        type: string
+                        example: dstrclone-00000004
+                        xml:
+                          name: remote-clone-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: break-remote-clone-job-response
+      summary: Break remote clone job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /remote_clones/{id}/switch_mode.json:
+    post:
+      tags:
+      - Mirroring and Cloning
+      description: Switch a Remote Clone Job clone mode.
+      operationId: switch_remote_clone_mode
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_clone_job_name:
+                        type: string
+                        example: dstrclone-00000005
+                        xml:
+                          name: remote-clone-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: change-remote-clone-job-mode-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      remote_clone_job_name:
+                        type: string
+                        example: dstrclone-00000005
+                        xml:
+                          name: remote-clone-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: change-remote-clone-job-mode-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - mode
+              properties:
+                mode:
+                  type: string
+                  description: Remote clone mode.
+                  enum:
+                  - clone
+                  - retrieve
+                  example: clone
+        required: true
+      summary: Switch remote clone mode
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    RemoteVpsa:
+      type: object
+      xml:
+        name: remote-vpsa
+      properties:
+        name:
+          type: string
+          example: rvpsa-00000003
+        remote_name:
+          type: string
+          example: vsa-000006bc
+          xml:
+            name: remote-name
+        remote_display_name:
+          type: string
+          example: myvpsa2
+          xml:
+            name: remote-display-name
+        provider:
+          type: string
+          example: openstack
+        software_version:
+          type: string
+          example: 13.09-988-13
+          xml:
+            name: software-version
+        uuid:
+          type: string
+          example: 87461016365148A6A459152BA1E28222
+        ip:
+          type: string
+          example: 170.70.2.109
+        public:
+          type: string
+          example: 'NO'
+        report_failure:
+          type: string
+          example: 'NO'
+          xml:
+            name: report-failure
+        vni:
+          type: string
+          example: vni0
+        status:
+          type: string
+          example: Normal
+        limited_higher_rate_in_KBS:
+          type: integer
+          example: 0
+          xml:
+            name: limited-higher-rate-in-KBS
+        features:
+          type: object
+          properties:
+            wan_optimization:
+              type: string
+              example: 'YES'
+              xml:
+                name: wan-optimization
+            manual_snaps:
+              type: string
+              example: 'NO'
+              xml:
+                name: manual-snaps
+            reconnect_policies:
+              type: string
+              example: 'YES'
+              xml:
+                name: reconnect-policies
+            archival_pool:
+              type: string
+              example: 'NO'
+              xml:
+                name: archival-pool
+            remote_clone:
+              type: string
+              example: 'YES'
+              xml:
+                name: remote-clone
+            inherit_src_id:
+              type: string
+              example: 'YES'
+              xml:
+                name: inherit-src-id
+            four_mb_chunk_size:
+              type: string
+              example: 'YES'
+              xml:
+                name: four-mb-chunk-size
+            extended_xcopy:
+              type: string
+              example: 'YES'
+              xml:
+                name: extended-xcopy
+            afa:
+              type: string
+              example: 'NO'
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

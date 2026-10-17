@@ -1,0 +1,715 @@
+openapi: 3.2.0
+info:
+  title: Zadara Logs API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Logs across 6 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-object-storage-25.07.yml, zadara-vpsa-25.07.yml, zadara-command-center-openapi.yml, zadara-object-storage-openapi.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Logs
+  description: Operations involving central logs.
+paths:
+  /clouds/{cloud_name}/logs.json:
+    get:
+      tags:
+      - Logs
+      description: Gets a list of recent events.
+      operationId: list_recent_event
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: min_severity
+        schema:
+          type: integer
+      - in: query
+        name: template
+        schema:
+          type: string
+      - in: query
+        name: min_time
+        schema:
+          type: string
+          format: date_time
+      - in: query
+        name: max_time
+        schema:
+          type: string
+          format: date_time
+      - in: query
+        name: min_id
+        schema:
+          type: integer
+      - in: query
+        name: max_id
+        schema:
+          type: integer
+      - in: query
+        name: orderby
+        schema:
+          type: string
+      - in: query
+        name: desc
+        schema:
+          type: boolean
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      - in: query
+        name: attributes
+        description: e.g attributes[source_type]=sn&attributes[source_name]=s1
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  logs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '16013'
+                        title:
+                          type: string
+                          example: 'ubuntu-61_395:'
+                        time:
+                          type: string
+                          format: date_time
+                          example: '2017-01-04T12:23:02+02:00'
+                        severity:
+                          type: string
+                          example: Notice
+                        source_type:
+                          type: string
+                          example: sn
+                          xml:
+                            name: source-type
+                        source_name:
+                          type: string
+                          example: ubuntu-61
+                          xml:
+                            name: source-name
+                      xml:
+                        name: log
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  logs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '16013'
+                        title:
+                          type: string
+                          example: 'ubuntu-61_395:'
+                        time:
+                          type: string
+                          format: date_time
+                          example: '2017-01-04T12:23:02+02:00'
+                        severity:
+                          type: string
+                          example: Notice
+                        source_type:
+                          type: string
+                          example: sn
+                          xml:
+                            name: source-type
+                        source_name:
+                          type: string
+                          example: ubuntu-61
+                          xml:
+                            name: source-name
+                      xml:
+                        name: log
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: List recent event
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/logs/add_remote_address.json:
+    post:
+      tags:
+      - Logs
+      description: Adds an address to the list of remote RSYSLOG server.
+      operationId: add_address_to_remote_rsyslog_server_list
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  address:
+                    type: string
+                    example: 10.11.12.13:1234
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  address:
+                    type: string
+                    example: 10.11.12.13:1234
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - address
+              properties:
+                address:
+                  type: string
+                  example: 10.11.12.13:1234
+        required: true
+      summary: Add address to remote rsyslog server list
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/logs/delete_remote_addresses.json:
+    delete:
+      tags:
+      - Logs
+      description: Deletes the supplied address from the list of remote RSYSLOG servers.
+      operationId: delete_address_from_remote_rsyslog_server_list
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  address:
+                    type: string
+                    example: 10.11.12.13:1234
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  address:
+                    type: string
+                    example: 10.11.12.13:1234
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - address
+              properties:
+                address:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - 10.11.12.13:1234
+                  - 10.11.12.14:1234
+        required: true
+      summary: Delete address from remote rsyslog server list
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/logs/remote_addresses.json:
+    get:
+      tags:
+      - Logs
+      description: Retrieve the the address list of a remote RSYSLOG servers.
+      operationId: retrieve_address_of_remote_rsyslog_server_list
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  addresses:
+                    type: array
+                    items:
+                      type: string
+                      example: 10.11.12.13:1234
+                      xml:
+                        name: address
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  addresses:
+                    type: array
+                    items:
+                      type: string
+                      example: 10.11.12.13:1234
+                      xml:
+                        name: address
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Retrieve address of remote rsyslog server list
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /messages.json:
+    get:
+      tags:
+      - Logs
+      description: Retrieve event logs.
+      operationId: get_log
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      - in: query
+        name: severity
+        schema:
+          type: integer
+      - in: query
+        name: attr_key
+        schema:
+          type: string
+      - in: query
+        name: attr_value
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      messages_count:
+                        type: integer
+                        xml:
+                          name: messages-count
+                      messages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            msg_id:
+                              type: string
+                              example: '147'
+                              xml:
+                                name: msg-id
+                            msg_title:
+                              type: string
+                              example: Controller zios_vsa-0000018f_vc-0 heartbeat 2 is OK.
+                              xml:
+                                name: msg-title
+                            msg_severity:
+                              type: string
+                              example: '6'
+                              xml:
+                                name: msg-severity
+                            msg_time:
+                              type: string
+                              example: '2016-05-02T09:23:32+03:00'
+                              xml:
+                                name: msg-time
+                          xml:
+                            name: message
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-messages-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      messages_count:
+                        type: integer
+                        xml:
+                          name: messages-count
+                      messages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            msg_id:
+                              type: string
+                              example: '147'
+                              xml:
+                                name: msg-id
+                            msg_title:
+                              type: string
+                              example: Controller zios_vsa-0000018f_vc-0 heartbeat 2 is OK.
+                              xml:
+                                name: msg-title
+                            msg_severity:
+                              type: string
+                              example: '6'
+                              xml:
+                                name: msg-severity
+                            msg_time:
+                              type: string
+                              example: '2016-05-02T09:23:32+03:00'
+                              xml:
+                                name: msg-time
+                          xml:
+                            name: message
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-messages-response
+      summary: Get log
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /access_logs.json:
+    get:
+      tags:
+      - Logs
+      description: Retrieve access logs.
+      operationId: get_access_logs
+      parameters:
+      - in: query
+        name: limit
+        description: items per page
+        schema:
+          type: string
+      - in: query
+        name: page
+        description: page number
+        schema:
+          type: string
+      - in: query
+        name: sort
+        description: 'Example: [{"property":"created_at","direction":"DESC"}]'
+        schema:
+          type: array
+          items:
+            type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      count:
+                        type: integer
+                      access_logs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            user:
+                              type: string
+                              example: eyal
+                            controller:
+                              type: string
+                              example: accounts
+                            action:
+                              type: string
+                              example: create
+                            params:
+                              type: string
+                              example: '{"name": "a1"}'
+                            created:
+                              type: string
+                              example: '2016-04-19T13:54:52Z'
+                          xml:
+                            name: access-log
+                        xml:
+                          name: access-logs
+                          wrapped: true
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      count:
+                        type: integer
+                      access_logs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            user:
+                              type: string
+                              example: eyal
+                            controller:
+                              type: string
+                              example: accounts
+                            action:
+                              type: string
+                              example: create
+                            params:
+                              type: string
+                              example: '{"name": "a1"}'
+                            created:
+                              type: string
+                              example: '2016-04-19T13:54:52Z'
+                          xml:
+                            name: access-log
+                        xml:
+                          name: access-logs
+                          wrapped: true
+                    xml:
+                      name: response
+      summary: Get access logs
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-object-storage-25.07.yml
+- zadara-vpsa-25.07.yml
+- zadara-command-center-openapi.yml
+- zadara-object-storage-openapi.yml
+- zadara-vpsa-openapi.yml

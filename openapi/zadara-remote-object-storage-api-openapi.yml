@@ -1,0 +1,3043 @@
+openapi: 3.2.0
+info:
+  title: Zadara Remote object storage API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Remote object storage across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Remote object storage
+  description: Operations for Remote Object Storages.
+paths:
+  /object_storage_destinations.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns a List of all remote Object Storages.
+      operationId: get_all_ros_destinations
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      obs_destinations:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsDestination'
+                        xml:
+                          name: obs-destinations
+                          wrapped: true
+                    xml:
+                      name: show-obs-destinations-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      obs_destinations:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsDestination'
+                        xml:
+                          name: obs-destinations
+                          wrapped: true
+                    xml:
+                      name: show-obs-destinations-response
+      summary: Get all ros destinations
+      x-summary-source: derived
+    post:
+      tags:
+      - Remote object storage
+      description: Create a remote object storage.
+      operationId: create_ros_destination
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_destination_name:
+                        type: string
+                        example: obsdst-00000003
+                        xml:
+                          name: obs-destination-name
+                    xml:
+                      name: update-obs-destination-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_destination_name:
+                        type: string
+                        example: obsdst-00000003
+                        xml:
+                          name: obs-destination-name
+                    xml:
+                      name: update-obs-destination-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - bucket
+              - endpoint
+              - username
+              - password
+              - connectVia
+              properties:
+                name:
+                  type: string
+                  description: Display Name for remote object storage
+                  example: remote object storage 1
+                type:
+                  type: string
+                  description: Type for remote object storage.
+                  enum:
+                  - AWS_S3
+                  - GCS_S3
+                  - ZIOS_S3
+                  - NGOS_S3
+                  - AZURE
+                  example: AWS_S3
+                  default: AWS_S3
+                bucket:
+                  type: string
+                  description: remote object storage bucket name / Azure cloud container name
+                  example: my bucket or container
+                endpoint:
+                  type: string
+                  description: Endpoint for remote object storage (use 'storage.googleapis.com' for Google cloud, use 'blob.core.windows.net' for Azure cloud).
+                  example: s3.eu-central-1.amazonaws.com
+                username:
+                  type: string
+                  description: Access Key ID for remote object storage / Account in Azure cloud
+                  example: my_s3_access_key or my_azure_account
+                password:
+                  type: string
+                  description: Secret Access Key for remote object storage / Storage account key in Azure cloud.
+                  example: mys3password or my_azure_account_key
+                connectVia:
+                  type: string
+                  description: Connection method to Azure cloud.
+                  enum:
+                  - fe
+                  - public
+                  - outnet
+                  example: public
+                allow_lifecycle_policies:
+                  type: boolean
+                  example: true
+                  description: Allow bucket to have lifecycle policies. Not applicable to remote object storage type NGOS_S3.
+                notify_on_failures:
+                  $ref: '#/components/schemas/NotifyOnFailures'
+                proxyhost:
+                  type: string
+                  description: Proxy host
+                  example: 10.10.10.10
+                proxyport:
+                  type: integer
+                  minimum: 1
+                  maximum: 65535
+                  description: Port for proxy
+                  example: 7878
+                proxyuser:
+                  type: string
+                  description: Username for proxy
+                  example: user
+                proxypassword:
+                  type: string
+                  description: Password for proxy
+                  example: password
+                kmskeyid:
+                  type: string
+                  description: KMS Key ID
+                  example: my-kms-key-id
+        required: true
+      summary: Create ros destination
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_destinations/{id}.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns the details for a specific Object Storage destinations.
+      operationId: get_ros_destination
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^obsdst-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_destination:
+                        $ref: '#/components/schemas/ObsDestination'
+                    xml:
+                      name: show-one-obs-destination-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_destination:
+                        $ref: '#/components/schemas/ObsDestination'
+                    xml:
+                      name: show-one-obs-destination-response
+      summary: Get ros destination
+      x-summary-source: derived
+    put:
+      tags:
+      - Remote object storage
+      description: Update a remote object storage.
+      operationId: update_ros_destination
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_destination_name:
+                        type: string
+                        example: obsdst-00000003
+                        xml:
+                          name: obs-destination-name
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_destination_name:
+                        type: string
+                        example: obsdst-00000003
+                        xml:
+                          name: obs-destination-name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Display name for remote object storage
+                  example: remote object storage 1
+                bucket:
+                  type: string
+                  description: remote object storage bucket name / Azure cloud container name
+                  example: my bucket or container
+                endpoint:
+                  type: string
+                  description: Endpoint for remote object storage (use 'storage.googleapis.com' for Google cloud, use 'blob.core.windows.net' for Azure cloud).
+                  enum:
+                  - s3-eu-west-1.amazonaws.com
+                  - blob.core.windows.net
+                username:
+                  type: string
+                  description: Access Key ID for remote object storage / Account in Azure cloud.
+                  example: mys3username or my_azure_account
+                password:
+                  type: string
+                  description: Secret Access Key for remote object storage / Storage account key in Azure cloud.
+                  example: mys3password or my_azure_account_key
+                connectVia:
+                  type: string
+                  description: Connection method for remote object storage / Azure cloud
+                  enum:
+                  - fe
+                  - public
+                  - outnet
+                  example: public
+                proxyhost:
+                  type: string
+                  description: Proxy host
+                  example: 10.10.10.10
+                proxyport:
+                  type: integer
+                  minimum: 1
+                  maximum: 65535
+                  example: 7878
+                  description: Port for proxy
+                proxyuser:
+                  type: string
+                  description: Username for proxy
+                  example: user
+                proxypassword:
+                  type: string
+                  description: Password for proxy
+                  example: password
+                allow_lifecycle_policies:
+                  type: boolean
+                  description: Allow bucket to have lifecycle policies. Not applicable to remote object storage type NGOS_S3.
+                  example: true
+                notify_on_failures:
+                  $ref: '#/components/schemas/NotifyOnFailures'
+                kmskeyid:
+                  type: string
+                  description: KMS key ID. Can be set to an empty string to clear the KMS key.
+                  example: my-kms-key-id
+        required: true
+      summary: Update ros destination
+      x-summary-source: derived
+    delete:
+      tags:
+      - Remote object storage
+      description: Delete a remote object storage.
+      operationId: remove_ros_destination
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_destination_name:
+                        type: string
+                        example: obsdst-00000003
+                        xml:
+                          name: obs-destination-name
+                    xml:
+                      name: delete-obs-destination-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_destination_name:
+                        type: string
+                        example: obsdst-00000003
+                        xml:
+                          name: obs-destination-name
+                    xml:
+                      name: delete-obs-destination-response
+      summary: Remove ros destination
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_destinations/{id}/backup_jobs.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns a list of all backup jobs of one specific object storage destination.
+      operationId: get_all_ros_destination_backup_jobs
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^obsdst-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      obs_backup_jobs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsBackupJob'
+                        xml:
+                          name: obs-backup-jobs
+                          wrapped: true
+                    xml:
+                      name: show-obs-backup-jobs-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      obs_backup_jobs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsBackupJob'
+                        xml:
+                          name: obs-backup-jobs
+                          wrapped: true
+                    xml:
+                      name: show-obs-backup-jobs-response
+      summary: Get all ros destination backup jobs
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_destinations/{id}/backup_jobs_performance.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns performance metrics of all backup jobs of one specific object storage destination.
+      operationId: get_ros_destination_backup_jobs_performance
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^obsdst-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      usages_count:
+                        type: integer
+                        xml:
+                          name: usages-count
+                        example: 60
+                      usages:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsJobPerf'
+                        xml:
+                          name: usages
+                          wrapped: true
+                    xml:
+                      name: get_perf-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      usages_count:
+                        type: integer
+                        xml:
+                          name: usages-count
+                        example: 60
+                      usages:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsJobPerf'
+                        xml:
+                          name: usages
+                          wrapped: true
+                    xml:
+                      name: get_perf-response
+      summary: Get ros destination backup jobs performance
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_destinations/{id}/restore_jobs.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns a list of all restore jobs of one specific Object Storage destination.
+      operationId: get_all_ros_destination_restore_jobs
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^obsdst-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      obs_restore_jobs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsRestoreJob'
+                        xml:
+                          wrapped: true
+                          name: obs-restore-jobs
+                    xml:
+                      name: show-obs-restore-jobs-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      obs_restore_jobs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsRestoreJob'
+                        xml:
+                          wrapped: true
+                          name: obs-restore-jobs
+                    xml:
+                      name: show-obs-restore-jobs-response
+      summary: Get all ros destination restore jobs
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_destinations/{id}/restore_jobs_performance.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns performance metrics of all restore jobs of one specific object storage destination.
+      operationId: get_ros_destination_restore_jobs_performance
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^obsdst-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      usages_count:
+                        type: integer
+                        xml:
+                          name: usages-count
+                        example: 60
+                      usages:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsJobPerf'
+                        xml:
+                          name: usages
+                          wrapped: true
+                    xml:
+                      name: get_perf-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      usages_count:
+                        type: integer
+                        xml:
+                          name: usages-count
+                        example: 60
+                      usages:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsJobPerf'
+                        xml:
+                          name: usages
+                          wrapped: true
+                    xml:
+                      name: get_perf-response
+      summary: Get ros destination restore jobs performance
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_backup_jobs.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns a list of all Object Storage backup jobs.
+      operationId: get_all_ros_backup_jobs
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      obs_backup_jobs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsBackupJob'
+                        xml:
+                          name: obs-backup-jobs
+                          wrapped: true
+                    xml:
+                      name: show-obs-backup-jobs-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      obs_backup_jobs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsBackupJob'
+                        xml:
+                          name: obs-backup-jobs
+                          wrapped: true
+                    xml:
+                      name: show-obs-backup-jobs-response
+      summary: Get all ros backup jobs
+      x-summary-source: derived
+    post:
+      tags:
+      - Remote object storage
+      description: Create cloud object storage backup job.
+      operationId: create_ros_backup_job
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: create-obs-backup-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: create-obs-backup-job-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - destination
+              - volume
+              - policy
+              - compression
+              - sse
+              properties:
+                name:
+                  type: string
+                  description: Display Name for object storage backup job
+                  example: test
+                destination:
+                  type: string
+                  description: Object storage destination for the backup
+                  example: obsdst-00000001
+                volume:
+                  type: string
+                  pattern: ^volume-[0-9a-f]{8}$
+                  description: Volume to backup
+                  example: volume-00000001
+                policy:
+                  type: string
+                  pattern: ^policy-[0-9a-f]{8}$
+                  description: snapshot policy for backup
+                  example: policy-00000001
+                compression:
+                  type: string
+                  description: enable compression
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                sse:
+                  type: string
+                  description: SSE - use 'NO' for Azure cloud.
+                  enum:
+                  - 'NO'
+                  - AES256
+                  - KMS
+                  - KMSKEYID
+                  example: AES256
+                storage_class:
+                  type: string
+                  description: S3 storage class if the object storage destination is AWS S3 (STANDARD, INTELLIGENT_TIERING or STANDARD_IA), default is what configured on the bucket. Or BLOB storage tier for Azure cloud (HOT or COOL).
+                  enum:
+                  - STANDARD
+                  - INTELLIGENT_TIERING
+                  - STANDARD_IA
+                  - HOT
+                  - COOL
+                  example: STANDARD
+        required: true
+      summary: Create ros backup job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_backup_jobs/{id}.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns the details of Object Storage backup job.
+      operationId: get_ros_backup_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^bkpjobs-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job:
+                        $ref: '#/components/schemas/ObsBackupJob'
+                    xml:
+                      name: show-one-obs-backup-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job:
+                        $ref: '#/components/schemas/ObsBackupJob'
+                    xml:
+                      name: show-one-obs-backup-job-response
+      summary: Get ros backup job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_backup_jobs/{id}/pause.json:
+    post:
+      tags:
+      - Remote object storage
+      description: Pause object storage backup job.
+      operationId: pause_ros_backup_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: pause-obs-backup-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: pause-obs-backup-job-response
+      summary: Pause ros backup job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_backup_jobs/{id}/update_storage_class.json:
+    post:
+      tags:
+      - Remote object storage
+      description: Update a object storage backup job S3 storage class. only if Object storage destination is AWS S3.
+      operationId: set_obs_backup_job_class
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^bkpjobs-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000005
+                        xml:
+                          name: obs-backup-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: set-obs-backup-job-storage-class-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000005
+                        xml:
+                          name: obs-backup-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: set-obs-backup-job-storage-class-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                storage_class:
+                  type: string
+                  description: new S3 storage class.
+                  enum:
+                  - STANDARD
+                  - INTELLIGENT_TIERING
+                  - STANDARD_IA
+                  example: STANDARD
+        required: true
+      summary: Set obs backup job class
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_backup_jobs/{id}/continue.json:
+    post:
+      tags:
+      - Remote object storage
+      description: Continue object storage backup job.
+      operationId: resume_ros_backup_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^bkpjobs-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: continue-obs-backup-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: continue-obs-backup-job-response
+      summary: Resume ros backup job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_backup_jobs/{id}/break.json:
+    post:
+      tags:
+      - Remote object storage
+      description: Break object storage backup job.
+      operationId: break_ros_backup_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: break-obs-backup-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: break-obs-backup-job-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - purge_data
+              - delete_snaphots
+              properties:
+                purge_data:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                delete_snaphots:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+        required: true
+      summary: Break ros backup job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_backup_jobs/{id}/compression.json:
+    post:
+      tags:
+      - Remote object storage
+      description: Set compression for object storage backup job.
+      operationId: backup_jobs_update_compression
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^bkpjobs-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: compression-obs-backup-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: compression-obs-backup-job-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - compression
+              properties:
+                compression:
+                  type: string
+                  description: enable compression
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+        required: true
+      summary: Backup jobs update compression
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_backup_jobs/{id}/rate_limit.json:
+    post:
+      tags:
+      - Remote object storage
+      description: Update a object storage backup job rate limit (Mib/s)
+      operationId: backup_jobs_rate_limit
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^bkpjobs-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: set-obs-backup-job-higher-rate-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: set-obs-backup-job-higher-rate-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limit:
+                  type: integer
+                  description: Rate limit in Mib/s
+                  example: 44
+        required: true
+      summary: Backup jobs rate limit
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_backup_jobs/{id}/replace_snapshot_policy.json:
+    post:
+      tags:
+      - Remote object storage
+      description: Replace snapshot policy for object storage backup job.
+      operationId: replace_ros_backup_job_snapshot_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^bkpjobs-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: replace-snapshot-policy-obs-backup-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_backup_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-backup-job-name
+                    xml:
+                      name: replace-snapshot-policy-obs-backup-job-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - policyname
+              properties:
+                policyname:
+                  type: string
+                  description: New policy Id
+                  example: policy-00000003
+        required: true
+      summary: Replace ros backup job snapshot policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_backup_jobs/{id}/performance.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns the details for Object Storage backup job performance.
+      operationId: get_ros_backup_job_performance
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^bkpjobs-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: get_perf-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      usages_count:
+                        xml:
+                          name: usages-count
+                        type: integer
+                        example: 60
+                      usages:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsJobPerf'
+                        xml:
+                          name: usages
+                          wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: get_perf-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      usages_count:
+                        xml:
+                          name: usages-count
+                        type: integer
+                        example: 60
+                      usages:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsJobPerf'
+                        xml:
+                          name: usages
+                          wrapped: true
+      summary: Get ros backup job performance
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_restore_jobs.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns a List of all Object Storage restore jobs.
+      operationId: get_all_ros_restore_jobs
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      obs_restore_jobs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsRestoreJob'
+                        xml:
+                          wrapped: true
+                          name: obs-restore-jobs
+                    xml:
+                      name: show-obs-restore-jobs-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      obs_restore_jobs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsRestoreJob'
+                        xml:
+                          wrapped: true
+                          name: obs-restore-jobs
+                    xml:
+                      name: show-obs-restore-jobs-response
+      summary: Get all ros restore jobs
+      x-summary-source: derived
+    post:
+      tags:
+      - Remote object storage
+      description: Create object storage restore job. Can be created from object storage key or from object storage snapshot name (key or local_snapname must be supplied)
+      operationId: create_ros_restore_job
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_restore_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-restore-job-name
+                    xml:
+                      name: create-restore-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_restore_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-restore-job-name
+                    xml:
+                      name: create-restore-job-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - mode
+              - poolname
+              - volname
+              - remote_object_store
+              properties:
+                name:
+                  type: string
+                  description: Display Name for object storage restore job
+                mode:
+                  type: string
+                  description: mode
+                poolname:
+                  type: string
+                  pattern: ^pool-[0-9a-f]{8}$
+                  description: Id of created volume's destination pool
+                volname:
+                  type: string
+                  description: Name of Created Volume
+                remote_object_store:
+                  type: string
+                  description: Id of object storage destination
+                key:
+                  type: string
+                  description: Object storage key from bucket
+                local_snapname:
+                  type: string
+                  description: Object storage local snapshot name
+                crypt:
+                  type: string
+                  description: Enable encryption on volume
+                dedupe:
+                  type: string
+                  description: Enable Dedupe For Restore Job.
+                  x-VpsaType: VPSA Flash Array
+                compress:
+                  type: string
+                  description: Enable compress or Restore Job.
+                  x-VpsaType: VPSA Flash Array
+        required: true
+      summary: Create ros restore job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_restore_jobs/{id}.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns the details for Object Storage restore job.
+      operationId: get_ros_restore_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rstjobs-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_restore_job:
+                        $ref: '#/components/schemas/ObsRestoreJob'
+                    xml:
+                      name: show-one-obs-restore-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_restore_job:
+                        $ref: '#/components/schemas/ObsRestoreJob'
+                    xml:
+                      name: show-one-obs-restore-job-response
+      summary: Get ros restore job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_restore_jobs/{id}/pause.json:
+    post:
+      tags:
+      - Remote object storage
+      description: Pause object storage restore job.
+      operationId: pause_ros_restore_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rstjobs-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      obs_restore_job_name:
+                        type: string
+                        example: rstjobs-0000001b
+                        xml:
+                          name: obs-restore-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-obs-restore-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      obs_restore_job_name:
+                        type: string
+                        example: rstjobs-0000001b
+                        xml:
+                          name: obs-restore-job-name
+                      status:
+                        type: integer
+                    xml:
+                      name: pause-obs-restore-job-response
+      summary: Pause ros restore job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_restore_jobs/{id}/continue.json:
+    post:
+      tags:
+      - Remote object storage
+      description: Continue object storage restore job.
+      operationId: resume_ros_restore_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_restore_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-restore-job-name
+                    xml:
+                      name: continue-restore-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_restore_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-restore-job-name
+                    xml:
+                      name: continue-restore-job-response
+      summary: Resume ros restore job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_restore_jobs/{id}/break.json:
+    post:
+      tags:
+      - Remote object storage
+      description: Break object storage restore job.
+      operationId: break_ros_restore_job
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rstjobs-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_restore_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-restore-job-name
+                    xml:
+                      name: break-restore-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_restore_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-restore-job-name
+                    xml:
+                      name: break-restore-job-response
+      summary: Break ros restore job
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_restore_jobs/{id}/switch_mode.json:
+    post:
+      tags:
+      - Remote object storage
+      description: Set restore mode for object storage restore job.
+      operationId: change_ros_restore_job_mode
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rstjobs-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_restore_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-restore-job-name
+                    xml:
+                      name: switch-mode-restore-job-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      obs_restore_job_name:
+                        type: string
+                        example: bkpjobs-00000003
+                        xml:
+                          name: obs-restore-job-name
+                    xml:
+                      name: switch-mode-restore-job-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - mode
+              properties:
+                mode:
+                  type: string
+                  enum:
+                  - restore
+                  - clone
+                  description: Mode to switch to
+        required: true
+      summary: Change ros restore job mode
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /object_storage_restore_jobs/{id}/performance.json:
+    get:
+      tags:
+      - Remote object storage
+      description: Returns the details for Object Storage restore job performance.
+      operationId: get_ros_restore_job_performance
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^rstjobs-[0-9a-f]{8}$
+      - in: query
+        name: interval
+        description: Interval in seconds between metered data
+        schema:
+          type: string
+          minimum: 1
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: get_perf-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      usages_count:
+                        xml:
+                          name: usages-count
+                        type: integer
+                        example: 60
+                      usages:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsJobPerf'
+                        xml:
+                          name: usages
+                          wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: get_perf-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      usages_count:
+                        xml:
+                          name: usages-count
+                        type: integer
+                        example: 60
+                      usages:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ObsJobPerf'
+                        xml:
+                          name: usages
+                          wrapped: true
+      summary: Get ros restore job performance
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    ObsBackupJob:
+      type: object
+      properties:
+        name:
+          type: string
+          example: bkpjobs-00000005
+        display_name:
+          type: string
+          example: ghfghfghfg
+          xml:
+            name: display-name
+        status:
+          type: string
+          example: Idle
+        compression:
+          type: string
+          example: 'YES'
+        rpo:
+          type: string
+          example: 2015-05-25T17:22:03+0300
+        avg_sync_rate_kb_sec:
+          type: string
+          example: '0'
+          xml:
+            name: avg-sync-rate-kb-sec
+        created_at:
+          type: string
+          format: date_time
+          xml:
+            name: created-at
+        modified_at:
+          type: string
+          format: date_time
+          xml:
+            name: modified-at
+        read_mb:
+          type: number
+          example: 15
+          xml:
+            name: read-mb
+        transported_mb:
+          type: number
+          example: 200
+          xml:
+            name: transported-mb
+        src:
+          type: object
+          properties:
+            cg_name:
+              type: string
+              example: cg-00000003
+              xml:
+                name: cg-name
+            cg_display_name:
+              type: string
+              example: fdgdfg
+              xml:
+                name: cg-display-name
+            pool_name:
+              type: string
+              example: pool-00000001
+              xml:
+                name: pool-name
+            pool_display_name:
+              type: string
+              example: pool1
+              xml:
+                name: pool-display-name
+            limited_higher_rate_in_KBS:
+              type: integer
+              example: 1000
+              xml:
+                name: limited-higher-rate-in-KBS
+        dst:
+          type: object
+          properties:
+            type:
+              type: string
+              example: AWS_S3
+            region:
+              type: string
+              example: us_east-1
+            endpoint:
+              type: string
+              example: s3.amazonaws.com
+            bucket:
+              type: string
+              example: zadarastorage_eyal_us
+        snapshot_policy:
+          type: object
+          properties:
+            name:
+              type: string
+              pattern: ^policy-[0-9a-f]{8}$
+              example: policy-00000003
+            display_name:
+              type: string
+              example: Daily Snapshots for a Week
+              xml:
+                name: display-name
+            create_policy:
+              type: string
+              example: 0 0 * * *
+              xml:
+                name: create-policy
+            delete_policy:
+              type: string
+              example: N7
+              xml:
+                name: delete-policy
+            destination_delete_policy:
+              type: string
+              example: N7
+              xml:
+                name: destination-delete-policy
+            paused:
+              type: string
+              example: 'NO'
+            create_empty:
+              type: string
+              example: 'NO'
+              xml:
+                name: create-empty
+            attach:
+              type: string
+              example: 'YES'
+          xml:
+            name: snapshot-policy
+      xml:
+        name: obs-backup-job
+    NotifyOnFailures:
+      type: boolean
+      example: true
+      description: The VPSA will alert about connectivity issues with the Remote Object Storage. The rate limit for failure alerts can be adjusted from the VPSA Settings REST API.
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    ObsJobPerf:
+      type: object
+      properties:
+        rd_iops:
+          type: number
+          example: 0.0
+          xml:
+            name: rd-iops
+        rd_iotime:
+          type: number
+          example: 0.0
+          xml:
+            name: rd-iotime
+        rd_max_time:
+          type: integer
+          example: 0
+          xml:
+            name: rd-max-time
+        rd_bandwidth:
+          type: number
+          example: 0.0
+          xml:
+            name: rd-bandwidth
+        rd_queue_len:
+          type: integer
+          example: 0
+          xml:
+            name: rd-queue-len
+        rd_late_ios:
+          type: integer
+          example: 0
+          xml:
+            name: rd-late-ios
+        wrt_iops:
+          type: number
+          example: 0.0
+          xml:
+            name: wrt-iops
+        wrt_iotime:
+          type: number
+          example: 0.0
+          xml:
+            name: wrt-iotime
+        wrt_max_time:
+          type: integer
+          example: 0
+          xml:
+            name: wrt-max-time
+        wrt_bandwidth:
+          type: number
+          example: 0.0
+          xml:
+            name: wrt-bandwidth
+        wrt_queue_len:
+          type: integer
+          example: 0
+          xml:
+            name: wrt-queue-len
+        wrt_late_ios:
+          type: integer
+          example: 0
+          xml:
+            name: wrt-late-ios
+        time:
+          type: string
+          format: date_time
+          example: 2024-11-28T12:28:04+0000
+      xml:
+        name: usage
+    ObsDestination:
+      type: object
+      xml:
+        name: obs-destination
+      properties:
+        name:
+          type: string
+          example: obsdst-00000001
+        display_name:
+          type: string
+          example: AWS_s3.amazonaws.com-zadarastorage_eyal_us
+          xml:
+            name: display-name
+        type:
+          type: string
+          example: AWS_s3
+        endpoint:
+          type: string
+          example: s3.amazonaws.com
+        region:
+          type: string
+          example: us_east-1
+        aws_auth_method:
+          type: string
+          example: V2
+          xml:
+            name: aws-auth-method
+        bucket:
+          type: string
+          example: zadarastorage_eyal_us
+        allow_lifecycle_policies:
+          type: string
+          example: 'NO'
+          xml:
+            name: allow-lifecycle-policies
+        notify_on_failures:
+          type: string
+          example: 'YES'
+          xml:
+            name: notify-on-failures
+        ip:
+          type: string
+          example: iSCSI IP
+    ObsRestoreJob:
+      type: object
+      xml:
+        name: obs-restore-job
+      properties:
+        name:
+          type: string
+          example: rstjobs-00000001
+        display_name:
+          type: string
+          example: restore_job_obssnap-00000008
+          xml:
+            name: display-name
+        mode:
+          type: string
+          example: Restore
+        obs_key:
+          type: string
+          example: zadaratest.C97E9A00ADE7489BB08A9AB3B0B6484F/test1.vsa-0000015f/testvol.volume-00000002/2025-05-28T11:40:37+0000_snap-00000003
+          xml:
+            name: obs-key
+        status:
+          type: string
+          example: Paused
+        rpo:
+          type: string
+          example: 2015-05-25T17:22:03+0300
+        avg_sync_rate_kb_sec:
+          type: string
+          example: '0'
+          xml:
+            name: avg-sync-rate-kb-sec
+        cur_sync_rate_kb_sec:
+          type: integer
+          example: 3197
+          xml:
+            name: cur-sync-rate-kb-sec
+        total_capacity_mb:
+          type: string
+          example: '102398'
+          xml:
+            name: total-capacity-mb
+        already_restored_mb:
+          type: integer
+          example: 10
+          xml:
+            name: already-restored-mb
+        already_scanned_mb:
+          type: integer
+          example: 5
+          xml:
+            name: already-scanned-mb
+        remaining_time_sec:
+          type: integer
+          example: 32696
+          xml:
+            name: remaining-time-sec
+        created_at:
+          type: string
+          format: date_time
+          example: 2024-08-12T13:28:30+0000
+          xml:
+            name: created-at
+        modified_at:
+          type: string
+          format: date_time
+          example: 2023-05-23T17:54:14+0300
+          xml:
+            name: modified-at
+        src:
+          type: object
+          properties:
+            type:
+              type: string
+              example: AWS_S3
+            region:
+              type: string
+              example: us_east-1
+            endpoint:
+              type: string
+              example: s3.amazonaws.com
+            bucket:
+              type: string
+              example: zadarastorage-test
+        dst:
+          type: object
+          properties:
+            cg_name:
+              type: string
+              example: cg-0000000a
+              xml:
+                name: cg-name
+            cg_display_name:
+              type: string
+              example: vgh1_3FB
+              xml:
+                name: cg-display-name
+            pool_name:
+              type: string
+              example: pool-00000001
+              xml:
+                name: pool-name
+            pool_display_name:
+              type: string
+              example: pool1
+              xml:
+                name: pool-display-name
+  parameters:
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

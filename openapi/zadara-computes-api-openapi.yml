@@ -1,0 +1,402 @@
+openapi: 3.2.0
+info:
+  title: Zadara Computes API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Computes across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Computes
+  description: Operations involving Computes.
+paths:
+  /clouds/{cloud_name}/computes.json:
+    get:
+      tags:
+      - Computes
+      description: Returns a list of all computes according to selected type.
+      operationId: list_type_computes
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  computes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Compute'
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  computes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Compute'
+                    xml:
+                      wrapped: true
+      summary: List type computes
+      x-summary-source: derived
+    post:
+      tags:
+      - Computes
+      description: Create a Compute
+      operationId: create_compute
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  compute:
+                    $ref: '#/components/schemas/Compute'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  compute:
+                    $ref: '#/components/schemas/Compute'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: admin
+                password:
+                  type: string
+                  example: password
+                url:
+                  type: string
+                  example: '1'
+                  description: url of compute cluster
+                display_name:
+                  type: string
+                  example: compute1
+        required: true
+      summary: Create compute
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/computes/{id}.json:
+    get:
+      tags:
+      - Computes
+      description: Returns the details for a single compute.
+      operationId: get_compute_details
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  compute:
+                    $ref: '#/components/schemas/Compute'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  compute:
+                    $ref: '#/components/schemas/Compute'
+      summary: Get compute details
+      x-summary-source: derived
+    put:
+      tags:
+      - Computes
+      description: Edit a compute
+      operationId: edit_compute
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  compute:
+                    $ref: '#/components/schemas/Compute'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  compute:
+                    $ref: '#/components/schemas/Compute'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                display_name:
+                  type: string
+                  example: compute2
+                token:
+                  type: boolean
+        required: true
+      summary: Edit compute
+      x-summary-source: derived
+    delete:
+      tags:
+      - Computes
+      description: Delete a compute
+      operationId: delete_compute
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        description: id / uuid of compute
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Delete compute
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  schemas:
+    Compute:
+      type: object
+      properties:
+        cluster_uuid:
+          type: string
+          description: The UUID of the cluster.
+          example: 123e4567-e89b-12d3-a456-426655440000
+          xml:
+            name: cluster-uuid
+        cluster_ip:
+          type: string
+          description: The IP address of the cluster.
+          example: 192.168.0.1
+          xml:
+            name: cluster-ip
+        cluster_url:
+          type: string
+          description: The URL of the cluster.
+          example: https://mycluster.com
+          xml:
+            name: cluster-url
+        cluster_name:
+          type: string
+          description: The name of the cluster.
+          example: My Cluster
+          xml:
+            name: cluster-name
+        cluster_storage_type:
+          type: string
+          description: The storage type of the cluster.
+          example: vpsa
+          enum:
+          - vpsa
+          - readonly
+          - vsc
+          xml:
+            name: cluster-storage-type
+        cluster_version:
+          type: string
+          description: The version of the cluster.
+          example: v1.20.5
+          xml:
+            name: cluster-version
+      xml:
+        name: compute
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

@@ -1,3 +1,5 @@
+# x-archived-from: zadara-command-center-openapi.yml
+# x-archived-on: 2026-10-17
 swagger: "2.0"
 info:
   description: Command Center operations

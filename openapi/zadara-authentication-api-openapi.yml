@@ -1,0 +1,173 @@
+openapi: 3.2.0
+info:
+  title: Zadara Authentication API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Authentication across 2 of this provider''s published API definitions: zadara-provisioning-portal-25.07.yml, zadara-provisioning-portal-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api/v2
+tags:
+- name: Authentication
+  description: Methods for authenticating with the Provisioning Portal.
+paths:
+  /token.json:
+    post:
+      tags:
+      - Authentication
+      description: Retrieve your authentication token without resetting it.
+      operationId: get_authentication_token
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: (API token)
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: (API token)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              - password
+              properties:
+                username:
+                  type: string
+                  description: Your Provisioning Portal username.
+                  example: zadarauser
+                password:
+                  type: string
+                  description: Your Provisioning Portal password.
+                  example: securepassword0000
+        required: true
+      summary: Get authentication token
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /token/reset.json:
+    post:
+      tags:
+      - Authentication
+      description: Reset and retrieve your API token.
+      operationId: reset_authentication_token
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: (API token)
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: (API token)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              - password
+              properties:
+                username:
+                  type: string
+                  description: Your Provisioning Portal username.
+                  example: zadarauser
+                password:
+                  type: string
+                  description: Your Provisioning Portal password.
+                  example: securepassword0000
+        required: true
+      summary: Reset authentication token
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-provisioning-portal-25.07.yml
+- zadara-provisioning-portal-openapi.yml

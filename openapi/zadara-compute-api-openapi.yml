@@ -1,0 +1,120 @@
+openapi: 3.2.0
+info:
+  title: Zadara Compute API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Compute across 2 of this provider''s published API definitions: zadara-provisioning-portal-25.07.yml, zadara-provisioning-portal-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api/v2
+tags:
+- name: Compute
+  description: Compute accounts operations
+paths:
+  /computes.json:
+    post:
+      tags:
+      - Compute
+      description: Create Compute Account
+      operationId: create_compute_account
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Compute created successfully
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Compute created successfully
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - provider_id
+              - display_name
+              properties:
+                provider_id:
+                  description: Your Cloud provider's id.
+                  type: integer
+                  example: 1
+                display_name:
+                  description: Compute Account Name.
+                  type: string
+                  example: test_account
+                display_description:
+                  description: Compute Account Description.
+                  type: string
+                  example: test_account description
+                cores:
+                  description: CPU cores limit.
+                  type: integer
+                  default: 64
+                  example: 32
+                ram:
+                  description: RAM limit.
+                  type: integer
+                  default: 238
+                  example: 200
+                instances:
+                  description: Instances limit.
+                  type: integer
+                  default: 10
+                  example: 10
+                moderate:
+                  type: boolean
+                  example: false
+        required: true
+      summary: Create compute account
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-provisioning-portal-25.07.yml
+- zadara-provisioning-portal-openapi.yml

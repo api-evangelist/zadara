@@ -1,0 +1,415 @@
+openapi: 3.2.0
+info:
+  title: Zadara Engine types API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Engine types across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Engine types
+  description: Operations involving APP/IO engine types.
+paths:
+  /clouds/{cloud_name}/engine_types.json:
+    get:
+      tags:
+      - Engine types
+      description: Returns a list of Cloud's IO engine types.
+      operationId: list_cloud_io_engine_types
+      parameters:
+      - $ref: '#/components/parameters/cloudName'
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  engine_types:
+                    type: array
+                    xml:
+                      name: engine-types
+                      wrapped: true
+                    items:
+                      type: object
+                      xml:
+                        name: engine-type
+                      properties:
+                        name:
+                          type: string
+                          example: Blazing (V2)
+                        internal_type:
+                          type: string
+                          example: vsa.V2.large.vf
+                          xml:
+                            name: internal-type
+                        internal_id:
+                          type: integer
+                          xml:
+                            name: internal-id
+                        ram:
+                          type: integer
+                        vcpus:
+                          type: integer
+                        vpsas_count:
+                          type: integer
+                          xml:
+                            name: vpsas-count
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  engine_types:
+                    type: array
+                    xml:
+                      name: engine-types
+                      wrapped: true
+                    items:
+                      type: object
+                      xml:
+                        name: engine-type
+                      properties:
+                        name:
+                          type: string
+                          example: Blazing (V2)
+                        internal_type:
+                          type: string
+                          example: vsa.V2.large.vf
+                          xml:
+                            name: internal-type
+                        internal_id:
+                          type: integer
+                          xml:
+                            name: internal-id
+                        ram:
+                          type: integer
+                        vcpus:
+                          type: integer
+                        vpsas_count:
+                          type: integer
+                          xml:
+                            name: vpsas-count
+                  count:
+                    type: integer
+      summary: List cloud io engine types
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/engine_types/{internal_id}.json:
+    get:
+      tags:
+      - Engine types
+      description: Returns a single IO engine type details.
+      operationId: get_io_engine
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: internal_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  engine_type:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Blazing (V2)
+                      internal_type:
+                        type: string
+                        example: vsa.V2.large.vf
+                        xml:
+                          name: internal-type
+                      internal_id:
+                        type: integer
+                        xml:
+                          name: internal-id
+                      ram:
+                        type: integer
+                      vcpus:
+                        type: integer
+                      vpsas_count:
+                        type: integer
+                        xml:
+                          name: vpsas-count
+                    xml:
+                      name: engine-type
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  engine_type:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Blazing (V2)
+                      internal_type:
+                        type: string
+                        example: vsa.V2.large.vf
+                        xml:
+                          name: internal-type
+                      internal_id:
+                        type: integer
+                        xml:
+                          name: internal-id
+                      ram:
+                        type: integer
+                      vcpus:
+                        type: integer
+                      vpsas_count:
+                        type: integer
+                        xml:
+                          name: vpsas-count
+                    xml:
+                      name: engine-type
+      summary: Get io engine
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/app_engine_types.json:
+    get:
+      tags:
+      - Engine types
+      description: Returns a list of Cloud's APP engine types.
+      operationId: list_clouds_app_engine_types
+      parameters:
+      - $ref: '#/components/parameters/cloudName'
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  app_engine_types:
+                    type: array
+                    xml:
+                      name: app-engine-types
+                      wrapped: true
+                    items:
+                      $ref: '#/components/schemas/AppEngineType'
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  app_engine_types:
+                    type: array
+                    xml:
+                      name: app-engine-types
+                      wrapped: true
+                    items:
+                      $ref: '#/components/schemas/AppEngineType'
+                  count:
+                    type: integer
+      summary: List clouds app engine types
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/app_engine_types/{name}.json:
+    get:
+      tags:
+      - Engine types
+      description: Returns a single APP engine type details.
+      operationId: get_app_engine
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  app_engine_type:
+                    $ref: '#/components/schemas/AppEngineType'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  app_engine_type:
+                    $ref: '#/components/schemas/AppEngineType'
+      summary: Get app engine
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  parameters:
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+    cloudName:
+      in: path
+      name: cloud_name
+      required: true
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    AppEngineType:
+      xml:
+        name: app-engine-type
+      type: object
+      properties:
+        name:
+          type: string
+          example: Tiny
+        internal_type:
+          type: string
+          example: tiny
+          xml:
+            name: internal-type
+        ram:
+          type: integer
+          example: 2
+        vcpus:
+          type: integer
+          example: 1
+        vpsas_count:
+          type: integer
+          example: 1
+          xml:
+            name: vpsas-count
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

@@ -75,63 +75,644 @@ common:
 - type: TermsOfService
   url: https://www.zadara.com/resources/terms/
 apis:
-- aid: zadara:vpsa
-  name: Zadara VPSA Storage Array REST API
-  description: 'REST API for managing a Zadara VPSA Storage Array or Flash Array: volumes, pools, drives, servers, snapshots, mirrors, consistency groups, controllers and users. Served by each customer
-    VPSA at its own hostname under /api (spec host is localhost).'
-  humanURL: https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+- aid: zadara:zadara-access-logs-api
+  name: Zadara Access Logs API
+  description: Operations involving Command Center access logs.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
   baseURL: https://{vpsa-host}/api
   tags:
-  - Storage
+  - Access Logs
   properties:
   - type: OpenAPI
-    url: openapi/zadara-vpsa-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://s3.amazonaws.com/api-doc.zadara.com/VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array/25.07.yml
-  image: https://www.zadara.com/wp-content/uploads/poster2.jpg
-- aid: zadara:object-storage
-  name: Zadara VPSA Object Storage REST API
-  description: 'REST API for administering a Zadara VPSA Object Storage instance: accounts, users, containers, policies and drives. Served by each customer instance under /api.'
-  humanURL: https://api-doc.zadara.com/?urls.primaryName=Object%20Storage
-  baseURL: https://{object-storage-host}/api
+    url: openapi/zadara-access-logs-api-openapi.yml
+- aid: zadara:zadara-accounts-api
+  name: Zadara Accounts API
+  description: Operations for Accounts.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
   tags:
-  - Storage
+  - Accounts
   properties:
   - type: OpenAPI
-    url: openapi/zadara-object-storage-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://s3.amazonaws.com/api-doc.zadara.com/Object%20Storage/25.07.yml
-  image: https://www.zadara.com/wp-content/uploads/poster2.jpg
-- aid: zadara:command-center
-  name: Zadara Command Center API
-  description: Operations API for the Zadara Command Center, the management plane for clouds, VPSAs and storage nodes. Served per deployment under /api.
-  humanURL: https://api-doc.zadara.com/?urls.primaryName=Command%20Center
-  baseURL: https://{command-center-host}/api
+    url: openapi/zadara-accounts-api-openapi.yml
+- aid: zadara:zadara-authentication-api
+  name: Zadara Authentication API
+  description: Methods for authenticating with the Provisioning Portal.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
   tags:
-  - Storage
+  - Authentication
   properties:
   - type: OpenAPI
-    url: openapi/zadara-command-center-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://s3.amazonaws.com/api-doc.zadara.com/Command%20Center/25.07.yml
-  image: https://www.zadara.com/wp-content/uploads/poster2.jpg
-- aid: zadara:provisioning-portal
-  name: Zadara Provisioning Portal API
-  description: API for the Zadara Provisioning Portal used to request and manage VPSA and Object Storage provisioning. Served per deployment under /api/v2.
-  humanURL: https://api-doc.zadara.com/?urls.primaryName=Provisioning%20Portal
-  baseURL: https://{provisioning-portal-host}/api/v2
+    url: openapi/zadara-authentication-api-openapi.yml
+- aid: zadara:zadara-billing-api
+  name: Zadara Billing API
+  description: Operations involving billing.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
   tags:
-  - Storage
+  - Billing
   properties:
   - type: OpenAPI
-    url: openapi/zadara-provisioning-portal-openapi.yml
+    url: openapi/zadara-billing-api-openapi.yml
+- aid: zadara:zadara-cloud-api
+  name: Zadara Cloud API
+  description: Retrieve Cloud's Configurations
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Cloud
+  properties:
   - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://s3.amazonaws.com/api-doc.zadara.com/Provisioning%20Portal/25.07.yml
-  image: https://www.zadara.com/wp-content/uploads/poster2.jpg
+    url: openapi/zadara-cloud-api-openapi.yml
+- aid: zadara:zadara-cloud-settings-api
+  name: Zadara Cloud Settings API
+  description: Operations involving Cloud Settings.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Cloud Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-cloud-settings-api-openapi.yml
+- aid: zadara:zadara-cloud-users-api
+  name: Zadara Cloud Users API
+  description: Operations involving Cloud's users.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Cloud Users
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-cloud-users-api-openapi.yml
+- aid: zadara:zadara-clouds-api
+  name: Zadara Clouds API
+  description: Operations involving Clouds.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Clouds
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-clouds-api-openapi.yml
+- aid: zadara:zadara-comments-api
+  name: Zadara Comments API
+  description: Operations involving Comments.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Comments
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-comments-api-openapi.yml
+- aid: zadara:zadara-compute-api
+  name: Zadara Compute API
+  description: Compute accounts operations
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Compute
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-compute-api-openapi.yml
+- aid: zadara:zadara-computes-api
+  name: Zadara Computes API
+  description: Operations involving Computes.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Computes
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-computes-api-openapi.yml
+- aid: zadara:zadara-consistency-groups-api
+  name: Zadara Consistency Groups API
+  description: Operations involving Consistency Groups.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Consistency Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-consistency-groups-api-openapi.yml
+- aid: zadara:zadara-container-replications-api
+  name: Zadara Container Replications API
+  description: Operations for Container Replications
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Container Replications
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-container-replications-api-openapi.yml
+- aid: zadara:zadara-containers-api
+  name: Zadara Containers API
+  description: Operations for Containers
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Containers
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-containers-api-openapi.yml
+- aid: zadara:zadara-controllers-api
+  name: Zadara Controllers API
+  description: Operations for Controllers.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Controllers
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-controllers-api-openapi.yml
+- aid: zadara:zadara-custom-networks-api
+  name: Zadara Custom Networks API
+  description: Operations involving Custom Networks.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Custom Networks
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-custom-networks-api-openapi.yml
+- aid: zadara:zadara-drive-api
+  name: Zadara Drive API
+  description: Operations involving drives.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Drive
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-drive-api-openapi.yml
+- aid: zadara:zadara-drive-types-api
+  name: Zadara Drive Types API
+  description: Operations involving Drive Types.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Drive Types
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-drive-types-api-openapi.yml
+- aid: zadara:zadara-drives-api
+  name: Zadara Drives API
+  description: Operations involving Drives.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Drives
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-drives-api-openapi.yml
+- aid: zadara:zadara-engine-types-api
+  name: Zadara Engine types API
+  description: Operations involving APP/IO engine types.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Engine types
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-engine-types-api-openapi.yml
+- aid: zadara:zadara-fault-domains-api
+  name: Zadara Fault Domains API
+  description: Operations involving fault domains.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Fault Domains
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-fault-domains-api-openapi.yml
+- aid: zadara:zadara-file-lifecycle-api
+  name: Zadara File Lifecycle API
+  description: Operations involving File Lifecycle.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - File Lifecycle
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-file-lifecycle-api-openapi.yml
+- aid: zadara:zadara-file-lifecycle-policies-api
+  name: Zadara File Lifecycle Policies API
+  description: Operations involving File Lifecycle Policies.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - File Lifecycle Policies
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-file-lifecycle-policies-api-openapi.yml
+- aid: zadara:zadara-images-api
+  name: Zadara Images API
+  description: Operations involving images.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Images
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-images-api-openapi.yml
+- aid: zadara:zadara-load-balancer-api
+  name: Zadara Load Balancer API
+  description: Operations for Load Balancer.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Load Balancer
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-load-balancer-api-openapi.yml
+- aid: zadara:zadara-logs-api
+  name: Zadara Logs API
+  description: Operations involving central logs.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Logs
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-logs-api-openapi.yml
+- aid: zadara:zadara-mirroring-and-cloning-api
+  name: Zadara Mirroring and Cloning API
+  description: Operations for Remote Mirroring and Cloning.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Mirroring and Cloning
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-mirroring-and-cloning-api-openapi.yml
+- aid: zadara:zadara-nas-api
+  name: Zadara NAS API
+  description: Operations for NAS (Network Attached Storage) Users and Groups.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - NAS
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-nas-api-openapi.yml
+- aid: zadara:zadara-object-storage-destinations-api
+  name: Zadara Object Storage Destinations API
+  description: Operations for Object Storage Destinations.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Object Storage Destinations
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-object-storage-destinations-api-openapi.yml
+- aid: zadara:zadara-organizations-api
+  name: Zadara Organizations API
+  description: Organizations
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-organizations-api-openapi.yml
+- aid: zadara:zadara-pools-api
+  name: Zadara Pools API
+  description: Operations involving Pools.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Pools
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-pools-api-openapi.yml
+- aid: zadara:zadara-prices-api
+  name: Zadara Prices API
+  description: Get the list of prices for all providers.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Prices
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-prices-api-openapi.yml
+- aid: zadara:zadara-providers-api
+  name: Zadara Providers API
+  description: Retrieve Providers Configurations
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Providers
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-providers-api-openapi.yml
+- aid: zadara:zadara-raid-groups-api
+  name: Zadara RAID Groups API
+  description: Operations involving RAID Groups.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - RAID Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-raid-groups-api-openapi.yml
+- aid: zadara:zadara-remote-authentications-api
+  name: Zadara Remote authentications API
+  description: Operations involving Command Center remote authentication directories.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Remote authentications
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-remote-authentications-api-openapi.yml
+- aid: zadara:zadara-remote-object-storage-api
+  name: Zadara Remote object storage API
+  description: Operations for Remote Object Storages.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Remote object storage
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-remote-object-storage-api-openapi.yml
+- aid: zadara:zadara-roles-api
+  name: Zadara Roles API
+  description: Operations involving Command Center roles.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-roles-api-openapi.yml
+- aid: zadara:zadara-servers-api
+  name: Zadara Servers API
+  description: Operations involving Servers.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Servers
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-servers-api-openapi.yml
+- aid: zadara:zadara-settings-api
+  name: Zadara Settings API
+  description: Get / Modify Settings.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-settings-api-openapi.yml
+- aid: zadara:zadara-snapshot-policies-api
+  name: Zadara Snapshot Policies API
+  description: Operations for Snapshot Policies.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Snapshot Policies
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-snapshot-policies-api-openapi.yml
+- aid: zadara:zadara-snapshots-api
+  name: Zadara Snapshots API
+  description: Operations for Snapshots.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Snapshots
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-snapshots-api-openapi.yml
+- aid: zadara:zadara-software-install-api
+  name: Zadara Software install API
+  description: Operations involving logs.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Software install
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-software-install-api-openapi.yml
+- aid: zadara:zadara-storage-nodes-api
+  name: Zadara Storage Nodes API
+  description: Operations involving Storage Nodes.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Storage Nodes
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-storage-nodes-api-openapi.yml
+- aid: zadara:zadara-storage-policies-api
+  name: Zadara Storage Policies API
+  description: Operations for Storage Policies.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Storage Policies
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-storage-policies-api-openapi.yml
+- aid: zadara:zadara-tenant-api
+  name: Zadara Tenant API
+  description: Retrieve Tenants information
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Tenant
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-tenant-api-openapi.yml
+- aid: zadara:zadara-unified-identity-api
+  name: Zadara Unified Identity API
+  description: Operations for Unified Identity.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Unified Identity
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-unified-identity-api-openapi.yml
+- aid: zadara:zadara-usage-reports-api
+  name: Zadara Usage Reports API
+  description: Operations for usage reports.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Usage Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-usage-reports-api-openapi.yml
+- aid: zadara:zadara-users-api
+  name: Zadara Users API
+  description: Operations involving Command Center users.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-users-api-openapi.yml
+- aid: zadara:zadara-virtual-controllers-api
+  name: Zadara Virtual Controllers API
+  description: Operations for Virtual Controllers.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Virtual Controllers
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-virtual-controllers-api-openapi.yml
+- aid: zadara:zadara-virtual-network-api
+  name: Zadara Virtual Network API
+  description: Retrieve Vlan's Configurations
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Virtual Network
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-virtual-network-api-openapi.yml
+- aid: zadara:zadara-vlan-api
+  name: Zadara VLAN API
+  description: Operations involving VLAN.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - VLAN
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-vlan-api-openapi.yml
+- aid: zadara:zadara-volume-api
+  name: Zadara Volume API
+  description: Operations involving volumes.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Volume
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-volume-api-openapi.yml
+- aid: zadara:zadara-volumes-api
+  name: Zadara Volumes API
+  description: Operations involving Volumes.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Volumes
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-volumes-api-openapi.yml
+- aid: zadara:zadara-vpsa-api
+  name: Zadara VPSA API
+  description: The VPSA API from Zadara — 65 operation(s) for vpsa.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - VPSA
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-vpsa-api-openapi.yml
+- aid: zadara:zadara-vpsa-object-storage-api
+  name: Zadara VPSA Object Storage API
+  description: Operations involving VPSA Object Storage.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - VPSA Object Storage
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-vpsa-object-storage-api-openapi.yml
+- aid: zadara:zadara-vpsa-requests-api
+  name: Zadara Vpsa Requests API
+  description: Vpsa Requests Actions
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Vpsa Requests
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-vpsa-requests-api-openapi.yml
+- aid: zadara:zadara-vpsa-storage-array-api
+  name: Zadara VPSA Storage Array API
+  description: Operations involving VPSA Storage Arrays.
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - VPSA Storage Array
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-vpsa-storage-array-api-openapi.yml
+- aid: zadara:zadara-vpsas-api
+  name: Zadara Vpsas API
+  description: Vpsas Description
+  humanURL: >-
+    https://api-doc.zadara.com/?urls.primaryName=VPSA%20Storage%20Array%20-%20VPSA%20Flash%20Array
+  baseURL: https://{vpsa-host}/api
+  tags:
+  - Vpsas
+  properties:
+  - type: OpenAPI
+    url: openapi/zadara-vpsas-api-openapi.yml
 x-enrichment:
   date: '2026-10-13'
   status: enriched

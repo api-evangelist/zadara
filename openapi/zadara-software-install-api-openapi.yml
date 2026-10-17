@@ -1,0 +1,985 @@
+openapi: 3.2.0
+info:
+  title: Zadara Software install API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Software install across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Software install
+  description: Operations involving logs.
+paths:
+  /clouds/{cloud_name}/software_install/list_sns.json:
+    get:
+      tags:
+      - Software install
+      description: Lists Storage Nodes.
+      operationId: list_sns
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: object
+                    properties:
+                      sns:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            status:
+                              type: string
+                              example: connected
+                            installer_version:
+                              type: string
+                              example: 14.07-1419-36
+                              xml:
+                                name: installer-version
+                            sn_uname:
+                              type: string
+                              example: ubuntu-61
+                              xml:
+                                name: sn-uname
+                            nova_version:
+                              type: string
+                              example: 14.07-1419-36
+                              xml:
+                                name: nova-version
+                            extmgmt_ip:
+                              type: string
+                              example: 172.16.0.61
+                              xml:
+                                name: extmgmt-ip
+                            sn_version:
+                              type: string
+                              example: 14.07-1419-36
+                              xml:
+                                name: sn-version
+                          xml:
+                            name: sn
+                        xml:
+                          wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: object
+                    properties:
+                      sns:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            status:
+                              type: string
+                              example: connected
+                            installer_version:
+                              type: string
+                              example: 14.07-1419-36
+                              xml:
+                                name: installer-version
+                            sn_uname:
+                              type: string
+                              example: ubuntu-61
+                              xml:
+                                name: sn-uname
+                            nova_version:
+                              type: string
+                              example: 14.07-1419-36
+                              xml:
+                                name: nova-version
+                            extmgmt_ip:
+                              type: string
+                              example: 172.16.0.61
+                              xml:
+                                name: extmgmt-ip
+                            sn_version:
+                              type: string
+                              example: 14.07-1419-36
+                              xml:
+                                name: sn-version
+                          xml:
+                            name: sn
+                        xml:
+                          wrapped: true
+      summary: List sns
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/software_install/list_packages.json:
+    get:
+      tags:
+      - Software install
+      description: Lists Install packages. Shows packages from local and renote repository. If remote_repo is not defined, the default Zadara repo is used.
+      operationId: list_packages
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: remote_repo
+        description: Remote repository
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: object
+                    properties:
+                      pkgs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: 14.07-1419-34
+                            state:
+                              type: string
+                              example: '[downloaded:not-in-s3]'
+                          xml:
+                            name: pkg
+                        xml:
+                          wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: object
+                    properties:
+                      pkgs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: 14.07-1419-34
+                            state:
+                              type: string
+                              example: '[downloaded:not-in-s3]'
+                          xml:
+                            name: pkg
+                        xml:
+                          wrapped: true
+      summary: List packages
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/software_install/download_package.json:
+    post:
+      tags:
+      - Software install
+      description: Download and Install package from a remote repository. If remote_repo is not defined, the default Zadara repo is used.
+      operationId: download_package
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: package downloading
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: package downloading
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - package
+              properties:
+                package:
+                  type: string
+                  example: 14.07.100
+                remote_repo:
+                  type: string
+                  description: Optional remote repository name. If not provided, the default Zadara repo is used.
+        required: true
+      summary: Download package
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/software_install/upload_settings.json:
+    post:
+      tags:
+      - Software install
+      description: Upload deb settings file.
+      operationId: upload_settings
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: .deb file upload
+                  format: binary
+              required:
+              - file
+      summary: Upload settings
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/software_install/erase_package.json:
+    post:
+      tags:
+      - Software install
+      description: Erase package from the local repository.
+      operationId: erase_package
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: package erased
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: package erased
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - package
+              properties:
+                package:
+                  type: string
+                  example: 14.07.100
+        required: true
+      summary: Erase package
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/software_install/register_images.json:
+    post:
+      tags:
+      - Software install
+      description: Register image in the local repository.
+      operationId: register_images
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - package
+              - components
+              properties:
+                package:
+                  type: string
+                  example: 14.07.100
+                components:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - vpsa
+                    - ccvm
+                    - zios
+                  example:
+                  - vpsa
+                  - ccvm
+                  description: Register only the specified component types. vpsa - register VPSA image. ccvm - register CCVM image. zios - register VPSA Object Storage image
+                set_default:
+                  type: boolean
+                  description: Sets the image as the default for its cloud.
+                  example: true
+        required: true
+      summary: Register images
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/software_install/sn_install.json:
+    post:
+      tags:
+      - Software install
+      description: Install a new Storage Node.
+      operationId: sn_install
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: sn installing
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: sn installing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - package
+              - sn_uname
+              properties:
+                package:
+                  type: string
+                  example: 14.07.100
+                sn_uname:
+                  description: Storage node
+                  type: string
+                  example: sn-10
+        required: true
+      summary: Sn install
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/software_install/cloud_upgrade.json:
+    post:
+      tags:
+      - Software install
+      description: Upgrade the selected compoments (SN\VPSA\CCVM) in the Zadara Cloud to the specified software package. If no components are passed, all components will be upgraded.
+      operationId: cloud_upgrade
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: sn installing
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: sn installing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - package
+              properties:
+                package:
+                  type: string
+                  example: 14.07.100
+                components:
+                  type: array
+                  example:
+                  - sns
+                  - vpsas
+                  - ccvm
+                  items:
+                    type: string
+                    enum:
+                    - sns
+                    - vpsas
+                    - ccvm
+                  description: Upgrade only the specified component types. sns - upgrade all Storage Nodes. vpsas - upgrade all VPSAs. ccvm - upgrade the CCVM
+        required: true
+      summary: Cloud upgrade
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/software_install/show_all.json:
+    get:
+      tags:
+      - Software install
+      description: Show history of Install actions.
+      operationId: show_all
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: object
+                    properties:
+                      actions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            comment:
+                              type: string
+                              example: Running cloud_upgrade
+                            update_time:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: update-time
+                            name:
+                              type: string
+                              example: cloud_upgrade
+                            param:
+                              type: object
+                              properties:
+                                pkg:
+                                  type: string
+                            state:
+                              type: string
+                              example: Aborted
+                            steps:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  comment:
+                                    type: string
+                                    example: Upgrade CCSlave SN
+                                  name:
+                                    type: string
+                                    example: upgrade_ccslave
+                                  state:
+                                    type: string
+                                    example: start
+                                  time:
+                                    type: string
+                                    format: date_time
+                                  phase:
+                                    type: integer
+                                    example: 1
+                                  progress:
+                                    type: string
+                                  data:
+                                    type: object
+                                    properties:
+                                      ccslave:
+                                        type: string
+                                        example: ubuntu-sata-41
+                                      ccmaster:
+                                        type: string
+                                        example: ubuntu-sata-51
+                                  id:
+                                    type: integer
+                                    example: 27
+                                  action_id:
+                                    type: integer
+                                    example: 11
+                                    xml:
+                                      name: action-id
+                                xml:
+                                  name: step
+                              xml:
+                                wrapped: true
+                          xml:
+                            name: action
+                        xml:
+                          wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: object
+                    properties:
+                      actions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            comment:
+                              type: string
+                              example: Running cloud_upgrade
+                            update_time:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: update-time
+                            name:
+                              type: string
+                              example: cloud_upgrade
+                            param:
+                              type: object
+                              properties:
+                                pkg:
+                                  type: string
+                            state:
+                              type: string
+                              example: Aborted
+                            steps:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  comment:
+                                    type: string
+                                    example: Upgrade CCSlave SN
+                                  name:
+                                    type: string
+                                    example: upgrade_ccslave
+                                  state:
+                                    type: string
+                                    example: start
+                                  time:
+                                    type: string
+                                    format: date_time
+                                  phase:
+                                    type: integer
+                                    example: 1
+                                  progress:
+                                    type: string
+                                  data:
+                                    type: object
+                                    properties:
+                                      ccslave:
+                                        type: string
+                                        example: ubuntu-sata-41
+                                      ccmaster:
+                                        type: string
+                                        example: ubuntu-sata-51
+                                  id:
+                                    type: integer
+                                    example: 27
+                                  action_id:
+                                    type: integer
+                                    example: 11
+                                    xml:
+                                      name: action-id
+                                xml:
+                                  name: step
+                              xml:
+                                wrapped: true
+                          xml:
+                            name: action
+                        xml:
+                          wrapped: true
+      summary: Show all
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/software_install/abort_last_action.json:
+    post:
+      tags:
+      - Software install
+      description: Abort last Install action.
+      operationId: abort_last_action
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Succesfully aborted
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Succesfully aborted
+      summary: Abort last action
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/software_install/restart_last_action.json:
+    post:
+      tags:
+      - Software install
+      description: Restart last failing Install action.
+      operationId: restart_last_action
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Restarted
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Restarted
+      summary: Restart last action
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

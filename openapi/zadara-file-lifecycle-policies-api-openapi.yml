@@ -1,0 +1,1278 @@
+openapi: 3.2.0
+info:
+  title: Zadara File Lifecycle Policies API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged File Lifecycle Policies across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: File Lifecycle Policies
+  description: Operations involving File Lifecycle Policies.
+paths:
+  /flc_policies.json:
+    get:
+      tags:
+      - File Lifecycle Policies
+      description: Show file lifecycle policies.
+      operationId: get_all_flc_policies
+      parameters:
+      - in: query
+        name: volume_name
+        description: Show file lifecycle policies attached to a given volume.
+        schema:
+          type: string
+      - in: query
+        name: first
+        description: Retrieve policies starting from the given index. Can be used for pagination with the number parameter.
+        schema:
+          type: integer
+      - in: query
+        name: number
+        description: Retrieve the given number of policies. Can be used for pagination with the first parameter.
+        schema:
+          type: integer
+      - in: query
+        name: order_by
+        description: Order policies by given attribute.
+        schema:
+          type: string
+      - in: query
+        name: descend
+        description: Controls order direction.
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      lc_policies:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: lc-policy-00000002
+                            display_name:
+                              type: string
+                              example: policy1
+                              xml:
+                                name: display-name
+                            enabled:
+                              type: string
+                              example: 'YES'
+                            dry_run_mode:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: dry-run-mode
+                            use_recycle_bin:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: use-recycle-bin
+                            file_selection_criteria:
+                              type: string
+                              example: '{ "$and": [ { "$in": ["$extension", ["log", "tmp"]] }, { "$gt": ["$size", 1024] } ] }'
+                              xml:
+                                name: file-selection-criteria
+                            whitelist_paths:
+                              type: string
+                              example: /tmp
+                              xml:
+                                name: whitelist-paths
+                            blacklist_paths:
+                              type: string
+                              example: /var,/etc
+                              xml:
+                                name: blacklist-paths
+                            action:
+                              type: string
+                              example: expire
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: lc-policy
+                        xml:
+                          name: lc-policies
+                          wrapped: true
+                    xml:
+                      name: TODO/
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      lc_policies:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: lc-policy-00000002
+                            display_name:
+                              type: string
+                              example: policy1
+                              xml:
+                                name: display-name
+                            enabled:
+                              type: string
+                              example: 'YES'
+                            dry_run_mode:
+                              type: string
+                              example: 'YES'
+                              xml:
+                                name: dry-run-mode
+                            use_recycle_bin:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: use-recycle-bin
+                            file_selection_criteria:
+                              type: string
+                              example: '{ "$and": [ { "$in": ["$extension", ["log", "tmp"]] }, { "$gt": ["$size", 1024] } ] }'
+                              xml:
+                                name: file-selection-criteria
+                            whitelist_paths:
+                              type: string
+                              example: /tmp
+                              xml:
+                                name: whitelist-paths
+                            blacklist_paths:
+                              type: string
+                              example: /var,/etc
+                              xml:
+                                name: blacklist-paths
+                            action:
+                              type: string
+                              example: expire
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: lc-policy
+                        xml:
+                          name: lc-policies
+                          wrapped: true
+                    xml:
+                      name: TODO/
+      summary: Get all flc policies
+      x-summary-source: derived
+    post:
+      tags:
+      - File Lifecycle Policies
+      description: Create a new file lifecycle policy.
+      operationId: create_flc_policy
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: create-life-cycle-policy-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: create-life-cycle-policy-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - display_name
+              - file_selection_criteria
+              - lc_action
+              properties:
+                display_name:
+                  type: string
+                  description: Policy name.
+                  example: my_policy
+                file_selection_criteria:
+                  type: string
+                  description: The criteria by which the policy files will be selected. Should be in a MongoDB $match aggregation format.
+                  example: '{ \"$and\": [ { \"$in\": [\"$extension\", [\"log\", \"tmp\"]] }, { \"$gt\": [\"$size\", 1024] } ] }'
+                lc_action:
+                  type: string
+                  enum:
+                  - archive
+                  - expire
+                  description: The action that the policy performs on the selected files.
+                  example: expire
+                enabled:
+                  type: string
+                  description: Controls enablement of the policy after it is created.
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                dry_run:
+                  type: string
+                  description: When the policy is in dry run mode, it'll only print its actions to the log instead of actually performing them.
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                use_recycle_bin:
+                  type: string
+                  description: When using recycle bin, files that are handled by the policy are also copied to the recycle bin.
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                whitelist_paths:
+                  type: string
+                  description: Comma delimited list of paths that the policy should only run on them.
+                blacklist_paths:
+                  type: string
+                  description: Comma delimited list of paths that the policy should not run on.
+                dest_obs_name:
+                  type: string
+                  description: Destination object storage to archive files to. Relevant only for archive policy.
+        required: true
+      summary: Create flc policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc_policies/rules.json:
+    get:
+      tags:
+      - File Lifecycle Policies
+      description: Show the rules attaching file lifecycle policies to volumes.
+      operationId: get_all_flc_policies_rules
+      parameters:
+      - in: query
+        name: volume_name
+        description: Retrieve only rules relevant to the given volume.
+        schema:
+          type: string
+      - in: query
+        name: policy_name
+        description: Retrieve only rules relevant to the given policy.
+        schema:
+          type: string
+      - in: query
+        name: first
+        description: Retrieve rules starting from the given index. Can be used for pagination with the number parameter.
+        schema:
+          type: integer
+      - in: query
+        name: number
+        description: Retrieve the given number of rules. Can be used for pagination with the first parameter.
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  TODO:
+                    type: string
+                    example: None
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  TODO:
+                    type: string
+                    example: None
+      summary: Get all flc policies rules
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc_policies/{id}.json:
+    put:
+      tags:
+      - File Lifecycle Policies
+      description: Updates an existing file lifecycle policy.
+      operationId: update_flc_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^lc_policy-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      lc_policy_name:
+                        type: string
+                        example: lc_policy-00000005
+                        xml:
+                          name: lc-policy-name
+                      status:
+                        type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      lc_policy_name:
+                        type: string
+                        example: lc_policy-00000005
+                        xml:
+                          name: lc-policy-name
+                      status:
+                        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                display_name:
+                  type: string
+                  description: Policy name.
+                  example: my_policy
+                file_selection_criteria:
+                  type: string
+                  description: The criteria by which the policy files will be selected. Should be in a MongoDB $match aggregation format.
+                  example: '{ \"$and\": [ { \"$in\": [\"$extension\", [\"log\", \"tmp\"]] }, { \"$gt\": [\"$size\", 1024] } ] }'
+                lc_action:
+                  type: string
+                  enum:
+                  - archive
+                  - expire
+                  description: The action that the policy performs on the selected files.
+                  example: expire
+                enabled:
+                  type: string
+                  description: Controls enablement of the policy after it is created.
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                dry_run:
+                  type: string
+                  description: When the policy is in dry run mode, it'll only print its actions to the log instead of actually performing them.
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                use_recycle_bin:
+                  type: string
+                  description: When using recycle bin, files that are handled by the policy are also copied to the recycle bin.
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                whitelist_paths:
+                  type: string
+                  description: Comma delimited list of paths that the policy should only run on them.
+                blacklist_paths:
+                  type: string
+                  description: Comma delimited list of paths that the policy should not run on.
+                dest_obs_name:
+                  type: string
+                  description: Destination object storage to archive files to.
+        required: true
+      summary: Update flc policy
+      x-summary-source: derived
+    get:
+      tags:
+      - File Lifecycle Policies
+      description: Retreive a specific file lifecycle policy.
+      operationId: get_flc_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^lc_policy-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      life_cycle_policy:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: lc_policy-00000002
+                          display_name:
+                            type: string
+                            example: policy2
+                            xml:
+                              name: display-name
+                          enabled:
+                            type: string
+                            example: 'YES'
+                          dry_run_mode:
+                            type: string
+                            example: 'YES'
+                            xml:
+                              name: dry-run-mode
+                          use_recycle_bin:
+                            type: string
+                            example: 'NO'
+                            xml:
+                              name: use-recycle-bin
+                          file_selection_criteria:
+                            type: string
+                            example: '{ "$and": [ { "$in": ["$extension", ["log", "tmp"]] }, { "$gt": ["$size", 1024] } ] }'
+                            xml:
+                              name: file-selection-criteria
+                          whitelist_paths:
+                            type: string
+                            example: None
+                            xml:
+                              name: whitelist-paths
+                          blacklist_paths:
+                            type: string
+                            example: None
+                            xml:
+                              name: blacklist-paths
+                          action:
+                            type: string
+                            example: expire
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                        xml:
+                          name: life-cycle-policy
+                    xml:
+                      name: show-one-life-cycle-policy-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      life_cycle_policy:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: lc_policy-00000002
+                          display_name:
+                            type: string
+                            example: policy2
+                            xml:
+                              name: display-name
+                          enabled:
+                            type: string
+                            example: 'YES'
+                          dry_run_mode:
+                            type: string
+                            example: 'YES'
+                            xml:
+                              name: dry-run-mode
+                          use_recycle_bin:
+                            type: string
+                            example: 'NO'
+                            xml:
+                              name: use-recycle-bin
+                          file_selection_criteria:
+                            type: string
+                            example: '{ "$and": [ { "$in": ["$extension", ["log", "tmp"]] }, { "$gt": ["$size", 1024] } ] }'
+                            xml:
+                              name: file-selection-criteria
+                          whitelist_paths:
+                            type: string
+                            example: None
+                            xml:
+                              name: whitelist-paths
+                          blacklist_paths:
+                            type: string
+                            example: None
+                            xml:
+                              name: blacklist-paths
+                          action:
+                            type: string
+                            example: expire
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                        xml:
+                          name: life-cycle-policy
+                    xml:
+                      name: show-one-life-cycle-policy-response
+      summary: Get flc policy
+      x-summary-source: derived
+    delete:
+      tags:
+      - File Lifecycle Policies
+      description: Delete a file lifecycle policy.
+      operationId: delete_flc_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^lc_policy-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      lc_policy_name:
+                        type: string
+                        example: lc_policy-00000003
+                        xml:
+                          name: lc-policy-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-life-cycle-policy-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      lc_policy_name:
+                        type: string
+                        example: lc_policy-00000003
+                        xml:
+                          name: lc-policy-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-life-cycle-policy-response
+      summary: Delete flc policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc_policies/scheduling.json:
+    put:
+      tags:
+      - File Lifecycle Policies
+      description: Updates lifecycle policies run time scheduling.
+      operationId: update_flc_policy_scheduling
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                policy_start_time:
+                  type: string
+                  description: The start time in seconds from 00:00 AM.
+                  example: '9700'
+                policy_interval:
+                  type: integer
+                  description: The interval in seconds between running policies.
+                  example: 86400
+        required: true
+      summary: Update flc policy scheduling
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc_policies/recycle_bin.json:
+    put:
+      tags:
+      - File Lifecycle Policies
+      description: Configures the recycle bin.
+      operationId: update_flc_recycle_bin
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                retention_time:
+                  type: string
+                  description: The time in seconds for retaining files in the recycle bin.
+                  example: '2592000'
+        required: true
+      summary: Update flc recycle bin
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc_policies/{id}/pause.json:
+    put:
+      tags:
+      - File Lifecycle Policies
+      description: Pause a file lifecycle policy for a given volume.
+      operationId: pause_flc_policy_on_volume
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      lc_policy_name:
+                        type: string
+                        example: lc_policy-00000005
+                        xml:
+                          name: lc-policy-name
+                      status:
+                        type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      lc_policy_name:
+                        type: string
+                        example: lc_policy-00000005
+                        xml:
+                          name: lc-policy-name
+                      status:
+                        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - volume_name
+              properties:
+                volume_name:
+                  type: string
+                  description: The volume to pause the policy for.
+        required: true
+      summary: Pause flc policy on volume
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc_policies/{id}/resume.json:
+    put:
+      tags:
+      - File Lifecycle Policies
+      description: Resume a file lifecycle policy for a given volume.
+      operationId: resume_flc_policy_on_volume
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      lc_policy_name:
+                        type: string
+                        example: lc_policy-00000005
+                        xml:
+                          name: lc-policy-name
+                      status:
+                        type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      lc_policy_name:
+                        type: string
+                        example: lc_policy-00000005
+                        xml:
+                          name: lc-policy-name
+                      status:
+                        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - volume_name
+              properties:
+                volume_name:
+                  type: string
+                  description: The volume to resume the policy for.
+        required: true
+      summary: Resume flc policy on volume
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc_policies/{id}/attach.json:
+    put:
+      tags:
+      - File Lifecycle Policies
+      description: Attach a volume to a file lifecycle policy.
+      operationId: attach_flc_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - volume_name
+              properties:
+                volume_name:
+                  type: string
+                  description: The volume to attach the policy to.
+        required: true
+      summary: Attach flc policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /flc_policies/{id}/detach.json:
+    put:
+      tags:
+      - File Lifecycle Policies
+      description: Detach a volume from a file lifecycle policy.
+      operationId: detach_flc_policy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - volume_name
+              properties:
+                volume_name:
+                  type: string
+                  description: The volume to detach the policy from.
+        required: true
+      summary: Detach flc policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

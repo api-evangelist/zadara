@@ -1,0 +1,4181 @@
+openapi: 3.2.0
+info:
+  title: Zadara VPSA Storage Array API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged VPSA Storage Array across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: VPSA Storage Array
+  description: Operations involving VPSA Storage Arrays.
+paths:
+  /clouds/{cloud_name}/vpsas.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Returns a list of all VPSA.
+      operationId: get_all_vpsas
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsas:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vpsa'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsas:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vpsa'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get all vpsas
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Returns the details for a single VPSA.
+      operationId: get_vpsa_from_cloud
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsa:
+                    $ref: '#/components/schemas/Vpsa'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsa:
+                    $ref: '#/components/schemas/Vpsa'
+      summary: Get vpsa from cloud
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/drives.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Returns the list of a VPSA's drives.
+      operationId: get_all_vpsa_drives
+      parameters:
+      - in: path
+        name: cloud_name
+        description: The cloud 'name' as returned by get_all_clouds. example zadaralab01
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drives:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        internal_name:
+                          type: string
+                          example: volume-00000012
+                          xml:
+                            name: internal-name
+                        node:
+                          type: string
+                          example: ubuntu_sata-51
+                        size:
+                          type: integer
+                        type:
+                          type: string
+                          example: SAS 136GB 15000RPM
+                        address:
+                          type: string
+                          example: 0:0:6 (Ad:En:Sl)
+                        product_id:
+                          type: string
+                          example: SEAGATE ST3300657SS-H
+                          xml:
+                            name: product-id
+                      xml:
+                        name: drive
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drives:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        internal_name:
+                          type: string
+                          example: volume-00000012
+                          xml:
+                            name: internal-name
+                        node:
+                          type: string
+                          example: ubuntu_sata-51
+                        size:
+                          type: integer
+                        type:
+                          type: string
+                          example: SAS 136GB 15000RPM
+                        address:
+                          type: string
+                          example: 0:0:6 (Ad:En:Sl)
+                        product_id:
+                          type: string
+                          example: SEAGATE ST3300657SS-H
+                          xml:
+                            name: product-id
+                      xml:
+                        name: drive
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get all vpsa drives
+      x-summary-source: derived
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Add drives to VPSA.
+      operationId: add_drives
+      parameters:
+      - in: path
+        name: cloud_name
+        description: The cloud 'name' as returned by get_all_clouds. example zadaralab01
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Request sent successfully. Check central log for details
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Request sent successfully. Check central log for details
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - drive_type
+              - quantity
+              - skip_validation
+              properties:
+                drive_type:
+                  type: string
+                  example: SATA_2793GB_5940RPM
+                  description: Drive type internal name
+                quantity:
+                  type: integer
+                  example: 2
+                  description: Number of drives to add
+                skip_validation:
+                  type: boolean
+                  example: true
+                  description: Skips maximum drive validation. Use for admin only. Please notice that exceeding the number of drives allowed will waive the support for the VPSA
+        required: true
+      summary: Add drives
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/virtual_controllers.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Returns the list of a VPSA's Virtual Controllers.
+      operationId: list_vpsas_vc
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  virtual_controllers:
+                    type: array
+                    xml:
+                      name: virtual-controllers
+                      wrapped: true
+                    items:
+                      type: object
+                      xml:
+                        name: virtual-controller
+                      properties:
+                        name:
+                          type: string
+                          example: vc-0:test
+                        state:
+                          type: string
+                          example: Active
+                        type:
+                          type: string
+                          example: '200'
+                        node:
+                          type: string
+                          example: node1
+                        be_ip:
+                          type: string
+                          xml:
+                            name: be-ip
+                          example: 150.50.3.103
+                        be_vlan_id:
+                          type: integer
+                          xml:
+                            name: be-vlan-id
+                          example: 119
+                        fe_ip:
+                          type: string
+                          example: 150.50.2.103
+                          xml:
+                            name: fe-ip
+                        fe_vlan_id:
+                          type: integer
+                          xml:
+                            name: fe-vlan-id
+                          example: 220
+                        hb_ip:
+                          type: string
+                          example: 150.50.0.101
+                          xml:
+                            name: hb-ip
+                        hb_vlan_id:
+                          type: integer
+                          example: 221
+                          xml:
+                            name: hb-vlan-id
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  virtual_controllers:
+                    type: array
+                    xml:
+                      name: virtual-controllers
+                      wrapped: true
+                    items:
+                      type: object
+                      xml:
+                        name: virtual-controller
+                      properties:
+                        name:
+                          type: string
+                          example: vc-0:test
+                        state:
+                          type: string
+                          example: Active
+                        type:
+                          type: string
+                          example: '200'
+                        node:
+                          type: string
+                          example: node1
+                        be_ip:
+                          type: string
+                          xml:
+                            name: be-ip
+                          example: 150.50.3.103
+                        be_vlan_id:
+                          type: integer
+                          xml:
+                            name: be-vlan-id
+                          example: 119
+                        fe_ip:
+                          type: string
+                          example: 150.50.2.103
+                          xml:
+                            name: fe-ip
+                        fe_vlan_id:
+                          type: integer
+                          xml:
+                            name: fe-vlan-id
+                          example: 220
+                        hb_ip:
+                          type: string
+                          example: 150.50.0.101
+                          xml:
+                            name: hb-ip
+                        hb_vlan_id:
+                          type: integer
+                          example: 221
+                          xml:
+                            name: hb-vlan-id
+                  count:
+                    type: integer
+      summary: List vpsas vc
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/raid_groups.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Returns the list of a VPSA's RAID Groups.
+      operationId: get_raid_groups
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  raid_groups:
+                    type: array
+                    xml:
+                      name: raid-groups
+                      wrapped: true
+                    items:
+                      type: object
+                      xml:
+                        name: raid-group
+                      properties:
+                        name:
+                          type: string
+                          example: vc-0:test
+                        status:
+                          type: string
+                          example: Active
+                        protection:
+                          type: string
+                          example: Baby (V2)
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  raid_groups:
+                    type: array
+                    xml:
+                      name: raid-groups
+                      wrapped: true
+                    items:
+                      type: object
+                      xml:
+                        name: raid-group
+                      properties:
+                        name:
+                          type: string
+                          example: vc-0:test
+                        status:
+                          type: string
+                          example: Active
+                        protection:
+                          type: string
+                          example: Baby (V2)
+                  count:
+                    type: integer
+      summary: Get raid groups
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/pools.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Returns the list of a VPSA's Pools.
+      operationId: list_vpsas_pools
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  pools:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VpsaPool'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  pools:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VpsaPool'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: List vpsas pools
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/compatible_virtual_networks.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Returns the list of a available Virtual Networks to be added to VPSA.
+      operationId: list_availiable_virtual_nets_to_add_vpsa
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  compatible_virtual_networks:
+                    xml:
+                      name: compatible-virtual-networks
+                      wrapped: true
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: VNI_50_ipv4
+                        vlan:
+                          type: integer
+                          example: 50
+                        netmask:
+                          type: string
+                          example: 255.255.255.0
+                        cidr:
+                          type: string
+                          example: 192.165.0.0/24
+                        gateway:
+                          type: string
+                          example: 192.165.0.1
+                        id:
+                          type: integer
+                          example: 5
+                        internal_id:
+                          xml:
+                            name: internal-id
+                          type: integer
+                          example: 6
+                      xml:
+                        name: compatible-virtual-network
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  compatible_virtual_networks:
+                    xml:
+                      name: compatible-virtual-networks
+                      wrapped: true
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: VNI_50_ipv4
+                        vlan:
+                          type: integer
+                          example: 50
+                        netmask:
+                          type: string
+                          example: 255.255.255.0
+                        cidr:
+                          type: string
+                          example: 192.165.0.0/24
+                        gateway:
+                          type: string
+                          example: 192.165.0.1
+                        id:
+                          type: integer
+                          example: 5
+                        internal_id:
+                          xml:
+                            name: internal-id
+                          type: integer
+                          example: 6
+                      xml:
+                        name: compatible-virtual-network
+      summary: List availiable virtual nets to add vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/virtual_network_interfaces.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Returns the list of a Virtual Networks that belongs to a VPSA.
+      operationId: list_vpsas_virtual_nets
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  virtual_network_interfaces:
+                    xml:
+                      name: virtual-network-interfaces
+                      wrapped: true
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        custom_network_id:
+                          xml:
+                            name: custom-network-id
+                          type: integer
+                          example: 12
+                        vpsa_id:
+                          xml:
+                            name: vpsa-id
+                          type: integer
+                          example: 2
+                        id:
+                          type: integer
+                          example: 11
+                        vni_id:
+                          xml:
+                            name: vni-id
+                          type: integer
+                          example: 0
+                        ip:
+                          type: string
+                          example: 10.80.10.181
+                        domain_rec_name:
+                          xml:
+                            name: domain-rec-name
+                          type: string
+                          example: example.com
+                        fixed_address_0:
+                          xml:
+                            name: fixed-address-0
+                          type: string
+                          example: 10.80.10.182
+                        fixed_address_1:
+                          xml:
+                            name: fixed-address-1
+                          type: string
+                          example: 10.80.10.183
+                        cidr:
+                          type: string
+                          example: 192.165.0.0/24
+                        name:
+                          type: string
+                          example: vni2
+                        vlan_id:
+                          xml:
+                            name: vlan-id
+                          type: integer
+                          example: 51
+                      xml:
+                        name: virtual-network-interface
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  virtual_network_interfaces:
+                    xml:
+                      name: virtual-network-interfaces
+                      wrapped: true
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        custom_network_id:
+                          xml:
+                            name: custom-network-id
+                          type: integer
+                          example: 12
+                        vpsa_id:
+                          xml:
+                            name: vpsa-id
+                          type: integer
+                          example: 2
+                        id:
+                          type: integer
+                          example: 11
+                        vni_id:
+                          xml:
+                            name: vni-id
+                          type: integer
+                          example: 0
+                        ip:
+                          type: string
+                          example: 10.80.10.181
+                        domain_rec_name:
+                          xml:
+                            name: domain-rec-name
+                          type: string
+                          example: example.com
+                        fixed_address_0:
+                          xml:
+                            name: fixed-address-0
+                          type: string
+                          example: 10.80.10.182
+                        fixed_address_1:
+                          xml:
+                            name: fixed-address-1
+                          type: string
+                          example: 10.80.10.183
+                        cidr:
+                          type: string
+                          example: 192.165.0.0/24
+                        name:
+                          type: string
+                          example: vni2
+                        vlan_id:
+                          xml:
+                            name: vlan-id
+                          type: integer
+                          example: 51
+                      xml:
+                        name: virtual-network-interface
+                  count:
+                    type: integer
+      summary: List vpsas virtual nets
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/capacity_trend.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Returns the VPSA capacity trend.
+      operationId: get_vpsa_capacity_trend
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      - in: query
+        required: true
+        name: pool_id
+        schema:
+          type: string
+          pattern: ^pool-[0-9a-f]{8}$
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date_time
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date_time
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  capacity_trend:
+                    type: object
+                    properties:
+                      used:
+                        type: array
+                        items:
+                          type: number
+                          xml:
+                            name: used
+                        xml:
+                          wrapped: true
+                      dates:
+                        type: object
+                        properties:
+                          start_date:
+                            type: string
+                            example: '2017-01-05'
+                            xml:
+                              name: start-date
+                          end_date:
+                            type: string
+                            example: '2017-01-09'
+                            xml:
+                              name: end-date
+                      categories:
+                        type: array
+                        items:
+                          type: string
+                          format: date_time
+                          example: '2017-01-04T12:23:02+02:00'
+                          xml:
+                            name: category
+                        xml:
+                          wrapped: true
+                      total:
+                        type: array
+                        items:
+                          type: number
+                          xml:
+                            name: total
+                        xml:
+                          wrapped: true
+                      metadata:
+                        type: array
+                        items:
+                          type: number
+                          xml:
+                            name: metadata
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: capacity-trend
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  capacity_trend:
+                    type: object
+                    properties:
+                      used:
+                        type: array
+                        items:
+                          type: number
+                          xml:
+                            name: used
+                        xml:
+                          wrapped: true
+                      dates:
+                        type: object
+                        properties:
+                          start_date:
+                            type: string
+                            example: '2017-01-05'
+                            xml:
+                              name: start-date
+                          end_date:
+                            type: string
+                            example: '2017-01-09'
+                            xml:
+                              name: end-date
+                      categories:
+                        type: array
+                        items:
+                          type: string
+                          format: date_time
+                          example: '2017-01-04T12:23:02+02:00'
+                          xml:
+                            name: category
+                        xml:
+                          wrapped: true
+                      total:
+                        type: array
+                        items:
+                          type: number
+                          xml:
+                            name: total
+                        xml:
+                          wrapped: true
+                      metadata:
+                        type: array
+                        items:
+                          type: number
+                          xml:
+                            name: metadata
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: capacity-trend
+      summary: Get vpsa capacity trend
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/comments.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Returns the list of a VPSA's Comments.
+      operationId: list_vpsas_comments
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  comments:
+                    type: object
+                    properties:
+                      comment:
+                        type: object
+                        properties:
+                          content:
+                            type: string
+                            example: '**test comment**'
+                          severity_id:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: severity-id
+                          severity_name:
+                            type: string
+                            example: critical
+                            xml:
+                              name: severity-name
+                          created_by:
+                            type: string
+                            example: '1'
+                            xml:
+                              name: created-by
+                          created_at:
+                            type: string
+                            example: '2017-01-04T12:23:02+02:00'
+                            xml:
+                              name: created-at
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  comments:
+                    type: object
+                    properties:
+                      comment:
+                        type: object
+                        properties:
+                          content:
+                            type: string
+                            example: '**test comment**'
+                          severity_id:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: severity-id
+                          severity_name:
+                            type: string
+                            example: critical
+                            xml:
+                              name: severity-name
+                          created_by:
+                            type: string
+                            example: '1'
+                            xml:
+                              name: created-by
+                          created_at:
+                            type: string
+                            example: '2017-01-04T12:23:02+02:00'
+                            xml:
+                              name: created-at
+                  count:
+                    type: integer
+      summary: List vpsas comments
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/update_vpsas_reporting.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Updates cloud vpsa's status.
+      operationId: update_cloud_vpsas_status
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: request received successfully, will take approximately 15 seconds
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: request received successfully, will take approximately 15 seconds
+      summary: Update cloud vpsas status
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{vpsa_name}/update_vpsa_reporting.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Updates single vpsa status.
+      operationId: update_vpsa_status
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vpsa_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Update vpsa status
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/failover.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Failover a VPSA.
+      operationId: failover_vpsa
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                when:
+                  type: string
+                  format: date_time
+                  example: 2017-11-22 14:33
+        required: true
+      summary: Failover vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/cancel_sched_failover.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Cancel a Failover.
+      operationId: cancel_failover
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Cancel failover
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/zsnap.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Create a VPSA Zsnap.
+      operationId: create_zsnap
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - prefix
+              properties:
+                prefix:
+                  type: string
+                  example: myprefix
+                when:
+                  type: string
+                  format: date_time
+                  example: 2017-11-22 14:33
+        required: true
+      summary: Create zsnap
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/cancel_sched_zsnap.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Cancel a Scheduled Zsnap.
+      operationId: cancel_scheduled_zsnap
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Cancel scheduled zsnap
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/upgrade.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Upgrade a VPSA software to a specified image.
+      operationId: upgrade_vpsa_version
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - image
+              properties:
+                image:
+                  type: string
+                  example: 14.07.100
+                when:
+                  type: string
+                  description: The upgrade requested time. can be 'now', 'manual' or future date in 'YYYY-MM-DD HH:MM'
+                  example: 2017-11-22 14:33
+        required: true
+      summary: Upgrade vpsa version
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/cancel_sched_upgrade.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Cancel an Upgrade.
+      operationId: cancel_upgrade
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Cancel upgrade
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/resume_waiting.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Resume a pending VPSA upgrade/change model
+      operationId: resume_upgrade
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Resume upgrade
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/reschedule_upgrade.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Reschedule a pending VPSA upgrade/change model
+      operationId: reschedule_upgrade_vpsa
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' value as returned by get_all_vpsas. example '2653'
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                when:
+                  type: string
+                  description: The reschedule requested time. can be 'manual' or future date in 'YYYY-MM-DD HH:MM'
+                  example: 2017-11-22 14:33
+        required: true
+      summary: Reschedule upgrade vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/change_engine_type.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Change VPSA engine.
+      operationId: change_engine_type
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: 'Submitted the following changes: IO Engine Type changed to Baby (V2).'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: 'Submitted the following changes: IO Engine Type changed to Baby (V2).'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                engine_type:
+                  type: string
+                  example: vsa.V2.medium.vf
+                app_engine_type:
+                  type: string
+                  example: tiny
+                when:
+                  type: string
+                  description: The engine change requested time. can be 'now', 'manual' or future date in 'YYYY-MM-DD HH:MM' format
+                  example: 2017-11-22 14:33
+                image:
+                  type: string
+                  example: 17.11-sp1-140.img
+        required: true
+      summary: Change engine type
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/public_ip/assign.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Assign public ip to VPSA.
+      operationId: assign_public_ip
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Public IP 1.2.3.4 submitted for assignment, please allow a few minutes for this to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Public IP 1.2.3.4 submitted for assignment, please allow a few minutes for this to take effect.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ip:
+                  type: string
+                  example: 1.2.3.4
+                  description: Specific IP to assign
+        required: true
+      summary: Assign public ip
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/public_ip/unassign.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Unassign public ip from VPSA.
+      operationId: unassign_public_ip
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Public IP submitted for unassignment from VPSA, please allow a few minutes for this to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Public IP submitted for unassignment from VPSA, please allow a few minutes for this to take effect.
+      summary: Unassign public ip
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/hibernate.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Hibernate VPSA.
+      operationId: hibrenate_vpsa
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA going into hibernating state, please allow a few minutes for this to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA going into hibernating state, please allow a few minutes for this to take effect.
+      summary: Hibrenate vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/restore.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Restore VPSA from hibernation/recycle_bin.
+      operationId: restore_vpsa
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Restoring VPSA. Please allow a few minutes for this to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Restoring VPSA. Please allow a few minutes for this to take effect.
+      summary: Restore vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/purge.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Purge VPSA from recycle_bin.
+      operationId: purge_vpsa_from_recycle_bin
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA purging, please allow a few minutes for this to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA purging, please allow a few minutes for this to take effect.
+      summary: Purge vpsa from recycle bin
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/allocate_networks.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Allocate networks for VPSA.
+      operationId: allocate_networks_for_vpsa
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to allocate networks.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to allocate networks.
+      summary: Allocate networks for vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/release_networks.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Release networks from VPSA.
+      operationId: release_networks_from_vpsa
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to release networks.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to release networks.
+      summary: Release networks from vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/change_cache.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Change VPSA cache.
+      operationId: change_cache
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Cache change submitted.  Please allow a few minutes for this to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Cache change submitted.  Please allow a few minutes for this to take effect.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - cache
+              properties:
+                cache:
+                  type: integer
+                  example: 80
+                  description: New cache size
+        required: true
+      summary: Change cache
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/add_virtual_network_interface.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Add Virtual Network to VPSA.
+      operationId: add_virtual_network_interface
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - custom_network_id
+              properties:
+                custom_network_id:
+                  type: integer
+                  example: 1
+        required: true
+      summary: Add virtual network interface
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/remove_virtual_network_interface.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Remove Virtual Network from VPSA.
+      operationId: remove_virtual_network_interface
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  output:
+                    type: string
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  output:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vni_id
+              properties:
+                vni_id:
+                  type: integer
+                  example: 1
+        required: true
+      summary: Remove virtual network interface
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/move_vc.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Move virtual controller to another storage node
+      operationId: move_virtual_net_to_diff_sn
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - sn_names
+              - vc_index
+              properties:
+                sn_names:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - cloud1-sn1
+                  - cloud2-sn2
+                  description: destination storage node(s) for the virtual controller. When selecting multiple destination storage nodes, the VC will be moved to the first storage node with sufficient resources, according to the selected order
+                vc_index:
+                  type: integer
+                  example: 1
+                  description: Virtual controller index
+                force:
+                  type: boolean
+                  example: true
+                  description: In case the Storage Node that hosts the VC is offline and marked for decommission, use the force flag to allow the VC relocation.
+        required: true
+      summary: Move virtual net to diff sn
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/enable_pool_migration.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Enable pool migratrion for All Flash Array VPSA.
+      operationId: enable_pool_migration
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to enable pool migration.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to enable pool migration.
+      summary: Enable pool migration
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/disable_pool_migration.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Disable pool migratrion for All Flash Array VPSA.
+      operationId: disable_pool_migration_for_all_flash_array_vpsa
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to allocate networks.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to allocate networks.
+      summary: Disable pool migration for all flash array vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/enable_flc.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Enable file lifecycle management for the given VPSA. File Lifecycle Management will be deprecated in a future release and should only be enabled for experimental purposes. For additional information, please contact support.
+      operationId: enable_flc
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Enable FLC submitted for VPSA {VPSA name}. Please allow a few minutes for this change to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Enable FLC submitted for VPSA {VPSA name}. Please allow a few minutes for this change to take effect.
+      summary: Enable flc
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/disable_flc.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Disable file lifecycle management for the given VPSA.
+      operationId: disable_flc
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Disable FLC submitted for VPSA {VPSA name}. Please allow a few minutes for this change to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Disable FLC submitted for VPSA {VPSA name}. Please allow a few minutes for this change to take effect.
+      summary: Disable flc
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/enable_data_reduction_bundle.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Enable data reduction bundle for Flash VPSA.
+      operationId: enable_data_reduction_bundle_for_flash_vpsa
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to enable data reduction bundle.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to enable data reduction bundle.
+      summary: Enable data reduction bundle for flash vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/disable_data_reduction_bundle.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Disables data reduction bundle for Flash VPSA.
+      operationId: disable_data_reduction_bundle_for_flash_vpsa
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to disable data reduction bundle.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to disable data reduction bundle.
+      summary: Disable data reduction bundle for flash vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/recycle_bin.json:
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Enable/Disable volumes recycle bin for the given VPSA.
+      operationId: manage_vpsa_recycle_bin
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA recycle bin enabled
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA recycle bin enabled
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+        required: true
+      summary: Manage vpsa recycle bin
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/endpoints.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Gets all vpsa upload endpoints including default endpoints
+      operationId: list_all_vpsa_upload_endpoints
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      - in: query
+        name: methods_requested
+        required: true
+        description: 'Upload types, for example: s3_aws,s3_zios,ftp'
+        schema:
+          type: array
+          items:
+            type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsa_upload_endpoints:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: NAME
+                          xml:
+                            name: endpoint-name
+                        endpoint_method:
+                          type: string
+                          example: METHOD
+                          xml:
+                            name: endpoint-method
+                        access_key:
+                          type: string
+                          example: ACCESS KEY
+                          xml:
+                            name: access-key
+                        region:
+                          type: string
+                          example: REGION
+                      xml:
+                        name: vpsa-upload-endpoint
+                    xml:
+                      name: vpsa-upload-endpoints
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsa_upload_endpoints:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: NAME
+                          xml:
+                            name: endpoint-name
+                        endpoint_method:
+                          type: string
+                          example: METHOD
+                          xml:
+                            name: endpoint-method
+                        access_key:
+                          type: string
+                          example: ACCESS KEY
+                          xml:
+                            name: access-key
+                        region:
+                          type: string
+                          example: REGION
+                      xml:
+                        name: vpsa-upload-endpoint
+                    xml:
+                      name: vpsa-upload-endpoints
+                      wrapped: true
+      summary: List all vpsa upload endpoints
+      x-summary-source: derived
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Creates a new vpsa upload endpoint
+      operationId: create_new_vpsa_upload_endpoint
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created vpsa endpoint ENDPOINT_NAME
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created vpsa endpoint ENDPOINT_NAME
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - endpoint_name
+              - endpoint_method
+              - config
+              properties:
+                endpoint_name:
+                  type: string
+                  example: Endpoint1
+                  description: Endpoint name
+                endpoint_method:
+                  type: string
+                  description: Endpoint upload method
+                  enum:
+                  - s3_aws
+                  - s3_zios
+                  - ftp
+                  example: s3_aws
+                config:
+                  type: string
+                  description: Endpoint configuration JSON, depending on the chosen upload method. For 's3_aws' and 's3_zios' methods, config should include 'access_key', 'secret_key' and 'region'. For 's3_zios' method, config should also include 'endpoint'. For 'ftp' method, config should include 'server', 'user', 'password', 'use_proxy' (boolean '0' or '1').
+                  example: '{"access_key": "ABCDEFGHIJKLMNOP", "secret_key": "xxxxxxxxxxxxxxxxxxxxxx", "region": "us-east-1"}'
+        required: true
+      summary: Create new vpsa upload endpoint
+      x-summary-source: derived
+    put:
+      tags:
+      - VPSA Storage Array
+      description: Updates an existing vpsa upload endpoint
+      operationId: update_vpsa_upload_endpoint
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully updated vpsa endpoint ENDPOINT_NAME
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully updated vpsa endpoint ENDPOINT_NAME
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - endpoint_name
+              - config
+              properties:
+                endpoint_name:
+                  type: string
+                  example: Endpoint1
+                  description: Endpoint name
+                config:
+                  type: string
+                  description: Endpoint configuration JSON, depending on the endpoint's upload method. For 's3_aws' and 's3_zios' methods, config should include 'access_key', 'secret_key' and 'region'. For 's3_zios' method, config should also include 'endpoint'. For 'ftp' method, config should include 'server', 'user', 'password', 'use_proxy' (boolean '0' or '1').
+                  example: '{"access_key": "ABCDEFGHIJKLMNOP", "secret_key": "xxxxxxxxxxxxxxxxxxxxxx", "region": "us-east-1"}'
+        required: true
+      summary: Update vpsa upload endpoint
+      x-summary-source: derived
+    delete:
+      tags:
+      - VPSA Storage Array
+      description: Deletes an existing vpsa upload endpoint
+      operationId: delete_vpsa_upload_endpoint
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted vpsa endpoint ENDPOINT_NAME
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted vpsa endpoint ENDPOINT_NAME
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - endpoint_name
+              properties:
+                endpoint_name:
+                  type: string
+                  description: Endpoint name
+                  example: Endpoint1
+        required: true
+      summary: Delete vpsa upload endpoint
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/endpoints_config.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Gets vpsa endpoint configs by upload types
+      operationId: get_vpsa_endpoint_configs_by_upload_types
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      - in: query
+        name: types
+        description: 'Upload types, for example: mag, config'
+        schema:
+          type: array
+          items:
+            type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsa_endpoint_configs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: endpoint1
+                          xml:
+                            name: endpoint-name
+                        endpoint_bucket:
+                          type: string
+                          example: bucket1
+                          xml:
+                            name: endpoint-bucket
+                      xml:
+                        name: vpsa-endpoint-config
+                    xml:
+                      name: vpsa-endpoint-configs
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsa_endpoint_configs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: endpoint1
+                          xml:
+                            name: endpoint-name
+                        endpoint_bucket:
+                          type: string
+                          example: bucket1
+                          xml:
+                            name: endpoint-bucket
+                      xml:
+                        name: vpsa-endpoint-config
+                    xml:
+                      name: vpsa-endpoint-configs
+                      wrapped: true
+      summary: Get vpsa endpoint configs by upload types
+      x-summary-source: derived
+    post:
+      tags:
+      - VPSA Storage Array
+      description: Creates vpsa endpoints configurations for upload type
+      operationId: create_vpsa_endpoints_conf_for_upload_types
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created vpsa endpoints configurations for upload type 'TYPE'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created vpsa endpoints configurations for upload type 'TYPE'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointConfiguration'
+        required: true
+      summary: Create vpsa endpoints conf for upload types
+      x-summary-source: derived
+    put:
+      tags:
+      - VPSA Storage Array
+      description: Adds more vpsa endpoints configurations for upload type
+      operationId: add_vpsa_endpoints_conf_for_upload_types
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully added vpsa endpoints configurations for upload type 'TYPE'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully added vpsa endpoints configurations for upload type 'TYPE'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointConfiguration'
+        required: true
+      summary: Add vpsa endpoints conf for upload types
+      x-summary-source: derived
+    delete:
+      tags:
+      - VPSA Storage Array
+      description: Deletes an existing vpsa endpoint configuration for upload type
+      operationId: delete_vpsa_endpoints_conf_for_upload_types
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted vpsa endpoint configuration for type 'TYPE'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted vpsa endpoint configuration for type 'TYPE'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - type
+              - endpoint_name
+              properties:
+                type:
+                  type: string
+                  description: Upload type
+                  enum:
+                  - mag
+                  - config
+                  example: mag
+                endpoint_name:
+                  type: string
+                  example: Endpoint1
+                  description: Endpoint name
+        required: true
+      summary: Delete vpsa endpoints conf for upload types
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/settings.json:
+    get:
+      tags:
+      - VPSA Storage Array
+      description: Returns VPSA info from Cloud
+      operationId: get_vpsa_settings
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      - in: query
+        name: section
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsa_endpoint_configs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: endpoint1
+                          xml:
+                            name: endpoint-name
+                        endpoint_bucket:
+                          type: string
+                          example: bucket1
+                          xml:
+                            name: endpoint-bucket
+                      xml:
+                        name: vpsa-endpoint-config
+                    xml:
+                      name: vpsa-endpoint-configs
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vpsa_endpoint_configs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: endpoint1
+                          xml:
+                            name: endpoint-name
+                        endpoint_bucket:
+                          type: string
+                          example: bucket1
+                          xml:
+                            name: endpoint-bucket
+                      xml:
+                        name: vpsa-endpoint-config
+                    xml:
+                      name: vpsa-endpoint-configs
+                      wrapped: true
+      summary: Get vpsa settings
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  parameters:
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+  schemas:
+    VpsaVcNetwork:
+      properties:
+        fe_ip:
+          type: string
+          example: 150.50.2.113
+          xml:
+            name: fe-ip
+        fe_ipv6:
+          type: string
+          example: 2001:14:14::2
+          xml:
+            name: fe-ipv6
+        be_ip:
+          type: string
+          example: 150.50.3.113
+          xml:
+            name: be-ip
+        hb_ip:
+          type: string
+          example: 150.50.0.113
+          xml:
+            name: hb-ip
+        hb_ipv6:
+          type: string
+          example: 2001:1400::20
+          xml:
+            name: hb-ipv6
+        outnet_ip:
+          type: string
+          example: 203.0.113.1
+          xml:
+            name: outnet-ip
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    EndpointConfiguration:
+      type: object
+      required:
+      - type
+      - endpoints_config
+      properties:
+        type:
+          type: string
+          description: Upload type
+          enum:
+          - mag
+          - config
+          example: mag
+        endpoints_config:
+          type: array
+          example:
+          - endpoint_name: default_mag_ep
+          - endpoint_name: some_s3_endpoint
+            endpoint_bucket: b
+          - endpoint_name: some_ftp_endpoint
+          description: Endpoints configurations to set for the upload type. Each configuration must specify endpoint name. S3 endpoints configurations must also specify bucket name. Maximum to 3 endpoints. Cloud endpoints can also be specified (see 'Get cloud settings' api).
+          items:
+            type: object
+            required:
+            - endpoint_name
+            properties:
+              endpoint_name:
+                type: string
+              endpoint_bucket:
+                type: string
+            example:
+              endpoint_name: some_s3_endpoint
+              endpoint_bucket: b
+    VpsaPool:
+      type: object
+      properties:
+        name:
+          type: string
+          example: vc-0:gs_lic_final
+        status:
+          type: string
+          example: Active
+        type:
+          type: string
+          example: '300'
+        cache:
+          type: string
+          example: None
+        capacity:
+          type: string
+          example: '300'
+        available_capacity:
+          type: string
+          example: '100'
+          xml:
+            name: available-capacity
+        used_capacity:
+          type: string
+          example: '200'
+          xml:
+            name: used-capacity
+        capacity_mode:
+          type: string
+          xml:
+            name: capacity-mode
+      xml:
+        name: pool
+    Vpsa:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: VPSA1
+        internal_name:
+          type: string
+          example: vsa-00000001
+          xml:
+            name: internal-name
+        user:
+          type: string
+          example: user_admin_wuDjL
+        cloud_user_internal_id:
+          type: integer
+          example: 18
+          xml:
+            name: cloud-user-internal-id
+        status:
+          type: string
+          example: created
+        redundancy_status:
+          type: string
+          example: degraded
+          xml:
+            name: redundancy-status
+        redundancy_status_reasons:
+          type: array
+          items:
+            type: string
+            xml:
+              name: redundancy-status-reason
+          example:
+          - vc status is not normal
+          xml:
+            name: redundancy-status-reasons
+            wrapped: true
+        engine_type:
+          type: string
+          example: '1600'
+          xml:
+            name: engine-type
+        app_engine_type:
+          type: string
+          example: '00'
+          xml:
+            name: app-engine-type
+        drives:
+          type: integer
+          example: 2
+        cache:
+          type: integer
+          example: 200
+        image:
+          type: string
+          example: vc-16.05_sp2-356.img
+        management_address:
+          type: string
+          example: 10.2.9.24
+          xml:
+            name: management-address
+        management_address_ipv6:
+          type: string
+          example: 2001:db8:3333:4444:5555:6666:7777:8888
+          xml:
+            name: management-address-ipv6
+        management_address_netmask:
+          type: string
+          example: 255.255.225.0
+          xml:
+            name: management-address-netmask
+        public_ip:
+          type: string
+          example: 1.2.3.4
+          xml:
+            name: public-ip
+        public_ip_netmask:
+          type: string
+          example: 255.255.225.0
+          xml:
+            name: public-ip-netmask
+        network_configuration:
+          type: object
+          properties:
+            vc0:
+              $ref: '#/components/schemas/VpsaVcNetwork'
+            vc1:
+              $ref: '#/components/schemas/VpsaVcNetwork'
+          xml:
+            name: network-configuration
+        fibre_channel_details:
+          type: object
+          xml:
+            name: fibre-channel-details
+        active_vc_index:
+          type: integer
+          example: 0
+          xml:
+            name: active-vc-index
+        storage_type:
+          type: string
+          example: Storage Array
+          xml:
+            name: storage-type
+        pools:
+          type: array
+          items:
+            $ref: '#/components/schemas/VpsaPool'
+          xml:
+            wrapped: true
+        data_reduction_bundle:
+          type: boolean
+          example: true
+          xml:
+            name: data-reduction-bundle
+        uuid:
+          type: string
+          example: 32538469-537c-43c2-8530-5b37f77097a6
+        flc_enabled:
+          type: boolean
+          example: true
+          xml:
+            name: flc-enabled
+        iscsi_dual_target:
+          type: boolean
+          example: true
+          xml:
+            name: iscsi-dual-target
+        snmp_engine_id:
+          type: string
+          example: 8000aa8c0532538469537c43c285305b37f77097a6
+          xml:
+            name: snmp-engine-id
+        created_at:
+          type: string
+          format: date_time
+          example: '2017-01-04T12:23:02+02:00'
+          xml:
+            name: created-at
+        updated_at:
+          type: string
+          format: date_time
+          example: '2017-01-04T12:23:02+02:00'
+          xml:
+            name: updated-at
+        used_by_volumes_capacity:
+          type: number
+          example: 0
+          xml:
+            name: used-by-volumes-capacity
+        effective_capacity:
+          type: number
+          example: 0
+          xml:
+            name: effective-capacity
+        provisioned_capacity:
+          type: number
+          example: 0
+          xml:
+            name: provisioned-capacity
+        data_service_id:
+          type: integer
+          example: 1
+          xml:
+            name: data-service-id
+        vsc_uuid:
+          type: string
+          xml:
+            name: vsc-uuid
+        metadata:
+          type: object
+        capabilities:
+          type: array
+          items:
+            type: string
+            xml:
+              name: capability
+          xml:
+            wrapped: true
+      xml:
+        name: vpsas
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

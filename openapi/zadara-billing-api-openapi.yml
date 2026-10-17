@@ -1,0 +1,75 @@
+openapi: 3.2.0
+info:
+  title: Zadara Billing API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Billing across 2 of this provider''s published API definitions: zadara-provisioning-portal-25.07.yml, zadara-provisioning-portal-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api/v2
+tags:
+- name: Billing
+  description: Operations involving billing.
+paths:
+  /billing_items.json:
+    get:
+      tags:
+      - Billing
+      description: Download Billing Reports. The returned file is in zip format containing csv files.
+      operationId: get_billing_items
+      parameters:
+      - in: query
+        name: start_datetime
+        description: Report start datetime in format yyyy-MM-DD HH:MM
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: end_datetime
+        description: Report end datetime in format yyyy-MM-DD HH:MM
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: user_id
+        description: Filter reports of a specific user
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: The returned file is in zip format containing csv files.
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+      summary: Get billing items
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-provisioning-portal-25.07.yml
+- zadara-provisioning-portal-openapi.yml

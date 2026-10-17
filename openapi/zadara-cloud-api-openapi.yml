@@ -1,0 +1,976 @@
+openapi: 3.2.0
+info:
+  title: Zadara Cloud API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Cloud across 2 of this provider''s published API definitions: zadara-provisioning-portal-25.07.yml, zadara-provisioning-portal-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api/v2
+tags:
+- name: Cloud
+  description: Retrieve Cloud's Configurations
+paths:
+  /clouds.json:
+    get:
+      tags:
+      - Cloud
+      description: Get the list of available Clouds and their configuration options.
+      operationId: get_all_clouds
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/IncludeDescendants'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cloud'
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cloud'
+                    xml:
+                      wrapped: true
+      summary: Get all clouds
+      x-summary-source: derived
+    post:
+      tags:
+      - Cloud
+      description: Create a cloud
+      operationId: create_cloud
+      x-roles: Platform Admin
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      cloud_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: cloud-id
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      cloud_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: cloud-id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - ip
+              - admin_user
+              - admin_key
+              properties:
+                name:
+                  type: string
+                  description: zStorage cloud display name, only visible to the Provisioning Portal administrators
+                  example: cloud1
+                enabled:
+                  type: boolean
+                  description: zStorage cloud will be synced
+                ip:
+                  type: string
+                  description: zStorage Cloud IP address
+                  example: 1.2.3.4
+                fqdn:
+                  type: string
+                  description: zStorage Cloud FQDN
+                  example: vsa-00000001-public-cloud-name.zadarazios.com
+                auth_url:
+                  type: string
+                  description: zStorage Auth API
+                  example: https://1.2.3.4:5001/v2.0/
+                nova_url:
+                  type: string
+                  description: zStorage NOVA Service API
+                  example: https://1.2.3.4:8775/v1.1/
+                keystone_url:
+                  type: string
+                  description: zStorage Keystone Admin API
+                  example: https://1.2.3.4:35358/v1.1/
+                ssl_verify:
+                  x-EnvType: Public
+                  type: boolean
+                  description: SSL Certificate Validation
+                  example: false
+                admin_user:
+                  type: string
+                  description: zStorage NOVA Admin user
+                  example: admin
+                admin_key:
+                  type: string
+                  description: zStorage NOVA Admin key
+                  example: '12345678'
+                organization_id:
+                  x-EnvType: Public
+                  type: string
+                  format: uuid
+                  description: Include this param if the cloud belongs to a specific organization
+        required: true
+      summary: Create cloud
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /clouds/test_connection.json:
+    post:
+      tags:
+      - Cloud
+      description: Test connectivity to Auth, Nova and Keystone URLs of the cloud. Runs a background job and returns the job id. Job status and results should be tracked with /clouds/connection_test_status REST API.
+      operationId: cloud_test_connection
+      x-roles: Platform Admin
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  job_id:
+                    type: string
+                    example: d77b4b2c7f15ec569151de25
+                    xml:
+                      name: job-id
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  job_id:
+                    type: string
+                    example: d77b4b2c7f15ec569151de25
+                    xml:
+                      name: job-id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cloud_id:
+                  type: integer
+                  description: Cloud ID. Opt out for testing new cloud connectivity.
+                  example: 1
+                ip:
+                  type: string
+                  description: Cloud's ip address
+                  example: 1.2.3.4
+                admin_user:
+                  type: string
+                  description: Nova admin user
+                  example: admin
+                admin_key:
+                  type: string
+                  description: Nova admin key. Only applies to new cloud. Do not provide for existing cloud.
+                  example: '12345678'
+                auth_url:
+                  type: string
+                  description: Auth URL.
+                  example: http://10.0.17.1:5000/v2.0/
+                nova_url:
+                  type: string
+                  description: Nova URL.
+                  example: https://10.0.17.1:8774/v1.1/
+                keystone_url:
+                  type: string
+                  description: Keystone URL.
+                  example: http://10.0.17.1:35357/v1.1/
+                ssl_verify:
+                  type: boolean
+                  description: Verify SSL (public ecommerce only).
+                  example: false
+                gateway_address:
+                  type: string
+                  description: Gateway Address.
+                  example: 10.0.17.1
+        required: true
+      summary: Cloud test connection
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /clouds/connection_test_status.json:
+    get:
+      tags:
+      - Cloud
+      description: Gets the cloud connectivity test job status and results.
+      operationId: cloud_connection_test_status
+      x-roles: Platform Admin
+      parameters:
+      - in: query
+        name: job_id
+        description: Job ID returned from /clouds/test_connection REST API.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  services_status:
+                    xml:
+                      name: services-status
+                      wrapped: true
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        service_name:
+                          type: string
+                          example: auth
+                          xml:
+                            name: service-name
+                        service_display_name:
+                          type: string
+                          example: AUTH
+                          xml:
+                            name: service-display-name
+                        status:
+                          type: string
+                          example: fail
+                        error:
+                          type: string
+                          example: Failed to open TCP connection to 1.1.1.1:5000 (execution expired)
+                      xml:
+                        name: service-status
+                    example:
+                    - service_name: auth
+                      service_display_name: AUTH
+                      status: success
+                    - service_name: nova
+                      service_display_name: NOVA
+                      status: fail
+                      error: Failed to open TCP connection to 1.1.1.1:5000 (execution expired)
+                    - service_name: keystone
+                      service_display_name: Keystone
+                      status: fail
+                      error: Failed to open TCP connection to 1.1.1.1:5000 (execution expired)
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  services_status:
+                    xml:
+                      name: services-status
+                      wrapped: true
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        service_name:
+                          type: string
+                          example: auth
+                          xml:
+                            name: service-name
+                        service_display_name:
+                          type: string
+                          example: AUTH
+                          xml:
+                            name: service-display-name
+                        status:
+                          type: string
+                          example: fail
+                        error:
+                          type: string
+                          example: Failed to open TCP connection to 1.1.1.1:5000 (execution expired)
+                      xml:
+                        name: service-status
+                    example:
+                    - service_name: auth
+                      service_display_name: AUTH
+                      status: success
+                    - service_name: nova
+                      service_display_name: NOVA
+                      status: fail
+                      error: Failed to open TCP connection to 1.1.1.1:5000 (execution expired)
+                    - service_name: keystone
+                      service_display_name: Keystone
+                      status: fail
+                      error: Failed to open TCP connection to 1.1.1.1:5000 (execution expired)
+      summary: Cloud connection test status
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /clouds/{id}.json:
+    get:
+      tags:
+      - Cloud
+      description: Get the configuration information for a single Cloud.
+      operationId: get_cloud
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    $ref: '#/components/schemas/Cloud'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    $ref: '#/components/schemas/Cloud'
+      summary: Get cloud
+      x-summary-source: derived
+    post:
+      tags:
+      - Cloud
+      description: Update a cloud
+      operationId: update_cloud
+      x-roles: Platform Admin, Organization Admin
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      cloud_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: cloud-id
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      cloud_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: cloud-id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: zStorage cloud display name, only visible to the Provisioning Portal administrators
+                  example: cloud1
+                enabled:
+                  type: boolean
+                  description: zStorage cloud will be synced
+                ip:
+                  type: string
+                  description: zStorage Cloud IP address
+                  example: 1.2.3.4
+                auth_url:
+                  type: string
+                  description: zStorage Auth API
+                  example: https://1.2.3.4:5001/v2.0/
+                nova_url:
+                  type: string
+                  description: zStorage NOVA Service API
+                  example: https://1.2.3.4:8775/v1.1/
+                keystone_url:
+                  type: string
+                  description: zStorage Keystone Admin API
+                  example: https://1.2.3.4:35358/v1.1/
+                ssl_verify:
+                  x-EnvType: Public
+                  type: boolean
+                  description: SSL Certificate Validation
+                  example: false
+                admin_user:
+                  type: string
+                  description: zStorage NOVA Admin user
+                  example: admin
+                admin_key:
+                  type: string
+                  description: zStorage NOVA Admin key
+                  example: '12345678'
+                organization_id:
+                  x-EnvType: Public
+                  format: uuid
+                  type: string
+                  description: Include this param if you want to attach the cloud to a specific organization
+        required: true
+      summary: Update cloud
+      x-summary-source: derived
+    delete:
+      tags:
+      - Cloud
+      description: Delete a cloud
+      operationId: delete_cloud
+      x-roles: Platform Admin, Organization Admin
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Delete cloud
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+components:
+  parameters:
+    OrganizationId:
+      x-EnvType: Public
+      name: organization_id
+      in: query
+      description: Include this parameter if you want to get all entities of a specific organization
+      schema:
+        type: string
+        format: uuid
+    IncludeDescendants:
+      x-EnvType: Public
+      name: include_descendants
+      in: query
+      description: Set to true if you want to get entities of descendants organizations too
+      schema:
+        type: boolean
+  schemas:
+    Cloud:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '1'
+        name:
+          type: string
+          example: AWS US East (N. Virginia) 1
+        uuid:
+          type: string
+          example: 59af475-2a28-4eb4_b9c6-9567d7fb8ae6
+        enabled:
+          type: string
+          example: 'true'
+        app_engines:
+          type: array
+          items:
+            type: object
+            properties:
+              default:
+                type: string
+                example: 'true'
+              memory_mb:
+                type: string
+                example: '1024'
+                xml:
+                  name: memory-mb
+              name:
+                type: string
+                example: '00'
+              price:
+                type: string
+                example: '0.15'
+              specs:
+                type: string
+                example: 2 CPUs, 1GB RAM
+              vcpus:
+                type: string
+                example: '2'
+            xml:
+              name: app-engine
+          xml:
+            wrapped: true
+            name: app-engines
+        nova_url:
+          type: string
+          example: None
+          xml:
+            name: nova-url
+        auth_url:
+          type: string
+          example: None
+          xml:
+            name: auth-url
+        keystone_url:
+          type: string
+          example: None
+          xml:
+            name: keystone-url
+        drive_types:
+          type: array
+          items:
+            type: object
+            properties:
+              hourly_price_usd:
+                type: string
+                example: '0.11'
+                xml:
+                  name: hourly-price-usd
+              capacity_gb:
+                type: integer
+                xml:
+                  name: capacity-gb
+              name:
+                type: string
+                example: 300GB SAS 15000 RPM
+              key:
+                type: string
+                example: SAS_300GB_15KRPM
+              id:
+                type: string
+                example: '1'
+            xml:
+              name: drive-type
+          xml:
+            wrapped: true
+            name: drive-types
+        engine_types:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: '1'
+              hourly_price_usd:
+                type: string
+                example: '0.49'
+                xml:
+                  name: hourly-price-usd
+              name:
+                type: string
+                example: '200'
+              max_drives:
+                type: integer
+                xml:
+                  name: max-drives
+              max_cache_gb:
+                type: integer
+                xml:
+                  name: max-cache-gb
+              key:
+                type: string
+                example: vsa.V2.baby.vf
+              encryption_hourly_price_usd:
+                type: string
+                example: '0.49'
+                xml:
+                  name: encryption-hourly-price-usd
+              specs:
+                type: string
+                example: 1 CPU, 4GB RAM
+              cache:
+                type: object
+                properties:
+                  base_cache_gb:
+                    type: integer
+                    xml:
+                      name: base-cache-gb
+                  max_flash_cache_gb:
+                    type: integer
+                    xml:
+                      name: max-flash-cache-gb
+                  recommended_flash_cache_gb:
+                    type: integer
+                    xml:
+                      name: recommended-flash-cache-gb
+            xml:
+              name: engine-type
+          xml:
+            wrapped: true
+            name: engine-types
+        fibre_channel:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+          xml:
+            name: fibre-channel
+        flash_cache:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            increment_gb:
+              type: integer
+              xml:
+                name: increment-gb
+          xml:
+            name: flash-cache
+        minimum_drives:
+          type: integer
+          xml:
+            name: minimum-drives
+        supports_app_engines:
+          type: boolean
+          xml:
+            name: supports-app-engines
+        zios:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+        zones:
+          type: array
+          items:
+            type: object
+            properties:
+              allocation_zone_disp_name:
+                type: string
+                example: First Zone
+                xml:
+                  name: allocation-zone-disp-name
+              allocation_zone_name:
+                type: string
+                example: zone_0
+                xml:
+                  name: allocation-zone-name
+            xml:
+              name: zone
+          xml:
+            wrapped: true
+        vpsa_zone_group_storage_policy_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/vpsa_zone_group_storage_policy_type'
+          xml:
+            name: vpsa-zone-group-storage-policy-types
+            wrapped: true
+        recommended_storage_array_image_id:
+          type: integer
+          example: 1
+          xml:
+            name: recommended-storage-array-image-id
+        last_synced:
+          type: string
+          format: date_time
+          example: '2023-07-19T04:35:00Z'
+          xml:
+            name: last-synced
+        sync_status:
+          type: object
+          properties:
+            status:
+              type: string
+              example: connectivity_error
+            sidekiq_jid:
+              type: string
+              example: 1e09afe26fa1661f09076403
+              xml:
+                name: sidekiq-jid
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  err_class:
+                    type: string
+                    example: Faraday::ConnectionFailed
+                    xml:
+                      name: err-class
+                  err_context:
+                    type: string
+                    example: Images
+                    xml:
+                      name: err-context
+                  err_message:
+                    type: string
+                    example: Failed to open TCP connection to 1.2.3.4:5000 (execution expired)
+                    xml:
+                      name: err-message
+                xml:
+                  name: error
+              xml:
+                wrapped: true
+          xml:
+            name: sync-status
+        organization:
+          x-EnvType: Public
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: 955e1c45-d499-4de3-aa6d-2ef69983561e
+            display_name:
+              type: string
+              example: z_org_01
+              xml:
+                name: display-name
+            name:
+              type: string
+              description: Zadara organization
+      xml:
+        name: datum
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    vpsa_zone_group_storage_policy_type:
+      type: object
+      xml:
+        name: vpsa-zone-group-storage-policy-type
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: Standard
+        display_name:
+          type: string
+          example: Standard Storage Policy
+          xml:
+            name: display-name
+        replicas:
+          type: number
+          example: 3
+        data_fragments:
+          type: number
+          example: 1
+          xml:
+            name: data-fragments
+        parity_fragments:
+          type: number
+          example: 2
+          xml:
+            name: parity-fragments
+        enabled:
+          type: boolean
+          example: true
+        num_of_allocation_zones:
+          type: number
+          example: 3
+          xml:
+            name: num-of-allocation-zones
+        performance:
+          type: string
+          example: High
+        scale:
+          type: string
+          example: Up to 1PiB of usable capacity
+        fault_tolerance:
+          type: string
+          example: 1 failure
+          xml:
+            name: fault-tolerance
+        utilization:
+          type: string
+          example: 70%
+        deprecated:
+          type: boolean
+          example: false
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-provisioning-portal-25.07.yml
+- zadara-provisioning-portal-openapi.yml

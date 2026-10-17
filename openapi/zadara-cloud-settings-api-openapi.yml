@@ -1,0 +1,3871 @@
+openapi: 3.2.0
+info:
+  title: Zadara Cloud Settings API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Cloud Settings across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Cloud Settings
+  description: Operations involving Cloud Settings.
+paths:
+  /clouds/{cloud_name}/settings.json:
+    get:
+      tags:
+      - Cloud Settings
+      description: Get cloud settings.
+      operationId: get_cloud_settings
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  general:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain_name:
+                          type: string
+                          example: cloud1
+                          xml:
+                            name: domain-name
+                        support_tickets:
+                          type: object
+                          properties:
+                            method:
+                              type: string
+                              example: zendesk
+                            url:
+                              type: string
+                              example: https://zadarastorage123.zendesk.com
+                            username:
+                              type: string
+                              example: support@zadarastorage.com
+                          xml:
+                            name: support-tickets
+                        zsnap_settings:
+                          type: object
+                          properties:
+                            method:
+                              type: string
+                              example: ftp
+                            data:
+                              type: object
+                              properties:
+                                server:
+                                  type: string
+                                  example: 10.0.0.111
+                                user:
+                                  type: string
+                                  example: zsnap
+                                max_allowed_mb:
+                                  type: integer
+                                  example: 102400
+                                  xml:
+                                    name: max-allowed-mb
+                                max_retain_mb:
+                                  type: integer
+                                  example: 81920
+                                  xml:
+                                    name: max-retain-mb
+                          xml:
+                            name: zsnap-settings
+                        cache_or_afa_meta_drives_settings:
+                          type: object
+                          properties:
+                            ssd_cache_max_usable_capacity_gb:
+                              type: integer
+                              example: 800
+                              xml:
+                                name: ssd-cache-max-usable-capacity-gb
+                            allow_temporarily_set_ssds_as_afa_meta:
+                              type: string
+                              xml:
+                                name: allow-temporarily-set-ssds-as-afa-meta
+                          xml:
+                            name: cache-or-afa-meta-drives-settings
+                        ticket_threshold:
+                          type: object
+                          properties:
+                            failed_drive_ticket_time:
+                              type: integer
+                              example: 34
+                              xml:
+                                name: failed-drive-ticket-time
+                            failed_drive_support_ticket_time:
+                              type: integer
+                              example: 2
+                              xml:
+                                name: failed-drive-support-ticket-time
+                            failed_heartbeat_ticket_time:
+                              type: integer
+                              example: 5
+                              xml:
+                                name: failed-heartbeat-ticket-time
+                          xml:
+                            name: ticket-threshold
+                        default_ccvm_engine:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 14
+                            name:
+                              type: string
+                              example: BASIC
+                            vcpus:
+                              type: integer
+                              example: 1
+                            ram:
+                              type: integer
+                              example: 2048
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            updated_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: updated-at
+                          xml:
+                            name: default-ccvm-engine
+                      xml:
+                        name: general
+                    xml:
+                      wrapped: true
+                  security:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        password_status:
+                          type: object
+                          properties:
+                            password_experation_limit:
+                              type: boolean
+                              xml:
+                                name: password-experation-limit
+                            password_history:
+                              type: integer
+                              example: 8
+                              xml:
+                                name: password-history
+                          xml:
+                            name: password-status
+                        vpsa_api_passthrough:
+                          type: boolean
+                          xml:
+                            name: vpsa-api-passthrough
+                        dual_factor:
+                          type: boolean
+                          xml:
+                            name: dual-factor
+                      xml:
+                        name: security
+                    xml:
+                      wrapped: true
+                  vpsa:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain_name:
+                          type: string
+                          xml:
+                            name: domain-name
+                        recycle_bin:
+                          type: object
+                          properties:
+                            days_in_recycle_bin:
+                              type: integer
+                              example: 7
+                              xml:
+                                name: days-in-recycle-bin
+                          xml:
+                            name: recycle-bin
+                      xml:
+                        name: vpsa
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  general:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain_name:
+                          type: string
+                          example: cloud1
+                          xml:
+                            name: domain-name
+                        support_tickets:
+                          type: object
+                          properties:
+                            method:
+                              type: string
+                              example: zendesk
+                            url:
+                              type: string
+                              example: https://zadarastorage123.zendesk.com
+                            username:
+                              type: string
+                              example: support@zadarastorage.com
+                          xml:
+                            name: support-tickets
+                        zsnap_settings:
+                          type: object
+                          properties:
+                            method:
+                              type: string
+                              example: ftp
+                            data:
+                              type: object
+                              properties:
+                                server:
+                                  type: string
+                                  example: 10.0.0.111
+                                user:
+                                  type: string
+                                  example: zsnap
+                                max_allowed_mb:
+                                  type: integer
+                                  example: 102400
+                                  xml:
+                                    name: max-allowed-mb
+                                max_retain_mb:
+                                  type: integer
+                                  example: 81920
+                                  xml:
+                                    name: max-retain-mb
+                          xml:
+                            name: zsnap-settings
+                        cache_or_afa_meta_drives_settings:
+                          type: object
+                          properties:
+                            ssd_cache_max_usable_capacity_gb:
+                              type: integer
+                              example: 800
+                              xml:
+                                name: ssd-cache-max-usable-capacity-gb
+                            allow_temporarily_set_ssds_as_afa_meta:
+                              type: string
+                              xml:
+                                name: allow-temporarily-set-ssds-as-afa-meta
+                          xml:
+                            name: cache-or-afa-meta-drives-settings
+                        ticket_threshold:
+                          type: object
+                          properties:
+                            failed_drive_ticket_time:
+                              type: integer
+                              example: 34
+                              xml:
+                                name: failed-drive-ticket-time
+                            failed_drive_support_ticket_time:
+                              type: integer
+                              example: 2
+                              xml:
+                                name: failed-drive-support-ticket-time
+                            failed_heartbeat_ticket_time:
+                              type: integer
+                              example: 5
+                              xml:
+                                name: failed-heartbeat-ticket-time
+                          xml:
+                            name: ticket-threshold
+                        default_ccvm_engine:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 14
+                            name:
+                              type: string
+                              example: BASIC
+                            vcpus:
+                              type: integer
+                              example: 1
+                            ram:
+                              type: integer
+                              example: 2048
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            updated_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: updated-at
+                          xml:
+                            name: default-ccvm-engine
+                      xml:
+                        name: general
+                    xml:
+                      wrapped: true
+                  security:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        password_status:
+                          type: object
+                          properties:
+                            password_experation_limit:
+                              type: boolean
+                              xml:
+                                name: password-experation-limit
+                            password_history:
+                              type: integer
+                              example: 8
+                              xml:
+                                name: password-history
+                          xml:
+                            name: password-status
+                        vpsa_api_passthrough:
+                          type: boolean
+                          xml:
+                            name: vpsa-api-passthrough
+                        dual_factor:
+                          type: boolean
+                          xml:
+                            name: dual-factor
+                      xml:
+                        name: security
+                    xml:
+                      wrapped: true
+                  vpsa:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain_name:
+                          type: string
+                          xml:
+                            name: domain-name
+                        recycle_bin:
+                          type: object
+                          properties:
+                            days_in_recycle_bin:
+                              type: integer
+                              example: 7
+                              xml:
+                                name: days-in-recycle-bin
+                          xml:
+                            name: recycle-bin
+                      xml:
+                        name: vpsa
+                    xml:
+                      wrapped: true
+      summary: Get cloud settings
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/set_ccvm_default_engine.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: Sets the default CCVM Engine.
+      operationId: set_ccvm_default_engine
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Request for changing default CCVM engine to vsa.small has been made
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Request for changing default CCVM engine to vsa.small has been made
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - engine_type
+              properties:
+                engine_type:
+                  type: string
+                  description: CCVM Engine Type
+                  example: vsa.baby
+        required: true
+      summary: Set ccvm default engine
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/set_remote_region_backend_protocol.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: 'Sets the protocol for remote region backend. (Default: iSER)'
+      operationId: set_remote_region_backend_protocol
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Request for changing remote region backend protocol to iSCSI has been made
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Request for changing remote region backend protocol to iSCSI has been made
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - protocol
+              properties:
+                protocol:
+                  type: string
+                  example: iser
+                  enum:
+                  - iser
+                  - iscsi
+        required: true
+      summary: Set remote region backend protocol
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/set_mount_capacity_alert_threshold.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: 'Sets the mount capacity alert threshold. (Default: 30GiB)'
+      operationId: set_mount_capacity_alert_threshold
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Request for changing mount capacity alert threshold to 35 GiB has been made
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Request for changing mount capacity alert threshold to 35 GiB has been made
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - threshold
+              properties:
+                threshold:
+                  type: integer
+                  example: 35
+        required: true
+      summary: Set mount capacity alert threshold
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/set_snmp.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: Sets SNMP
+      operationId: set_snmp
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: SNMP configuration changed
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: SNMP configuration changed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - trap_recipient
+              - proto_version
+              - community
+              - security_level
+              properties:
+                enabled:
+                  type: boolean
+                min_severity:
+                  type: string
+                  example: low
+                  enum:
+                  - low
+                  - normal
+                  - high
+                  - urgent
+                trap_recipient:
+                  type: string
+                  example: iser
+                proto_version:
+                  type: string
+                  example: v3
+                community:
+                  type: string
+                  example: public
+                security_level:
+                  type: string
+                  enum:
+                  - NoAuthNoPriv
+                  - AuthNoPriv
+                  - AuthPriv
+                auth_proto:
+                  type: string
+                  enum:
+                  - MD5
+                  - SHA-1
+                  - SHA-2-224
+                  - SHA-2-256
+                  - SHA-2-384
+                  - SHA2-2-512
+                auth_user:
+                  type: string
+                auth_password:
+                  type: string
+                privacy_proto:
+                  type: string
+                  enum:
+                  - DES
+                  - AES128
+                  - AES192
+                  - AES256
+                  - 3DES
+                privacy_password:
+                  type: string
+        required: true
+      summary: Set snmp
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/get_tickets_settings.json:
+    get:
+      tags:
+      - Cloud Settings
+      description: Gets all support tickets settings
+      operationId: get_tickets_settings
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  ticket_settings:
+                    type: array
+                    xml:
+                      name: ticket-settings
+                      wrapped: true
+                    items:
+                      type: object
+                      properties:
+                        message_id:
+                          type: string
+                          example: TICKET_TEST
+                          xml:
+                            name: message-id
+                        comment:
+                          type: string
+                          example: comment
+                        priority:
+                          type: string
+                          example: default
+                          enum:
+                          - default
+                          - low
+                          - normal
+                          - high
+                          - urgent
+                        zsnap:
+                          type: string
+                          example: default
+                          enum:
+                          - default
+                          - 'yes'
+                          - 'no'
+                          - lite
+                        to_user:
+                          xml:
+                            name: to-user
+                          type: string
+                          example: default
+                          enum:
+                          - default
+                          - 'yes'
+                          - 'no'
+                        suppression_exp:
+                          type: string
+                          example: 2025-12-31Z19:00
+                          xml:
+                            name: suppression-exp
+                        created_by:
+                          type: string
+                          example: user@email.com
+                          xml:
+                            name: created-by
+                        rate_limit:
+                          type: integer
+                          description: rate limit in seconds
+                          example: 7
+                          xml:
+                            name: rate-limit
+                      xml:
+                        name: ticket-settings
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  ticket_settings:
+                    type: array
+                    xml:
+                      name: ticket-settings
+                      wrapped: true
+                    items:
+                      type: object
+                      properties:
+                        message_id:
+                          type: string
+                          example: TICKET_TEST
+                          xml:
+                            name: message-id
+                        comment:
+                          type: string
+                          example: comment
+                        priority:
+                          type: string
+                          example: default
+                          enum:
+                          - default
+                          - low
+                          - normal
+                          - high
+                          - urgent
+                        zsnap:
+                          type: string
+                          example: default
+                          enum:
+                          - default
+                          - 'yes'
+                          - 'no'
+                          - lite
+                        to_user:
+                          xml:
+                            name: to-user
+                          type: string
+                          example: default
+                          enum:
+                          - default
+                          - 'yes'
+                          - 'no'
+                        suppression_exp:
+                          type: string
+                          example: 2025-12-31Z19:00
+                          xml:
+                            name: suppression-exp
+                        created_by:
+                          type: string
+                          example: user@email.com
+                          xml:
+                            name: created-by
+                        rate_limit:
+                          type: integer
+                          description: rate limit in seconds
+                          example: 7
+                          xml:
+                            name: rate-limit
+                      xml:
+                        name: ticket-settings
+      summary: Get tickets settings
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/set_ticket_settings.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: Create/edit support ticket settings. Overrides all previous ticket settings.
+      operationId: set_ticket_settings
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Ticket settings set
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Ticket settings set
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - message_id
+              - comment
+              properties:
+                message_id:
+                  type: string
+                  description: Message id up to 120 characters
+                  example: myticket
+                expiration_date:
+                  type: string
+                  format: date_time
+                  description: Support ticket suppression expiration date and time (UTC)
+                  example: 2025-12-31 19:00
+                priority:
+                  type: string
+                  description: Support ticket priority (empty string for default)
+                  enum:
+                  - low
+                  - normal
+                  - high
+                  - urgent
+                  example: low
+                zsnap:
+                  type: string
+                  description: Support ticket zsnap (empty string for default)
+                  enum:
+                  - 'yes'
+                  - 'no'
+                  - lite
+                  example: 'yes'
+                to_user:
+                  type: string
+                  description: Support ticket send to users (empty string for default)
+                  enum:
+                  - 'yes'
+                  - 'no'
+                  example: 'yes'
+                rate_limit:
+                  type: integer
+                  description: Rate limit must be at least 1
+                  example: 5
+                comment:
+                  type: string
+                  description: Comment text up to 120 characters
+                  example: my comment
+        required: true
+      summary: Set ticket settings
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/delete_ticket_settings.json:
+    delete:
+      tags:
+      - Cloud Settings
+      description: Delete support ticket settings
+      operationId: delete_ticket_settings
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Ticket settings deleted
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Ticket settings deleted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - message_id
+              properties:
+                message_id:
+                  type: string
+                  example: myticket
+        required: true
+      summary: Delete ticket settings
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/endpoints.json:
+    get:
+      tags:
+      - Cloud Settings
+      description: Gets all cloud upload endpoints including default endpoints
+      operationId: get_endpoints
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: methods_requested
+        description: Upload methods requested
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - s3_aws
+            - s3_zios
+            - ftp
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cloud_upload_endpoints:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: default_config_ep
+                          xml:
+                            name: endpoint-name
+                        endpoint_method:
+                          type: string
+                          example: s3_aws
+                          xml:
+                            name: endpoint-method
+                        access_key:
+                          type: string
+                          example: ACCESSKEY
+                          xml:
+                            name: access-key
+                        region:
+                          type: string
+                          example: REGION
+                      xml:
+                        name: cloud-upload-endpoint
+                    xml:
+                      wrapped: true
+                      name: cloud-upload-endpoints
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cloud_upload_endpoints:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: default_config_ep
+                          xml:
+                            name: endpoint-name
+                        endpoint_method:
+                          type: string
+                          example: s3_aws
+                          xml:
+                            name: endpoint-method
+                        access_key:
+                          type: string
+                          example: ACCESSKEY
+                          xml:
+                            name: access-key
+                        region:
+                          type: string
+                          example: REGION
+                      xml:
+                        name: cloud-upload-endpoint
+                    xml:
+                      wrapped: true
+                      name: cloud-upload-endpoints
+      summary: Get endpoints
+      x-summary-source: derived
+    post:
+      tags:
+      - Cloud Settings
+      description: Creates a new cloud upload endpoint
+      operationId: create_endpoint
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created endpoint ENDPOINT_NAME
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created endpoint ENDPOINT_NAME
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - endpoint_name
+              - endpoint_method
+              - config
+              properties:
+                endpoint_name:
+                  type: string
+                  description: Endpoint name
+                  example: Endpoint1
+                endpoint_method:
+                  type: string
+                  description: Endpoint upload method
+                  enum:
+                  - s3_aws
+                  - s3_zios
+                  - ftp
+                  example: s3_aws
+                config:
+                  type: string
+                  description: Endpoint configuration JSON, depending on the chosen upload method. For 's3_aws' and 's3_zios' methods, config should include 'access_key', 'secret_key' and 'region'. For 's3_zios' method, config should also include 'endpoint'. For 'ftp' method, config should include 'server', 'user', 'password', 'use_proxy' (boolean '0' or '1').
+                  example: '{"access_key": "ABCDEFGHIJKLMNOP", "secret_key": "xxxxxxxxxxxxxxxxxxxxxx", "region": "us-east-1"}'
+        required: true
+      summary: Create endpoint
+      x-summary-source: derived
+    put:
+      tags:
+      - Cloud Settings
+      description: Updates an existing cloud upload endpoint
+      operationId: update_endpoint
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully updated endpoint ENDPOINT_NAME
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully updated endpoint ENDPOINT_NAME
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - endpoint_name
+              - config
+              properties:
+                endpoint_name:
+                  type: string
+                  description: Endpoint name
+                  example: Endpoint1
+                config:
+                  type: string
+                  description: Endpoint configuration JSON, depending on the chosen upload method. For 's3_aws' and 's3_zios' methods, config should include 'access_key', 'secret_key' and 'region'. For 's3_zios' method, config should also include 'endpoint'. For 'ftp' method, config should include 'server', 'user', 'password', 'use_proxy' (boolean '0' or '1').
+                  example: '{"access_key": "ABCDEFGHIJKLMNOP", "secret_key": "xxxxxxxxxxxxxxxxxxxxxx", "region": "us-east-1"}'
+        required: true
+      summary: Update endpoint
+      x-summary-source: derived
+    delete:
+      tags:
+      - Cloud Settings
+      description: Deletes an existing cloud upload endpoint. Make sure no VPSA Storage Array or VPSA Object Storage are using the cloud endpoint in their upload endpoints configurations.
+      operationId: delete_endpoint
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted endpoint ENDPOINT_NAME
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted endpoint ENDPOINT_NAME
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - endpoint_name
+              properties:
+                endpoint_name:
+                  type: string
+                  description: Endpoint name
+                  example: Endpoint1
+        required: true
+      summary: Delete endpoint
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/endpoints_config.json:
+    get:
+      tags:
+      - Cloud Settings
+      description: Gets cloud endpoint configs by upload types
+      operationId: get_endpoints_config
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: types
+        description: Upload types
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - zsnap
+            - mag
+            - zreport
+            - config
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cloud_endpoint_configs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: zsnap
+                        endpoint_name:
+                          type: string
+                          example: default_zsnap_ep
+                          xml:
+                            name: endpoint-name
+                        endpoint_bucket:
+                          type: string
+                          example: zadarastorage-support
+                          xml:
+                            name: endpoint-bucket
+                      xml:
+                        name: cloud-endpoint-config
+                    xml:
+                      wrapped: true
+                      name: cloud-endpoint-configs
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cloud_endpoint_configs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: zsnap
+                        endpoint_name:
+                          type: string
+                          example: default_zsnap_ep
+                          xml:
+                            name: endpoint-name
+                        endpoint_bucket:
+                          type: string
+                          example: zadarastorage-support
+                          xml:
+                            name: endpoint-bucket
+                      xml:
+                        name: cloud-endpoint-config
+                    xml:
+                      wrapped: true
+                      name: cloud-endpoint-configs
+      summary: Get endpoints config
+      x-summary-source: derived
+    post:
+      tags:
+      - Cloud Settings
+      description: Creates cloud endpoints configurations for upload type
+      operationId: create_endpoints_config
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created endpoints configurations for upload type 'TYPE'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created endpoints configurations for upload type 'TYPE'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - type
+              - endpoints_config
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - zsnap
+                  - mag
+                  - zreport
+                  - config
+                  example: zsnap
+                  description: Upload type
+                endpoints_config:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      endpoint_name:
+                        type: string
+                        example: some_s3_endpoint
+                      endpoint_bucket:
+                        type: string
+                        example: d
+                  example:
+                  - endpoint_name: default_mag_ep
+                  - endpoint_name: some_s3_endpoint
+                    endpoint_bucket: b
+                  - endpoint_name: some_ftp_endpoint
+                  description: Endpoints configurations to set for the upload type. Each configuration must specify endpoint name. S3 endpoints configurations must also specify bucket name. Up to 1 endpoint for zsnap type, and up to 3 endpoints for all other types.
+        required: true
+      summary: Create endpoints config
+      x-summary-source: derived
+    put:
+      tags:
+      - Cloud Settings
+      description: Adds more cloud endpoints configurations for upload type
+      operationId: update_endpoints_config
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully added endpoints configurations for upload type 'TYPE'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully added endpoints configurations for upload type 'TYPE'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - type
+              - endpoints_config
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - zsnap
+                  - mag
+                  - zreport
+                  - config
+                  example: zsnap
+                  description: Upload type
+                endpoints_config:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      endpoint_name:
+                        type: string
+                        example: some_s3_endpoint
+                      endpoint_bucket:
+                        type: string
+                        example: d
+                  example:
+                  - endpoint_name: some_ftp_endpoint1
+                  - endpoint_name: some_s3_endpoint
+                    endpoint_bucket: b
+                  - endpoint_name: some_ftp_endpoint2
+                  description: Endpoints configurations to be added to the existing endpoints configurations for the upload type. Each configuration must specify endpoint name. S3 endpoints configurations must also specify bucket name. Up to 1 endpoint for zsnap type, and up to 2 endpoints for all other types.
+        required: true
+      summary: Update endpoints config
+      x-summary-source: derived
+    delete:
+      tags:
+      - Cloud Settings
+      description: Deletes an existing cloud endpoint configuration for upload type
+      operationId: delete_endpoints_config
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted endpoint configuration for type 'TYPE'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted endpoint configuration for type 'TYPE'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - type
+              - endpoint_name
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - zsnap
+                  - mag
+                  - zreport
+                  - config
+                  example: zsnap
+                  description: Upload type
+                endpoint_name:
+                  type: string
+                  example: Endpoint1
+                  description: Endpoint name
+        required: true
+      summary: Delete endpoints config
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/cloud_control_ip_whitelist_status.json:
+    get:
+      tags:
+      - Cloud Settings
+      description: Gets Cloud Control IP Whitelisting status
+      operationId: get_cloud_control_ip_whitelist_status
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  ccvm_ip_whitelist_status:
+                    type: string
+                    example: enabled
+                    xml:
+                      name: ccvm-ip-whitelist-status
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  ccvm_ip_whitelist_status:
+                    type: string
+                    example: enabled
+                    xml:
+                      name: ccvm-ip-whitelist-status
+      summary: Get cloud control ip whitelist status
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/cloud_control_ip_whitelist_entries.json:
+    get:
+      tags:
+      - Cloud Settings
+      description: Gets Cloud Control IP Whitelist entries
+      operationId: get_cloud_control_ip_whitelist_entries
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  ccvm_ip_whitelist_entries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        comment:
+                          type: string
+                          example: mycomment1
+                        entry:
+                          type: string
+                          example: 1.2.3.4
+                        id:
+                          type: integer
+                          example: 25
+                        app:
+                          type: string
+                          example: pp/cc
+                      xml:
+                        name: ccvm-ip-whitelist-entry
+                    xml:
+                      wrapped: true
+                      name: ccvm-ip-whitelist-entries
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  ccvm_ip_whitelist_entries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        comment:
+                          type: string
+                          example: mycomment1
+                        entry:
+                          type: string
+                          example: 1.2.3.4
+                        id:
+                          type: integer
+                          example: 25
+                        app:
+                          type: string
+                          example: pp/cc
+                      xml:
+                        name: ccvm-ip-whitelist-entry
+                    xml:
+                      wrapped: true
+                      name: ccvm-ip-whitelist-entries
+      summary: Get cloud control ip whitelist entries
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/enable_cloud_control_ip_whitelisting.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: Enable Cloud Control IP Whitelisting
+      operationId: enable_cloud_control_ip_whitelisting
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Enable cloud control ip whitelisting
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/disable_cloud_control_ip_whitelisting.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: Disable Cloud Control IP Whitelisting
+      operationId: disable_cloud_control_ip_whitelisting
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Disable cloud control ip whitelisting
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/add_cloud_control_ip_whitelisting_entries.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: Add Cloud Control IP Whitelisting entries
+      operationId: add_cloud_control_ip_whitelisting_entries
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - entries
+              properties:
+                entries:
+                  type: array
+                  description: 'Add commas between each entry fields. ip_or_cidr: IPv4/IPv6 IP or CIDR. app_access: ''cc'' (command center port 8888), ''pp'' (provisioning portal ports 443,80) or ''pp/cc'' (all of them). comment: up to 50 characters.'
+                  items:
+                    type: object
+                    properties:
+                      ip_or_cidr:
+                        type: string
+                        example: 1.2.3.4/32
+                      app_access:
+                        type: string
+                        example: pp/cc
+                      comment:
+                        type: string
+                        example: mycomment1
+        required: true
+      summary: Add cloud control ip whitelisting entries
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/update_cloud_control_ip_whitelisting_entries.json:
+    put:
+      tags:
+      - Cloud Settings
+      description: Update Cloud Control IP Whitelisting entries. Deletes existing entries and creates new ones with a different ID.
+      operationId: update_cloud_control_ip_whitelisting_entries
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - entries
+              properties:
+                entries:
+                  type: array
+                  description: 'Add commas between each entry fields. id: must be in quotes. ip_or_cidr: IPv4/IPv6 IP or CIDR. app_access: ''cc'' (command center port 8888), ''pp'' (provisioning portal ports 443,80) or ''pp/cc'' (all of them). comment: up to 50 characters.'
+                  items:
+                    type: object
+                    properties:
+                      ip_or_cidr:
+                        type: string
+                        example: 1.2.3.4/32
+                      app_access:
+                        type: string
+                        example: pp/cc
+                      comment:
+                        type: string
+                        example: mycomment1
+        required: true
+      summary: Update cloud control ip whitelisting entries
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/delete_cloud_control_ip_whitelisting_entries.json:
+    delete:
+      tags:
+      - Cloud Settings
+      description: Delete Cloud Control IP Whitelisting entries
+      operationId: delete_cloud_control_ip_whitelisting_entries
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - entries_ids
+              properties:
+                entries_ids:
+                  type: array
+                  example:
+                  - '123'
+                  - '124'
+                  - '125'
+                  items:
+                    type: string
+        required: true
+      summary: Delete cloud control ip whitelisting entries
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/vpsa_recycle_bin.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: Sets the amount of days in which a VPSA will stay in recycle bin before purging.
+      operationId: set_vpsa_recycle_bin
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA purge interval changed to 7 days
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA purge interval changed to 7 days
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - purge_interval
+              properties:
+                purge_interval:
+                  type: integer
+                  example: 7
+        required: true
+      summary: Set vpsa recycle bin
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/automatic_drive_replacement.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: set automatic drive replacement.
+      operationId: set_automatic_drive_replacement
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                time:
+                  type: integer
+                  description: Time in minutes from drive failed state detection. (0 - disable automatic drive replacement)
+                  example: 15
+        required: true
+      summary: Set automatic drive replacement
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/ccvm_cert.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: Set CCVM custom certificate
+      operationId: set_ccvm_cert
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files[ccvm_key]:
+                  type: string
+                  format: binary
+                files[ccvm_certificate]:
+                  type: string
+                  format: binary
+              required:
+              - files[ccvm_key]
+              - files[ccvm_certificate]
+      summary: Set ccvm cert
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/zadara_cert.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: Update zadarastorage.com certificate
+      operationId: set_zadara_cert
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files[ssl_key]:
+                  type: string
+                  description: Key file
+                  format: binary
+                files[ssl_crt]:
+                  type: string
+                  description: Crt file
+                  format: binary
+              required:
+              - files[ssl_key]
+              - files[ssl_crt]
+      summary: Set zadara cert
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/vpsa_cert.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: Update VPSAs Certificate
+      operationId: set_vpsa_cert
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files[ssl_key]:
+                  type: string
+                  description: Key file
+                  format: binary
+                files[ssl_crt]:
+                  type: string
+                  description: Crt file
+                  format: binary
+                type:
+                  type: string
+                  description: Type of vpsa (default - storage array)
+                ssl_update_certificate_on_all_vpsas:
+                  type: boolean
+              required:
+              - files[ssl_key]
+              - files[ssl_crt]
+      summary: Set vpsa cert
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/log_level.json:
+    get:
+      tags:
+      - Cloud Settings
+      operationId: get_log_level
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  log_level:
+                    type: string
+                    example: info
+                    xml:
+                      name: log-level
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  log_level:
+                    type: string
+                    example: info
+                    xml:
+                      name: log-level
+      summary: Get log level
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/remote_support_access.json:
+    get:
+      tags:
+      - Cloud Settings
+      description: Get Remote Support Access State
+      operationId: get_remote_support_access
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  remote_support_access:
+                    type: string
+                    example: 'False'
+                    xml:
+                      name: remote-support-access
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  remote_support_access:
+                    type: string
+                    example: 'False'
+                    xml:
+                      name: remote-support-access
+      summary: Get remote support access
+      x-summary-source: derived
+    put:
+      tags:
+      - Cloud Settings
+      description: Set Remote Support Access State
+      operationId: set_remote_support_access
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - enabled
+              properties:
+                enabled:
+                  type: boolean
+                  description: Remote Support Access Enabled.
+                  example: true
+        required: true
+      summary: Set remote support access
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/generic_zconfig_keys.json:
+    get:
+      tags:
+      - Cloud Settings
+      description: Get Cloud Global Generic Configuration Keys
+      x-roles: admin
+      operationId: get_generic_zconfig_keys
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  generic_zconfig_keys:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GenericZconfigKey'
+                    xml:
+                      wrapped: true
+                      name: generic-zconfig-keys
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  generic_zconfig_keys:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GenericZconfigKey'
+                    xml:
+                      wrapped: true
+                      name: generic-zconfig-keys
+      summary: Get generic zconfig keys
+      x-summary-source: derived
+    post:
+      tags:
+      - Cloud Settings
+      description: Create Zadara Configuration Key
+      x-roles: admin
+      operationId: create_generic_zconfig_key
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_name
+              - key_value
+              properties:
+                key_type:
+                  type: string
+                  description: Key data type
+                  example: string
+                  enum:
+                  - string
+                  - int
+                  - double
+                  - bool
+                key_name:
+                  type: string
+                  description: Key name
+                  example: global.new_key
+                key_value:
+                  type: string
+                  description: Key value
+                  example: value
+        required: true
+      summary: Create generic zconfig key
+      x-summary-source: derived
+    put:
+      tags:
+      - Cloud Settings
+      description: Update Zadara Configuration Key value
+      x-roles: admin
+      operationId: update_generic_zconfig_key
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Key name not found error
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this cloud a generic key named global.new_key
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this cloud a generic key named global.new_key
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_name
+              - key_value
+              properties:
+                key_name:
+                  type: string
+                  description: Key name
+                  example: global.new_key
+                key_value:
+                  type: string
+                  description: Key value
+                  example: value
+        required: true
+      summary: Update generic zconfig key
+      x-summary-source: derived
+    delete:
+      tags:
+      - Cloud Settings
+      description: Delete Zadara Configuration Key
+      x-roles: admin
+      operationId: delete_generic_zconfig_key
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Key name not found error
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this cloud a generic key named global.new_key
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this cloud a generic key named global.new_key
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_name
+              properties:
+                key_name:
+                  type: string
+                  description: Key name
+                  example: global.new_key
+        required: true
+      summary: Delete generic zconfig key
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/settings/password_expiration.json:
+    post:
+      tags:
+      - Cloud Settings
+      description: Update password expiration settings
+      x-roles: admin
+      operationId: set_password_expiration
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enable_password_expiration:
+                  type: boolean
+                  description: Toggle password expiration
+                  example: true
+                expire_password_after:
+                  type: integer
+                  description: Days after which password expires
+                  minimum: 15
+                  maximum: 5000
+                  example: 15
+                password_history:
+                  type: integer
+                  description: Number of previous passwords to disallow
+                  minimum: 1
+                  maximum: 10
+                  example: 1
+        required: true
+      summary: Set password expiration
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsas/{id}/generic_zconfig_keys.json:
+    get:
+      tags:
+      - Cloud Settings
+      description: Get VPSA Generic Configuration Keys
+      x-roles: admin
+      operationId: get_vpsa_generic_zconfig_keys
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  generic_zconfig_keys:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GenericZconfigKey'
+                    xml:
+                      wrapped: true
+                      name: generic-zconfig-keys
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  generic_zconfig_keys:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GenericZconfigKey'
+                    xml:
+                      wrapped: true
+                      name: generic-zconfig-keys
+      summary: Get vpsa generic zconfig keys
+      x-summary-source: derived
+    post:
+      tags:
+      - Cloud Settings
+      description: Create VPSA Zadara Configuration Key value
+      x-roles: admin
+      operationId: create_vpsa_generic_zconfig_key
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_name
+              - key_value
+              properties:
+                key_type:
+                  type: string
+                  description: Key data type
+                  example: string
+                  enum:
+                  - string
+                  - int
+                  - double
+                  - bool
+                key_name:
+                  type: string
+                  description: Key name
+                  example: global.new_key
+                key_value:
+                  type: string
+                  description: Key value
+                  example: value
+        required: true
+      summary: Create vpsa generic zconfig key
+      x-summary-source: derived
+    put:
+      tags:
+      - Cloud Settings
+      description: Update VPSA Zadara Configuration Key
+      x-roles: admin
+      operationId: update_vpsa_generic_zconfig_key
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Key name not found error
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this VPSA a generic key named global.new_key
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this VPSA a generic key named global.new_key
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_name
+              - key_value
+              properties:
+                key_name:
+                  type: string
+                  description: Key name
+                  example: global.new_key
+                key_value:
+                  type: string
+                  description: Key value
+                  example: value
+        required: true
+      summary: Update vpsa generic zconfig key
+      x-summary-source: derived
+    delete:
+      tags:
+      - Cloud Settings
+      description: Delete VPSA Zadara Configuration Key
+      x-roles: admin
+      operationId: delete_vpsa_generic_zconfig_key
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA 'id' or 'internal-name' value as returned by get_all_vpsas.
+        required: true
+        schema:
+          type: integer
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Key name not found error
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this VPSA a generic key named global.new_key
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this VPSA a generic key named global.new_key
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_name
+              properties:
+                key_name:
+                  type: string
+                  description: Key name
+                  example: global.new_key
+        required: true
+      summary: Delete vpsa generic zconfig key
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/generic_zconfig_keys.json:
+    get:
+      tags:
+      - Cloud Settings
+      description: Get VPSA Object Storage Generic Configuration Keys
+      x-roles: admin
+      operationId: get_zios_generic_zconfig_keys
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: integer
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  generic_zconfig_keys:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GenericZconfigKey'
+                    xml:
+                      wrapped: true
+                      name: generic-zconfig-keys
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  generic_zconfig_keys:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GenericZconfigKey'
+                    xml:
+                      wrapped: true
+                      name: generic-zconfig-keys
+      summary: Get zios generic zconfig keys
+      x-summary-source: derived
+    post:
+      tags:
+      - Cloud Settings
+      description: Create VPSA Object Storage Zadara Configuration Key
+      x-roles: admin
+      operationId: create_zios_generic_zconfig_key
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: integer
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_name
+              - key_value
+              properties:
+                key_type:
+                  type: string
+                  description: Key data type
+                  example: string
+                  enum:
+                  - string
+                  - int
+                  - double
+                  - bool
+                key_name:
+                  type: string
+                  description: Key name
+                  example: global.new_key
+                key_value:
+                  type: string
+                  description: Key value
+                  example: value
+        required: true
+      summary: Create zios generic zconfig key
+      x-summary-source: derived
+    put:
+      tags:
+      - Cloud Settings
+      description: Update VPSA Object Storage Zadara Configuration Key value
+      x-roles: admin
+      operationId: update_zios_generic_zconfig_key
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: integer
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Key name not found error
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this VPSA a generic key named global.new_key
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this VPSA a generic key named global.new_key
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  config_item:
+                    $ref: '#/components/schemas/ConfigItem'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_name
+              - key_value
+              properties:
+                key_name:
+                  type: string
+                  description: Key name
+                  example: global.new_key
+                key_value:
+                  type: string
+                  description: Key value
+                  example: value
+        required: true
+      summary: Update zios generic zconfig key
+      x-summary-source: derived
+    delete:
+      tags:
+      - Cloud Settings
+      description: Delete VPSA Object Storage Zadara Configuration Key
+      x-roles: admin
+      operationId: delete_zios_generic_zconfig_key
+      security:
+      - api_key: []
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: integer
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Key name not found error
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this VPSA a generic key named global.new_key
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Could not find this VPSA a generic key named global.new_key
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_name
+              properties:
+                key_name:
+                  type: string
+                  description: Key name
+                  example: global.new_key
+        required: true
+      summary: Delete zios generic zconfig key
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  schemas:
+    ConfigItem:
+      type: object
+      xml:
+        name: config-item
+      properties:
+        key_type:
+          type: string
+          enum:
+          - string
+          - int
+          - double
+          - bool
+          example: string
+          description: Key data type
+          xml:
+            name: key-type
+        key_name:
+          type: string
+          description: Key name
+          example: global.new_key
+          xml:
+            name: key-name
+        key_value:
+          type: string
+          description: Key value
+          example: value
+          xml:
+            name: key-value
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    GenericZconfigKey:
+      type: object
+      xml:
+        name: generic-zconfig-key
+      properties:
+        key_type:
+          type: string
+          enum:
+          - string
+          - int
+          - double
+          - bool
+          description: Key data type
+          example: string
+          xml:
+            name: key-type
+        key_name:
+          type: string
+          description: Key name
+          example: global.new_key
+          xml:
+            name: key-name
+        key_value:
+          type: string
+          description: Key value
+          example: value
+          xml:
+            name: key-value
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

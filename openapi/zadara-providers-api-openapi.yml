@@ -1,0 +1,891 @@
+openapi: 3.2.0
+info:
+  title: Zadara Providers API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Providers across 2 of this provider''s published API definitions: zadara-provisioning-portal-25.07.yml, zadara-provisioning-portal-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api/v2
+tags:
+- name: Providers
+  description: Retrieve Providers Configurations
+paths:
+  /providers.json:
+    get:
+      tags:
+      - Providers
+      description: Get the list of available Providers and their configuration options.
+      operationId: get_available_providers
+      x-roles: Platform Admin, Organization Admin
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/IncludeDescendants'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '4'
+                        name:
+                          type: string
+                          example: provider1
+                        key:
+                          type: string
+                          example: provider1
+                        provider_group_id:
+                          type: string
+                          example: 'null'
+                          xml:
+                            name: provider-group-id
+                        cloud_id:
+                          type: string
+                          example: 'null'
+                          xml:
+                            name: cloud-id
+                        enabled:
+                          type: string
+                          example: 'null'
+                        hidden:
+                          type: string
+                          example: 'null'
+                      xml:
+                        name: datum
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '4'
+                        name:
+                          type: string
+                          example: provider1
+                        key:
+                          type: string
+                          example: provider1
+                        provider_group_id:
+                          type: string
+                          example: 'null'
+                          xml:
+                            name: provider-group-id
+                        cloud_id:
+                          type: string
+                          example: 'null'
+                          xml:
+                            name: cloud-id
+                        enabled:
+                          type: string
+                          example: 'null'
+                        hidden:
+                          type: string
+                          example: 'null'
+                      xml:
+                        name: datum
+                    xml:
+                      wrapped: true
+      summary: Get available providers
+      x-summary-source: derived
+    post:
+      tags:
+      - Providers
+      description: Create a provider
+      operationId: create_provider
+      x-roles: Platform Admin
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: provider-id
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: provider-id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - key
+              - cloud_id
+              properties:
+                name:
+                  type: string
+                  example: provider1
+                key:
+                  type: string
+                  example: provider1key
+                cloud_id:
+                  type: integer
+                  example: 1
+                enabled:
+                  type: boolean
+        required: true
+      summary: Create provider
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /providers/{id}.json:
+    get:
+      tags:
+      - Providers
+      description: Get the configuration information for a single provider.
+      operationId: get_provider
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: '4'
+                      name:
+                        type: string
+                        example: provider1
+                      key:
+                        type: string
+                        example: provider1
+                      provider_group_id:
+                        type: string
+                        example: 'null'
+                        xml:
+                          name: provider-group-id
+                      cloud_id:
+                        type: string
+                        example: 'null'
+                        xml:
+                          name: cloud-id
+                      enabled:
+                        type: string
+                        example: 'null'
+                      hidden:
+                        type: string
+                        example: 'null'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: '4'
+                      name:
+                        type: string
+                        example: provider1
+                      key:
+                        type: string
+                        example: provider1
+                      provider_group_id:
+                        type: string
+                        example: 'null'
+                        xml:
+                          name: provider-group-id
+                      cloud_id:
+                        type: string
+                        example: 'null'
+                        xml:
+                          name: cloud-id
+                      enabled:
+                        type: string
+                        example: 'null'
+                      hidden:
+                        type: string
+                        example: 'null'
+      summary: Get provider
+      x-summary-source: derived
+    post:
+      tags:
+      - Providers
+      description: Update a provider
+      operationId: update_provider
+      x-roles: Platform Admin
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: provider-id
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: provider-id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                enabled:
+                  type: boolean
+        required: true
+      summary: Update provider
+      x-summary-source: derived
+    delete:
+      tags:
+      - Providers
+      description: Delete a provider
+      operationId: delete_provider
+      x-roles: Platform Admin
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Delete provider
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /providers/{provider_id}/flavors/{flavor_key}/price.json:
+    post:
+      tags:
+      - Providers
+      description: Set the flavor price. flavor_key can be id / nova_id_{nova_id} / nova_type
+      operationId: set_flavor_price
+      x-roles: Platform Admin
+      parameters:
+      - in: path
+        name: provider_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: flavor_key
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - price
+              properties:
+                price:
+                  type: string
+                  example: '1.1'
+        required: true
+      summary: Set flavor price
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /provider_groups.json:
+    get:
+      tags:
+      - Providers
+      description: Get the list of provider groups.
+      operationId: get_provider_groups
+      x-roles: Platform Admin
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_groups:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ProviderGroup'
+                        xml:
+                          wrapped: true
+                          name: provider-groups
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_groups:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ProviderGroup'
+                        xml:
+                          wrapped: true
+                          name: provider-groups
+      summary: Get provider groups
+      x-summary-source: derived
+    post:
+      tags:
+      - Providers
+      description: Create a provider group
+      operationId: create_provider_group
+      x-roles: Platform Admin
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_group_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: provider-group-id
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_group_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: provider-group-id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+        required: true
+      summary: Create provider group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /provider_groups/{id}.json:
+    get:
+      tags:
+      - Providers
+      description: Get the configuration information for a single Provider Group.
+      operationId: get_provider_group
+      x-roles: Platform Admin
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_group:
+                        $ref: '#/components/schemas/ProviderGroup'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_group:
+                        $ref: '#/components/schemas/ProviderGroup'
+      summary: Get provider group
+      x-summary-source: derived
+    post:
+      tags:
+      - Providers
+      description: Update a provider group
+      operationId: update_provider_group
+      x-roles: Platform Admin
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_group_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: provider-group-id
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      provider_group_id:
+                        type: string
+                        example: '5'
+                        xml:
+                          name: provider-group-id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  example: pg1
+        required: true
+      summary: Update provider group
+      x-summary-source: derived
+    delete:
+      tags:
+      - Providers
+      description: Delete a provider group
+      operationId: delete_provider_group
+      x-roles: Platform Admin
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Delete provider group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+components:
+  parameters:
+    OrganizationId:
+      x-EnvType: Public
+      name: organization_id
+      in: query
+      description: Include this parameter if you want to get all entities of a specific organization
+      schema:
+        type: string
+        format: uuid
+    IncludeDescendants:
+      x-EnvType: Public
+      name: include_descendants
+      in: query
+      description: Set to true if you want to get entities of descendants organizations too
+      schema:
+        type: boolean
+  schemas:
+    ProviderGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '1'
+        name:
+          type: string
+          example: pg1
+        visibility:
+          x-roles: Platform Admin
+          type: string
+          example: specific_organizations
+          enum:
+          - specific_organizations
+          - all_users
+        visible_organizations:
+          x-roles: Platform Admin
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: 03389219-c6a2-4941-92dd-6a75c339e9c7
+              name:
+                type: string
+                example: org
+              display_name:
+                type: string
+                example: Organization
+                xml:
+                  name: display-name
+            xml:
+              name: visible-organization
+          xml:
+            wrapped: true
+            name: visible-organizations
+      xml:
+        name: provider-group
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-provisioning-portal-25.07.yml
+- zadara-provisioning-portal-openapi.yml

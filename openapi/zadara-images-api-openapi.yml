@@ -1,0 +1,996 @@
+openapi: 3.2.0
+info:
+  title: Zadara Images API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Images across 4 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-vpsa-25.07.yml, zadara-command-center-openapi.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Images
+  description: Operations involving images.
+paths:
+  /clouds/{cloud_name}/images.json:
+    get:
+      tags:
+      - Images
+      description: Returns a list of Cloud's registered images.
+      operationId: get_all_images
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  images:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Image'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  images:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Image'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get all images
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/images/{id}.json:
+    get:
+      tags:
+      - Images
+      description: Returns a single image's details.
+      operationId: get_image
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  image:
+                    $ref: '#/components/schemas/Image'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  image:
+                    $ref: '#/components/schemas/Image'
+      summary: Get image
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/images/{id}/set_default.json:
+    post:
+      tags:
+      - Images
+      description: Sets an image as the default for a Cloud.
+      operationId: set_default_image
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Set default image
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/images/{id}/recommended.json:
+    post:
+      tags:
+      - Images
+      description: Sets an image as the recommended VPSA image for a Cloud.
+      operationId: set_recommended
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notify_vpsa_owner:
+                  type: boolean
+                  description: Notify VPSA owners by email.
+                  example: true
+                  default: true
+      summary: Set recommended
+      x-summary-source: derived
+    delete:
+      tags:
+      - Images
+      description: Remove recommendation of VPSA image for a Cloud.
+      operationId: remove_recommended
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Remove recommended
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /images.json:
+    get:
+      tags:
+      - Images
+      description: Returns a list of all images.
+      operationId: get_all_zcs_images
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      images:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: img-00000001
+                            display_name:
+                              type: string
+                              example: nginx
+                              xml:
+                                name: display-name
+                            status:
+                              type: string
+                              example: normal
+                            is_layered:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: is-layered
+                            docker_id:
+                              type: string
+                              example: a785ba7493fd9009be71023045790697f334486b11a45f7e830652d39665a451
+                              xml:
+                                name: docker-id
+                            license_state:
+                              type: integer
+                              xml:
+                                name: license-state
+                            capacity_mb:
+                              type: integer
+                              xml:
+                                name: capacity-mb
+                            repository:
+                              type: string
+                              example: nginx
+                            tag:
+                              type: string
+                              example: latest
+                            volume_id:
+                              type: integer
+                              xml:
+                                name: volume-id
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: image
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-images-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      images:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: img-00000001
+                            display_name:
+                              type: string
+                              example: nginx
+                              xml:
+                                name: display-name
+                            status:
+                              type: string
+                              example: normal
+                            is_layered:
+                              type: string
+                              example: 'True'
+                              xml:
+                                name: is-layered
+                            docker_id:
+                              type: string
+                              example: a785ba7493fd9009be71023045790697f334486b11a45f7e830652d39665a451
+                              xml:
+                                name: docker-id
+                            license_state:
+                              type: integer
+                              xml:
+                                name: license-state
+                            capacity_mb:
+                              type: integer
+                              xml:
+                                name: capacity-mb
+                            repository:
+                              type: string
+                              example: nginx
+                            tag:
+                              type: string
+                              example: latest
+                            volume_id:
+                              type: integer
+                              xml:
+                                name: volume-id
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: image
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-images-response
+      summary: Get all zcs images
+      x-summary-source: derived
+    post:
+      tags:
+      - Images
+      description: Create an Image.
+      operationId: create_zcs_image
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      image_name:
+                        type: string
+                        example: img-00000001
+                        xml:
+                          name: image-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-image-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      image_name:
+                        type: string
+                        example: img-00000001
+                        xml:
+                          name: image-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-image-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - mode
+              - path
+              properties:
+                name:
+                  type: string
+                  description: Image display name
+                  example: image1
+                mode:
+                  type: string
+                  description: docker or volume
+                  example: docker
+                volume:
+                  type: string
+                  pattern: ^volume-[0-9a-f]{8}$
+                  description: when importing from volume , provide the volume name (e.g volume-00000001)
+                path:
+                  type: string
+                  description: 'The image path: when importing from volume provide path to image . when pulling from repository , provide image name. examples: docker/redis.tar (from volume)  /  ubuntu (from docker)'
+                  example: busybox
+        required: true
+      summary: Create zcs image
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /images/{id}.json:
+    get:
+      tags:
+      - Images
+      description: Show one image details.
+      operationId: get_zcs_image
+      parameters:
+      - in: path
+        name: id
+        description: image id
+        required: true
+        schema:
+          type: string
+          pattern: ^img-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      image:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: img-00000002
+                          display_name:
+                            type: string
+                            example: mysql
+                            xml:
+                              name: display-name
+                          status:
+                            type: string
+                            example: normal
+                          is_layered:
+                            type: string
+                            example: 'True'
+                            xml:
+                              name: is-layered
+                          docker_id:
+                            type: string
+                            example: fa81ed084842076d1b39b56d084d99ec0011cd4a5ade1056be359486a8b213e4
+                            xml:
+                              name: docker-id
+                          license_state:
+                            type: integer
+                            xml:
+                              name: license-state
+                          capacity_mb:
+                            type: integer
+                            xml:
+                              name: capacity-mb
+                          repository:
+                            type: string
+                            example: ubuntu
+                          tag:
+                            type: string
+                            example: latest
+                          volume_id:
+                            type: integer
+                            xml:
+                              name: volume-id
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                    xml:
+                      name: show-one-image-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      image:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: img-00000002
+                          display_name:
+                            type: string
+                            example: mysql
+                            xml:
+                              name: display-name
+                          status:
+                            type: string
+                            example: normal
+                          is_layered:
+                            type: string
+                            example: 'True'
+                            xml:
+                              name: is-layered
+                          docker_id:
+                            type: string
+                            example: fa81ed084842076d1b39b56d084d99ec0011cd4a5ade1056be359486a8b213e4
+                            xml:
+                              name: docker-id
+                          license_state:
+                            type: integer
+                            xml:
+                              name: license-state
+                          capacity_mb:
+                            type: integer
+                            xml:
+                              name: capacity-mb
+                          repository:
+                            type: string
+                            example: ubuntu
+                          tag:
+                            type: string
+                            example: latest
+                          volume_id:
+                            type: integer
+                            xml:
+                              name: volume-id
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                    xml:
+                      name: show-one-image-response
+      summary: Get zcs image
+      x-summary-source: derived
+    delete:
+      tags:
+      - Images
+      description: Delete an Image.
+      operationId: delete_zcs_image
+      parameters:
+      - in: path
+        name: id
+        description: image id
+        required: true
+        schema:
+          type: string
+          pattern: ^img-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      image_name:
+                        type: string
+                        example: img-00000001
+                        xml:
+                          name: image-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-image-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      image_name:
+                        type: string
+                        example: img-00000001
+                        xml:
+                          name: image-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-image-response
+      summary: Delete zcs image
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /images/{id}/containers.json:
+    get:
+      tags:
+      - Images
+      description: Show Image Containers.
+      operationId: get_all_zcs_containers_by_image
+      parameters:
+      - in: path
+        name: id
+        description: image id
+        required: true
+        schema:
+          type: string
+          pattern: ^img-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: show-image-containers-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: show-image-containers-response
+      summary: Get all zcs containers by image
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Image:
+      type: object
+      properties:
+        name:
+          type: string
+          example: vc-00.00-1389.img
+        size:
+          type: integer
+          example: 1961
+        checksum:
+          type: string
+          example: b6b49dc25a4478b9e290b2d2a3a4ab26
+        internal_id:
+          type: integer
+          example: 111
+          xml:
+            name: internal-id
+        image_type:
+          type: string
+          example: vc
+          xml:
+            name: image-type
+        recommended_vpsa_image:
+          type: boolean
+          example: false
+          xml:
+            name: recommended-vpsa-image
+        default_vpsa_image:
+          type: boolean
+          example: false
+          xml:
+            name: default-vpsa-image
+        default_zios_image:
+          type: boolean
+          example: false
+          xml:
+            name: default-zios-image
+        default_zios_gen2_image:
+          type: boolean
+          example: false
+          xml:
+            name: default-zios-gen2-image
+      xml:
+        name: image
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-vpsa-25.07.yml
+- zadara-command-center-openapi.yml
+- zadara-vpsa-openapi.yml

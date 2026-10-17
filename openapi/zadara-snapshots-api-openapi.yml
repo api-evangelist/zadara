@@ -1,0 +1,367 @@
+openapi: 3.2.0
+info:
+  title: Zadara Snapshots API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Snapshots across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Snapshots
+  description: Operations for Snapshots.
+paths:
+  /snapshots.json:
+    get:
+      tags:
+      - Snapshots
+      description: Return a list of Snapshots.
+      operationId: get_snapshot_list
+      security:
+      - api_key: []
+      parameters:
+      - in: query
+        name: start
+        description: The item number to start from. 0 starts from the beginning.
+        schema:
+          type: integer
+          minimum: 0
+      - in: query
+        name: limit
+        description: The total number of records to return. (e.g. 100)
+        schema:
+          type: integer
+      - in: query
+        name: display_name
+        description: Snapshot display name filter (includes partial match). (e.g. s-reb-1695205208478)
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: success
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: success
+                      status:
+                        type: integer
+                        example: 0
+                      count:
+                        type: integer
+                        example: 50
+                      snapshots:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Snapshot'
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-snapshots-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: success
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: success
+                      status:
+                        type: integer
+                        example: 0
+                      count:
+                        type: integer
+                        example: 50
+                      snapshots:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Snapshot'
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-snapshots-response
+      summary: Get snapshot list
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /sanpshots/snapshots_set.json:
+    post:
+      tags:
+      - Snapshots
+      description: Create a snapshot set.
+      operationId: create_snapshot_set
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: create-snapshot-set-response
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: error
+                  snapshots:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: snap-0000000b
+                      xml:
+                        name: snapshot
+                    xml:
+                      wrapped: true
+                  cgs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: cg-00000001
+                      xml:
+                        name: cg
+                    xml:
+                      wrapped: true
+                  cgs_count:
+                    type: integer
+                    example: 2
+                    xml:
+                      name: cgs-count
+                  snapshots_details:
+                    type: array
+                    xml:
+                      wrapped: true
+                      name: snapshots-details
+                    items:
+                      $ref: '#/components/schemas/Snapshot'
+            application/xml:
+              schema:
+                xml:
+                  name: create-snapshot-set-response
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: error
+                  snapshots:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: snap-0000000b
+                      xml:
+                        name: snapshot
+                    xml:
+                      wrapped: true
+                  cgs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: cg-00000001
+                      xml:
+                        name: cg
+                    xml:
+                      wrapped: true
+                  cgs_count:
+                    type: integer
+                    example: 2
+                    xml:
+                      name: cgs-count
+                  snapshots_details:
+                    type: array
+                    xml:
+                      wrapped: true
+                      name: snapshots-details
+                    items:
+                      $ref: '#/components/schemas/Snapshot'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                snapshots_set_1_ss1:
+                  $ref: '#/components/schemas/SnapshotSetParam'
+                snapshots_set_2_ss2:
+                  $ref: '#/components/schemas/SnapshotSetParam'
+                snapshots_set_3_ss3:
+                  $ref: '#/components/schemas/SnapshotSetParam'
+                ondemand:
+                  example: true
+                  type: boolean
+                  description: Indicate whether snapshot is on-demand.
+                snap_set_id:
+                  example: m_5_1
+                  type: string
+        required: true
+      summary: Create snapshot set
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    Snapshot:
+      type: object
+      xml:
+        name: snapshot
+      properties:
+        managed_for:
+          type: string
+          example: VSC
+          xml:
+            name: managed-for
+        volume_capacity_mb:
+          type: integer
+          example: 51200
+          xml:
+            name: volume-capacity-mb
+        volume_display_name:
+          type: string
+          example: my-volume
+          xml:
+            name: volume-display-name
+        volume_ext_name:
+          type: string
+          example: volume-00000048
+          xml:
+            name: volume-ext-name
+        name:
+          type: string
+          example: snap-00000002
+        status:
+          type: string
+          example: normal
+        display_name:
+          type: string
+          example: zat_snapshot_pV9xmi
+          xml:
+            name: display-name
+        cg_display_name:
+          type: string
+          example: zat_block_7eIkL3
+          xml:
+            name: cg-display-name
+        cg_name:
+          type: string
+          example: cg-00000076
+          xml:
+            name: cg-name
+        pool_name:
+          type: string
+          example: pool-00010002
+          xml:
+            name: pool-name
+        application:
+          type: string
+          example: Snapshot Manager
+        snapshot_set_id:
+          type: string
+          xml:
+            name: snapshot-set-id
+        created_at:
+          type: string
+          format: date_time
+          example: 2021-09-09T16:31:28+0300
+          xml:
+            name: created-at
+        modified_at:
+          type: string
+          format: date_time
+          example: 2021-09-09T16:31:28+0300
+          xml:
+            name: modified-at
+    SnapshotSetParam:
+      type: object
+      required:
+      - name
+      - cg
+      properties:
+        name:
+          type: string
+          example: display_name
+        cg:
+          type: string
+          example: volume-00000001
+        mng_for:
+          type: string
+          description: For externally managed VPSA, set what the snapshot is managed for.
+          example: m_5_1
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

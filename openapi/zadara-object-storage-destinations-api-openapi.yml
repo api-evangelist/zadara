@@ -1,0 +1,654 @@
+openapi: 3.2.0
+info:
+  title: Zadara Object Storage Destinations API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Object Storage Destinations across 2 of this provider''s published API definitions: zadara-object-storage-25.07.yml, zadara-object-storage-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Object Storage Destinations
+  description: Operations for Object Storage Destinations.
+paths:
+  /zios/object_storage_destinations.json:
+    get:
+      tags:
+      - Object Storage Destinations
+      description: Get a list of Object Storage Destinations in current user's account or in a container's account.
+      operationId: get_ros_destinations_from_account
+      parameters:
+      - in: query
+        name: container_account
+        description: Container account id
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: show-replication-targets-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      replication_targets_count:
+                        type: integer
+                        xml:
+                          name: replication-targets-count
+                      replication_targets:
+                        type: array
+                        xml:
+                          name: replication-targets
+                          wrapped: true
+                        items:
+                          $ref: '#/components/schemas/ReplicationTarget'
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: show-replication-targets-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      replication_targets_count:
+                        type: integer
+                        xml:
+                          name: replication-targets-count
+                      replication_targets:
+                        type: array
+                        xml:
+                          name: replication-targets
+                          wrapped: true
+                        items:
+                          $ref: '#/components/schemas/ReplicationTarget'
+      summary: Get ros destinations from account
+      x-summary-source: derived
+    post:
+      tags:
+      - Object Storage Destinations
+      description: Create an object storage destination. Connection will be tested.
+      operationId: create_ros_destination
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: create-container-replication-target-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: create-container-replication-target-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - endpoint_url
+              - region
+              - username
+              - password
+              - connectVia
+              properties:
+                name:
+                  type: string
+                  description: Display Name for Remote Object Storage Endpoint
+                  example: destination 1
+                endpoint_url:
+                  type: string
+                  description: Endpoint URL for VPSA Object Storage S3 destination type
+                  example: https://vsa-000011b4-zadara-cloud.zadarazios.com
+                region:
+                  type: string
+                  description: Region for VPSA Object Storage S3 destination type
+                  example: us-east-1
+                username:
+                  type: string
+                  description: Access Key ID for Remote Object Storage Endpoint
+                  example: mys3username
+                password:
+                  type: string
+                  description: Secret Access Key for Remote Object Storage Endpoint
+                  example: mys3password
+                connectVia:
+                  type: string
+                  description: Connection method for remote object storage
+                  enum:
+                  - fe
+                  - outnet
+                  example: fe
+        required: true
+      summary: Create ros destination
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/object_storage_destinations/{id}.json:
+    get:
+      tags:
+      - Object Storage Destinations
+      description: Get one Object Storage Destination.
+      operationId: get_object_storage_destination
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    xml:
+                      name: show-one-replication-target-response
+                    type: object
+                    properties:
+                      replication_targets_count:
+                        type: integer
+                        xml:
+                          name: replication-targets-count
+                      replication_targets:
+                        type: array
+                        xml:
+                          name: replication-targets
+                          wrapped: true
+                        items:
+                          $ref: '#/components/schemas/ReplicationTarget'
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    xml:
+                      name: show-one-replication-target-response
+                    type: object
+                    properties:
+                      replication_targets_count:
+                        type: integer
+                        xml:
+                          name: replication-targets-count
+                      replication_targets:
+                        type: array
+                        xml:
+                          name: replication-targets
+                          wrapped: true
+                        items:
+                          $ref: '#/components/schemas/ReplicationTarget'
+      summary: Get object storage destination
+      x-summary-source: derived
+    put:
+      tags:
+      - Object Storage Destinations
+      description: Update an object storage destination. Connection will be tested.
+      operationId: update_ros_destination
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: update-container-replication-target-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: update-container-replication-target-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Display Name for Remote Object Storage Endpoint
+                  example: destination 1
+                username:
+                  type: string
+                  description: Access Key ID for Remote Object Storage Endpoint
+                  example: mys3username
+                password:
+                  type: string
+                  description: Secret Access Key for Remote Object Storage Endpoint
+                  example: mys3password
+                region_name:
+                  type: string
+                  description: Endpoint for AWS S3 destination type
+                  example: s3-eu-west-1.amazonaws.com
+                region_name_text:
+                  type: string
+                  description: Region for VPSA Object Storage S3 destination type
+                  example: us-east-1
+                connectVia:
+                  type: string
+                  description: Connection method for remote object storage
+                  enum:
+                  - fe
+                  - outnet
+                  example: fe
+      summary: Update ros destination
+      x-summary-source: derived
+    delete:
+      tags:
+      - Object Storage Destinations
+      description: Delete an object storage destination.
+      operationId: delete_ros_destination
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: delete-replication-target-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: delete-replication-target-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+      summary: Delete ros destination
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/object_storage_destinations/{id}/list_destination_containers.json:
+    get:
+      tags:
+      - Object Storage Destinations
+      description: List Object Storage Destination Containers.
+      operationId: list_destination_containers
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: list-container-replication-target-containers-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      containers_count:
+                        xml:
+                          name: containers-count
+                        type: integer
+                        example: 3
+                      containers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: src1
+                          xml:
+                            name: container
+                        xml:
+                          wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: list-container-replication-target-containers-response
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                        example: 0
+                      containers_count:
+                        xml:
+                          name: containers-count
+                        type: integer
+                        example: 3
+                      containers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: src1
+                          xml:
+                            name: container
+                        xml:
+                          wrapped: true
+      summary: List destination containers
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    ReplicationTarget:
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date_time
+          xml:
+            name: created-at
+        modified_at:
+          type: string
+          format: date_time
+          xml:
+            name: modified-at
+        display_name:
+          type: string
+          example: local target
+          xml:
+            name: display-name
+        src_account:
+          type: string
+          example: AUTH_104248df08414c659b269e09b355b08b
+          xml:
+            name: src-account
+        destination_account:
+          type: string
+          example: AUTH_104248df08414c659b269e09b355b08b
+          xml:
+            name: destination-account
+        destination_access_key:
+          type: string
+          example: 99ef94c76d30451abd41e1c8d9c6aa83
+          xml:
+            name: destination-access-key
+        destination_endpoint:
+          type: string
+          example: https://vsa-0000048a-my-cloud.zadarazios.com:443
+          xml:
+            name: destination-endpoint
+        destination_region:
+          type: string
+          example: https://vsa-0000048a-my-cloud.zadarazios.com:443
+          xml:
+            name: destination-region
+        source_access_key:
+          type: string
+          example: 99ef94c76d30451abd41e1c8d9c6aa83
+          xml:
+            name: source-access-key
+        source_endpoint:
+          type: string
+          example: https://vsa-0000048a-my-cloud.zadarazios.com:443
+          xml:
+            name: source-endpoint
+        source_region:
+          type: string
+          format: date_time
+          example: us-east-1
+          xml:
+            name: source-region
+        interface:
+          type: string
+          example: feip
+        job_count:
+          type: integer
+          example: 1
+          xml:
+            name: job-count
+        target_id:
+          type: string
+          example: replication-target-1727775350
+          xml:
+            name: target-id
+      xml:
+        name: replication-target
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-object-storage-25.07.yml
+- zadara-object-storage-openapi.yml

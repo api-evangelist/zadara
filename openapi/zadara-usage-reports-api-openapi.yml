@@ -1,0 +1,425 @@
+openapi: 3.2.0
+info:
+  title: Zadara Usage Reports API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Usage Reports across 2 of this provider''s published API definitions: zadara-object-storage-25.07.yml, zadara-object-storage-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Usage Reports
+  description: Operations for usage reports.
+paths:
+  /zios/usage_reports/generate.json:
+    get:
+      tags:
+      - Usage Reports
+      description: 'Generate a usage report. Each account lists the following for each policy: capacity, number of objects, number of containers, data transfer in, data transfer out'
+      operationId: generate_usage_reports
+      security:
+      - api_key: []
+      parameters:
+      - in: query
+        name: report_time
+        description: Type of time frame for report
+        schema:
+          type: string
+          enum:
+          - monthly
+          - custom
+          default: monthly
+      - in: query
+        name: report_type
+        description: Type of time frame for report
+        schema:
+          type: string
+          enum:
+          - summary
+          - detailed
+          default: detailed
+      - in: query
+        name: fromdate
+        description: Start date (YYYY-MM-DD). Required for custom report, must be no more than 6 months old.
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: todate
+        description: End date (YYYY-MM-DD). Required for custom report, must be no more than 6 months old.
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: month
+        description: Month of the year, (e.g. 4). Required for monthly report.
+        schema:
+          type: string
+      - in: query
+        name: account_id
+        description: Account id. Default is user's account.
+        schema:
+          type: string
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      usage:
+                        type: object
+                        properties:
+                          account_usage_summary:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                account_header:
+                                  type: string
+                                  example: john@example.com
+                                  xml:
+                                    name: account-header
+                                total_usage_charges:
+                                  type: number
+                                  example: 0.0
+                                  xml:
+                                    name: total-usage-charges
+                                id:
+                                  type: string
+                                  example: daf7fc5175df43bab7893fd66a444977
+                                name:
+                                  type: string
+                                  example: zios_admin
+                                usage_summary:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      category:
+                                        type: string
+                                        example: services
+                                      billed_amount:
+                                        type: number
+                                        example: 0.0
+                                        xml:
+                                          name: billed-amount
+                                      billed_units:
+                                        type: number
+                                        example: 0.0
+                                        xml:
+                                          name: billed-units
+                                      subcategory:
+                                        type: string
+                                        example: outgoing_bytes
+                                      type:
+                                        type: string
+                                        example: streaming-bytes
+                                      unit:
+                                        type: string
+                                        example: GB
+                                    xml:
+                                      name: usage-summary
+                                  xml:
+                                    name: usage-summary
+                                    wrapped: true
+                              xml:
+                                name: account-usage-summary
+                            xml:
+                              name: account-usage-summary
+                              wrapped: true
+                          report_header:
+                            type: object
+                            properties:
+                              zios_name:
+                                type: string
+                                example: vsa-000007de
+                                xml:
+                                  name: zios-name
+                              zios_display_name:
+                                type: string
+                                example: ZIOS2
+                                xml:
+                                  name: zios-display-name
+                              upload_rate_per_gb:
+                                type: number
+                                example: 0.0
+                                xml:
+                                  name: upload-rate-per-gb
+                              policy_capacity_usage_cost_gbmonth:
+                                type: object
+                                properties:
+                                  ec_4_2_protection_policy:
+                                    type: number
+                                    example: 0.0
+                                    xml:
+                                      name: ec-4-2-protection-policy
+                                  metadatapolicy:
+                                    type: number
+                                    example: 0.0
+                                xml:
+                                  name: policy-capacity-usage-cost-gbmonth
+                              download_rate_per_gb:
+                                type: number
+                                example: 0.0
+                                xml:
+                                  name: download-rate-per-gb
+                              replication_rate_per_gb:
+                                type: number
+                                example: 0.0
+                                xml:
+                                  name: replication-rate-per-gb
+                              billing_unit:
+                                type: string
+                                example: usd
+                                xml:
+                                  name: billing-unit
+                              total_usage_charges:
+                                type: number
+                                example: 0.0
+                                xml:
+                                  name: total-usage-charges
+                              reporting_interval:
+                                type: object
+                                properties:
+                                  report_time:
+                                    type: string
+                                    format: date_time
+                                    xml:
+                                      name: report-time
+                                  duration_sec:
+                                    type: number
+                                    example: 1337313
+                                    xml:
+                                      name: duration-sec
+                                  start_time:
+                                    type: string
+                                    format: date_time
+                                    xml:
+                                      name: start-time
+                                  end_time:
+                                    type: string
+                                    format: date_time
+                                    xml:
+                                      name: end-time
+                                xml:
+                                  name: reporting-interval
+                              zios_url:
+                                type: string
+                                example: https://vsa-000007de-testcloud.zadarazios.com:443
+                                xml:
+                                  name: zios-url
+                            xml:
+                              name: report-header
+                    xml:
+                      name: '  response'
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      usage:
+                        type: object
+                        properties:
+                          account_usage_summary:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                account_header:
+                                  type: string
+                                  example: john@example.com
+                                  xml:
+                                    name: account-header
+                                total_usage_charges:
+                                  type: number
+                                  example: 0.0
+                                  xml:
+                                    name: total-usage-charges
+                                id:
+                                  type: string
+                                  example: daf7fc5175df43bab7893fd66a444977
+                                name:
+                                  type: string
+                                  example: zios_admin
+                                usage_summary:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      category:
+                                        type: string
+                                        example: services
+                                      billed_amount:
+                                        type: number
+                                        example: 0.0
+                                        xml:
+                                          name: billed-amount
+                                      billed_units:
+                                        type: number
+                                        example: 0.0
+                                        xml:
+                                          name: billed-units
+                                      subcategory:
+                                        type: string
+                                        example: outgoing_bytes
+                                      type:
+                                        type: string
+                                        example: streaming-bytes
+                                      unit:
+                                        type: string
+                                        example: GB
+                                    xml:
+                                      name: usage-summary
+                                  xml:
+                                    name: usage-summary
+                                    wrapped: true
+                              xml:
+                                name: account-usage-summary
+                            xml:
+                              name: account-usage-summary
+                              wrapped: true
+                          report_header:
+                            type: object
+                            properties:
+                              zios_name:
+                                type: string
+                                example: vsa-000007de
+                                xml:
+                                  name: zios-name
+                              zios_display_name:
+                                type: string
+                                example: ZIOS2
+                                xml:
+                                  name: zios-display-name
+                              upload_rate_per_gb:
+                                type: number
+                                example: 0.0
+                                xml:
+                                  name: upload-rate-per-gb
+                              policy_capacity_usage_cost_gbmonth:
+                                type: object
+                                properties:
+                                  ec_4_2_protection_policy:
+                                    type: number
+                                    example: 0.0
+                                    xml:
+                                      name: ec-4-2-protection-policy
+                                  metadatapolicy:
+                                    type: number
+                                    example: 0.0
+                                xml:
+                                  name: policy-capacity-usage-cost-gbmonth
+                              download_rate_per_gb:
+                                type: number
+                                example: 0.0
+                                xml:
+                                  name: download-rate-per-gb
+                              replication_rate_per_gb:
+                                type: number
+                                example: 0.0
+                                xml:
+                                  name: replication-rate-per-gb
+                              billing_unit:
+                                type: string
+                                example: usd
+                                xml:
+                                  name: billing-unit
+                              total_usage_charges:
+                                type: number
+                                example: 0.0
+                                xml:
+                                  name: total-usage-charges
+                              reporting_interval:
+                                type: object
+                                properties:
+                                  report_time:
+                                    type: string
+                                    format: date_time
+                                    xml:
+                                      name: report-time
+                                  duration_sec:
+                                    type: number
+                                    example: 1337313
+                                    xml:
+                                      name: duration-sec
+                                  start_time:
+                                    type: string
+                                    format: date_time
+                                    xml:
+                                      name: start-time
+                                  end_time:
+                                    type: string
+                                    format: date_time
+                                    xml:
+                                      name: end-time
+                                xml:
+                                  name: reporting-interval
+                              zios_url:
+                                type: string
+                                example: https://vsa-000007de-testcloud.zadarazios.com:443
+                                xml:
+                                  name: zios-url
+                            xml:
+                              name: report-header
+                    xml:
+                      name: '  response'
+      summary: Generate usage reports
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-object-storage-25.07.yml
+- zadara-object-storage-openapi.yml

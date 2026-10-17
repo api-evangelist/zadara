@@ -1,0 +1,3609 @@
+openapi: 3.2.0
+info:
+  title: Zadara VPSA Object Storage API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged VPSA Object Storage across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: VPSA Object Storage
+  description: Operations involving VPSA Object Storage.
+paths:
+  /clouds/{cloud_name}/zioses.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Returns a list of all VPSA Object Storage Object stores.
+      operationId: get_all_vpsaos
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  zioses:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Zios'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  zioses:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Zios'
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get all vpsaos
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Returns the details for a single VPSA Object Storage.
+      operationId: get_zios_from_cloud
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  zios:
+                    $ref: '#/components/schemas/Zios'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  zios:
+                    $ref: '#/components/schemas/Zios'
+      summary: Get zios from cloud
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/drives.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Returns the list of a VPSA Object Storage drives.
+      operationId: get_all_zios_drives_from_cc
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+          pattern: vsa-[0-9a-z]+|[0-9]+
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drives:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        internal_name:
+                          type: string
+                          example: volume-000009c9
+                          xml:
+                            name: internal-name
+                        node:
+                          type: string
+                          example: dev2_sn4
+                        size:
+                          type: integer
+                        type:
+                          type: string
+                          example: SSD CACHE DRIVES
+                        uuid:
+                          type: string
+                          example: 5000039FF4CC7F35
+                        address:
+                          type: string
+                          example: 0:0:5:0
+                        location:
+                          type: string
+                          example: 0:7:3 (Ad:En:Sl)
+                        product_id:
+                          type: string
+                          example: ATA SDLF1CRM-016T-1HA
+                          xml:
+                            name: product-id
+                        drive_id:
+                          type: string
+                          xml:
+                            name: drive-id
+                        partition_count_degraded:
+                          type: string
+                          xml:
+                            name: partition-count-degraded
+                        partition_count_critical:
+                          type: string
+                          xml:
+                            name: partition-count-critical
+                      xml:
+                        name: drive
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  drives:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        internal_name:
+                          type: string
+                          example: volume-000009c9
+                          xml:
+                            name: internal-name
+                        node:
+                          type: string
+                          example: dev2_sn4
+                        size:
+                          type: integer
+                        type:
+                          type: string
+                          example: SSD CACHE DRIVES
+                        uuid:
+                          type: string
+                          example: 5000039FF4CC7F35
+                        address:
+                          type: string
+                          example: 0:0:5:0
+                        location:
+                          type: string
+                          example: 0:7:3 (Ad:En:Sl)
+                        product_id:
+                          type: string
+                          example: ATA SDLF1CRM-016T-1HA
+                          xml:
+                            name: product-id
+                        drive_id:
+                          type: string
+                          xml:
+                            name: drive-id
+                        partition_count_degraded:
+                          type: string
+                          xml:
+                            name: partition-count-degraded
+                        partition_count_critical:
+                          type: string
+                          xml:
+                            name: partition-count-critical
+                      xml:
+                        name: drive
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get all zios drives from cc
+      x-summary-source: derived
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Add drives to VPSA Object Storage.
+      operationId: add_drives_to_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to add 2 SATA_2793GB_5940RPM drive(s).
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to add 2 SATA_2793GB_5940RPM drive(s).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - drive_type
+              - quantity
+              - policy_id
+              properties:
+                drive_type:
+                  type: string
+                  example: SATA_2793GB_5940RPM
+                  description: Drive type internal name
+                quantity:
+                  type: integer
+                  example: 2
+                  description: Number of drives to add
+                policy_id:
+                  type: string
+                  example: storage-policy-00000001
+                  description: policy id or internal_name
+        required: true
+      summary: Add drives to zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/virtual_controllers.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Returns the list of a VPSA Object Storage virtual controllers.
+      operationId: get_vpsaos_vcs
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  virtual_controllers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: vc-0:zios
+                        state:
+                          type: string
+                          example: Created
+                        node:
+                          type: string
+                          example: dev2_sn4
+                        zios_storage_role:
+                          type: string
+                          example: Proxy+Storage
+                          xml:
+                            name: zios-storage-role
+                        zios_management_role:
+                          type: string
+                          example: Ring Master
+                          xml:
+                            name: zios-management-role
+                        vcpus:
+                          type: array
+                          items:
+                            type: integer
+                            xml:
+                              name: vcpu
+                          xml:
+                            wrapped: true
+                        fe_ip:
+                          type: string
+                          example: 150.50.2.116
+                          xml:
+                            name: fe-ip
+                        fe_vlan_id:
+                          type: integer
+                          example: 50
+                          xml:
+                            name: fe-vlan-id
+                        be_ip:
+                          type: string
+                          example: 150.50.3.116
+                          xml:
+                            name: be-ip
+                        be_vlan_id:
+                          type: integer
+                          example: 50
+                          xml:
+                            name: be-vlan-id
+                        hb_ip:
+                          type: string
+                          example: 150.50.0.116
+                          xml:
+                            name: hb-ip
+                        hb_vlan_id:
+                          type: integer
+                          example: 50
+                          xml:
+                            name: hb-vlan-id
+                      xml:
+                        name: virtual-controller
+                    xml:
+                      name: virtual-controllers
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  virtual_controllers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: vc-0:zios
+                        state:
+                          type: string
+                          example: Created
+                        node:
+                          type: string
+                          example: dev2_sn4
+                        zios_storage_role:
+                          type: string
+                          example: Proxy+Storage
+                          xml:
+                            name: zios-storage-role
+                        zios_management_role:
+                          type: string
+                          example: Ring Master
+                          xml:
+                            name: zios-management-role
+                        vcpus:
+                          type: array
+                          items:
+                            type: integer
+                            xml:
+                              name: vcpu
+                          xml:
+                            wrapped: true
+                        fe_ip:
+                          type: string
+                          example: 150.50.2.116
+                          xml:
+                            name: fe-ip
+                        fe_vlan_id:
+                          type: integer
+                          example: 50
+                          xml:
+                            name: fe-vlan-id
+                        be_ip:
+                          type: string
+                          example: 150.50.3.116
+                          xml:
+                            name: be-ip
+                        be_vlan_id:
+                          type: integer
+                          example: 50
+                          xml:
+                            name: be-vlan-id
+                        hb_ip:
+                          type: string
+                          example: 150.50.0.116
+                          xml:
+                            name: hb-ip
+                        hb_vlan_id:
+                          type: integer
+                          example: 50
+                          xml:
+                            name: hb-vlan-id
+                      xml:
+                        name: virtual-controller
+                    xml:
+                      name: virtual-controllers
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get vpsaos vcs
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/storage_policies.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Returns the list of a VPSA Object Storage storage policies.
+      operationId: get_vpsaos_sps
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  zios_storage_policies:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '26'
+                        internal_name:
+                          type: string
+                          example: storage_policy-00000002
+                          xml:
+                            name: internal-name
+                        name:
+                          type: string
+                          example: 3_way_protection_policy
+                        status:
+                          type: string
+                          example: initialized
+                        protection:
+                          type: string
+                          example: 3_way
+                        default:
+                          type: boolean
+                          example: true
+                        health_status:
+                          type: string
+                          example: normal
+                          xml:
+                            name: health-status
+                        health_percentage:
+                          type: integer
+                          xml:
+                            name: health-percentage
+                        ring_balance:
+                          type: object
+                          properties:
+                            normal_percentage:
+                              type: integer
+                              xml:
+                                name: normal-percentage
+                            degraded_percentage:
+                              type: integer
+                              xml:
+                                name: degraded-percentage
+                            critical_percentage:
+                              type: integer
+                              xml:
+                                name: critical-percentage
+                            normal_count:
+                              type: integer
+                              xml:
+                                name: normal-count
+                            degraded_count:
+                              type: integer
+                              xml:
+                                name: degraded-count
+                            critical_count:
+                              type: integer
+                              xml:
+                                name: critical-count
+                          xml:
+                            name: ring-balance
+                        used_capacity:
+                          type: integer
+                          xml:
+                            name: used-capacity
+                        free_capacity:
+                          type: integer
+                          xml:
+                            name: free-capacity
+                      xml:
+                        name: zios-storage-policy
+                    xml:
+                      name: zios-storage-policies
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  zios_storage_policies:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '26'
+                        internal_name:
+                          type: string
+                          example: storage_policy-00000002
+                          xml:
+                            name: internal-name
+                        name:
+                          type: string
+                          example: 3_way_protection_policy
+                        status:
+                          type: string
+                          example: initialized
+                        protection:
+                          type: string
+                          example: 3_way
+                        default:
+                          type: boolean
+                          example: true
+                        health_status:
+                          type: string
+                          example: normal
+                          xml:
+                            name: health-status
+                        health_percentage:
+                          type: integer
+                          xml:
+                            name: health-percentage
+                        ring_balance:
+                          type: object
+                          properties:
+                            normal_percentage:
+                              type: integer
+                              xml:
+                                name: normal-percentage
+                            degraded_percentage:
+                              type: integer
+                              xml:
+                                name: degraded-percentage
+                            critical_percentage:
+                              type: integer
+                              xml:
+                                name: critical-percentage
+                            normal_count:
+                              type: integer
+                              xml:
+                                name: normal-count
+                            degraded_count:
+                              type: integer
+                              xml:
+                                name: degraded-count
+                            critical_count:
+                              type: integer
+                              xml:
+                                name: critical-count
+                          xml:
+                            name: ring-balance
+                        used_capacity:
+                          type: integer
+                          xml:
+                            name: used-capacity
+                        free_capacity:
+                          type: integer
+                          xml:
+                            name: free-capacity
+                      xml:
+                        name: zios-storage-policy
+                    xml:
+                      name: zios-storage-policies
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get vpsaos sps
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/load_balancer.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Returns the list of a VPSA Object Storage load balancers.
+      operationId: get_load_balancer
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  load_balancer:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                          example: lbg-00000002
+                        protection_zone:
+                          type: object
+                          xml:
+                            name: protection-zone
+                          properties:
+                            name:
+                              type: string
+                              example: zone_0
+                            id:
+                              type: integer
+                        vrid:
+                          type: integer
+                        master_vc:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                              example: vc-2
+                          xml:
+                            name: master-vc
+                        ipv4:
+                          type: string
+                          example: 10.2.31.35
+                        ipv6:
+                          type: string
+                          example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+                        vcs:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              name:
+                                type: string
+                                example: vc-2
+                              lb_group_owner:
+                                type: boolean
+                                xml:
+                                  name: lb-group-owner
+                              fe_ipv4:
+                                type: string
+                                example: 10.2.31.25
+                                xml:
+                                  name: fe-ipv4
+                              fe_ipv6:
+                                type: string
+                                example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+                                xml:
+                                  name: fe-ipv6
+                            xml:
+                              name: vc
+                          xml:
+                            wrapped: true
+                      xml:
+                        name: load-balancer
+                    xml:
+                      name: load-balancer
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  load_balancer:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                          example: lbg-00000002
+                        protection_zone:
+                          type: object
+                          xml:
+                            name: protection-zone
+                          properties:
+                            name:
+                              type: string
+                              example: zone_0
+                            id:
+                              type: integer
+                        vrid:
+                          type: integer
+                        master_vc:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                              example: vc-2
+                          xml:
+                            name: master-vc
+                        ipv4:
+                          type: string
+                          example: 10.2.31.35
+                        ipv6:
+                          type: string
+                          example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+                        vcs:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              name:
+                                type: string
+                                example: vc-2
+                              lb_group_owner:
+                                type: boolean
+                                xml:
+                                  name: lb-group-owner
+                              fe_ipv4:
+                                type: string
+                                example: 10.2.31.25
+                                xml:
+                                  name: fe-ipv4
+                              fe_ipv6:
+                                type: string
+                                example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+                                xml:
+                                  name: fe-ipv6
+                            xml:
+                              name: vc
+                          xml:
+                            wrapped: true
+                      xml:
+                        name: load-balancer
+                    xml:
+                      name: load-balancer
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get load balancer
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/accounts.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Returns the list of a VPSA Object Storage accounts.
+      operationId: get_vpsaos_accounts
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  accounts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: zios_admin
+                        enabled:
+                          type: boolean
+                        users:
+                          type: integer
+                        containers:
+                          type: integer
+                        objects:
+                          type: integer
+                        used_capacity:
+                          type: integer
+                          xml:
+                            name: used-capacity
+                      xml:
+                        name: account
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  accounts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: zios_admin
+                        enabled:
+                          type: boolean
+                        users:
+                          type: integer
+                        containers:
+                          type: integer
+                        objects:
+                          type: integer
+                        used_capacity:
+                          type: integer
+                          xml:
+                            name: used-capacity
+                      xml:
+                        name: account
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get vpsaos accounts
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/comments.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Returns the list of a ZIOSes Comments.
+      operationId: get_vpsaos_comments
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  comments:
+                    type: object
+                    properties:
+                      comment:
+                        type: object
+                        properties:
+                          content:
+                            type: string
+                            example: '**test comment**'
+                          severity_id:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: severity-id
+                          severity_name:
+                            type: string
+                            example: critical
+                            xml:
+                              name: severity-name
+                          created_by:
+                            type: string
+                            example: '1'
+                            xml:
+                              name: created-by
+                          created_at:
+                            type: string
+                            example: '2017-01-04T12:23:02+02:00'
+                            xml:
+                              name: created-at
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  comments:
+                    type: object
+                    properties:
+                      comment:
+                        type: object
+                        properties:
+                          content:
+                            type: string
+                            example: '**test comment**'
+                          severity_id:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: severity-id
+                          severity_name:
+                            type: string
+                            example: critical
+                            xml:
+                              name: severity-name
+                          created_by:
+                            type: string
+                            example: '1'
+                            xml:
+                              name: created-by
+                          created_at:
+                            type: string
+                            example: '2017-01-04T12:23:02+02:00'
+                            xml:
+                              name: created-at
+                  count:
+                    type: integer
+      summary: Get vpsaos comments
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/compatible_virtual_networks.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Returns the list of a available Virtual Networks to be added to VPSA.
+      operationId: list_availiables_virtual_net_to_add_vpsa
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  compatible_virtual_networks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: vni2
+                        vlan:
+                          type: integer
+                        custom_network_id:
+                          type: integer
+                          xml:
+                            name: custom-network-id
+                        netmask:
+                          type: string
+                          example: 255.255.255.0
+                        cidr:
+                          type: string
+                          example: 192.165.0.0/24
+                        gateway:
+                          type: string
+                          example: 192.165.0.1
+                      xml:
+                        name: compatible-virtual-network
+                    xml:
+                      name: compatible-virtual-networks
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  compatible_virtual_networks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: vni2
+                        vlan:
+                          type: integer
+                        custom_network_id:
+                          type: integer
+                          xml:
+                            name: custom-network-id
+                        netmask:
+                          type: string
+                          example: 255.255.255.0
+                        cidr:
+                          type: string
+                          example: 192.165.0.0/24
+                        gateway:
+                          type: string
+                          example: 192.165.0.1
+                      xml:
+                        name: compatible-virtual-network
+                    xml:
+                      name: compatible-virtual-networks
+                      wrapped: true
+      summary: List availiables virtual net to add vpsa
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/virtual_network_interfaces.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Returns the list of a Virtual Networks that belongs to a VPSA.
+      operationId: list_vpsa_virtual_nets
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  virtual_networks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: vni2
+                        vlan:
+                          type: integer
+                        custom_network_id:
+                          type: integer
+                          xml:
+                            name: custom-network-id
+                        netmask:
+                          type: string
+                          example: 255.255.255.0
+                        vni_id:
+                          type: integer
+                          xml:
+                            name: vni-id
+                        cidr:
+                          type: string
+                          example: 192.165.0.0/24
+                        gateway:
+                          type: string
+                          example: 192.165.0.1
+                      xml:
+                        name: virtual-network
+                    xml:
+                      name: virtual-networks
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  virtual_networks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: vni2
+                        vlan:
+                          type: integer
+                        custom_network_id:
+                          type: integer
+                          xml:
+                            name: custom-network-id
+                        netmask:
+                          type: string
+                          example: 255.255.255.0
+                        vni_id:
+                          type: integer
+                          xml:
+                            name: vni-id
+                        cidr:
+                          type: string
+                          example: 192.165.0.0/24
+                        gateway:
+                          type: string
+                          example: 192.165.0.1
+                      xml:
+                        name: virtual-network
+                    xml:
+                      name: virtual-networks
+                      wrapped: true
+      summary: List vpsa virtual nets
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/public_ip/assign.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Assign public ip to VPSA Object Storage.
+      operationId: assign_public_ip_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        schema:
+          type: string
+          pattern: vsa-[0-9a-z]+|[0-9]+
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Public IP 1.2.3.4 submitted for assignment, please allow a few minutes for this to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Public IP 1.2.3.4 submitted for assignment, please allow a few minutes for this to take effect.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ip:
+                  type: string
+                  example: 1.2.3.4
+                  description: Specific IP to assign
+        required: true
+      summary: Assign public ip zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/public_ip/unassign.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Unassign public ip from VPSA Object Storage.
+      operationId: unassign_public_ip_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Public IP submitted for unassignment from VPSA Object Storage, please allow a few minutes for this to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Public IP submitted for unassignment from VPSA Object Storage, please allow a few minutes for this to take effect.
+      summary: Unassign public ip zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/upgrade.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Upgrade a VPSA Object Storage software to a specified image.
+      operationId: upgrade_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - image
+              properties:
+                image:
+                  type: string
+                  example: 16.05.100.img
+        required: true
+      summary: Upgrade zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/change_engine_type.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Changes Object Storage engine from ZIOS_MINI to Object Storage.
+      operationId: change_engine_type_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses API.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+      summary: Change engine type zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/hibernate.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Hibernate VPSA Object Storage.
+      operationId: hibernate_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses API.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA Object Storage going into hibernating state, please allow a few minutes for this to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA Object Storage going into hibernating state, please allow a few minutes for this to take effect.
+      summary: Hibernate zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/enable_external_load_balancer.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Enable Elastic Load Balancer in VPSA Object Storage..
+      operationId: enable_elastic_load_balancer_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+      summary: Enable elastic load balancer zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/disable_external_load_balancer.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Disable Elastic Load Balancer in VPSA Object Storage..
+      operationId: disable_elastic_load_balancer_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+      summary: Disable elastic load balancer zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/restore.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Restore VPSA Object Storage from hibernation.
+      operationId: restore_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Restoring VPSA Object Storage. Please allow a few minutes for this to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Restoring VPSA Object Storage. Please allow a few minutes for this to take effect.
+      summary: Restore zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/maintenance_mode.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Enter or exit maintenance mode for VPSA Object Storage.
+      operationId: maintenance_mode
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA going into maintenance mode, please allow a few minutes for this to take effect.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VPSA going into maintenance mode, please allow a few minutes for this to take effect.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enter_maintenance_mode:
+                  type: boolean
+                  example: true
+                  description: Enter VPSA Object Storage into maintenance mode. Set to false or omit to exit from maintenance mode.
+        required: true
+      summary: Maintenance mode
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/zsnap.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Create a VPSA Object Storage Zsnap.
+      operationId: create_zsnap_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - prefix
+              properties:
+                prefix:
+                  type: string
+                  example: myprefix
+        required: true
+      summary: Create zsnap zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/policy.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Creates a new policy to VPSA Object Storage.
+      operationId: create_storage_policy_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        description: The cloud 'name' as returned by get_all_clouds
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - drive_type
+              - drive_quantity
+              - policy_type_id
+              properties:
+                name:
+                  type: string
+                drive_type:
+                  type: string
+                drive_quantity:
+                  type: integer
+                policy_type_id:
+                  type: integer
+                description:
+                  type: string
+        required: true
+      summary: Create storage policy zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/proxy_vcs.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Add proxy virtual controller to VPSA Object Storage.
+      operationId: add_proxy_virtual_controller_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to add proxy virtual controller
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to add proxy virtual controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - allocation_zone_id
+              properties:
+                allocation_zone_id:
+                  type: integer
+                  example: 1
+                  description: Allocation Zone id or internal name, ignored in case of single zone
+        required: true
+      summary: Add proxy virtual controller zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/replicator_vcs.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Add replicator virtual controller to VPSA Object Storage.
+      operationId: add_replicator_virtual_controller_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to add replicator virtual controller
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to add replicator virtual controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - allocation_zone_id
+              properties:
+                allocation_zone_id:
+                  type: integer
+                  example: 1
+                  description: Allocation Zone id or internal name, ignored in case of single zone
+        required: true
+      summary: Add replicator virtual controller zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/enable_container_replication.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Enable container replication service to NextGen Object Storage.
+      operationId: enable_container_replication_ngos
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The NextGen Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to enable Container Replication Service
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to enable Container Replication Service
+      summary: Enable container replication ngos
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/disable_container_replication.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Disable container replication service of NextGen Object Storage.
+      operationId: disable_container_replication_ngos
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The NextGen Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to disable Container Replication Service
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to disable Container Replication Service
+      summary: Disable container replication ngos
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/policy_pause_rebalance.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Pause a storage policy rebalance.
+      operationId: pause_policy_rebalance_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to pause policy rebalance.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to pause policy rebalance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - policy_name
+              properties:
+                policy_name:
+                  type: string
+                  example: storage-policy-00000001
+                  description: Policy name
+        required: true
+      summary: Pause policy rebalance zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/policy_continue_rebalance.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Continue a storage policy rebalance.
+      operationId: continue_policy_rebalance_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to continue policy rebalance.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Submitted request to continue policy rebalance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - policy_name
+              properties:
+                policy_name:
+                  type: string
+                  example: storage-policy-00000001
+                  description: Policy name
+        required: true
+      summary: Continue policy rebalance zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/add_virtual_network_interface.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Add Virtual Network to VPSA Object Storage.
+      operationId: add_virtual_nets_to_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - custom_network_id
+              properties:
+                custom_network_id:
+                  type: integer
+                  example: 1
+        required: true
+      summary: Add virtual nets to zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/remove_virtual_network_interface.json:
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Remove Virtual Network from VPSA Object Storage.
+      operationId: remove_virtual_nets_from_zios
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vni_id
+              properties:
+                vni_id:
+                  type: integer
+                  example: 1
+        required: true
+      summary: Remove virtual nets from zios
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/endpoints.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Gets all VPSA Object Storage upload endpoints including default endpoints
+      operationId: get_zios_upload_endpoints
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: methods_requested
+        description: 'Uploaded methods requested, for example: s3_aws,s3_zios,ftp'
+        schema:
+          type: array
+          items:
+            type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  zios_upload_endpoints:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: NAME
+                          xml:
+                            name: endpoint-name
+                        endpoint_method:
+                          type: string
+                          example: METHOD
+                          xml:
+                            name: endpoint-method
+                        access_key:
+                          type: string
+                          example: ACCESS KEY
+                          xml:
+                            name: access-key
+                        region:
+                          type: string
+                          example: REGION
+                      xml:
+                        name: zios-upload-endpoint
+                    xml:
+                      name: zios-upload-endpoints
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  zios_upload_endpoints:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: NAME
+                          xml:
+                            name: endpoint-name
+                        endpoint_method:
+                          type: string
+                          example: METHOD
+                          xml:
+                            name: endpoint-method
+                        access_key:
+                          type: string
+                          example: ACCESS KEY
+                          xml:
+                            name: access-key
+                        region:
+                          type: string
+                          example: REGION
+                      xml:
+                        name: zios-upload-endpoint
+                    xml:
+                      name: zios-upload-endpoints
+                      wrapped: true
+      summary: Get zios upload endpoints
+      x-summary-source: derived
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Creates a new VPSA Object Storage upload endpoint
+      operationId: create_zios_upload_endpoint
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created VPSA Object Storage endpoint ENDPOINT_NAME
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created VPSA Object Storage endpoint ENDPOINT_NAME
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - endpoint_name
+              - endpoint_method
+              - config
+              properties:
+                endpoint_name:
+                  type: string
+                  example: Endpoint1
+                  description: Endpoint name
+                endpoint_method:
+                  type: string
+                  description: Endpoint upload method
+                  enum:
+                  - s3_aws
+                  - s3_zios
+                  - ftp
+                  example: s3_aws
+                config:
+                  type: string
+                  description: Endpoint configuration JSON, depending on the chosen upload method. For 's3_aws' and 's3_zios' methods, config should include 'access_key', 'secret_key' and 'region'. For 's3_zios' method, config should also include 'endpoint'. For 'ftp' method, config should include 'server', 'user', 'password', 'use_proxy' (boolean '0' or '1').
+                  example: '{"access_key": "ABCDEFGHIJKLMNOP", "secret_key": "xxxxxxxxxxxxxxxxxxxxxx", "region": "us-east-1"}'
+        required: true
+      summary: Create zios upload endpoint
+      x-summary-source: derived
+    put:
+      tags:
+      - VPSA Object Storage
+      description: Updates an existing VPSA Object Storage upload endpoint
+      operationId: update_zios_upload_endpoint
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully updated VPSA Object Storage endpoint ENDPOINT_NAME
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully updated VPSA Object Storage endpoint ENDPOINT_NAME
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - endpoint_name
+              - config
+              properties:
+                endpoint_name:
+                  type: string
+                  example: Endpoint1
+                  description: Endpoint name
+                config:
+                  type: string
+                  description: Endpoint configuration JSON, depending on the endpoint's upload method. For 's3_aws' and 's3_zios' methods, config should include 'access_key', 'secret_key' and 'region'. For 's3_zios' method, config should also include 'endpoint'. For 'ftp' method, config should include 'server', 'user', 'password', 'use_proxy' (boolean '0' or '1').
+                  example: '{"access_key": "ABCDEFGHIJKLMNOP", "secret_key": "xxxxxxxxxxxxxxxxxxxxxx", "region": "us-east-1"}'
+        required: true
+      summary: Update zios upload endpoint
+      x-summary-source: derived
+    delete:
+      tags:
+      - VPSA Object Storage
+      description: Deletes an existing VPSA Object Storage upload endpoint
+      operationId: delete_zios_upload_endpoint
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted VPSA Object Storage endpoint ENDPOINT_NAME
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted VPSA Object Storage endpoint ENDPOINT_NAME
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - endpoint_name
+              properties:
+                endpoint_name:
+                  type: string
+                  example: Endpoint1
+                  description: Endpoint name
+        required: true
+      summary: Delete zios upload endpoint
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/zioses/{id}/endpoints_config.json:
+    get:
+      tags:
+      - VPSA Object Storage
+      description: Gets VPSA Object Storage endpoint configs by upload types
+      operationId: list_zios_endpoints_configs_by_upload_types
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: types
+        description: 'A string representing an array of the upload types separated by commas. For example: ''mag, config''.'
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  zios_endpoint_configs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: endpoint1
+                          xml:
+                            name: endpoint-name
+                        endpoint_bucket:
+                          type: string
+                          example: bucket1
+                          xml:
+                            name: endpoint-bucket
+                      xml:
+                        name: zios-endpoint-config
+                    xml:
+                      name: zios-endpoint-configs
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  zios_endpoint_configs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        endpoint_name:
+                          type: string
+                          example: endpoint1
+                          xml:
+                            name: endpoint-name
+                        endpoint_bucket:
+                          type: string
+                          example: bucket1
+                          xml:
+                            name: endpoint-bucket
+                      xml:
+                        name: zios-endpoint-config
+                    xml:
+                      name: zios-endpoint-configs
+                      wrapped: true
+      summary: List zios endpoints configs by upload types
+      x-summary-source: derived
+    post:
+      tags:
+      - VPSA Object Storage
+      description: Creates VPSA Object Storage endpoints configurations for upload type
+      operationId: create_zios_endpoints_configs_for_upload_types
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created VPSA Object Storage endpoints configurations for upload type "TYPE
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created VPSA Object Storage endpoints configurations for upload type "TYPE
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointConfiguration'
+        required: true
+      summary: Create zios endpoints configs for upload types
+      x-summary-source: derived
+    put:
+      tags:
+      - VPSA Object Storage
+      description: Adds more VPSA Object Storage endpoints configurations for upload type
+      operationId: add_zios_endpoints_configs_for_upload_types
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully added VPSA Object Storage endpoints configurations for upload type TYPE
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully added VPSA Object Storage endpoints configurations for upload type TYPE
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointConfiguration'
+        required: true
+      summary: Add zios endpoints configs for upload types
+      x-summary-source: derived
+    delete:
+      tags:
+      - VPSA Object Storage
+      description: Deletes an existing VPSA Object Storage endpoint configuration for upload type
+      operationId: delete_zios_endpoints_config_for_upload_types
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        description: The VPSA Object Storage 'id' or 'internal-name' value as returned by get_all_zioses.
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted VPSA Object Storage endpoint configuration for type TYPE
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully deleted VPSA Object Storage endpoint configuration for type TYPE
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - type
+              - endpoint_name
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - mag
+                  - config
+                  example: mag
+                  description: Upload type
+                endpoint_name:
+                  type: string
+                  example: Endpoint1
+                  description: Endpoint name
+        required: true
+      summary: Delete zios endpoints config for upload types
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  parameters:
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    Zios:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: zios
+        internal_name:
+          type: string
+          example: vsa-0000016d
+          xml:
+            name: internal-name
+        user:
+          type: string
+          example: john
+        tenant_name:
+          type: string
+          example: user_john_Gt1cj
+          xml:
+            name: tenant-name
+        description:
+          type: string
+          example: zios
+        status:
+          type: string
+          example: Normal
+        engine_type:
+          type: string
+          example: VPSA Object Storage
+          xml:
+            name: engine-type
+        vcpus:
+          type: integer
+          example: 1
+        ram:
+          type: integer
+          example: 2
+        https_termination:
+          type: boolean
+          example: true
+          xml:
+            name: https-termination
+        image:
+          type: string
+          example: zios-00.00-434.img
+        drives:
+          type: integer
+          example: 43
+        cache:
+          type: integer
+          example: 1200
+        virtual_controllers:
+          type: integer
+          xml:
+            name: virtual-controllers
+        ip_address:
+          type: string
+          example: 150.50.2.130
+          xml:
+            name: ip-address
+        ipv6_address:
+          type: string
+          example: 2001:db8:3333:4444:5555:6666:7777:8888
+          xml:
+            name: ipv6-address
+        public_ip:
+          type: string
+          example: 1.2.3.4
+          xml:
+            name: public-ip
+        management_url:
+          type: string
+          example: vsa-0000016d-zadara_dev2.zadarazios.com
+          xml:
+            name: management-url
+        storage_policies_count:
+          type: integer
+          example: 1
+          xml:
+            name: storage-policies-count
+        metadata_policies_count:
+          type: integer
+          example: 1
+          xml:
+            name: metadata-policies-count
+        accounts_count:
+          type: integer
+          example: 2
+          xml:
+            name: accounts-count
+        users_count:
+          type: integer
+          example: 2
+          xml:
+            name: users-count
+        containers_count:
+          type: integer
+          example: 1
+          xml:
+            name: containers-count
+        redundancy_status:
+          type: string
+          example: degraded
+          xml:
+            name: redundancy-status
+        redundancy_status_reasons:
+          type: array
+          items:
+            type: string
+            xml:
+              name: redundancy-status-reason
+          example:
+          - vc status is not normal
+          xml:
+            name: redundancy-status-reasons
+            wrapped: true
+        objects_count:
+          type: integer
+          example: 4184740
+          xml:
+            name: objects-count
+        active_vc_index:
+          type: integer
+          example: 0
+          xml:
+            name: active-vc-index
+        network_configuration:
+          type: object
+          properties:
+            vc0:
+              $ref: '#/components/schemas/VcNetwork'
+            vc1:
+              $ref: '#/components/schemas/VcNetwork'
+            vc2:
+              $ref: '#/components/schemas/VcNetwork'
+          xml:
+            name: network-configuration
+        created_at:
+          type: string
+          format: date_time
+          example: '2017-01-04T12:23:02+02:00'
+          xml:
+            name: created-at
+        updated_at:
+          type: string
+          format: date_time
+          example: '2017-01-04T12:23:02+02:00'
+          xml:
+            name: updated-at
+      xml:
+        name: zios
+    EndpointConfiguration:
+      type: object
+      required:
+      - type
+      - endpoints_config
+      properties:
+        type:
+          type: string
+          description: Upload type
+          enum:
+          - mag
+          - config
+          example: mag
+        endpoints_config:
+          type: array
+          example:
+          - endpoint_name: default_mag_ep
+          - endpoint_name: some_s3_endpoint
+            endpoint_bucket: b
+          - endpoint_name: some_ftp_endpoint
+          description: Endpoints configurations to set for the upload type. Each configuration must specify endpoint name. S3 endpoints configurations must also specify bucket name. Maximum to 3 endpoints. Cloud endpoints can also be specified (see 'Get cloud settings' api).
+          items:
+            type: object
+            required:
+            - endpoint_name
+            properties:
+              endpoint_name:
+                type: string
+              endpoint_bucket:
+                type: string
+            example:
+              endpoint_name: some_s3_endpoint
+              endpoint_bucket: b
+    VcNetwork:
+      type: object
+      properties:
+        fe_ip:
+          type: string
+          example: 150.50.2.113
+          xml:
+            name: fe-ip
+        fe_ipv6:
+          type: string
+          example: 2001:14:14::2
+          xml:
+            name: fe-ipv6
+        be_ip:
+          type: string
+          example: 150.50.3.113
+          xml:
+            name: be-ip
+        hb_ip:
+          type: string
+          example: 150.50.0.113
+          xml:
+            name: hb-ip
+        hb_ipv6:
+          type: string
+          example: 2001:1400::20
+          xml:
+            name: hb-ipv6
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

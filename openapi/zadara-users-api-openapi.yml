@@ -1,0 +1,3894 @@
+openapi: 3.2.0
+info:
+  title: Zadara Users API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Users across 8 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-object-storage-25.07.yml, zadara-provisioning-portal-25.07.yml, zadara-vpsa-25.07.yml, zadara-command-center-openapi.yml, zadara-object-storage-openapi.yml, zadara-provisioning-portal-openapi.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+- url: https://localhost/api/v2
+tags:
+- name: Users
+  description: Operations involving Command Center users.
+paths:
+  /users.json:
+    get:
+      tags:
+      - Users
+      description: Return Users list.
+      operationId: get_all_users
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        firstname:
+                          type: string
+                          example: fdmfd
+                        lastname:
+                          type: string
+                          example: mvkdlvd
+                      xml:
+                        name: user
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        firstname:
+                          type: string
+                          example: fdmfd
+                        lastname:
+                          type: string
+                          example: mvkdlvd
+                      xml:
+                        name: user
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get all users
+      x-summary-source: derived
+    post:
+      tags:
+      - Users
+      description: Create user.
+      operationId: create_user
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                        example: testtest.com
+                      firstname:
+                        type: string
+                        example: harel
+                      lastname:
+                        type: string
+                        example: feldman
+                      roles:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                              example: raid groups manage role
+                          xml:
+                            name: role
+                        xml:
+                          wrapped: true
+                      admin:
+                        type: boolean
+                      password:
+                        type: string
+                        example: AbCdEf
+                      authentication_token:
+                        type: string
+                        xml:
+                          name: authentication-token
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                        example: testtest.com
+                      firstname:
+                        type: string
+                        example: harel
+                      lastname:
+                        type: string
+                        example: feldman
+                      roles:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                              example: raid groups manage role
+                          xml:
+                            name: role
+                        xml:
+                          wrapped: true
+                      admin:
+                        type: boolean
+                      password:
+                        type: string
+                        example: AbCdEf
+                      authentication_token:
+                        type: string
+                        xml:
+                          name: authentication-token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      format: email
+                      example: john@doe.com
+                    firstname:
+                      type: string
+                      example: john
+                    lastname:
+                      type: string
+                      example: doe
+                    admin:
+                      type: boolean
+                      example: true
+                    role_ids:
+                      type: array
+                      items:
+                        type: integer
+                      example:
+                      - 1
+                      - 3
+        required: true
+      summary: Create user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /users/{id}.json:
+    get:
+      tags:
+      - Users
+      description: Returns a User.
+      operationId: get_user
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      firstname:
+                        type: string
+                        example: fdmfd
+                      lastname:
+                        type: string
+                        example: mvkdlvd
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      firstname:
+                        type: string
+                        example: fdmfd
+                      lastname:
+                        type: string
+                        example: mvkdlvd
+      summary: Get user
+      x-summary-source: derived
+    put:
+      tags:
+      - Users
+      description: Update user.
+      operationId: update_user
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: email
+                  example: john@doe.com
+                firstname:
+                  type: string
+                  example: john
+                lastname:
+                  type: string
+                  example: doe
+                admin:
+                  type: boolean
+                  example: true
+                role_ids:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                  - 1
+                  - 3
+                current_password:
+                  type: string
+                  example: currentpassword
+                password:
+                  type: string
+                  example: newpassword
+        required: true
+      summary: Update user
+      x-summary-source: derived
+    delete:
+      tags:
+      - Users
+      description: Delete user.
+      operationId: delete_user
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Delete user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /users/token.json:
+    post:
+      tags:
+      - Users
+      description: Returns user's API key.
+      operationId: get_user_api_key
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  api_key:
+                    type: string
+                    example: '...'
+                    xml:
+                      name: api-key
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  api_key:
+                    type: string
+                    example: '...'
+                    xml:
+                      name: api-key
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+        required: true
+      summary: Get user api key
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /users/regenerate_token.json:
+    post:
+      tags:
+      - Users
+      description: Regenerates and returns a user's API key.
+      operationId: regenerate_user_api_token
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  api_key:
+                    type: string
+                    example: '...'
+                    xml:
+                      name: api-key
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  api_key:
+                    type: string
+                    example: '...'
+                    xml:
+                      name: api-key
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+        required: true
+      summary: Regenerate user api token
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /zios/users.json:
+    get:
+      tags:
+      - Users
+      description: 'List all users.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: getZiosUsersJson
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      count:
+                        type: integer
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            username:
+                              type: string
+                              example: john
+                            email:
+                              type: string
+                              example: johnzadarastorage.com
+                            access_key:
+                              type: string
+                              xml:
+                                name: access-key
+                            primary:
+                              type: boolean
+                            admin:
+                              type: boolean
+                            locked:
+                              type: boolean
+                            roles:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  name:
+                                    type: string
+                                    example: Read Only
+                                xml:
+                                  name: role
+                              xml:
+                                wrapped: true
+                            display_timezone:
+                              type: string
+                              example: Asia/Jerusalem
+                              xml:
+                                name: display-timezone
+                            notify_on_events:
+                              type: boolean
+                              xml:
+                                name: notify-on-events
+                            zios_data:
+                              type: object
+                              properties:
+                                zios_user:
+                                  type: object
+                                  properties:
+                                    account_id:
+                                      type: string
+                                      example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                                      xml:
+                                        name: account-id
+                                    account_name:
+                                      type: string
+                                      example: zios_admin
+                                      xml:
+                                        name: account-name
+                                    id:
+                                      type: string
+                                      example: 507ab47f362a4299aabe2f6e622c9b5f
+                                    token:
+                                      type: string
+                                      example: MIIFHgYJKoZIhvcNAQcCoIIFDzCCBQsCAQExDTALBglghkgBZQMEAgEwggNvBgkqhkiG9w0BBwGgggNgBIIDXHsiYWNjZXNzIjp7InRva2VuIjp7Imlzc3VlZF9hdCI6IjIwMTYtMDUtMDFUMDc6NDk6MTYuMzY2MzA1IiwiZXhwaXJlcyI6IjIwMTYtMDUtMDJUMDc6NDk6MTZaIiwiaWQiOiJwbGFjZWhvbGRlciIsInRlbmFudCI6eyJ1cGRhdGVfdGltZSI6MTQ2MTgyMTc1NS4wNzk1OTIsIm5hbWUiOiJ6aW9zX2FkbWluIiwiaXNfc3lzdGVtX2FjY291bnQiOnRydWUsImVuYWJsZWQiOnRydWUsImVtYWlsIjoiZXlhbEB6YWRhcmFzdG9yYWdlLmNvbSIsInN0YXRlIjoibm9ybWFsIiwiY3JlYXRlX3RpbWUiOjE0NjE4MjE3NTQuOTU3NTk4LCJpZCI6IjkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiZGVzY3JpcHRpb24iOiIifSwiYXVkaXRfaWRzIjpbIllKSjdTZEEzUVVTM1pHem5qSWNnaGciXX0sInNlcnZpY2VDYXRhbG9nIjpbeyJlbmRwb2ludHMiOlt7InJlZ2lvbiI6InJlZ2lvbk9uZSIsInB1YmxpY1VSTCI6Imh0dHBzOi8vdnNhLTAwMDAwMThmLXphZGFyYS1kZXYyLnphZGFyYXppb3MuY29tOjQ0My92MS9BVVRIXzkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiaWQiOiIyMzBhYWQ1ODAxOTg0OGYxOGFhZDMzNmJjOTNiOWIxNCJ9XSwiZW5kcG9pbnRzX2xpbmtzIjpbXSwidHlwZSI6Im9iamVjdC1zdG9yZSIsIm5hbWUiOiJzd2lmdCJ9XSwidXNlciI6eyJ1c2VybmFtZSI6ImV5YWwiLCJyb2xlc19saW5rcyI6W10sImlkIjoiNTA3YWI0N2YzNjJhNDI5OWFhYmUyZjZlNjIyYzliNWYiLCJyb2xlcyI6W3sibmFtZSI6Inppb3NfYWRtaW4ifV0sIm5hbWUiOiJleWFsIn0sIm1ldGFkYXRhIjp7ImlzX2FkbWluIjowLCJyb2xlcyI6WyJjMzgyNzdlMGQxY2E0N2IzYjg4ODUzNjQyYTc0MDA0ZiJdfX19MYIBgjCCAX4CAQEwWTBUMQswCQYDVQQGEwJVUzEOMAwGA1UECAwFVW5zZXQxDjAMBgNVBAcMBVVuc2V0MQ4wDAYDVQQKDAVVbnNldDEVMBMGA1UEAwwMMTUwLjUwLjIuMTEwAgEBMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBSqfm_wN23IF+OvutBrtxRwvufpPtDGYPcch7wU_G7pe0DN9QGfZsM5EVdTcx_Xk2szDsF6kxbqtD+wuLr2lqhJmpr0FFNk12oQ2fD5qdtzxz2aRPAGt_LfxwA9f4BEM13KIZaeLQ8qj4MjLByv14PNIby5hXgHVec08NTKWoSnGW7nLWVGfVA2uI0MIyRSO2h0AtvLC98q3MSzxSPCTvSNJ0KA6xYpThwOCyub392hhv+OafSfsRKpepXNpdPA6KyBr3aKQWXyj7hjliJgmT+L0bZMTQLV8C5FBdtzMt8JKS5tVS9kE+4aqBoyeYiaQwZv0i1+dusajHTfEBXH2Xu
+                                    token_expire_at:
+                                      type: string
+                                      format: date_time
+                                      xml:
+                                        name: token-expire-at
+                                    s3_access_key:
+                                      type: string
+                                      example: 6a2f3cda52fe4056848226d1b85a5181
+                                      xml:
+                                        name: s3-access-key
+                                    s3_secret_key:
+                                      type: string
+                                      example: 5345ee7de83e48058990f024c535e642
+                                      xml:
+                                        name: s3-secret-key
+                                    public_url:
+                                      type: string
+                                      example: https://vsa-0000018f-zadara.zadarazios.com:443/v1/AUTH_91ea5bd5cdc04adb9f5e3c00a346c463
+                                      xml:
+                                        name: public-url
+                                    roles:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          id:
+                                            type: integer
+                                          name:
+                                            type: string
+                                            example: zios_admin
+                                        xml:
+                                          name: role
+                                      xml:
+                                        wrapped: true
+                                  xml:
+                                    name: zios-user
+                              xml:
+                                name: zios-data
+                          xml:
+                            name: user
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      count:
+                        type: integer
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            username:
+                              type: string
+                              example: john
+                            email:
+                              type: string
+                              example: johnzadarastorage.com
+                            access_key:
+                              type: string
+                              xml:
+                                name: access-key
+                            primary:
+                              type: boolean
+                            admin:
+                              type: boolean
+                            locked:
+                              type: boolean
+                            roles:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  name:
+                                    type: string
+                                    example: Read Only
+                                xml:
+                                  name: role
+                              xml:
+                                wrapped: true
+                            display_timezone:
+                              type: string
+                              example: Asia/Jerusalem
+                              xml:
+                                name: display-timezone
+                            notify_on_events:
+                              type: boolean
+                              xml:
+                                name: notify-on-events
+                            zios_data:
+                              type: object
+                              properties:
+                                zios_user:
+                                  type: object
+                                  properties:
+                                    account_id:
+                                      type: string
+                                      example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                                      xml:
+                                        name: account-id
+                                    account_name:
+                                      type: string
+                                      example: zios_admin
+                                      xml:
+                                        name: account-name
+                                    id:
+                                      type: string
+                                      example: 507ab47f362a4299aabe2f6e622c9b5f
+                                    token:
+                                      type: string
+                                      example: MIIFHgYJKoZIhvcNAQcCoIIFDzCCBQsCAQExDTALBglghkgBZQMEAgEwggNvBgkqhkiG9w0BBwGgggNgBIIDXHsiYWNjZXNzIjp7InRva2VuIjp7Imlzc3VlZF9hdCI6IjIwMTYtMDUtMDFUMDc6NDk6MTYuMzY2MzA1IiwiZXhwaXJlcyI6IjIwMTYtMDUtMDJUMDc6NDk6MTZaIiwiaWQiOiJwbGFjZWhvbGRlciIsInRlbmFudCI6eyJ1cGRhdGVfdGltZSI6MTQ2MTgyMTc1NS4wNzk1OTIsIm5hbWUiOiJ6aW9zX2FkbWluIiwiaXNfc3lzdGVtX2FjY291bnQiOnRydWUsImVuYWJsZWQiOnRydWUsImVtYWlsIjoiZXlhbEB6YWRhcmFzdG9yYWdlLmNvbSIsInN0YXRlIjoibm9ybWFsIiwiY3JlYXRlX3RpbWUiOjE0NjE4MjE3NTQuOTU3NTk4LCJpZCI6IjkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiZGVzY3JpcHRpb24iOiIifSwiYXVkaXRfaWRzIjpbIllKSjdTZEEzUVVTM1pHem5qSWNnaGciXX0sInNlcnZpY2VDYXRhbG9nIjpbeyJlbmRwb2ludHMiOlt7InJlZ2lvbiI6InJlZ2lvbk9uZSIsInB1YmxpY1VSTCI6Imh0dHBzOi8vdnNhLTAwMDAwMThmLXphZGFyYS1kZXYyLnphZGFyYXppb3MuY29tOjQ0My92MS9BVVRIXzkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiaWQiOiIyMzBhYWQ1ODAxOTg0OGYxOGFhZDMzNmJjOTNiOWIxNCJ9XSwiZW5kcG9pbnRzX2xpbmtzIjpbXSwidHlwZSI6Im9iamVjdC1zdG9yZSIsIm5hbWUiOiJzd2lmdCJ9XSwidXNlciI6eyJ1c2VybmFtZSI6ImV5YWwiLCJyb2xlc19saW5rcyI6W10sImlkIjoiNTA3YWI0N2YzNjJhNDI5OWFhYmUyZjZlNjIyYzliNWYiLCJyb2xlcyI6W3sibmFtZSI6Inppb3NfYWRtaW4ifV0sIm5hbWUiOiJleWFsIn0sIm1ldGFkYXRhIjp7ImlzX2FkbWluIjowLCJyb2xlcyI6WyJjMzgyNzdlMGQxY2E0N2IzYjg4ODUzNjQyYTc0MDA0ZiJdfX19MYIBgjCCAX4CAQEwWTBUMQswCQYDVQQGEwJVUzEOMAwGA1UECAwFVW5zZXQxDjAMBgNVBAcMBVVuc2V0MQ4wDAYDVQQKDAVVbnNldDEVMBMGA1UEAwwMMTUwLjUwLjIuMTEwAgEBMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBSqfm_wN23IF+OvutBrtxRwvufpPtDGYPcch7wU_G7pe0DN9QGfZsM5EVdTcx_Xk2szDsF6kxbqtD+wuLr2lqhJmpr0FFNk12oQ2fD5qdtzxz2aRPAGt_LfxwA9f4BEM13KIZaeLQ8qj4MjLByv14PNIby5hXgHVec08NTKWoSnGW7nLWVGfVA2uI0MIyRSO2h0AtvLC98q3MSzxSPCTvSNJ0KA6xYpThwOCyub392hhv+OafSfsRKpepXNpdPA6KyBr3aKQWXyj7hjliJgmT+L0bZMTQLV8C5FBdtzMt8JKS5tVS9kE+4aqBoyeYiaQwZv0i1+dusajHTfEBXH2Xu
+                                    token_expire_at:
+                                      type: string
+                                      format: date_time
+                                      xml:
+                                        name: token-expire-at
+                                    s3_access_key:
+                                      type: string
+                                      example: 6a2f3cda52fe4056848226d1b85a5181
+                                      xml:
+                                        name: s3-access-key
+                                    s3_secret_key:
+                                      type: string
+                                      example: 5345ee7de83e48058990f024c535e642
+                                      xml:
+                                        name: s3-secret-key
+                                    public_url:
+                                      type: string
+                                      example: https://vsa-0000018f-zadara.zadarazios.com:443/v1/AUTH_91ea5bd5cdc04adb9f5e3c00a346c463
+                                      xml:
+                                        name: public-url
+                                    roles:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          id:
+                                            type: integer
+                                          name:
+                                            type: string
+                                            example: zios_admin
+                                        xml:
+                                          name: role
+                                      xml:
+                                        wrapped: true
+                                  xml:
+                                    name: zios-user
+                              xml:
+                                name: zios-data
+                          xml:
+                            name: user
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+      summary: Get all users
+      x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: get_all_users
+    post:
+      tags:
+      - Users
+      description: 'Adds a new user.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: add_new_user
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      code:
+                        type: string
+                        example: qows969a1xdJCud6ev_t
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      code:
+                        type: string
+                        example: qows969a1xdJCud6ev_t
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              - email
+              - account_id
+              - role
+              properties:
+                username:
+                  type: string
+                  description: The new username
+                  example: johndoe
+                email:
+                  type: string
+                  format: email
+                  description: The new user email
+                  example: johndoe@company.com
+                account_id:
+                  type: string
+                  description: Account ID
+                  example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                notify_on_events:
+                  type: string
+                  description: Notify the user on system events
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                role:
+                  type: string
+                  description: User role in account
+                  enum:
+                  - zios_admin
+                  - account_admin
+                  - member
+                  example: member
+        required: true
+      summary: Add new user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/users/show_user_names.json:
+    get:
+      tags:
+      - Users
+      description: 'List all users names.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: get_all_users_names
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: show-user-names-response
+                    properties:
+                      status:
+                        type: integer
+                        example: 0
+                      users_count:
+                        xml:
+                          name: users-count
+                        type: integer
+                        example: 1
+                      users:
+                        type: array
+                        xml:
+                          wrapped: true
+                        items:
+                          type: object
+                          xml:
+                            name: user
+                          properties:
+                            account_name:
+                              type: string
+                              example: zios_admin
+                              xml:
+                                name: account-name
+                            id:
+                              type: string
+                              example: 507ab47f362a4299aabe2f6e622c9b5f
+                            account_id:
+                              type: string
+                              example: 4d16bf6c3afc4050bc182f35e5678fb1
+                              xml:
+                                name: account-id
+                            name:
+                              type: string
+                              example: johndoe
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    xml:
+                      name: show-user-names-response
+                    properties:
+                      status:
+                        type: integer
+                        example: 0
+                      users_count:
+                        xml:
+                          name: users-count
+                        type: integer
+                        example: 1
+                      users:
+                        type: array
+                        xml:
+                          wrapped: true
+                        items:
+                          type: object
+                          xml:
+                            name: user
+                          properties:
+                            account_name:
+                              type: string
+                              example: zios_admin
+                              xml:
+                                name: account-name
+                            id:
+                              type: string
+                              example: 507ab47f362a4299aabe2f6e622c9b5f
+                            account_id:
+                              type: string
+                              example: 4d16bf6c3afc4050bc182f35e5678fb1
+                              xml:
+                                name: account-id
+                            name:
+                              type: string
+                              example: johndoe
+      summary: Get all users names
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/users/{id}.json:
+    get:
+      tags:
+      - Users
+      description: 'Show a single user.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: getZiosUsers{id}Json
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      user:
+                        type: object
+                        properties:
+                          account_name:
+                            type: string
+                            example: zios_admin
+                            xml:
+                              name: account-name
+                          update_time:
+                            type: string
+                            example: '1557815377.84'
+                            xml:
+                              name: update-time
+                          name:
+                            type: string
+                            example: admin
+                          username:
+                            type: string
+                            example: john
+                          links:
+                            type: string
+                            example: '"self: uhttp://localhost:35357/v3/users/add61429a86444a9af9984d1a4ba4dcc"'
+                          s3_secret_key:
+                            type: string
+                            example: 1d7d87437a33422ca4d0dddcc014685e
+                            xml:
+                              name: s3-secret-key
+                          enabled:
+                            type: string
+                            example: 'True'
+                          account_id:
+                            type: string
+                            example: 009979f7f61c4cee99519fd935e7d64b
+                            xml:
+                              name: account-id
+                          domain_id:
+                            type: string
+                            example: default
+                            xml:
+                              name: domain-id
+                          create_time:
+                            type: string
+                            example: '1557814699.09'
+                            xml:
+                              name: create-time
+                          s3_access_key:
+                            type: string
+                            example: b9409960e4dc480ba0d4307392dd31ea
+                            xml:
+                              name: s3-access-key
+                          init_password_changed:
+                            type: string
+                            example: 'True'
+                            xml:
+                              name: init-password-changed
+                          role_list:
+                            type: array
+                            items:
+                              type: string
+                              example: zios_admin
+                              xml:
+                                name: role
+                            xml:
+                              name: role-list
+                              wrapped: true
+                          project_id:
+                            type: string
+                            example: 009979f7f61c4cee99519fd935e7d64b
+                            xml:
+                              name: project-id
+                          is_system_user:
+                            type: string
+                            example: 'True'
+                            xml:
+                              name: is-system-user
+                          id:
+                            type: string
+                            example: add61429a86444a9af9984d1a4ba4dcc
+                          password_expires_at:
+                            type: string
+                            example: None
+                            xml:
+                              name: password-expires-at
+                          notify_on_events:
+                            type: boolean
+                            example: true
+                            xml:
+                              name: notify-on-events
+                          notification_severity:
+                            type: integer
+                            xml:
+                              name: notification-severity
+                          primary:
+                            type: string
+                            example: 'True'
+                          email:
+                            type: string
+                            example: teamzadarastorage.com
+                          display_timezone:
+                            type: string
+                            xml:
+                              name: display-timezone
+                          locked:
+                            type: string
+                            example: 'True'
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      user:
+                        type: object
+                        properties:
+                          account_name:
+                            type: string
+                            example: zios_admin
+                            xml:
+                              name: account-name
+                          update_time:
+                            type: string
+                            example: '1557815377.84'
+                            xml:
+                              name: update-time
+                          name:
+                            type: string
+                            example: admin
+                          username:
+                            type: string
+                            example: john
+                          links:
+                            type: string
+                            example: '"self: uhttp://localhost:35357/v3/users/add61429a86444a9af9984d1a4ba4dcc"'
+                          s3_secret_key:
+                            type: string
+                            example: 1d7d87437a33422ca4d0dddcc014685e
+                            xml:
+                              name: s3-secret-key
+                          enabled:
+                            type: string
+                            example: 'True'
+                          account_id:
+                            type: string
+                            example: 009979f7f61c4cee99519fd935e7d64b
+                            xml:
+                              name: account-id
+                          domain_id:
+                            type: string
+                            example: default
+                            xml:
+                              name: domain-id
+                          create_time:
+                            type: string
+                            example: '1557814699.09'
+                            xml:
+                              name: create-time
+                          s3_access_key:
+                            type: string
+                            example: b9409960e4dc480ba0d4307392dd31ea
+                            xml:
+                              name: s3-access-key
+                          init_password_changed:
+                            type: string
+                            example: 'True'
+                            xml:
+                              name: init-password-changed
+                          role_list:
+                            type: array
+                            items:
+                              type: string
+                              example: zios_admin
+                              xml:
+                                name: role
+                            xml:
+                              name: role-list
+                              wrapped: true
+                          project_id:
+                            type: string
+                            example: 009979f7f61c4cee99519fd935e7d64b
+                            xml:
+                              name: project-id
+                          is_system_user:
+                            type: string
+                            example: 'True'
+                            xml:
+                              name: is-system-user
+                          id:
+                            type: string
+                            example: add61429a86444a9af9984d1a4ba4dcc
+                          password_expires_at:
+                            type: string
+                            example: None
+                            xml:
+                              name: password-expires-at
+                          notify_on_events:
+                            type: boolean
+                            example: true
+                            xml:
+                              name: notify-on-events
+                          notification_severity:
+                            type: integer
+                            xml:
+                              name: notification-severity
+                          primary:
+                            type: string
+                            example: 'True'
+                          email:
+                            type: string
+                            example: teamzadarastorage.com
+                          display_timezone:
+                            type: string
+                            xml:
+                              name: display-timezone
+                          locked:
+                            type: string
+                            example: 'True'
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      summary: Get user
+      x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: get_user
+    delete:
+      tags:
+      - Users
+      description: 'Delete a user.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: deleteZiosUsers{id}Json
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      summary: Delete user
+      x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: delete_user
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/authenticate.json:
+    post:
+      tags:
+      - Users
+      description: 'Returns a user''s authentication token.
+
+
+        Permissions: account_admin, member'
+      x-roles: account_admin,member
+      operationId: get_auth_token
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          username:
+                            type: string
+                            example: johndoe1
+                          email:
+                            type: string
+                            example: johndoecompany.com
+                          access_key:
+                            type: string
+                            xml:
+                              name: access-key
+                          primary:
+                            type: boolean
+                          admin:
+                            type: boolean
+                          locked:
+                            type: boolean
+                          roles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
+                                  example: Read Only
+                              xml:
+                                name: role
+                            xml:
+                              wrapped: true
+                          display_timezone:
+                            type: string
+                            example: Asia/Jerusalem
+                            xml:
+                              name: display-timezone
+                          notify_on_events:
+                            type: boolean
+                            xml:
+                              name: notify-on-events
+                          permissions:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: permission
+                            xml:
+                              wrapped: true
+                          zios_data:
+                            type: object
+                            properties:
+                              zios_user:
+                                type: object
+                                properties:
+                                  account_id:
+                                    type: string
+                                    example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                                    xml:
+                                      name: account-id
+                                  account_name:
+                                    type: string
+                                    example: zios_admin
+                                    xml:
+                                      name: account-name
+                                  id:
+                                    type: string
+                                    example: 509a0484b4a04b4f8899a370dd62e502
+                                  token:
+                                    type: string
+                                    example: MIIFJgYJKoZIhvcNAQcCoIIFFzCCBRMCAQExDTALBglghkgBZQMEAgEwggN3BgkqhkiG9w0BBwGgggNoBIIDZHsiYWNjZXNzIjp7InRva2VuIjp7Imlzc3VlZF9hdCI6IjIwMTYtMDUtMDFUMTE6MTU6NDguNzU4OTg1IiwiZXhwaXJlcyI6IjIwMTYtMDUtMDJUMTE6MTU6NDhaIiwiaWQiOiJwbGFjZWhvbGRlciIsInRlbmFudCI6eyJ1cGRhdGVfdGltZSI6MTQ2MjEwMTI1NC4zMTYwODMsIm5hbWUiOiJ6aW9zX2FkbWluIiwiaXNfc3lzdGVtX2FjY291bnQiOnRydWUsImVuYWJsZWQiOnRydWUsImVtYWlsIjoiZXlhbEB6YWRhcmFzdG9yYWdlLmNvbSIsInN0YXRlIjoibm9ybWFsIiwiY3JlYXRlX3RpbWUiOjE0NjE4MjE3NTQuOTU3NTk4LCJpZCI6IjkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiZGVzY3JpcHRpb24iOiIifSwiYXVkaXRfaWRzIjpbImtDbzQwU0g2VG9pblJIRUFXcWRfQUEiXX0sInNlcnZpY2VDYXRhbG9nIjpbeyJlbmRwb2ludHMiOlt7InJlZ2lvbiI6InJlZ2lvbk9uZSIsInB1YmxpY1VSTCI6Imh0dHBzOi8vdnNhLTAwMDAwMThmLXphZGFyYS1kZXYyLnphZGFyYXppb3MuY29tOjQ0My92MS9BVVRIXzkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiaWQiOiIyMzBhYWQ1ODAxOTg0OGYxOGFhZDMzNmJjOTNiOWIxNCJ9XSwiZW5kcG9pbnRzX2xpbmtzIjpbXSwidHlwZSI6Im9iamVjdC1zdG9yZSIsIm5hbWUiOiJzd2lmdCJ9XSwidXNlciI6eyJ1c2VybmFtZSI6ImpvaG5kb2UxIiwicm9sZXNfbGlua3MiOltdLCJpZCI6IjUwOWEwNDg0YjRhMDRiNGY4ODk5YTM3MGRkNjJlNTAyIiwicm9sZXMiOlt7Im5hbWUiOiJ6aW9zX2FkbWluIn1dLCJuYW1lIjoiam9obmRvZTEifSwibWV0YWRhdGEiOnsiaXNfYWRtaW4iOjAsInJvbGVzIjpbImMzODI3N2UwZDFjYTQ3YjNiODg4NTM2NDJhNzQwMDRmIl19fX0xggGCMIIBfgIBATBZMFQxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIDAVVbnNldDEOMAwGA1UEBwwFVW5zZXQxDjAMBgNVBAoMBVVuc2V0MRUwEwYDVQQDDAwxNTAuNTAuMi4xMTACAQEwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAKJIqdYo+lw7xd+sCWwjUxwq_OzcHkrlrG9okK+v_kCOiUSv87auYJYu9HVOpw+nc_U8t76OjBJiXN41vK_pA_YfPE4+2S9f1b4kL69LljIUU4uED2nkggEMue6J9wsDmHk9pjE76HU599kt579HSz4ipaYW3DHn0sMTYX0rfBkQ4ir1SSqC3BOYw3Erx2Uc9pK88EIxjvW+dQ+lfOz0acfV_lto7CAazhnl3i2RhK9eJ3roRo9DPuqqEPGNEoKm8SwC_Nx2H-7ULMe6VKkULZA+0WG5cBCn33iozQPxLQyPDAgkhHp4_HhHXo08AMj814UE5EVKGksWraHZeTFPKHw=
+                                  token_expire_at:
+                                    type: string
+                                    format: date_time
+                                    xml:
+                                      name: token-expire-at
+                                  s3_access_key:
+                                    type: string
+                                    example: 72f793ff6b3b4ac5a8cea6e2296e776b
+                                    xml:
+                                      name: s3-access-key
+                                  s3_secret_key:
+                                    type: string
+                                    example: b4f4f95d28284f5b9477657f7ea40d91
+                                    xml:
+                                      name: s3-secret-key
+                                  public_url:
+                                    type: string
+                                    example: https://vsa-0000018f-zadara_dev2.zadarazios.com:443/v1/AUTH_91ea5bd5cdc04adb9f5e3c00a346c463
+                                    xml:
+                                      name: public-url
+                                  roles:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        id:
+                                          type: integer
+                                        name:
+                                          type: string
+                                          example: zios_admin
+                                      xml:
+                                        name: role
+                                    xml:
+                                      wrapped: true
+                                xml:
+                                  name: zios-user
+                            xml:
+                              name: zios-data
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          username:
+                            type: string
+                            example: johndoe1
+                          email:
+                            type: string
+                            example: johndoecompany.com
+                          access_key:
+                            type: string
+                            xml:
+                              name: access-key
+                          primary:
+                            type: boolean
+                          admin:
+                            type: boolean
+                          locked:
+                            type: boolean
+                          roles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
+                                  example: Read Only
+                              xml:
+                                name: role
+                            xml:
+                              wrapped: true
+                          display_timezone:
+                            type: string
+                            example: Asia/Jerusalem
+                            xml:
+                              name: display-timezone
+                          notify_on_events:
+                            type: boolean
+                            xml:
+                              name: notify-on-events
+                          permissions:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: permission
+                            xml:
+                              wrapped: true
+                          zios_data:
+                            type: object
+                            properties:
+                              zios_user:
+                                type: object
+                                properties:
+                                  account_id:
+                                    type: string
+                                    example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                                    xml:
+                                      name: account-id
+                                  account_name:
+                                    type: string
+                                    example: zios_admin
+                                    xml:
+                                      name: account-name
+                                  id:
+                                    type: string
+                                    example: 509a0484b4a04b4f8899a370dd62e502
+                                  token:
+                                    type: string
+                                    example: MIIFJgYJKoZIhvcNAQcCoIIFFzCCBRMCAQExDTALBglghkgBZQMEAgEwggN3BgkqhkiG9w0BBwGgggNoBIIDZHsiYWNjZXNzIjp7InRva2VuIjp7Imlzc3VlZF9hdCI6IjIwMTYtMDUtMDFUMTE6MTU6NDguNzU4OTg1IiwiZXhwaXJlcyI6IjIwMTYtMDUtMDJUMTE6MTU6NDhaIiwiaWQiOiJwbGFjZWhvbGRlciIsInRlbmFudCI6eyJ1cGRhdGVfdGltZSI6MTQ2MjEwMTI1NC4zMTYwODMsIm5hbWUiOiJ6aW9zX2FkbWluIiwiaXNfc3lzdGVtX2FjY291bnQiOnRydWUsImVuYWJsZWQiOnRydWUsImVtYWlsIjoiZXlhbEB6YWRhcmFzdG9yYWdlLmNvbSIsInN0YXRlIjoibm9ybWFsIiwiY3JlYXRlX3RpbWUiOjE0NjE4MjE3NTQuOTU3NTk4LCJpZCI6IjkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiZGVzY3JpcHRpb24iOiIifSwiYXVkaXRfaWRzIjpbImtDbzQwU0g2VG9pblJIRUFXcWRfQUEiXX0sInNlcnZpY2VDYXRhbG9nIjpbeyJlbmRwb2ludHMiOlt7InJlZ2lvbiI6InJlZ2lvbk9uZSIsInB1YmxpY1VSTCI6Imh0dHBzOi8vdnNhLTAwMDAwMThmLXphZGFyYS1kZXYyLnphZGFyYXppb3MuY29tOjQ0My92MS9BVVRIXzkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiaWQiOiIyMzBhYWQ1ODAxOTg0OGYxOGFhZDMzNmJjOTNiOWIxNCJ9XSwiZW5kcG9pbnRzX2xpbmtzIjpbXSwidHlwZSI6Im9iamVjdC1zdG9yZSIsIm5hbWUiOiJzd2lmdCJ9XSwidXNlciI6eyJ1c2VybmFtZSI6ImpvaG5kb2UxIiwicm9sZXNfbGlua3MiOltdLCJpZCI6IjUwOWEwNDg0YjRhMDRiNGY4ODk5YTM3MGRkNjJlNTAyIiwicm9sZXMiOlt7Im5hbWUiOiJ6aW9zX2FkbWluIn1dLCJuYW1lIjoiam9obmRvZTEifSwibWV0YWRhdGEiOnsiaXNfYWRtaW4iOjAsInJvbGVzIjpbImMzODI3N2UwZDFjYTQ3YjNiODg4NTM2NDJhNzQwMDRmIl19fX0xggGCMIIBfgIBATBZMFQxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIDAVVbnNldDEOMAwGA1UEBwwFVW5zZXQxDjAMBgNVBAoMBVVuc2V0MRUwEwYDVQQDDAwxNTAuNTAuMi4xMTACAQEwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAKJIqdYo+lw7xd+sCWwjUxwq_OzcHkrlrG9okK+v_kCOiUSv87auYJYu9HVOpw+nc_U8t76OjBJiXN41vK_pA_YfPE4+2S9f1b4kL69LljIUU4uED2nkggEMue6J9wsDmHk9pjE76HU599kt579HSz4ipaYW3DHn0sMTYX0rfBkQ4ir1SSqC3BOYw3Erx2Uc9pK88EIxjvW+dQ+lfOz0acfV_lto7CAazhnl3i2RhK9eJ3roRo9DPuqqEPGNEoKm8SwC_Nx2H-7ULMe6VKkULZA+0WG5cBCn33iozQPxLQyPDAgkhHp4_HhHXo08AMj814UE5EVKGksWraHZeTFPKHw=
+                                  token_expire_at:
+                                    type: string
+                                    format: date_time
+                                    xml:
+                                      name: token-expire-at
+                                  s3_access_key:
+                                    type: string
+                                    example: 72f793ff6b3b4ac5a8cea6e2296e776b
+                                    xml:
+                                      name: s3-access-key
+                                  s3_secret_key:
+                                    type: string
+                                    example: b4f4f95d28284f5b9477657f7ea40d91
+                                    xml:
+                                      name: s3-secret-key
+                                  public_url:
+                                    type: string
+                                    example: https://vsa-0000018f-zadara_dev2.zadarazios.com:443/v1/AUTH_91ea5bd5cdc04adb9f5e3c00a346c463
+                                    xml:
+                                      name: public-url
+                                  roles:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        id:
+                                          type: integer
+                                        name:
+                                          type: string
+                                          example: zios_admin
+                                      xml:
+                                        name: role
+                                    xml:
+                                      wrapped: true
+                                xml:
+                                  name: zios-user
+                            xml:
+                              name: zios-data
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - account
+              - user
+              - password
+              properties:
+                account:
+                  type: string
+                  description: User's account.
+                  example: zios_admin
+                user:
+                  type: string
+                  description: Username or email address.
+                  example: johndoe
+                password:
+                  type: string
+                  description: The user password
+                  example: mysupersecretpassword
+        required: true
+      summary: Get auth token
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/users/{user_id}/enable.json:
+    post:
+      tags:
+      - Users
+      description: 'Enable a user.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: enable_user
+      parameters:
+      - in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      summary: Enable user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/users/{user_id}/disable.json:
+    post:
+      tags:
+      - Users
+      description: 'Disable a user.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: disable_user
+      parameters:
+      - in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      summary: Disable user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/admin_access/enable.json:
+    post:
+      tags:
+      - Users
+      description: Enables cloud admin access.
+      operationId: enable_cloud_admin_access
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: Admin access enabled.
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: Admin access enabled.
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: response
+      summary: Enable cloud admin access
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/admin_access/disable.json:
+    post:
+      tags:
+      - Users
+      description: Disables cloud admin access.
+      operationId: disable_admin_access
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: Admin access disabled.
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: Admin access disabled.
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: response
+      summary: Disable admin access
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/reset_token.json:
+    post:
+      tags:
+      - Users
+      description: 'Regenerate a user''s authentication token.
+
+
+        Permissions: account_admin, member'
+      x-roles: account_admin,member
+      operationId: reset_token
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      token:
+                        type: string
+                        example: MIIFHgYJKoZIhvcNAQcCoIIFDzCCBQsCAQExDTALBglghkgBZQMEAgEwggNvBgkqhkiG9w0BBwGgggNgBIIDXHsiYWNjZXNzIjp7InRva2VuIjp7Imlzc3VlZF9hdCI6IjIwMTYtMDUtMDNUMDk6NDU6MDcuMjI4MTExIiwiZXhwaXJlcyI6IjIwMTYtMDUtMDRUMDk6NDU6MDdaIiwiaWQiOiJwbGFjZWhvbGRlciIsInRlbmFudCI6eyJ1cGRhdGVfdGltZSI6MTQ2MjEwNjQ3Mi43MTY1ODMsIm5hbWUiOiJ6aW9zX2FkbWluIiwiaXNfc3lzdGVtX2FjY291bnQiOnRydWUsImVuYWJsZWQiOnRydWUsImVtYWlsIjoiZXlhbEB6YWRhcmFzdG9yYWdlLmNvbSIsInN0YXRlIjoibm9ybWFsIiwiY3JlYXRlX3RpbWUiOjE0NjE4MjE3NTQuOTU3NTk4LCJpZCI6IjkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiZGVzY3JpcHRpb24iOiIifSwiYXVkaXRfaWRzIjpbIkNKNXkweUxOUU4yZ3FBcE5oVkRDLUEiXX0sInNlcnZpY2VDYXRhbG9nIjpbeyJlbmRwb2ludHMiOlt7InJlZ2lvbiI6InJlZ2lvbk9uZSIsInB1YmxpY1VSTCI6Imh0dHBzOi8vdnNhLTAwMDAwMThmLXphZGFyYS1kZXYyLnphZGFyYXppb3MuY29tOjQ0My92MS9BVVRIXzkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiaWQiOiIyMzBhYWQ1ODAxOTg0OGYxOGFhZDMzNmJjOTNiOWIxNCJ9XSwiZW5kcG9pbnRzX2xpbmtzIjpbXSwidHlwZSI6Im9iamVjdC1zdG9yZSIsIm5hbWUiOiJzd2lmdCJ9XSwidXNlciI6eyJ1c2VybmFtZSI6ImV5YWwiLCJyb2xlc19saW5rcyI6W10sImlkIjoiNTA3YWI0N2YzNjJhNDI5OWFhYmUyZjZlNjIyYzliNWYiLCJyb2xlcyI6W3sibmFtZSI6Inppb3NfYWRtaW4ifV0sIm5hbWUiOiJleWFsIn0sIm1ldGFkYXRhIjp7ImlzX2FkbWluIjowLCJyb2xlcyI6WyJjMzgyNzdlMGQxY2E0N2IzYjg4ODUzNjQyYTc0MDA0ZiJdfX19MYIBgjCCAX4CAQEwWTBUMQswCQYDVQQGEwJVUzEOMAwGA1UECAwFVW5zZXQxDjAMBgNVBAcMBVVuc2V0MQ4wDAYDVQQKDAVVbnNldDEVMBMGA1UEAwwMMTUwLjUwLjIuMTEwAgEBMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAVx1VyMv68oA5Gt0IODSTNlI_rnTJsGqMG+0Lf2Lig4cv4doIW7AKpi115DrS4OIkzMtDbPujxSwUqLrpmDXEuHygHQNFjP6VBoKPko1i+GvHyEC0kutq7tk8ODRjbpMhEo6MgJ57QiKrMtB39Fkh3HaN3mJVmme3_qw5XcgmqRHI5n9hl2T8Mx8A6sasmMLQ32spBZUTQ0F9OBlw70gmmx14PveVIVXGak7gXvT0+cgPdb00vs+zsCwP0SEoQZoNZVURhaMTlRMmsftY6qMHCrtDFRfpnRwnW7r2OcIIHxNA0-0qXg6emX4XYT8G3lvYahyJ5LTbpnPauRzMJPs78
+                      token_expire_at:
+                        type: string
+                        format: date_time
+                        xml:
+                          name: token-expire-at
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      token:
+                        type: string
+                        example: MIIFHgYJKoZIhvcNAQcCoIIFDzCCBQsCAQExDTALBglghkgBZQMEAgEwggNvBgkqhkiG9w0BBwGgggNgBIIDXHsiYWNjZXNzIjp7InRva2VuIjp7Imlzc3VlZF9hdCI6IjIwMTYtMDUtMDNUMDk6NDU6MDcuMjI4MTExIiwiZXhwaXJlcyI6IjIwMTYtMDUtMDRUMDk6NDU6MDdaIiwiaWQiOiJwbGFjZWhvbGRlciIsInRlbmFudCI6eyJ1cGRhdGVfdGltZSI6MTQ2MjEwNjQ3Mi43MTY1ODMsIm5hbWUiOiJ6aW9zX2FkbWluIiwiaXNfc3lzdGVtX2FjY291bnQiOnRydWUsImVuYWJsZWQiOnRydWUsImVtYWlsIjoiZXlhbEB6YWRhcmFzdG9yYWdlLmNvbSIsInN0YXRlIjoibm9ybWFsIiwiY3JlYXRlX3RpbWUiOjE0NjE4MjE3NTQuOTU3NTk4LCJpZCI6IjkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiZGVzY3JpcHRpb24iOiIifSwiYXVkaXRfaWRzIjpbIkNKNXkweUxOUU4yZ3FBcE5oVkRDLUEiXX0sInNlcnZpY2VDYXRhbG9nIjpbeyJlbmRwb2ludHMiOlt7InJlZ2lvbiI6InJlZ2lvbk9uZSIsInB1YmxpY1VSTCI6Imh0dHBzOi8vdnNhLTAwMDAwMThmLXphZGFyYS1kZXYyLnphZGFyYXppb3MuY29tOjQ0My92MS9BVVRIXzkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiaWQiOiIyMzBhYWQ1ODAxOTg0OGYxOGFhZDMzNmJjOTNiOWIxNCJ9XSwiZW5kcG9pbnRzX2xpbmtzIjpbXSwidHlwZSI6Im9iamVjdC1zdG9yZSIsIm5hbWUiOiJzd2lmdCJ9XSwidXNlciI6eyJ1c2VybmFtZSI6ImV5YWwiLCJyb2xlc19saW5rcyI6W10sImlkIjoiNTA3YWI0N2YzNjJhNDI5OWFhYmUyZjZlNjIyYzliNWYiLCJyb2xlcyI6W3sibmFtZSI6Inppb3NfYWRtaW4ifV0sIm5hbWUiOiJleWFsIn0sIm1ldGFkYXRhIjp7ImlzX2FkbWluIjowLCJyb2xlcyI6WyJjMzgyNzdlMGQxY2E0N2IzYjg4ODUzNjQyYTc0MDA0ZiJdfX19MYIBgjCCAX4CAQEwWTBUMQswCQYDVQQGEwJVUzEOMAwGA1UECAwFVW5zZXQxDjAMBgNVBAcMBVVuc2V0MQ4wDAYDVQQKDAVVbnNldDEVMBMGA1UEAwwMMTUwLjUwLjIuMTEwAgEBMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAVx1VyMv68oA5Gt0IODSTNlI_rnTJsGqMG+0Lf2Lig4cv4doIW7AKpi115DrS4OIkzMtDbPujxSwUqLrpmDXEuHygHQNFjP6VBoKPko1i+GvHyEC0kutq7tk8ODRjbpMhEo6MgJ57QiKrMtB39Fkh3HaN3mJVmme3_qw5XcgmqRHI5n9hl2T8Mx8A6sasmMLQ32spBZUTQ0F9OBlw70gmmx14PveVIVXGak7gXvT0+cgPdb00vs+zsCwP0SEoQZoNZVURhaMTlRMmsftY6qMHCrtDFRfpnRwnW7r2OcIIHxNA0-0qXg6emX4XYT8G3lvYahyJ5LTbpnPauRzMJPs78
+                      token_expire_at:
+                        type: string
+                        format: date_time
+                        xml:
+                          name: token-expire-at
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - user
+              - password
+              - account
+              properties:
+                user:
+                  type: string
+                  description: username
+                  example: johndoe
+                password:
+                  type: string
+                  description: password
+                  example: mypassword123
+                account:
+                  type: string
+                  description: account
+                  example: zios_admin
+        required: true
+      summary: Reset token
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/users/reset_s3_secret.json:
+    post:
+      tags:
+      - Users
+      description: 'Reset a user''s s3 access key and secret key.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: reset_user_s3_keys
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      credentials:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            access:
+                              type: string
+                              example: 429ca61873884939a2c4a476330c230f
+                            secret:
+                              type: string
+                              example: 20a514133be94213953717d032a677bd
+                            user_id:
+                              type: string
+                              example: 17c9f4e4c8bd4609acc88a049e2d3d69
+                              xml:
+                                name: user-id
+                            account_id:
+                              type: string
+                              example: 9690f8eaea0649b39c275b77386c1b2d
+                              xml:
+                                name: account-id
+                          xml:
+                            name: credential
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: reset-ec2credential-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      credentials:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            access:
+                              type: string
+                              example: 429ca61873884939a2c4a476330c230f
+                            secret:
+                              type: string
+                              example: 20a514133be94213953717d032a677bd
+                            user_id:
+                              type: string
+                              example: 17c9f4e4c8bd4609acc88a049e2d3d69
+                              xml:
+                                name: user-id
+                            account_id:
+                              type: string
+                              example: 9690f8eaea0649b39c275b77386c1b2d
+                              xml:
+                                name: account-id
+                          xml:
+                            name: credential
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: reset-ec2credential-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              - account
+              properties:
+                username:
+                  type: string
+                  example: johndoe
+                  description: username
+                account:
+                  type: string
+                  example: zios_admin
+                  description: account
+        required: true
+      summary: Reset user s3 keys
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/password.json:
+    post:
+      tags:
+      - Users
+      description: 'Change a user''s password.
+
+
+        Permissions: account_admin, member'
+      x-roles: account_admin,member
+      operationId: change_password
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: Password changed.
+                        xml:
+                          name: status-msg
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          username:
+                            type: string
+                            example: johndoe2
+                          email:
+                            type: string
+                            example: johndoecompany.com
+                          access_key:
+                            type: string
+                            xml:
+                              name: access-key
+                          primary:
+                            type: boolean
+                          admin:
+                            type: boolean
+                          locked:
+                            type: boolean
+                          roles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
+                                  example: zios_account_admin
+                              xml:
+                                name: role
+                            xml:
+                              wrapped: true
+                          display_timezone:
+                            type: string
+                            example: Asia/Jerusalem
+                            xml:
+                              name: display-timezone
+                          notify_on_events:
+                            type: boolean
+                            xml:
+                              name: notify-on-events
+                          permissions:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: permission
+                            xml:
+                              wrapped: true
+                          zios_data:
+                            type: object
+                            properties:
+                              zios_user:
+                                type: object
+                                properties:
+                                  account_id:
+                                    type: string
+                                    example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                                    xml:
+                                      name: account-id
+                                  account_name:
+                                    type: string
+                                    example: zios_admin
+                                    xml:
+                                      name: account-name
+                                  id:
+                                    type: string
+                                    example: 0c0fbd574f61406883e07818a596dc0b
+                                  token:
+                                    type: string
+                                    example: MIIFKQYJKoZIhvcNAQcCoIIFGjCCBRYCAQExDTALBglghkgBZQMEAgEwggN6BgkqhkiG9w0BBwGgggNrBIIDZ3siYWNjZXNzIjp7InRva2VuIjp7Imlzc3VlZF9hdCI6IjIwMTYtMDUtMDFUMTI6NDY6NDMuMDg3Nzc5IiwiZXhwaXJlcyI6IjIwMTYtMDUtMDJUMTI6NDY6NDNaIiwiaWQiOiJwbGFjZWhvbGRlciIsInRlbmFudCI6eyJ1cGRhdGVfdGltZSI6MTQ2MjEwNjQ3Mi43MTY1ODMsIm5hbWUiOiJ6aW9zX2FkbWluIiwiaXNfc3lzdGVtX2FjY291bnQiOnRydWUsImVuYWJsZWQiOnRydWUsImVtYWlsIjoiZXlhbEB6YWRhcmFzdG9yYWdlLmNvbSIsInN0YXRlIjoibm9ybWFsIiwiY3JlYXRlX3RpbWUiOjE0NjE4MjE3NTQuOTU3NTk4LCJpZCI6IjkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiZGVzY3JpcHRpb24iOiIifSwiYXVkaXRfaWRzIjpbImMzRDhGUU13VE9TQ01GbTUxRWkwdEEiXX0sInNlcnZpY2VDYXRhbG9nIjpbeyJlbmRwb2ludHMiOlt7InJlZ2lvbiI6InJlZ2lvbk9uZSIsInB1YmxpY1VSTCI6Imh0dHBzOi8vdnNhLTAwMDAwMThmLXphZGFyYS1kZXYyLnphZGFyYXppb3MuY29tOjQ0My92MS9BVVRIXzkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiaWQiOiIyMzBhYWQ1ODAxOTg0OGYxOGFhZDMzNmJjOTNiOWIxNCJ9XSwiZW5kcG9pbnRzX2xpbmtzIjpbXSwidHlwZSI6Im9iamVjdC1zdG9yZSIsIm5hbWUiOiJzd2lmdCJ9XSwidXNlciI6eyJ1c2VybmFtZSI6ImpvaG5kb2UyIiwicm9sZXNfbGlua3MiOltdLCJpZCI6IjBjMGZiZDU3NGY2MTQwNjg4M2UwNzgxOGE1OTZkYzBiIiwicm9sZXMiOlt7Im5hbWUiOiJhY2NvdW50X2FkbWluIn1dLCJuYW1lIjoiam9obmRvZTIifSwibWV0YWRhdGEiOnsiaXNfYWRtaW4iOjAsInJvbGVzIjpbIjQ2YTEyMWE3NjdlODRhZGY4ZTU3YjdiY2Y2YTU3NWM0Il19fX0xggGCMIIBfgIBATBZMFQxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIDAVVbnNldDEOMAwGA1UEBwwFVW5zZXQxDjAMBgNVBAoMBVVuc2V0MRUwEwYDVQQDDAwxNTAuNTAuMi4xMTACAQEwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBABrypucm7DsNAknpNr3r1XVKcN+CFkfs7q8yE+1KiHQFgrZVaqs50RIomRI08YJCljKw0ajqd0_L3JT+fN_rKphNc88zfKm2oguWnwE_lCjuLkipqBpNNELXLjYMNuoeo4hrPWTZkyJP1yr5treLgZ0+OTjoK35ayXlfS8Mqw4znIDKJqtH11ZPq_BGjltvFKpy8XyqeYEWRVVFN90XhUQKesRjmt4g5DPHQZHm+hOVZo2pSOBv6y3PIqWauJqIjbUFSrMYUPjdxoSsxfdP+6kH9wglKhQmXQX5fgNtmmwR+JZHwyDLE-091zgEpUPD0_YzQJPXRilBmwqwgaeZDcSw=
+                                  token_expire_at:
+                                    type: string
+                                    format: date_time
+                                    xml:
+                                      name: token-expire-at
+                                  s3_access_key:
+                                    type: string
+                                    example: 6c32b29b14e145ef810ee94ede90c585
+                                    xml:
+                                      name: s3-access-key
+                                  s3_secret_key:
+                                    type: string
+                                    example: a78cc88cfc6247118c490b114aac4180
+                                    xml:
+                                      name: s3-secret-key
+                                  public_url:
+                                    type: string
+                                    example: https://vsa-0000018f-zadara_dev2.zadarazios.com:443/v1/AUTH_91ea5bd5cdc04adb9f5e3c00a346c463
+                                    xml:
+                                      name: public-url
+                                  roles:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        id:
+                                          type: integer
+                                        name:
+                                          type: string
+                                          example: account_admin
+                                      xml:
+                                        name: role
+                                    xml:
+                                      wrapped: true
+                                xml:
+                                  name: zios-user
+                            xml:
+                              name: zios-data
+                      csrf:
+                        type: string
+                        example: BKmbMCO6G4yiSUJupdb2HUYawhb8CBmY3etfOCACuGw=
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: Password changed.
+                        xml:
+                          name: status-msg
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          username:
+                            type: string
+                            example: johndoe2
+                          email:
+                            type: string
+                            example: johndoecompany.com
+                          access_key:
+                            type: string
+                            xml:
+                              name: access-key
+                          primary:
+                            type: boolean
+                          admin:
+                            type: boolean
+                          locked:
+                            type: boolean
+                          roles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
+                                  example: zios_account_admin
+                              xml:
+                                name: role
+                            xml:
+                              wrapped: true
+                          display_timezone:
+                            type: string
+                            example: Asia/Jerusalem
+                            xml:
+                              name: display-timezone
+                          notify_on_events:
+                            type: boolean
+                            xml:
+                              name: notify-on-events
+                          permissions:
+                            type: array
+                            items:
+                              type: string
+                              xml:
+                                name: permission
+                            xml:
+                              wrapped: true
+                          zios_data:
+                            type: object
+                            properties:
+                              zios_user:
+                                type: object
+                                properties:
+                                  account_id:
+                                    type: string
+                                    example: 91ea5bd5cdc04adb9f5e3c00a346c463
+                                    xml:
+                                      name: account-id
+                                  account_name:
+                                    type: string
+                                    example: zios_admin
+                                    xml:
+                                      name: account-name
+                                  id:
+                                    type: string
+                                    example: 0c0fbd574f61406883e07818a596dc0b
+                                  token:
+                                    type: string
+                                    example: MIIFKQYJKoZIhvcNAQcCoIIFGjCCBRYCAQExDTALBglghkgBZQMEAgEwggN6BgkqhkiG9w0BBwGgggNrBIIDZ3siYWNjZXNzIjp7InRva2VuIjp7Imlzc3VlZF9hdCI6IjIwMTYtMDUtMDFUMTI6NDY6NDMuMDg3Nzc5IiwiZXhwaXJlcyI6IjIwMTYtMDUtMDJUMTI6NDY6NDNaIiwiaWQiOiJwbGFjZWhvbGRlciIsInRlbmFudCI6eyJ1cGRhdGVfdGltZSI6MTQ2MjEwNjQ3Mi43MTY1ODMsIm5hbWUiOiJ6aW9zX2FkbWluIiwiaXNfc3lzdGVtX2FjY291bnQiOnRydWUsImVuYWJsZWQiOnRydWUsImVtYWlsIjoiZXlhbEB6YWRhcmFzdG9yYWdlLmNvbSIsInN0YXRlIjoibm9ybWFsIiwiY3JlYXRlX3RpbWUiOjE0NjE4MjE3NTQuOTU3NTk4LCJpZCI6IjkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiZGVzY3JpcHRpb24iOiIifSwiYXVkaXRfaWRzIjpbImMzRDhGUU13VE9TQ01GbTUxRWkwdEEiXX0sInNlcnZpY2VDYXRhbG9nIjpbeyJlbmRwb2ludHMiOlt7InJlZ2lvbiI6InJlZ2lvbk9uZSIsInB1YmxpY1VSTCI6Imh0dHBzOi8vdnNhLTAwMDAwMThmLXphZGFyYS1kZXYyLnphZGFyYXppb3MuY29tOjQ0My92MS9BVVRIXzkxZWE1YmQ1Y2RjMDRhZGI5ZjVlM2MwMGEzNDZjNDYzIiwiaWQiOiIyMzBhYWQ1ODAxOTg0OGYxOGFhZDMzNmJjOTNiOWIxNCJ9XSwiZW5kcG9pbnRzX2xpbmtzIjpbXSwidHlwZSI6Im9iamVjdC1zdG9yZSIsIm5hbWUiOiJzd2lmdCJ9XSwidXNlciI6eyJ1c2VybmFtZSI6ImpvaG5kb2UyIiwicm9sZXNfbGlua3MiOltdLCJpZCI6IjBjMGZiZDU3NGY2MTQwNjg4M2UwNzgxOGE1OTZkYzBiIiwicm9sZXMiOlt7Im5hbWUiOiJhY2NvdW50X2FkbWluIn1dLCJuYW1lIjoiam9obmRvZTIifSwibWV0YWRhdGEiOnsiaXNfYWRtaW4iOjAsInJvbGVzIjpbIjQ2YTEyMWE3NjdlODRhZGY4ZTU3YjdiY2Y2YTU3NWM0Il19fX0xggGCMIIBfgIBATBZMFQxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIDAVVbnNldDEOMAwGA1UEBwwFVW5zZXQxDjAMBgNVBAoMBVVuc2V0MRUwEwYDVQQDDAwxNTAuNTAuMi4xMTACAQEwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBABrypucm7DsNAknpNr3r1XVKcN+CFkfs7q8yE+1KiHQFgrZVaqs50RIomRI08YJCljKw0ajqd0_L3JT+fN_rKphNc88zfKm2oguWnwE_lCjuLkipqBpNNELXLjYMNuoeo4hrPWTZkyJP1yr5treLgZ0+OTjoK35ayXlfS8Mqw4znIDKJqtH11ZPq_BGjltvFKpy8XyqeYEWRVVFN90XhUQKesRjmt4g5DPHQZHm+hOVZo2pSOBv6y3PIqWauJqIjbUFSrMYUPjdxoSsxfdP+6kH9wglKhQmXQX5fgNtmmwR+JZHwyDLE-091zgEpUPD0_YzQJPXRilBmwqwgaeZDcSw=
+                                  token_expire_at:
+                                    type: string
+                                    format: date_time
+                                    xml:
+                                      name: token-expire-at
+                                  s3_access_key:
+                                    type: string
+                                    example: 6c32b29b14e145ef810ee94ede90c585
+                                    xml:
+                                      name: s3-access-key
+                                  s3_secret_key:
+                                    type: string
+                                    example: a78cc88cfc6247118c490b114aac4180
+                                    xml:
+                                      name: s3-secret-key
+                                  public_url:
+                                    type: string
+                                    example: https://vsa-0000018f-zadara_dev2.zadarazios.com:443/v1/AUTH_91ea5bd5cdc04adb9f5e3c00a346c463
+                                    xml:
+                                      name: public-url
+                                  roles:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        id:
+                                          type: integer
+                                        name:
+                                          type: string
+                                          example: account_admin
+                                      xml:
+                                        name: role
+                                    xml:
+                                      wrapped: true
+                                xml:
+                                  name: zios-user
+                            xml:
+                              name: zios-data
+                      csrf:
+                        type: string
+                        example: BKmbMCO6G4yiSUJupdb2HUYawhb8CBmY3etfOCACuGw=
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - account
+              - user
+              - password
+              - new_password
+              properties:
+                account:
+                  type: string
+                  example: johndoe
+                user:
+                  type: string
+                  example: johndoe
+                password:
+                  type: string
+                  description: Existing password.
+                  example: mysupersecretpassword
+                new_password:
+                  type: string
+                  description: New password.
+                  example: mynewsupersecretpassword
+        required: true
+      summary: Change password
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/{id}/password_code.json:
+    post:
+      tags:
+      - Users
+      description: 'Change a user''s password using a temporary password code.
+
+
+        Permissions: account_admin, member'
+      x-roles: account_admin,member
+      operationId: change_user_pass_by_code
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  status_msg:
+                    type: string
+                    example: Password set successfully.
+                    xml:
+                      name: status-msg
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  status_msg:
+                    type: string
+                    example: Password set successfully.
+                    xml:
+                      name: status-msg
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - code
+              - new_password
+              - account
+              - username
+              properties:
+                code:
+                  type: string
+                  description: temporary password code
+                  example: Y5cHbh
+                new_password:
+                  type: string
+                  example: mynewpassword
+                account:
+                  type: string
+                  example: account1
+                username:
+                  type: string
+                  example: user1
+        required: true
+      summary: Change user pass by code
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/reset_password.json:
+    post:
+      tags:
+      - Users
+      description: 'Issues a temporary password code to be sent by mail.
+
+
+        Permissions: account_admin, member'
+      x-roles: account_admin,member
+      operationId: issue_temp_code_to_mail
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  status_msg:
+                    type: string
+                    example: Temporary passcode sent to email
+                    xml:
+                      name: status-msg
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  status_msg:
+                    type: string
+                    example: Temporary passcode sent to email
+                    xml:
+                      name: status-msg
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - account
+              - username
+              properties:
+                account:
+                  type: string
+                  description: User's account
+                  example: zios_admin
+                username:
+                  type: string
+                  description: User to reset password
+                  example: johndoe
+        required: true
+      summary: Issue temp code to mail
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/users/{user_id}/change_role.json:
+    post:
+      tags:
+      - Users
+      description: 'Change a VPSA Object Storage user role.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: change_user_role
+      parameters:
+      - in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - role
+              properties:
+                role:
+                  type: string
+                  enum:
+                  - zios_admin
+                  - account_admin
+                  - member
+                  example: member
+        required: true
+      summary: Change user role
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/users/{id}/iops.json:
+    get:
+      tags:
+      - Users
+      description: 'Shows IOPs metering for a user.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: show_iops_metring_of_user
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - $ref: '#/components/parameters/subserver'
+      - $ref: '#/components/parameters/service'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    iops_put:
+                      type: number
+                      xml:
+                        name: iops-put
+                    iops_delete:
+                      type: number
+                      xml:
+                        name: iops-delete
+                    iops_get:
+                      type: number
+                      xml:
+                        name: iops-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    iops_put:
+                      type: number
+                      xml:
+                        name: iops-put
+                    iops_delete:
+                      type: number
+                      xml:
+                        name: iops-delete
+                    iops_get:
+                      type: number
+                      xml:
+                        name: iops-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Show iops metring of user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/users/{id}/latency.json:
+    get:
+      tags:
+      - Users
+      description: 'Shows latency (ms) metering for a user.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: show_latency_metering_of_user
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - $ref: '#/components/parameters/subserver'
+      - $ref: '#/components/parameters/service'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    latency_put:
+                      type: integer
+                      xml:
+                        name: latency-put
+                    latency_delete:
+                      type: integer
+                      xml:
+                        name: latency-delete
+                    latency_get:
+                      type: integer
+                      xml:
+                        name: latency-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    latency_put:
+                      type: integer
+                      xml:
+                        name: latency-put
+                    latency_delete:
+                      type: integer
+                      xml:
+                        name: latency-delete
+                    latency_get:
+                      type: integer
+                      xml:
+                        name: latency-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Show latency metering of user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/users/{id}/throughput.json:
+    get:
+      tags:
+      - Users
+      description: 'Shows bandwidth throughput (B/s) metering for a user.
+
+
+        Permissions: account_admin'
+      x-roles: account_admin
+      operationId: show_bandwidth_throughput_metering_for_user
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - $ref: '#/components/parameters/subserver'
+      - $ref: '#/components/parameters/service'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    throughput_put:
+                      type: number
+                      xml:
+                        name: throughput-put
+                    throughput_delete:
+                      type: integer
+                      xml:
+                        name: throughput-delete
+                    throughput_get:
+                      type: number
+                      xml:
+                        name: throughput-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    throughput_put:
+                      type: number
+                      xml:
+                        name: throughput-put
+                    throughput_delete:
+                      type: integer
+                      xml:
+                        name: throughput-delete
+                    throughput_get:
+                      type: number
+                      xml:
+                        name: throughput-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Show bandwidth throughput metering for user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/{username}.json:
+    delete:
+      tags:
+      - Users
+      description: Delete a user. Available to the primary user only.
+      operationId: deleteUsers{username}Json
+      parameters:
+      - in: path
+        name: username
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: User deletion successful.
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: delete-user-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: User deletion successful.
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: delete-user-response
+      summary: Delete user
+      x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: delete_user
+    put:
+      tags:
+      - Users
+      description: Update a user's info.
+      operationId: update_user_info
+      parameters:
+      - in: path
+        name: username
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: user 2 updated
+                      status:
+                        type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: user 2 updated
+                      status:
+                        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: A new email address for the user.
+                  example: example@example.com
+                notify_on_events:
+                  type: boolean
+                  description: Notify on system events
+        required: true
+      summary: Update user info
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/{username}/access_key.json:
+    post:
+      tags:
+      - Users
+      description: Reset a user's access key.
+      operationId: reset_user_access_key
+      parameters:
+      - name: username
+        required: true
+        description: Username or email address.
+        in: path
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: Access key changed.
+                        xml:
+                          name: status-msg
+                      key:
+                        type: string
+                        example: AWLBF0IV0CJE81L6L0OL-24
+                        description: New access key. This will return only when key was generated for the requesting user.
+                    xml:
+                      name: reset-access-key-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: Access key changed.
+                        xml:
+                          name: status-msg
+                      key:
+                        type: string
+                        example: AWLBF0IV0CJE81L6L0OL-24
+                        description: New access key. This will return only when key was generated for the requesting user.
+                    xml:
+                      name: reset-access-key-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              - password
+              properties:
+                username:
+                  type: string
+                  description: The user's username
+                  example: myusername
+                password:
+                  type: string
+                  description: The user's password
+                  example: mysupersecretpassword
+                otp_attempt:
+                  type: string
+                  description: A dual factor authentication token
+                  example: '103245'
+        required: true
+      summary: Reset user access key
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/login.json:
+    post:
+      tags:
+      - Users
+      description: Returns a user's details.
+      operationId: get_user_details
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      username:
+                        type: string
+                        example: johndoe
+                      email:
+                        type: string
+                        example: johndoecompany.com
+                      permissions:
+                        type: array
+                        items:
+                          type: string
+                          example: drives_view
+                          xml:
+                            name: permission
+                        xml:
+                          wrapped: true
+                      locked:
+                        type: boolean
+                      roles:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                              example: Read Only
+                          xml:
+                            name: role
+                        xml:
+                          wrapped: true
+                      display_timezone:
+                        type: string
+                        example: None
+                        xml:
+                          name: display-timezone
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      username:
+                        type: string
+                        example: johndoe
+                      email:
+                        type: string
+                        example: johndoecompany.com
+                      permissions:
+                        type: array
+                        items:
+                          type: string
+                          example: drives_view
+                          xml:
+                            name: permission
+                        xml:
+                          wrapped: true
+                      locked:
+                        type: boolean
+                      roles:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                              example: Read Only
+                          xml:
+                            name: role
+                        xml:
+                          wrapped: true
+                      display_timezone:
+                        type: string
+                        example: None
+                        xml:
+                          name: display-timezone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - user
+              - password
+              properties:
+                user:
+                  type: string
+                  description: Username or email address.
+                  example: johndoe
+                password:
+                  type: string
+                  description: The user password
+                  example: mysupersecretpassword
+        required: true
+      summary: Get user details
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/{username}/roles.json:
+    post:
+      tags:
+      - Users
+      description: Update a user's roles.
+      operationId: update_user_roles
+      parameters:
+      - in: path
+        name: username
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: User roles updated
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: User roles updated
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - roles
+              properties:
+                roles:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of role ids.
+                  example:
+                  - '2'
+                  - '3'
+        required: true
+      summary: Update user roles
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /users/password_requirements_settings.json:
+    get:
+      tags:
+      - Users
+      description: Get the password requirements settings.
+      operationId: get_pass_requirements
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: string
+                        example: '0'
+                      password_requirements_data:
+                        type: object
+                        properties:
+                          min_password_length:
+                            type: string
+                            example: '9'
+                            xml:
+                              name: min-password-length
+                          password_requirements_text:
+                            type: string
+                            example: should contain numbers, letters, uppercase letters and special characters.
+                            xml:
+                              name: password-requirements-text
+                        xml:
+                          name: password-requirements-data
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: string
+                        example: '0'
+                      password_requirements_data:
+                        type: object
+                        properties:
+                          min_password_length:
+                            type: string
+                            example: '9'
+                            xml:
+                              name: min-password-length
+                          password_requirements_text:
+                            type: string
+                            example: should contain numbers, letters, uppercase letters and special characters.
+                            xml:
+                              name: password-requirements-text
+                        xml:
+                          name: password-requirements-data
+                    xml:
+                      name: response
+      summary: Get pass requirements
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    Tenant:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+          xml:
+            name: user-id
+        username:
+          type: string
+          example: test1
+        name:
+          type: string
+          example: tenant_test1_bd8Bs
+        pretty_name:
+          type: string
+          example: admin
+          xml:
+            name: pretty-name
+        provider_id:
+          type: integer
+          xml:
+            name: provider-id
+        provider_name:
+          type: string
+          example: zadara-qa18
+          xml:
+            name: provider-name
+        internal_id:
+          type: integer
+          xml:
+            name: internal-id
+      xml:
+        name: tenant
+  parameters:
+    count:
+      name: count
+      in: query
+      required: false
+      description: The number of data points
+      schema:
+        type: integer
+        default: 30
+        minimum: 1
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+    service:
+      in: query
+      name: service
+      required: true
+      description: e.g. proxy
+      schema:
+        type: string
+    subserver:
+      in: query
+      name: subserver
+      required: true
+      description: e.g. object
+      schema:
+        type: string
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 60
+        minimum: 1
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+    OrganizationId:
+      x-EnvType: Public
+      name: organization_id
+      in: query
+      description: Include this parameter if you want to get all entities of a specific organization
+      schema:
+        type: string
+        format: uuid
+    IncludeDescendants:
+      x-EnvType: Public
+      name: include_descendants
+      in: query
+      description: Set to true if you want to get entities of descendants organizations too
+      schema:
+        type: boolean
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-object-storage-25.07.yml
+- zadara-provisioning-portal-25.07.yml
+- zadara-vpsa-25.07.yml
+- zadara-command-center-openapi.yml
+- zadara-object-storage-openapi.yml
+- zadara-provisioning-portal-openapi.yml
+- zadara-vpsa-openapi.yml

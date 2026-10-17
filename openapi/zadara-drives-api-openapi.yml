@@ -1,0 +1,2171 @@
+openapi: 3.2.0
+info:
+  title: Zadara Drives API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Drives across 4 of this provider''s published API definitions: zadara-object-storage-25.07.yml, zadara-vpsa-25.07.yml, zadara-object-storage-openapi.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Drives
+  description: Operations involving Drives.
+paths:
+  /zios/drives.json:
+    get:
+      tags:
+      - Drives
+      description: Returns a list of all drives.
+      operationId: get_all_drives
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      disks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000a6f
+                            display_name:
+                              type: string
+                              example: drive-002
+                              xml:
+                                name: display-name
+                            disk_type:
+                              type: string
+                              example: SAS_9313GB_7200RPM
+                              xml:
+                                name: disk-type
+                            disk_uuid:
+                              type: string
+                              example: 5000CCA26755A338
+                              xml:
+                                name: disk-uuid
+                            storage_node:
+                              type: string
+                              example: qa14_sn1
+                              xml:
+                                name: storage-node
+                            vc:
+                              type: string
+                              example: vc-1
+                            region_id:
+                              type: integer
+                              xml:
+                                name: region-id
+                            zone_id:
+                              type: integer
+                              xml:
+                                name: zone-id
+                            policy_type:
+                              type: integer
+                              xml:
+                                name: policy-type
+                            allocation_zone:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone
+                            allocation_zone_display_name:
+                              type: string
+                              example: primary
+                              xml:
+                                name: allocation-zone-display-name
+                            storage_policy:
+                              type: string
+                              example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                              xml:
+                                name: storage-policy
+                            capacity_protection:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: capacity-protection
+                            status:
+                              type: string
+                              example: Absent
+                            capacity:
+                              type: integer
+                            partition_count_degraded:
+                              type: integer
+                              xml:
+                                name: partition-count-degraded
+                            partition_count_critical:
+                              type: integer
+                              xml:
+                                name: partition-count-critical
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: disk
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-disks-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      disks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000a6f
+                            display_name:
+                              type: string
+                              example: drive-002
+                              xml:
+                                name: display-name
+                            disk_type:
+                              type: string
+                              example: SAS_9313GB_7200RPM
+                              xml:
+                                name: disk-type
+                            disk_uuid:
+                              type: string
+                              example: 5000CCA26755A338
+                              xml:
+                                name: disk-uuid
+                            storage_node:
+                              type: string
+                              example: qa14_sn1
+                              xml:
+                                name: storage-node
+                            vc:
+                              type: string
+                              example: vc-1
+                            region_id:
+                              type: integer
+                              xml:
+                                name: region-id
+                            zone_id:
+                              type: integer
+                              xml:
+                                name: zone-id
+                            policy_type:
+                              type: integer
+                              xml:
+                                name: policy-type
+                            allocation_zone:
+                              type: string
+                              example: zone_0
+                              xml:
+                                name: allocation-zone
+                            allocation_zone_display_name:
+                              type: string
+                              example: primary
+                              xml:
+                                name: allocation-zone-display-name
+                            storage_policy:
+                              type: string
+                              example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                              xml:
+                                name: storage-policy
+                            capacity_protection:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: capacity-protection
+                            status:
+                              type: string
+                              example: Absent
+                            capacity:
+                              type: integer
+                            partition_count_degraded:
+                              type: integer
+                              xml:
+                                name: partition-count-degraded
+                            partition_count_critical:
+                              type: integer
+                              xml:
+                                name: partition-count-critical
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: disk
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-disks-response
+      summary: Get all drives
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/drives/{name}.json:
+    get:
+      tags:
+      - Drives
+      description: Returns one drive.
+      operationId: get_vpsaos_drive
+      parameters:
+      - in: path
+        name: name
+        description: VPSA Object Storage drive name.
+        required: true
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      disk:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: volume-00000a6f
+                          display_name:
+                            type: string
+                            example: drive-002
+                            xml:
+                              name: display-name
+                          disk_type:
+                            type: string
+                            example: SAS_9313GB_7200RPM
+                            xml:
+                              name: disk-type
+                          disk_uuid:
+                            type: string
+                            example: 5000CCA26755A338
+                            xml:
+                              name: disk-uuid
+                          storage_node:
+                            type: string
+                            example: qa14_sn1
+                            xml:
+                              name: storage-node
+                          vc:
+                            type: string
+                            example: vc-1
+                          region_id:
+                            type: integer
+                            xml:
+                              name: region-id
+                          zone_id:
+                            type: integer
+                            xml:
+                              name: zone-id
+                          policy_type:
+                            type: integer
+                            xml:
+                              name: policy-type
+                          allocation_zone:
+                            type: string
+                            example: zone_0
+                            xml:
+                              name: allocation-zone
+                          allocation_zone_display_name:
+                            type: string
+                            example: primary
+                            xml:
+                              name: allocation-zone-display-name
+                          storage_policy:
+                            type: string
+                            example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                            xml:
+                              name: storage-policy
+                          capacity_protection:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: capacity-protection
+                          status:
+                            type: string
+                            example: Absent
+                          capacity:
+                            type: integer
+                          partition_count_degraded:
+                            type: integer
+                            xml:
+                              name: partition-count-degraded
+                          partition_count_critical:
+                            type: integer
+                            xml:
+                              name: partition-count-critical
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          percentage_added:
+                            type: integer
+                            xml:
+                              name: percentage-added
+                    xml:
+                      name: show-one-disk-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      disk:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: volume-00000a6f
+                          display_name:
+                            type: string
+                            example: drive-002
+                            xml:
+                              name: display-name
+                          disk_type:
+                            type: string
+                            example: SAS_9313GB_7200RPM
+                            xml:
+                              name: disk-type
+                          disk_uuid:
+                            type: string
+                            example: 5000CCA26755A338
+                            xml:
+                              name: disk-uuid
+                          storage_node:
+                            type: string
+                            example: qa14_sn1
+                            xml:
+                              name: storage-node
+                          vc:
+                            type: string
+                            example: vc-1
+                          region_id:
+                            type: integer
+                            xml:
+                              name: region-id
+                          zone_id:
+                            type: integer
+                            xml:
+                              name: zone-id
+                          policy_type:
+                            type: integer
+                            xml:
+                              name: policy-type
+                          allocation_zone:
+                            type: string
+                            example: zone_0
+                            xml:
+                              name: allocation-zone
+                          allocation_zone_display_name:
+                            type: string
+                            example: primary
+                            xml:
+                              name: allocation-zone-display-name
+                          storage_policy:
+                            type: string
+                            example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                            xml:
+                              name: storage-policy
+                          capacity_protection:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: capacity-protection
+                          status:
+                            type: string
+                            example: Absent
+                          capacity:
+                            type: integer
+                          partition_count_degraded:
+                            type: integer
+                            xml:
+                              name: partition-count-degraded
+                          partition_count_critical:
+                            type: integer
+                            xml:
+                              name: partition-count-critical
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          percentage_added:
+                            type: integer
+                            xml:
+                              name: percentage-added
+                    xml:
+                      name: show-one-disk-response
+      summary: Get vpsaos drive
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/drives/{name}/iops.json:
+    get:
+      tags:
+      - Drives
+      description: Shows IOPs metering of a drive.
+      operationId: show_iops_metering_of_drive
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - in: path
+        name: name
+        description: VPSA Object Storage drive name.
+        required: true
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      - in: query
+        name: vc
+        required: true
+        schema:
+          type: string
+          pattern: ^vc-[0-9]*$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    iops_put:
+                      type: number
+                      xml:
+                        name: iops-put
+                    iops_delete:
+                      type: number
+                      xml:
+                        name: iops-delete
+                    iops_get:
+                      type: number
+                      xml:
+                        name: iops-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    iops_put:
+                      type: number
+                      xml:
+                        name: iops-put
+                    iops_delete:
+                      type: number
+                      xml:
+                        name: iops-delete
+                    iops_get:
+                      type: number
+                      xml:
+                        name: iops-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Show iops metering of drive
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/drives/{name}/latency.json:
+    get:
+      tags:
+      - Drives
+      description: Shows latency metering (ms) of a drive.
+      operationId: show_latency_metering_of_drive
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - in: path
+        name: name
+        description: VPSA Object Storage drive name.
+        required: true
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      - in: query
+        name: vc
+        required: true
+        schema:
+          type: string
+          pattern: ^vc-[0-9]*$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    latency_put:
+                      type: integer
+                      xml:
+                        name: latency-put
+                    latency_delete:
+                      type: integer
+                      xml:
+                        name: latency-delete
+                    latency_get:
+                      type: integer
+                      xml:
+                        name: latency-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    latency_put:
+                      type: integer
+                      xml:
+                        name: latency-put
+                    latency_delete:
+                      type: integer
+                      xml:
+                        name: latency-delete
+                    latency_get:
+                      type: integer
+                      xml:
+                        name: latency-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Show latency metering of drive
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/drives/{name}/throughput.json:
+    get:
+      tags:
+      - Drives
+      description: Shows bandwidth throughput metering (B/s) of a drive.
+      operationId: show_bandwidth_throughput_metering_of_drive
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - in: path
+        name: name
+        description: VPSA Object Storage drive name.
+        required: true
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      - in: query
+        name: vc
+        required: true
+        schema:
+          type: string
+          pattern: ^vc-[0-9]*$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    throughput_put:
+                      type: number
+                      xml:
+                        name: throughput-put
+                    throughput_delete:
+                      type: integer
+                      xml:
+                        name: throughput-delete
+                    throughput_get:
+                      type: number
+                      xml:
+                        name: throughput-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    throughput_put:
+                      type: number
+                      xml:
+                        name: throughput-put
+                    throughput_delete:
+                      type: integer
+                      xml:
+                        name: throughput-delete
+                    throughput_get:
+                      type: number
+                      xml:
+                        name: throughput-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Show bandwidth throughput metering of drive
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /drives.json:
+    get:
+      tags:
+      - Drives
+      description: Returns a list of all drives.
+      operationId: getDrivesJson
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      disks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00002575
+                            display_name:
+                              type: string
+                              example: drive-000
+                              xml:
+                                name: display-name
+                            disk_type:
+                              type: string
+                              example: SATA_465GB_7200RPM
+                              xml:
+                                name: disk-type
+                            disk_uuid:
+                              type: string
+                              example: 50014EE057E2B026
+                              xml:
+                                name: disk-uuid
+                            storage_node:
+                              type: string
+                              example: ubuntu_sata-51
+                              xml:
+                                name: storage-node
+                            vpartition_id:
+                              type: integer
+                              xml:
+                                name: vpartition-id
+                            raid_group_name:
+                              type: string
+                              example: None
+                              xml:
+                                name: raid-group-name
+                            usage:
+                              type: string
+                              example: Available
+                            status:
+                              type: string
+                              example: Available
+                            capacity:
+                              type: integer
+                            allocation_group:
+                              type: string
+                              example: 1e881a0c-97f5-4e1c-8c48-0975e23b
+                              xml:
+                                name: allocation-group
+                            cache:
+                              type: string
+                              example: 'NO'
+                            allocation_zone:
+                              type: string
+                              example: None
+                              xml:
+                                name: allocation-zone
+                            allocation_zone_display_name:
+                              type: string
+                              example: None
+                              xml:
+                                name: allocation-zone-display-name
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: disk
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-disks-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      disks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00002575
+                            display_name:
+                              type: string
+                              example: drive-000
+                              xml:
+                                name: display-name
+                            disk_type:
+                              type: string
+                              example: SATA_465GB_7200RPM
+                              xml:
+                                name: disk-type
+                            disk_uuid:
+                              type: string
+                              example: 50014EE057E2B026
+                              xml:
+                                name: disk-uuid
+                            storage_node:
+                              type: string
+                              example: ubuntu_sata-51
+                              xml:
+                                name: storage-node
+                            vpartition_id:
+                              type: integer
+                              xml:
+                                name: vpartition-id
+                            raid_group_name:
+                              type: string
+                              example: None
+                              xml:
+                                name: raid-group-name
+                            usage:
+                              type: string
+                              example: Available
+                            status:
+                              type: string
+                              example: Available
+                            capacity:
+                              type: integer
+                            allocation_group:
+                              type: string
+                              example: 1e881a0c-97f5-4e1c-8c48-0975e23b
+                              xml:
+                                name: allocation-group
+                            cache:
+                              type: string
+                              example: 'NO'
+                            allocation_zone:
+                              type: string
+                              example: None
+                              xml:
+                                name: allocation-zone
+                            allocation_zone_display_name:
+                              type: string
+                              example: None
+                              xml:
+                                name: allocation-zone-display-name
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: disk
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-disks-response
+      summary: Get all drives
+      x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: get_all_drives
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /drives/{id}.json:
+    get:
+      tags:
+      - Drives
+      description: Returns the details for a single drive.
+      operationId: get_drive
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      disk:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: volume-00002575
+                          display_name:
+                            type: string
+                            example: drive-000
+                            xml:
+                              name: display-name
+                          disk_type:
+                            type: string
+                            example: SATA_465GB_7200RPM
+                            xml:
+                              name: disk-type
+                          disk_uuid:
+                            type: string
+                            example: 50014EE057E2B026
+                            xml:
+                              name: disk-uuid
+                          storage_node:
+                            type: string
+                            example: ubuntu_sata-51
+                            xml:
+                              name: storage-node
+                          vpartition_id:
+                            type: integer
+                            xml:
+                              name: vpartition-id
+                          raid_group_name:
+                            type: string
+                            example: None
+                            xml:
+                              name: raid-group-name
+                          usage:
+                            type: string
+                            example: Available
+                          status:
+                            type: string
+                            example: Available
+                          capacity:
+                            type: integer
+                          disk_capacity:
+                            type: integer
+                            xml:
+                              name: disk-capacity
+                          allocation_group:
+                            type: string
+                            example: 1e881a0c-97f5-4e1c-8c48-0975e23b
+                            xml:
+                              name: allocation-group
+                          cache:
+                            type: string
+                            example: 'NO'
+                          allocation_zone:
+                            type: string
+                            example: None
+                            xml:
+                              name: allocation-zone
+                          allocation_zone_display_name:
+                            type: string
+                            example: None
+                            xml:
+                              name: allocation-zone-display-name
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          meta_data:
+                            type: string
+                            xml:
+                              name: meta-data
+                          setup_on_ssd:
+                            type: string
+                            xml:
+                              name: setup-on-ssd
+                          flc:
+                            type: string
+                    xml:
+                      name: show-one-disk-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      disk:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: volume-00002575
+                          display_name:
+                            type: string
+                            example: drive-000
+                            xml:
+                              name: display-name
+                          disk_type:
+                            type: string
+                            example: SATA_465GB_7200RPM
+                            xml:
+                              name: disk-type
+                          disk_uuid:
+                            type: string
+                            example: 50014EE057E2B026
+                            xml:
+                              name: disk-uuid
+                          storage_node:
+                            type: string
+                            example: ubuntu_sata-51
+                            xml:
+                              name: storage-node
+                          vpartition_id:
+                            type: integer
+                            xml:
+                              name: vpartition-id
+                          raid_group_name:
+                            type: string
+                            example: None
+                            xml:
+                              name: raid-group-name
+                          usage:
+                            type: string
+                            example: Available
+                          status:
+                            type: string
+                            example: Available
+                          capacity:
+                            type: integer
+                          disk_capacity:
+                            type: integer
+                            xml:
+                              name: disk-capacity
+                          allocation_group:
+                            type: string
+                            example: 1e881a0c-97f5-4e1c-8c48-0975e23b
+                            xml:
+                              name: allocation-group
+                          cache:
+                            type: string
+                            example: 'NO'
+                          allocation_zone:
+                            type: string
+                            example: None
+                            xml:
+                              name: allocation-zone
+                          allocation_zone_display_name:
+                            type: string
+                            example: None
+                            xml:
+                              name: allocation-zone-display-name
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                          meta_data:
+                            type: string
+                            xml:
+                              name: meta-data
+                          setup_on_ssd:
+                            type: string
+                            xml:
+                              name: setup-on-ssd
+                          flc:
+                            type: string
+                    xml:
+                      name: show-one-disk-response
+      summary: Get drive
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /drives/free.json:
+    get:
+      tags:
+      - Drives
+      description: Returns a list of free drives which are not part of any Raid Group.
+      operationId: get_free_drives
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      disks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00002575
+                            display_name:
+                              type: string
+                              example: drive-000
+                              xml:
+                                name: display-name
+                            disk_type:
+                              type: string
+                              example: SATA_465GB_7200RPM
+                              xml:
+                                name: disk-type
+                            disk_uuid:
+                              type: string
+                              example: 50014EE057E2B026
+                              xml:
+                                name: disk-uuid
+                            storage_node:
+                              type: string
+                              example: ubuntu_sata-51
+                              xml:
+                                name: storage-node
+                            vpartition_id:
+                              type: integer
+                              xml:
+                                name: vpartition-id
+                            raid_group_name:
+                              type: string
+                              example: None
+                              xml:
+                                name: raid-group-name
+                            usage:
+                              type: string
+                              example: Available
+                            status:
+                              type: string
+                              example: Available
+                            capacity:
+                              type: integer
+                            allocation_group:
+                              type: string
+                              example: 1e881a0c-97f5-4e1c-8c48-0975e23b
+                              xml:
+                                name: allocation-group
+                            cache:
+                              type: string
+                              example: 'NO'
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: disk
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-disks-free-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      disks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00002575
+                            display_name:
+                              type: string
+                              example: drive-000
+                              xml:
+                                name: display-name
+                            disk_type:
+                              type: string
+                              example: SATA_465GB_7200RPM
+                              xml:
+                                name: disk-type
+                            disk_uuid:
+                              type: string
+                              example: 50014EE057E2B026
+                              xml:
+                                name: disk-uuid
+                            storage_node:
+                              type: string
+                              example: ubuntu_sata-51
+                              xml:
+                                name: storage-node
+                            vpartition_id:
+                              type: integer
+                              xml:
+                                name: vpartition-id
+                            raid_group_name:
+                              type: string
+                              example: None
+                              xml:
+                                name: raid-group-name
+                            usage:
+                              type: string
+                              example: Available
+                            status:
+                              type: string
+                              example: Available
+                            capacity:
+                              type: integer
+                            allocation_group:
+                              type: string
+                              example: 1e881a0c-97f5-4e1c-8c48-0975e23b
+                              xml:
+                                name: allocation-group
+                            cache:
+                              type: string
+                              example: 'NO'
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: disk
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-disks-free-response
+      summary: Get free drives
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /drives/{id}/rename.json:
+    post:
+      tags:
+      - Drives
+      description: Rename a drive.
+      operationId: rename_drive
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-00002575
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-disk-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-00002575
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-disk-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - newname
+              properties:
+                newname:
+                  type: string
+                  description: The drive's new name
+                  example: new-drive-name
+        required: true
+      summary: Rename drive
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /drives/{id}/remove.json:
+    post:
+      tags:
+      - Drives
+      description: Remove a drive from the VPSA. Only drives which are not part of a Raid Group can be removed
+      operationId: remove_drive
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-00002575
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                    xml:
+                      name: remove-disk-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-00002575
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                    xml:
+                      name: remove-disk-response
+      summary: Remove drive
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /drives/{id}/replace.json:
+    post:
+      tags:
+      - Drives
+      description: Replace a drive in a Raid Group with a different free drive.
+      operationId: replace_drive
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-00002578
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                    xml:
+                      name: replace-disk-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-00002578
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                    xml:
+                      name: replace-disk-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - toname
+              properties:
+                toname:
+                  type: string
+                  pattern: ^volume-[0-9a-f]{8}$
+                  description: The ID of the replacement drive.
+                force:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+        required: true
+      summary: Replace drive
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /drives/{id}/shred.json:
+    post:
+      tags:
+      - Drives
+      description: Shred a drive. The operation can be done only on free drives which are not in a Raid Group. The data in the drive will be lost. This operation is irreversible.
+      operationId: shred_drive
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-0000257b
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                    xml:
+                      name: shred-disk-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-0000257b
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                    xml:
+                      name: shred-disk-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+      summary: Shred drive
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /drives/{id}/cancel_shred.json:
+    post:
+      tags:
+      - Drives
+      description: Cancel and abort the drive shredding process.
+      operationId: cancel_shred_drive
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-0000257b
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                    xml:
+                      name: cancel-shred-disk-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-0000257b
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                    xml:
+                      name: cancel-shred-disk-response
+      summary: Cancel shred drive
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /drives/{id}/performance.json:
+    get:
+      tags:
+      - Drives
+      description: Returns the last 60 data points of performance data for the specified interval.
+      operationId: get_drive_performance
+      parameters:
+      - $ref: '#/components/parameters/interval_2'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^volume-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-00002c4e
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rd_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-iops
+                            rd_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-iotime
+                            rd_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-bandwidth
+                            rd_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-queue-len
+                            wrt_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-iops
+                            wrt_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-iotime
+                            wrt_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-bandwidth
+                            wrt_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-queue-len
+                            point:
+                              type: integer
+                              example: 1386984996
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_disk_perf-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      disk_name:
+                        type: string
+                        example: volume-00002c4e
+                        xml:
+                          name: disk-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rd_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-iops
+                            rd_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-iotime
+                            rd_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: rd-bandwidth
+                            rd_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: rd-queue-len
+                            wrt_iops:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-iops
+                            wrt_iotime:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-iotime
+                            wrt_bandwidth:
+                              type: number
+                              example: 0.0
+                              xml:
+                                name: wrt-bandwidth
+                            wrt_queue_len:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: wrt-queue-len
+                            point:
+                              type: integer
+                              example: 1386984996
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_disk_perf-response
+      summary: Get drive performance
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  parameters:
+    count:
+      name: count
+      in: query
+      required: false
+      description: The number of data points
+      schema:
+        type: integer
+        default: 30
+        minimum: 1
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 60
+        minimum: 1
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+    interval_2:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+    interval_3:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-object-storage-25.07.yml
+- zadara-vpsa-25.07.yml
+- zadara-object-storage-openapi.yml
+- zadara-vpsa-openapi.yml

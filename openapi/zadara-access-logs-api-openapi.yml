@@ -1,0 +1,172 @@
+openapi: 3.2.0
+info:
+  title: Zadara Access Logs API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Access Logs across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Access Logs
+  description: Operations involving Command Center access logs.
+paths:
+  /access_logs.json:
+    get:
+      tags:
+      - Access Logs
+      description: Return logs list.
+      operationId: list_logs
+      parameters:
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      - in: query
+        name: user_id
+        schema:
+          type: integer
+      - in: query
+        name: controller
+        description: controller that handles the action
+        schema:
+          type: string
+      - in: query
+        name: access_type
+        description: where the access came from. Can be Web or API
+        schema:
+          type: string
+      - in: query
+        name: action
+        description: the action executed
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  access_logs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        user_id:
+                          type: string
+                          example: '3251'
+                          xml:
+                            name: user-id
+                        controller:
+                          type: string
+                          example: images
+                        action:
+                          type: string
+                          example: destroy
+                        access_type:
+                          type: string
+                          example: WEB
+                          xml:
+                            name: access-type
+                      xml:
+                        name: access-log
+                    xml:
+                      name: access-logs
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  access_logs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        user_id:
+                          type: string
+                          example: '3251'
+                          xml:
+                            name: user-id
+                        controller:
+                          type: string
+                          example: images
+                        action:
+                          type: string
+                          example: destroy
+                        access_type:
+                          type: string
+                          example: WEB
+                          xml:
+                            name: access-type
+                      xml:
+                        name: access-log
+                    xml:
+                      name: access-logs
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: List logs
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

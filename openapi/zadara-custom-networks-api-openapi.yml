@@ -1,0 +1,804 @@
+openapi: 3.2.0
+info:
+  title: Zadara Custom Networks API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Custom Networks across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Custom Networks
+  description: Operations involving Custom Networks.
+paths:
+  /clouds/{cloud_name}/custom_networks.json:
+    get:
+      tags:
+      - Custom Networks
+      description: Returns a list of the Custom Networks which are defined in the Zadara Storage Cloud.
+      operationId: get_all_custom_networks
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  custom_networks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 81
+                        internal_id:
+                          type: integer
+                          example: 62
+                          xml:
+                            name: internal-id
+                        name:
+                          type: string
+                          example: vni1
+                        user:
+                          type: string
+                          example: admin
+                        cidr:
+                          type: string
+                          example: 10.51.84.160/29
+                        ipv6_cidr:
+                          type: string
+                          example: 2001:0db8:85a3::/64
+                          xml:
+                            name: ipv6-cidr
+                        gateway:
+                          type: string
+                          example: 10.51.84.167
+                        gateway_zone_1:
+                          type: string
+                          example: 10.51.84.167
+                          xml:
+                            name: gateway-zone-1
+                        ipv6_gateway:
+                          type: string
+                          example: fe80::1
+                          xml:
+                            name: ipv6-gateway
+                        ipv6_gateway_zone_1:
+                          type: string
+                          example: fe80::1
+                          xml:
+                            name: ipv6-gateway-zone-1
+                        vlan_id:
+                          type: integer
+                          example: 50
+                          xml:
+                            name: vlan-id
+                        allocatable_ip_ranges:
+                          xml:
+                            name: allocatable-ip-ranges
+                            wrapped: true
+                          type: array
+                          items:
+                            type: string
+                            example: 3.14.15.0-3.14.15.5
+                            xml:
+                              name: allocatable-ip-range
+                        ipv6_allocatable_ip_ranges:
+                          xml:
+                            name: ipv6-allocatable-ip-ranges
+                            wrapped: true
+                          type: array
+                          items:
+                            type: string
+                            example: 2001:0db8:85a3::/64-2001:0db8:85a4::/64
+                            xml:
+                              name: ipv6-allocatable-ip-range
+                        allocated_ips:
+                          xml:
+                            name: allocated-ips
+                            wrapped: true
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              ip:
+                                type: string
+                                example: 3.14.15.2
+                              vsa_id:
+                                xml:
+                                  name: vsa-id
+                                type: integer
+                                example: 217
+                            xml:
+                              name: allocated-ip
+                        ipv6_allocated_ips:
+                          xml:
+                            name: ipv6-allocated-ips
+                            wrapped: true
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              ip:
+                                type: string
+                                example: 2001:0db8:85a3::/64
+                              vsa_id:
+                                xml:
+                                  name: vsa-id
+                                type: integer
+                                example: 217
+                            xml:
+                              name: ipv6-allocated-ip
+                      xml:
+                        name: custom-network
+                    xml:
+                      name: custom-networks
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  custom_networks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 81
+                        internal_id:
+                          type: integer
+                          example: 62
+                          xml:
+                            name: internal-id
+                        name:
+                          type: string
+                          example: vni1
+                        user:
+                          type: string
+                          example: admin
+                        cidr:
+                          type: string
+                          example: 10.51.84.160/29
+                        ipv6_cidr:
+                          type: string
+                          example: 2001:0db8:85a3::/64
+                          xml:
+                            name: ipv6-cidr
+                        gateway:
+                          type: string
+                          example: 10.51.84.167
+                        gateway_zone_1:
+                          type: string
+                          example: 10.51.84.167
+                          xml:
+                            name: gateway-zone-1
+                        ipv6_gateway:
+                          type: string
+                          example: fe80::1
+                          xml:
+                            name: ipv6-gateway
+                        ipv6_gateway_zone_1:
+                          type: string
+                          example: fe80::1
+                          xml:
+                            name: ipv6-gateway-zone-1
+                        vlan_id:
+                          type: integer
+                          example: 50
+                          xml:
+                            name: vlan-id
+                        allocatable_ip_ranges:
+                          xml:
+                            name: allocatable-ip-ranges
+                            wrapped: true
+                          type: array
+                          items:
+                            type: string
+                            example: 3.14.15.0-3.14.15.5
+                            xml:
+                              name: allocatable-ip-range
+                        ipv6_allocatable_ip_ranges:
+                          xml:
+                            name: ipv6-allocatable-ip-ranges
+                            wrapped: true
+                          type: array
+                          items:
+                            type: string
+                            example: 2001:0db8:85a3::/64-2001:0db8:85a4::/64
+                            xml:
+                              name: ipv6-allocatable-ip-range
+                        allocated_ips:
+                          xml:
+                            name: allocated-ips
+                            wrapped: true
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              ip:
+                                type: string
+                                example: 3.14.15.2
+                              vsa_id:
+                                xml:
+                                  name: vsa-id
+                                type: integer
+                                example: 217
+                            xml:
+                              name: allocated-ip
+                        ipv6_allocated_ips:
+                          xml:
+                            name: ipv6-allocated-ips
+                            wrapped: true
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              ip:
+                                type: string
+                                example: 2001:0db8:85a3::/64
+                              vsa_id:
+                                xml:
+                                  name: vsa-id
+                                type: integer
+                                example: 217
+                            xml:
+                              name: ipv6-allocated-ip
+                      xml:
+                        name: custom-network
+                    xml:
+                      name: custom-networks
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get all custom networks
+      x-summary-source: derived
+    post:
+      tags:
+      - Custom Networks
+      description: Creates a Custom Network (ipv4 or ipv6).
+      operationId: create_custom_network
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  custom_network:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: a
+                      user:
+                        type: string
+                        example: auser
+                      cidr:
+                        type: string
+                        example: 160.60.2.0/16
+                      gateway:
+                        type: string
+                        example: 160.60.2.1
+                      vlan_id:
+                        type: string
+                        example: '50'
+                        xml:
+                          name: vlan-id
+                      id:
+                        type: string
+                      reserved:
+                        type: boolean
+                      default_for_tenant:
+                        type: boolean
+                        xml:
+                          name: default-for-tenant
+                      allocatable_ip_ranges:
+                        type: array
+                        items:
+                          type: string
+                          xml:
+                            name: allocatable-ip-range
+                        xml:
+                          name: allocatable-ip-ranges
+                          wrapped: true
+                    xml:
+                      name: custom-network
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  custom_network:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: a
+                      user:
+                        type: string
+                        example: auser
+                      cidr:
+                        type: string
+                        example: 160.60.2.0/16
+                      gateway:
+                        type: string
+                        example: 160.60.2.1
+                      vlan_id:
+                        type: string
+                        example: '50'
+                        xml:
+                          name: vlan-id
+                      id:
+                        type: string
+                      reserved:
+                        type: boolean
+                      default_for_tenant:
+                        type: boolean
+                        xml:
+                          name: default-for-tenant
+                      allocatable_ip_ranges:
+                        type: array
+                        items:
+                          type: string
+                          xml:
+                            name: allocatable-ip-range
+                        xml:
+                          name: allocatable-ip-ranges
+                          wrapped: true
+                    xml:
+                      name: custom-network
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - user
+              - name
+              - gateway
+              properties:
+                user:
+                  type: string
+                  example: '5'
+                  description: Tenant id
+                name:
+                  type: string
+                  example: mynetwork
+                cidr:
+                  type: string
+                  example: 170.70.1.0/24
+                ipv6_cidr:
+                  type: string
+                  example: 2001:16:58::/32
+                gateway:
+                  type: string
+                  example: 170.70.1.1
+                ipv6_gateway:
+                  type: string
+                  example: 2001:16:58::1
+                ip_range:
+                  type: string
+                  example: 170.70.1.2-170.70.1.50
+                ipv6_ip_range:
+                  type: string
+                  example: 2001:16:58::2-2001:16:58::52
+                vlan_id:
+                  type: integer
+                  description: To automatically assign use "vlan_id":""
+                  example: 50
+        description: custom network creation body
+        required: true
+      summary: Create custom network
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/custom_networks/{id}.json:
+    get:
+      tags:
+      - Custom Networks
+      description: Returns details of a Custom Network.
+      operationId: get_custom_network
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  custom_network:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: 10G_network
+                      user:
+                        type: string
+                        example: auser
+                      cidr:
+                        type: string
+                        example: 160.60.2.0/16
+                      gateway:
+                        type: string
+                        example: 160.60.2.1
+                      default_for_tenant:
+                        type: boolean
+                        xml:
+                          name: default-for-tenant
+                      reserved:
+                        type: boolean
+                      id:
+                        type: integer
+                      vlan_id:
+                        type: integer
+                        xml:
+                          name: vlan-id
+                      allocatable_ip_ranges:
+                        type: array
+                        items:
+                          type: string
+                          xml:
+                            name: allocatable-ip-range
+                        xml:
+                          name: allocatable-ip-ranges
+                          wrapped: true
+                    xml:
+                      name: custom-network
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  custom_network:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: 10G_network
+                      user:
+                        type: string
+                        example: auser
+                      cidr:
+                        type: string
+                        example: 160.60.2.0/16
+                      gateway:
+                        type: string
+                        example: 160.60.2.1
+                      default_for_tenant:
+                        type: boolean
+                        xml:
+                          name: default-for-tenant
+                      reserved:
+                        type: boolean
+                      id:
+                        type: integer
+                      vlan_id:
+                        type: integer
+                        xml:
+                          name: vlan-id
+                      allocatable_ip_ranges:
+                        type: array
+                        items:
+                          type: string
+                          xml:
+                            name: allocatable-ip-range
+                        xml:
+                          name: allocatable-ip-ranges
+                          wrapped: true
+                    xml:
+                      name: custom-network
+      summary: Get custom network
+      x-summary-source: derived
+    delete:
+      tags:
+      - Custom Networks
+      description: Permanently deletes a Custom Network.
+      operationId: delete_custom_network
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Delete custom network
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/custom_networks/{id}/add_ip_ranges.json:
+    post:
+      tags:
+      - Custom Networks
+      description: Adds an IP range to an existing Custom Network.
+      operationId: add_ip_range_to_custom_net
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - range
+              properties:
+                range:
+                  type: string
+                  description: IP Range
+                  example: 160.60.5.0-160.60.5.10
+        required: true
+      summary: Add ip range to custom net
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/custom_networks/{id}/remove_ip_ranges.json:
+    post:
+      tags:
+      - Custom Networks
+      description: Removes an IP range from an existing Custom Network.
+      operationId: remove_ip_range_from_custom_net
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - range
+              properties:
+                range:
+                  type: string
+                  description: IP Range
+                  example: 160.60.5.0-160.60.5.10
+        required: true
+      summary: Remove ip range from custom net
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

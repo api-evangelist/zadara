@@ -1,0 +1,1793 @@
+openapi: 3.2.0
+info:
+  title: Zadara Servers API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Servers across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Servers
+  description: Operations involving Servers.
+paths:
+  /servers.json:
+    get:
+      tags:
+      - Servers
+      description: Show all Servers.
+      operationId: get_all_servers
+      security:
+      - api_key: []
+      parameters:
+      - in: query
+        name: extname
+        description: server ID to filter by.
+        schema:
+          type: string
+      - in: query
+        name: displayname
+        description: server display name to filter by.
+        schema:
+          type: string
+      - in: query
+        name: comment
+        description: server comment content to filter by.
+        schema:
+          type: string
+      - in: query
+        name: tagkey
+        description: server tag key to filter by.
+        schema:
+          type: string
+      - in: query
+        name: tagvalue
+        description: server tag value to filter by.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      servers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              pattern: ^srv-[0-9a-f]{8}$
+                              example: srv-00000001
+                            display_name:
+                              type: string
+                              example: server01
+                              xml:
+                                name: display-name
+                            iqn:
+                              type: string
+                              example: 127.0.0.1
+                            iscsi_ip:
+                              type: string
+                              example: None
+                              xml:
+                                name: iscsi-ip
+                            ipsec_iscsi:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: ipsec-iscsi
+                            ipsec_nfs:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: ipsec-nfs
+                            status:
+                              type: string
+                              example: Active
+                            os:
+                              type: string
+                              example: None
+                            registered:
+                              type: string
+                              example: 'no'
+                            last_check_time:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: last-check-time
+                            last_state_change_time:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: last-state-change-time
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: server
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-servers-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      servers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              pattern: ^srv-[0-9a-f]{8}$
+                              example: srv-00000001
+                            display_name:
+                              type: string
+                              example: server01
+                              xml:
+                                name: display-name
+                            iqn:
+                              type: string
+                              example: 127.0.0.1
+                            iscsi_ip:
+                              type: string
+                              example: None
+                              xml:
+                                name: iscsi-ip
+                            ipsec_iscsi:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: ipsec-iscsi
+                            ipsec_nfs:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: ipsec-nfs
+                            status:
+                              type: string
+                              example: Active
+                            os:
+                              type: string
+                              example: None
+                            registered:
+                              type: string
+                              example: 'no'
+                            last_check_time:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: last-check-time
+                            last_state_change_time:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: last-state-change-time
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                          xml:
+                            name: server
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-servers-response
+      summary: Get all servers
+      x-summary-source: derived
+    post:
+      tags:
+      - Servers
+      description: Create a new Server. IQN or iSCSI ip or FC WWPN must be provided.
+      operationId: create_server
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server_name:
+                        type: string
+                        example: srv-00000001
+                        xml:
+                          name: server-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-server-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server_name:
+                        type: string
+                        example: srv-00000001
+                        xml:
+                          name: server-name
+                      status:
+                        type: integer
+                    xml:
+                      name: create-server-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - display_name
+              properties:
+                display_name:
+                  type: string
+                  description: The new server display name
+                  example: my-server
+                os:
+                  type: string
+                  description: Server's OS
+                  enum:
+                  - Windows
+                  - Linux
+                  - Solaris
+                  - AIX
+                  - ESXi
+                  example: Windows
+                vpsachapuser:
+                  type: string
+                  description: VPSA chap user.
+                  example: johndoe
+                vpsachapsecret:
+                  type: string
+                  description: VPSA chap secret. 12-16 characters.
+                  example: tgbujmedcrfv
+                hostchapuser:
+                  type: string
+                  description: Host chap user.
+                hostchapsecret:
+                  type: string
+                  description: Host chap secret. 12-16 characters.
+                iqn:
+                  type: string
+                  pattern: ^(?:iqn.[0-9]{4}-[0-9]{2}(?:.[A-Za-z])).+
+                  description: iSCSI Qualified Name
+                iscsi:
+                  type: string
+                  description: The server's iSCSI IP
+                  example: 10.11.12.13
+                ipsec_iscsi:
+                  type: string
+                  description: Enable ipsec for iscsi for the server
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                ipsec_nfs:
+                  type: string
+                  description: Enable ipsec for nfs for the server
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                wwpns:
+                  type: array
+                  items:
+                    type: string
+                  description: Fibre channel wwpns
+                  example:
+                  - 21000024ff7bc174
+                  - 21000024ff7bc175
+                force:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  description: force server creation
+                  default: 'NO'
+                  example: 'YES'
+        required: true
+      summary: Create server
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /servers/{id}.json:
+    get:
+      tags:
+      - Servers
+      description: Show a single Server.
+      operationId: get_server
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: srv-00000001
+                          display_name:
+                            type: string
+                            example: server01
+                            xml:
+                              name: display-name
+                          iqn:
+                            type: string
+                            example: 127.0.0.1
+                          iscsi_ip:
+                            type: string
+                            example: None
+                            xml:
+                              name: iscsi-ip
+                          ipsec_iscsi:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: ipsec-iscsi
+                          ipsec_nfs:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: ipsec-nfs
+                          status:
+                            type: string
+                            example: Active
+                          os:
+                            type: string
+                            example: None
+                          registered:
+                            type: string
+                            example: 'no'
+                          last_check_time:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: last-check-time
+                          last_state_change_time:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: last-state-change-time
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                    xml:
+                      name: show-one-server-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: srv-00000001
+                          display_name:
+                            type: string
+                            example: server01
+                            xml:
+                              name: display-name
+                          iqn:
+                            type: string
+                            example: 127.0.0.1
+                          iscsi_ip:
+                            type: string
+                            example: None
+                            xml:
+                              name: iscsi-ip
+                          ipsec_iscsi:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: ipsec-iscsi
+                          ipsec_nfs:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: ipsec-nfs
+                          status:
+                            type: string
+                            example: Active
+                          os:
+                            type: string
+                            example: None
+                          registered:
+                            type: string
+                            example: 'no'
+                          last_check_time:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: last-check-time
+                          last_state_change_time:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: last-state-change-time
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                    xml:
+                      name: show-one-server-response
+      summary: Get server
+      x-summary-source: derived
+    delete:
+      tags:
+      - Servers
+      description: Delete a Server.
+      operationId: delete_server
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server_name:
+                        type: string
+                        example: srv-00000001
+                        xml:
+                          name: server-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-server-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server_name:
+                        type: string
+                        example: srv-00000001
+                        xml:
+                          name: server-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-server-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  description: force server deletion
+                  default: 'NO'
+                  example: 'YES'
+      summary: Delete server
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /servers/{id}/sessions.json:
+    get:
+      tags:
+      - Servers
+      description: Lists server's sessions.
+      operationId: list_server_sessions
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^srv-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      count:
+                        type: integer
+                      sessions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            access_type:
+                              type: string
+                              example: ISCSI
+                              xml:
+                                name: access-type
+                            initiator:
+                              type: string
+                              example: iqn.1991-05.com.microsoft:vm91_win2008r2.zadara.lab
+                            target:
+                              type: string
+                              example: iqn.test.com.zadarastorage:vsa-00000000:1
+                            count:
+                              type: integer
+                            vc:
+                              type: integer
+                            connected:
+                              type: integer
+                            server_name:
+                              type: string
+                              example: srv-00000003
+                              xml:
+                                name: server-name
+                            server_display_name:
+                              type: string
+                              example: VM91_WIN2008R2
+                              xml:
+                                name: server-display-name
+                          xml:
+                            name: session
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      count:
+                        type: integer
+                      sessions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            access_type:
+                              type: string
+                              example: ISCSI
+                              xml:
+                                name: access-type
+                            initiator:
+                              type: string
+                              example: iqn.1991-05.com.microsoft:vm91_win2008r2.zadara.lab
+                            target:
+                              type: string
+                              example: iqn.test.com.zadarastorage:vsa-00000000:1
+                            count:
+                              type: integer
+                            vc:
+                              type: integer
+                            connected:
+                              type: integer
+                            server_name:
+                              type: string
+                              example: srv-00000003
+                              xml:
+                                name: server-name
+                            server_display_name:
+                              type: string
+                              example: VM91_WIN2008R2
+                              xml:
+                                name: server-display-name
+                          xml:
+                            name: session
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+      summary: List server sessions
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /servers/session.json:
+    delete:
+      tags:
+      - Servers
+      description: Delete server's session.
+      operationId: delete_server_session
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - initiator
+              - target
+              properties:
+                initiator:
+                  type: string
+                  description: Session's Initiator
+                  example: '2109034534'
+                target:
+                  type: string
+                  description: Session's Target
+                  example: '2444034534'
+        required: true
+      summary: Delete server session
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /servers/{id}/rename.json:
+    post:
+      tags:
+      - Servers
+      description: Rename a Server.
+      operationId: rename_server
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^srv-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server_name:
+                        type: string
+                        example: srv-00000001
+                        xml:
+                          name: server-name
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-server-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server_name:
+                        type: string
+                        example: srv-00000001
+                        xml:
+                          name: server-name
+                      status:
+                        type: integer
+                    xml:
+                      name: rename-server-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - new_name
+              properties:
+                new_name:
+                  type: string
+                  description: The server new name
+                  example: new-server-name
+        required: true
+      summary: Rename server
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /servers/{id}/config.json:
+    post:
+      tags:
+      - Servers
+      description: Update a Server configuration.
+      operationId: update_server
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^srv-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server_name:
+                        type: string
+                        example: srv-00000001
+                        xml:
+                          name: server-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-server-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server_name:
+                        type: string
+                        example: srv-00000001
+                        xml:
+                          name: server-name
+                      status:
+                        type: integer
+                    xml:
+                      name: update-server-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                display_name:
+                  type: string
+                  description: The server display name
+                os:
+                  type: string
+                  description: Server's OS
+                  enum:
+                  - Windows
+                  - Linux
+                  - Solaris
+                  - AIX
+                  - ESXi
+                  example: Windows
+                vpsachapuser:
+                  type: string
+                  description: VPSA chap user.
+                vpsachapsecret:
+                  type: string
+                  description: VPSA chap secret. 12-16 characters.
+                hostchapuser:
+                  type: string
+                  description: Host chap user.
+                hostchapsecret:
+                  type: string
+                  description: Host chap secret. 12-16 characters.
+                iqn:
+                  type: string
+                  pattern: ^(?:iqn\.[0-9]{4}-[0-9]{2}(?:\.[A-Za-z](?:[A-Za-z0-9\-]*[A-Za-z0-9])?)+(?::.*)?|eui\.[0-9A-Fa_f]{16})'
+                iscsi:
+                  type: string
+                  description: The server's iSCSI IP
+                ipsec_iscsi:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                ipsec_nfs:
+                  type: string
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                monitoring:
+                  type: string
+                  description: connectivity monitoring
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                remove_wwpns:
+                  type: array
+                  items:
+                    type: string
+                  description: wwpns to remove
+                add_wwpns:
+                  type: array
+                  items:
+                    type: string
+                  description: wwpns to add
+        required: true
+      summary: Update server
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /servers/{id}/volumes.json:
+    get:
+      tags:
+      - Servers
+      description: Returns a list of Volumes attached to the Server.
+      operationId: get_volumes_attached_to_server
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^srv-[0-9a-f]{8}$
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      volumes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000001
+                            display_name:
+                              type: string
+                              example: volume
+                              xml:
+                                name: display-name
+                            cg_display_name:
+                              type: string
+                              example: volume
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: cg-name
+                            cg_user_created:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cg-user-created
+                            pool_display_name:
+                              type: string
+                              example: poolrenamed
+                              xml:
+                                name: pool-display-name
+                            pool_name:
+                              type: string
+                              example: pool-00000001
+                              xml:
+                                name: pool-name
+                            status:
+                              type: string
+                              example: In_use
+                            virtual_capacity:
+                              type: integer
+                              xml:
+                                name: virtual-capacity
+                            server_name:
+                              type: string
+                              example: server
+                              xml:
+                                name: server-name
+                            data_type:
+                              type: string
+                              example: BLOCK
+                              xml:
+                                name: data-type
+                            thin:
+                              type: string
+                              example: 'YES'
+                            encryption:
+                              type: string
+                              example: 'NO'
+                            access_type:
+                              type: string
+                              example: ISCSI
+                              xml:
+                                name: access-type
+                            read_only:
+                              type: string
+                              example: None
+                              xml:
+                                name: read-only
+                            export_name:
+                              type: string
+                              example: None
+                              xml:
+                                name: export-name
+                            mount_sync:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: mount-sync
+                            atime_update:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: atime-update
+                            target:
+                              type: string
+                              example: iqn.2011-04.com.zadarastorage:vsa-000007bb:1
+                            lun:
+                              type: string
+                              example: '0'
+                            cache:
+                              type: string
+                              example: None
+                            read_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-iops-limit
+                            read_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-mbps-limit
+                            write_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-iops-limit
+                            write_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-mbps-limit
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                            snapshots_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: snapshots-count
+                          xml:
+                            name: volume
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-volumes-in-server-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      volumes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: volume-00000001
+                            display_name:
+                              type: string
+                              example: volume
+                              xml:
+                                name: display-name
+                            cg_display_name:
+                              type: string
+                              example: volume
+                              xml:
+                                name: cg-display-name
+                            cg_name:
+                              type: string
+                              example: cg-00000001
+                              xml:
+                                name: cg-name
+                            cg_user_created:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: cg-user-created
+                            pool_display_name:
+                              type: string
+                              example: poolrenamed
+                              xml:
+                                name: pool-display-name
+                            pool_name:
+                              type: string
+                              example: pool-00000001
+                              xml:
+                                name: pool-name
+                            status:
+                              type: string
+                              example: In_use
+                            virtual_capacity:
+                              type: integer
+                              xml:
+                                name: virtual-capacity
+                            server_name:
+                              type: string
+                              example: server
+                              xml:
+                                name: server-name
+                            data_type:
+                              type: string
+                              example: BLOCK
+                              xml:
+                                name: data-type
+                            thin:
+                              type: string
+                              example: 'YES'
+                            encryption:
+                              type: string
+                              example: 'NO'
+                            access_type:
+                              type: string
+                              example: ISCSI
+                              xml:
+                                name: access-type
+                            read_only:
+                              type: string
+                              example: None
+                              xml:
+                                name: read-only
+                            export_name:
+                              type: string
+                              example: None
+                              xml:
+                                name: export-name
+                            mount_sync:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: mount-sync
+                            atime_update:
+                              type: string
+                              example: 'NO'
+                              xml:
+                                name: atime-update
+                            target:
+                              type: string
+                              example: iqn.2011-04.com.zadarastorage:vsa-000007bb:1
+                            lun:
+                              type: string
+                              example: '0'
+                            cache:
+                              type: string
+                              example: None
+                            read_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-iops-limit
+                            read_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: read-mbps-limit
+                            write_iops_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-iops-limit
+                            write_mbps_limit:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: write-mbps-limit
+                            created_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              xml:
+                                name: modified-at
+                            snapshots_count:
+                              type: integer
+                              example: 0
+                              xml:
+                                name: snapshots-count
+                          xml:
+                            name: volume
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-volumes-in-server-response
+      summary: Get volumes attached to server
+      x-summary-source: derived
+    post:
+      tags:
+      - Servers
+      description: Attach Volume to Server(s).
+      operationId: attach_servers_to_volume
+      parameters:
+      - name: id
+        description: Comma_separated list of server IDs.
+        required: true
+        in: path
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: attach-volume-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: attach-volume-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - volume_name
+              properties:
+                volume_name:
+                  type: string
+                  pattern: ^volume-[0-9a-f]{8}$
+                  description: The volume ID.
+                  example: volume-00000001
+                access_type:
+                  type: string
+                  description: NFS/SMB for NAS, ISCSI for Block.
+                  enum:
+                  - NFS
+                  - SMB
+                  - ISCSI
+                  example: ISCSI
+                lun:
+                  type: integer
+                  example: 1
+                readonly:
+                  type: string
+                  description: Relevant only to NFS/SMB
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                force:
+                  type: string
+                  description: Required only when volume is already attached to another server.
+                  enum:
+                  - 'YES'
+                  - 'NO'
+        required: true
+      summary: Attach servers to volume
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /servers/{id}/performance.json:
+    get:
+      tags:
+      - Servers
+      description: Returns the last 60 data points of performance data for the specified interval.
+      operationId: get_server_performance
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: ^srv-[0-9a-f]{8}$
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: server-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rd_iops:
+                              type: integer
+                              xml:
+                                name: rd-iops
+                            rd_iotime:
+                              type: number
+                              xml:
+                                name: rd-iotime
+                            rd_bandwidth:
+                              type: number
+                              xml:
+                                name: rd-bandwidth
+                            rd_queue_len:
+                              type: integer
+                              xml:
+                                name: rd-queue-len
+                            wrt_iops:
+                              type: integer
+                              xml:
+                                name: wrt-iops
+                            wrt_iotime:
+                              type: number
+                              xml:
+                                name: wrt-iotime
+                            wrt_bandwidth:
+                              type: number
+                              xml:
+                                name: wrt-bandwidth
+                            wrt_queue_len:
+                              type: integer
+                              xml:
+                                name: wrt-queue-len
+                            point:
+                              type: integer
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_servers_perf-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      server_name:
+                        type: string
+                        example: RaidGroup-4
+                        xml:
+                          name: server-name
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      usages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rd_iops:
+                              type: integer
+                              xml:
+                                name: rd-iops
+                            rd_iotime:
+                              type: number
+                              xml:
+                                name: rd-iotime
+                            rd_bandwidth:
+                              type: number
+                              xml:
+                                name: rd-bandwidth
+                            rd_queue_len:
+                              type: integer
+                              xml:
+                                name: rd-queue-len
+                            wrt_iops:
+                              type: integer
+                              xml:
+                                name: wrt-iops
+                            wrt_iotime:
+                              type: number
+                              xml:
+                                name: wrt-iotime
+                            wrt_bandwidth:
+                              type: number
+                              xml:
+                                name: wrt-bandwidth
+                            wrt_queue_len:
+                              type: integer
+                              xml:
+                                name: wrt-queue-len
+                            point:
+                              type: integer
+                          xml:
+                            name: usage
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: get_servers_perf-response
+      summary: Get server performance
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  parameters:
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

@@ -1,0 +1,176 @@
+openapi: 3.2.0
+info:
+  title: Zadara Vpsas API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Vpsas across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Vpsas
+  description: Vpsas Description
+paths:
+  /vpsa/config.json:
+    get:
+      tags:
+      - Vpsas
+      description: Get VPSA configuration data.
+      operationId: get_vpsa_config
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      vsa:
+                        type: object
+                        properties:
+                          name:
+                            type: integer
+                          url:
+                            type: string
+                            example: https://vsa-000007bb_openstack.zadaravpsa.com
+                          display_name:
+                            type: string
+                            example: myvpsa
+                            xml:
+                              name: display-name
+                          service_mode:
+                            type: integer
+                            xml:
+                              name: service-mode
+                          version:
+                            type: string
+                            example: 13.09-988-13
+                          created_at:
+                            type: string
+                            example: '2013-09-25 09:22:25'
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            example: '2013-09-25 09:22:25'
+                            xml:
+                              name: modified-at
+                          snapshot_creation_overload_protection:
+                            type: string
+                            example: 'YES'
+                            xml:
+                              name: snapshot-creation-overload-protection
+                          create_server_on_login:
+                            type: string
+                            example: 'YES'
+                            xml:
+                              name: create-server-on-login
+                    xml:
+                      name: show_vsa_config-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      vsa:
+                        type: object
+                        properties:
+                          name:
+                            type: integer
+                          url:
+                            type: string
+                            example: https://vsa-000007bb_openstack.zadaravpsa.com
+                          display_name:
+                            type: string
+                            example: myvpsa
+                            xml:
+                              name: display-name
+                          service_mode:
+                            type: integer
+                            xml:
+                              name: service-mode
+                          version:
+                            type: string
+                            example: 13.09-988-13
+                          created_at:
+                            type: string
+                            example: '2013-09-25 09:22:25'
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            example: '2013-09-25 09:22:25'
+                            xml:
+                              name: modified-at
+                          snapshot_creation_overload_protection:
+                            type: string
+                            example: 'YES'
+                            xml:
+                              name: snapshot-creation-overload-protection
+                          create_server_on_login:
+                            type: string
+                            example: 'YES'
+                            xml:
+                              name: create-server-on-login
+                    xml:
+                      name: show_vsa_config-response
+      summary: Get vpsa config
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

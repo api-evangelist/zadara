@@ -1,0 +1,1634 @@
+openapi: 3.2.0
+info:
+  title: Zadara NAS API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged NAS across 2 of this provider''s published API definitions: zadara-vpsa-25.07.yml, zadara-vpsa-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: NAS
+  description: Operations for NAS (Network Attached Storage) Users and Groups.
+paths:
+  /nas/users.json:
+    get:
+      tags:
+      - NAS
+      description: Get all NAS Users.
+      operationId: get_all_nas_users
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      users:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/User'
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-nas-users-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      users:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/User'
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-nas-users-response
+      summary: Get all nas users
+      x-summary-source: derived
+    post:
+      tags:
+      - NAS
+      description: Create a NAS User.
+      operationId: create_nas_user
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      nas_user_name:
+                        type: string
+                        example: user
+                        xml:
+                          name: nas-user-name
+                      status:
+                        type: integer
+                      nfs_uid:
+                        type: string
+                        example: None
+                        xml:
+                          name: nfs-uid
+                    xml:
+                      name: create-nas-user-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      nas_user_name:
+                        type: string
+                        example: user
+                        xml:
+                          name: nas-user-name
+                      status:
+                        type: integer
+                      nfs_uid:
+                        type: string
+                        example: None
+                        xml:
+                          name: nfs-uid
+                    xml:
+                      name: create-nas-user-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              properties:
+                username:
+                  type: string
+                  example: johndoe
+                nfs_uid:
+                  type: integer
+                  description: NFS user id
+                password:
+                  type: string
+                  description: SMB password.
+                groupname:
+                  type: string
+        required: true
+      summary: Create nas user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /nas/users/{name}.json:
+    get:
+      tags:
+      - NAS
+      description: Get the details for a single NAS User.
+      operationId: get_nas_user
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      user:
+                        $ref: '#/components/schemas/User'
+                    xml:
+                      name: show-one-nas-user-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      user:
+                        $ref: '#/components/schemas/User'
+                    xml:
+                      name: show-one-nas-user-response
+      summary: Get nas user
+      x-summary-source: derived
+    delete:
+      tags:
+      - NAS
+      description: Delete a NAS User.
+      operationId: delete_nas_user
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      nas_user_name:
+                        type: string
+                        example: nasuser
+                        xml:
+                          name: nas-user-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-nas-user-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      nas_user_name:
+                        type: string
+                        example: nasuser
+                        xml:
+                          name: nas-user-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-nas-user-response
+      summary: Delete nas user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /nas/users/{name}/password.json:
+    post:
+      tags:
+      - NAS
+      description: Add/change/remove SMB password for NAS users.
+      operationId: change_nas_user_smb_password
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      nas_user_name:
+                        type: string
+                        example: nasuser
+                        xml:
+                          name: nas-user-name
+                      status:
+                        type: integer
+                    xml:
+                      name: set-nas-user-password-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      nas_user_name:
+                        type: string
+                        example: nasuser
+                        xml:
+                          name: nas-user-name
+                      status:
+                        type: integer
+                    xml:
+                      name: set-nas-user-password-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: Leave blank to remove the SMB password.
+        required: true
+      summary: Change nas user smb password
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /nas/groups.json:
+    get:
+      tags:
+      - NAS
+      description: Show NAS Groups.
+      operationId: get_all_nas_groups
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      groups:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Group'
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-nas-groups-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      groups:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Group'
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: show-nas-groups-response
+      summary: Get all nas groups
+      x-summary-source: derived
+    post:
+      tags:
+      - NAS
+      description: Create a NAS group.
+      operationId: create_nas_group
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      nas_group_name:
+                        type: string
+                        example: group
+                        xml:
+                          name: nas-group-name
+                      status:
+                        type: integer
+                      nfs_gid:
+                        type: string
+                        example: '12345'
+                        xml:
+                          name: nfs-gid
+                    xml:
+                      name: create-nas-group-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      nas_group_name:
+                        type: string
+                        example: group
+                        xml:
+                          name: nas-group-name
+                      status:
+                        type: integer
+                      nfs_gid:
+                        type: string
+                        example: '12345'
+                        xml:
+                          name: nfs-gid
+                    xml:
+                      name: create-nas-group-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - group_name
+              properties:
+                group_name:
+                  type: string
+                  description: New group name
+                nfs_gid:
+                  type: string
+                  description: NFS new group id
+                  example: '15000'
+                smb:
+                  type: string
+        required: true
+      summary: Create nas group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /nas/groups/{name}.json:
+    get:
+      tags:
+      - NAS
+      description: Get the details for a single NAS Group.
+      operationId: get_nas_group
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      group:
+                        $ref: '#/components/schemas/Group'
+                    xml:
+                      name: show-one-nas-group-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      group:
+                        $ref: '#/components/schemas/Group'
+                    xml:
+                      name: show-one-nas-group-response
+      summary: Get nas group
+      x-summary-source: derived
+    delete:
+      tags:
+      - NAS
+      description: Delete a NAS Group.
+      operationId: delete_nas_group
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      nas_group_name:
+                        type: string
+                        example: group
+                        xml:
+                          name: nas-group-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-nas-group-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      nas_group_name:
+                        type: string
+                        example: group
+                        xml:
+                          name: nas-group-name
+                      status:
+                        type: integer
+                    xml:
+                      name: delete-nas-group-response
+      summary: Delete nas group
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /active_directory.json:
+    get:
+      tags:
+      - NAS
+      description: List the current Active Directory configuration.
+      operationId: get_active_directory
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      smb_ads:
+                        type: object
+                        properties:
+                          allow_trusted_domains:
+                            xml:
+                              name: allow-trusted-domains
+                            type: string
+                            description: Allow trusted domains
+                            enum:
+                            - 'YES'
+                            - 'NO'
+                            example: 'YES'
+                          scan_trusted_domains:
+                            xml:
+                              name: scan-trusted-domains
+                            type: string
+                            description: Trusted domains discovery
+                            enum:
+                            - 'YES'
+                            - 'NO'
+                            default: 'NO'
+                            example: 'NO'
+                          dns:
+                            type: array
+                            items:
+                              type: string
+                              example: 10.0.2.32
+                              xml:
+                                name: dns
+                            xml:
+                              wrapped: true
+                          dc:
+                            type: array
+                            items:
+                              type: string
+                              example: 10.0.0.1
+                              xml:
+                                name: dc
+                            xml:
+                              wrapped: true
+                          ad_server:
+                            type: string
+                            example: WIN-8AAAABBCCDD
+                            xml:
+                              name: ad-server
+                          realm:
+                            type: string
+                            example: zadara.net
+                          workgroup:
+                            type: string
+                            example: ZADARA
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                        xml:
+                          name: smb-ads
+                    xml:
+                      name: show-smb-security-ads-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      smb_ads:
+                        type: object
+                        properties:
+                          allow_trusted_domains:
+                            xml:
+                              name: allow-trusted-domains
+                            type: string
+                            description: Allow trusted domains
+                            enum:
+                            - 'YES'
+                            - 'NO'
+                            example: 'YES'
+                          scan_trusted_domains:
+                            xml:
+                              name: scan-trusted-domains
+                            type: string
+                            description: Trusted domains discovery
+                            enum:
+                            - 'YES'
+                            - 'NO'
+                            default: 'NO'
+                            example: 'NO'
+                          dns:
+                            type: array
+                            items:
+                              type: string
+                              example: 10.0.2.32
+                              xml:
+                                name: dns
+                            xml:
+                              wrapped: true
+                          dc:
+                            type: array
+                            items:
+                              type: string
+                              example: 10.0.0.1
+                              xml:
+                                name: dc
+                            xml:
+                              wrapped: true
+                          ad_server:
+                            type: string
+                            example: WIN-8AAAABBCCDD
+                            xml:
+                              name: ad-server
+                          realm:
+                            type: string
+                            example: zadara.net
+                          workgroup:
+                            type: string
+                            example: ZADARA
+                          created_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            xml:
+                              name: modified-at
+                        xml:
+                          name: smb-ads
+                    xml:
+                      name: show-smb-security-ads-response
+      summary: Get active directory
+      x-summary-source: derived
+    post:
+      tags:
+      - NAS
+      description: Join an Active Directory Domain.
+      operationId: join_active_directory
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: set-smb-security-ads-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: set-smb-security-ads-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              - password
+              - realm
+              - workgroup
+              - dns
+              properties:
+                force:
+                  type: string
+                  description: Force Active Directory Domain join
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+                username:
+                  type: string
+                  description: The domain user name
+                adserver:
+                  type: string
+                password:
+                  type: string
+                  description: The domain user name
+                  example: mysupersecretpassword
+                realm:
+                  type: string
+                  description: The domain name.
+                  example: mycompany
+                workgroup:
+                  type: string
+                  description: The domain NetBIOS name.
+                  example: MYCOMPANY
+                dns:
+                  type: string
+                  description: The DNS IP(s). (use array to pass multiple)
+                  example: 11.22.33.44
+                uid_range_low:
+                  type: integer
+                  example: 5000000
+                uid_range_high:
+                  type: integer
+                  example: 15000000
+                allow_trusted_domains:
+                  type: boolean
+                  description: Allow trusted domains
+                  example: true
+                trusted_domains_discovery:
+                  type: boolean
+                  description: Trusted domains discovery. Using Trusted domains discovery mode is not recommended and should only be used if instructed by support. If turned off, trusted domains should be manually set in the Domains section post connecting the Active Directory parent domain.
+                  example: false
+        required: true
+      summary: Join active directory
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /active_directory/edit.json:
+    post:
+      tags:
+      - NAS
+      description: configure an Active Directory Domain. (Not available while Active Directory is disabled)
+      operationId: edit_active_directory
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: set-smb-ad-servers-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: set-smb-ad-servers-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - dns
+              properties:
+                realm_kdc_servers:
+                  type: object
+                  description: Set realm kdc servers
+                  example:
+                    realm1:
+                    - kdc1
+                    - kdc2
+                dns:
+                  type: array
+                  items:
+                    type: string
+                  description: The DNS IP(s).
+                  example:
+                  - 10.0.0.10
+                  - 10.0.0.11
+                dns_lookup_realm:
+                  type: string
+                  description: Set auto realm lookup
+                  example: 'YES'
+                dns_lookup_kdc:
+                  type: string
+                  description: Set auto realm kdc lookup
+                  example: 'YES'
+                add_to_ignored_domains:
+                  type: array
+                  items:
+                    type: string
+                  description: Add domains to ignored domains. domain NetBIOS name should be used as input.
+                  example:
+                  - kdc1
+                  - kdc2
+                remove_from_ignored_domains:
+                  type: array
+                  items:
+                    type: string
+                  description: Remove domains from ignored domains. domain NetBIOS name should be used as input.
+                  example:
+                  - kdc1
+                  - kdc2
+                allow_trusted_domains:
+                  type: boolean
+                  description: Allow trusted domains
+                  example: true
+                trusted_domains_discovery:
+                  type: boolean
+                  description: Trusted domains discovery. Using Trusted domains discovery mode is not recommended and should only be used if instructed by support. If turned off, trusted domains should be manually set in the Domains section post connecting the Active Directory parent domain.
+                  example: false
+        required: true
+      summary: Edit active directory
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /active_directory/reset.json:
+    post:
+      tags:
+      - NAS
+      description: Leave/Delete the current Active Directory server.
+      operationId: leave_active_directory
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: reset-smb-security-ads-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: reset-smb-security-ads-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              - password
+              - keep
+              properties:
+                username:
+                  type: string
+                  example: Administrator
+                password:
+                  type: string
+                  example: mysupersecretpassword
+                keep:
+                  type: boolean
+                  description: 'Keep configuration as "disabled" for future re-connect. DEFAULT: true'
+                  default: true
+                force:
+                  type: string
+                  description: Force Active Directory Domain Leave/Delete
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+        required: true
+      summary: Leave active directory
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /active_directory/restore.json:
+    post:
+      tags:
+      - NAS
+      description: Restore the current Active Directory server.
+      operationId: restore_active_directory
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: restore-smb-security-ads-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: restore-smb-security-ads-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              - password
+              properties:
+                username:
+                  type: string
+                  example: Administrator
+                password:
+                  type: string
+                  example: mysupersecretpassword
+                force:
+                  type: string
+                  description: Force Active Directory Domain Restore
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+        required: true
+      summary: Restore active directory
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /active_directory/add_domain.json:
+    post:
+      tags:
+      - NAS
+      description: Add domain to an Active Directory server.
+      operationId: add_domain_to_active_directory
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: set-smb-domain-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: set-smb-domain-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - workgroup
+              - realm
+              - uid_range_low
+              - uid_range_high
+              properties:
+                workgroup:
+                  type: string
+                  description: Domain NetBIOS name
+                  example: zadara.net
+                realm:
+                  type: string
+                  description: Domain name
+                  example: ZADARA
+                uid_range_low:
+                  type: integer
+                  example: 5000000
+                uid_range_high:
+                  type: integer
+                  example: 15000000
+                force:
+                  type: string
+                  description: Force Active Directory Add Domain despite warnings
+                  enum:
+                  - 'YES'
+                  - 'NO'
+                  example: 'YES'
+        required: true
+      summary: Add domain to active directory
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /active_directory/remove_domain.json:
+    post:
+      tags:
+      - NAS
+      description: Remove domain from an Active Directory server.
+      operationId: remove_domain_from_active_directory
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: remove-smb-domain-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                    xml:
+                      name: remove-smb-domain-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - workgroup
+              properties:
+                workgroup:
+                  type: string
+                  description: Domain NetBIOS name
+                  example: zadara.net
+        required: true
+      summary: Remove domain from active directory
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          example: root
+        nfs_uid:
+          type: string
+          example: '0'
+          xml:
+            name: nfs-uid
+        password:
+          type: string
+          example: 'No'
+        primary_group_name:
+          type: string
+          example: group0
+          xml:
+            name: primary-group-name
+      xml:
+        name: user
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    Group:
+      type: object
+      properties:
+        name:
+          type: string
+          example: root
+        nfs_gid:
+          type: string
+          example: '0'
+          xml:
+            name: nfs-gid
+        smb:
+          type: string
+          enum:
+          - 'YES'
+          - 'NO'
+          example: 'YES'
+        users_count:
+          type: integer
+          example: 1
+          xml:
+            name: users-count
+        users:
+          type: array
+          items:
+            type: string
+            example: test_user
+            xml:
+              name: user
+          xml:
+            wrapped: true
+      xml:
+        name: group
+  parameters:
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-vpsa-25.07.yml
+- zadara-vpsa-openapi.yml

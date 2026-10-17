@@ -1,0 +1,1202 @@
+openapi: 3.2.0
+info:
+  title: Zadara Organizations API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Organizations across 2 of this provider''s published API definitions: zadara-provisioning-portal-25.07.yml, zadara-provisioning-portal-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api/v2
+tags:
+- name: Organizations
+  description: Organizations
+paths:
+  /organizations.json:
+    get:
+      tags:
+      - Organizations
+      operationId: get_all_organizations
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      parameters:
+      - in: query
+        name: tree
+        description: set this param to true to get the result in tree structure
+        schema:
+          type: boolean
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Organization'
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Organization'
+                    xml:
+                      wrapped: true
+      summary: Get all organizations
+      x-summary-source: derived
+    post:
+      tags:
+      - Organizations
+      description: Create an organization
+      operationId: create_organization
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created
+                  data:
+                    $ref: '#/components/schemas/Organization'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created
+                  data:
+                    $ref: '#/components/schemas/Organization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationParams'
+        required: true
+      summary: Create organization
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /organizations/{id}.json:
+    get:
+      tags:
+      - Organizations
+      description: Get a single organization
+      operationId: get_organization
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    $ref: '#/components/schemas/Organization'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    $ref: '#/components/schemas/Organization'
+      summary: Get organization
+      x-summary-source: derived
+    put:
+      tags:
+      - Organizations
+      description: Update an organization
+      operationId: update_organization
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully updated
+                  data:
+                    $ref: '#/components/schemas/Organization'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully updated
+                  data:
+                    $ref: '#/components/schemas/Organization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationParams'
+        required: true
+      summary: Update organization
+      x-summary-source: derived
+    delete:
+      tags:
+      - Organizations
+      description: Delete an organization
+      operationId: delete_organization
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include_descendants:
+                  type: boolean
+                  description: Set to true if you want to delete also the descendants of the organization
+                  example: false
+      summary: Delete organization
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /organizations/{id}/sub_orgs.json:
+    get:
+      tags:
+      - Organizations
+      description: get all organization descendants
+      operationId: sub_orgs
+      x-EnvType: Public
+      x-roles: Platform Admin, Organization Admin, Organization Billing User
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: tree
+        description: Set to true to recieve the descendants in a tree structure.
+        schema:
+          type: boolean
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Organization'
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Organization'
+                    xml:
+                      wrapped: true
+      summary: Sub orgs
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /organizations/{id}/cost_explorer.json:
+    get:
+      tags:
+      - Organizations
+      description: Retrieve all an organization's costs. Note that the Cost and Usage Explorer service is currently in Early Preview.
+      operationId: get_cost_explorer_report
+      x-EnvType: Public
+      x-roles: Organization Admin, Organization Billing User
+      x-ApiStatus: Early Preview
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: granularity
+        description: The granularity of costs data to return.
+        schema:
+          type: string
+          enum:
+          - monthly
+          - daily
+          default: monthly
+      - in: query
+        name: from
+        required: true
+        description: Report start date.
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: to
+        required: true
+        description: Report end date.
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: group_by
+        description: Grouping costs by a field.
+        schema:
+          type: string
+          enum:
+          - resource_type
+          - cloud
+      - in: query
+        name: cloud
+        description: Filter by clouds name.
+        schema:
+          type: array
+          items:
+            type: string
+      - in: query
+        name: resource_type
+        description: Filter by resource type.
+        schema:
+          type: array
+          items:
+            type: string
+      - in: query
+        name: item
+        description: Filter by item.
+        schema:
+          type: array
+          items:
+            type: string
+      - in: query
+        name: billable_type
+        description: Filter by billable type.
+        schema:
+          type: array
+          items:
+            type: string
+      - in: query
+        name: user
+        description: Filter by Provisioning Portal user username.
+        schema:
+          type: array
+          items:
+            type: string
+      - in: query
+        name: compute_account
+        description: Filter by compute account UUID.
+        schema:
+          type: array
+          items:
+            type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        total:
+                          type: number
+                          description: Total amount for the month/day
+                          example: 100500
+                        metadata:
+                          type: object
+                          properties:
+                            estimation:
+                              type: boolean
+                              example: true
+                        additionalProperties:
+                          type: number
+                          description: Total amount of a group for the month/day
+                          example: 75000
+                  totals:
+                    type: object
+                    additionalProperties:
+                      type: number
+                      description: Total amount of a group for the entire duration
+                      example: 150000
+                    properties:
+                      total:
+                        type: number
+                        description: Total amount for the entire duration
+                        example: 201000
+                  currency:
+                    type: string
+                    description: Billing Organization currency name.
+                    example: USD
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        total:
+                          type: number
+                          description: Total amount for the month/day
+                          example: 100500
+                        metadata:
+                          type: object
+                          properties:
+                            estimation:
+                              type: boolean
+                              example: true
+                        additionalProperties:
+                          type: number
+                          description: Total amount of a group for the month/day
+                          example: 75000
+                  totals:
+                    type: object
+                    additionalProperties:
+                      type: number
+                      description: Total amount of a group for the entire duration
+                      example: 150000
+                    properties:
+                      total:
+                        type: number
+                        description: Total amount for the entire duration
+                        example: 201000
+                  currency:
+                    type: string
+                    description: Billing Organization currency name.
+                    example: USD
+      summary: Get cost explorer report
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /organizations/{id}/cost_explorer/details.json:
+    get:
+      tags:
+      - Organizations
+      description: Retrieve all an organization's costs details. Note that the Cost and Usage Explorer service is currently in Early Preview.
+      operationId: get_cost_explorer_details_report
+      x-EnvType: Public
+      x-roles: Organization Admin, Organization Billing User
+      x-ApiStatus: Early Preview
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: granularity
+        description: The granularity of costs data to return.
+        schema:
+          type: string
+          enum:
+          - monthly
+          - daily
+          default: monthly
+      - in: query
+        name: from
+        required: true
+        description: Report start date.
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: to
+        required: true
+        description: Report end date.
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: cloud
+        description: Filter by clouds id.
+        schema:
+          type: array
+          items:
+            type: string
+      - in: query
+        name: resource_type
+        description: Filter by resource type.
+        schema:
+          type: array
+          items:
+            type: string
+      - in: query
+        name: item
+        description: Filter by item.
+        schema:
+          type: array
+          items:
+            type: string
+      - in: query
+        name: billable_type
+        description: Filter by billable type.
+        schema:
+          type: array
+          items:
+            type: string
+      - in: query
+        name: user
+        description: Filter by Provisioning Portal user username.
+        schema:
+          type: array
+          items:
+            type: string
+      - in: query
+        name: compute_account
+        description: Filter by compute account UUID.
+        schema:
+          type: array
+          items:
+            type: string
+      - in: query
+        name: page
+        description: Page number
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: per_page
+        description: Rows per page
+        schema:
+          type: integer
+          default: 50
+      - in: query
+        name: sort_by
+        description: Sort by column, the param should be a JSON string representing an array of objects, each with "id" and "desc" properties that set sort column and direction. example - [{"id":"cloud","desc":true}]
+        schema:
+          type: string
+      - in: query
+        name: filters
+        description: filter by columns, the param should be a JSON string representing an array of objects, each with "id" and "value" properties that set filter column. example - [{"id":"cloud","value":"cloud1"}]
+        schema:
+          type: string
+      - in: query
+        name: download_csv
+        description: if true, response is in CSV format
+        schema:
+          type: boolean
+          default: false
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  total_count:
+                    type: integer
+                    example: 100
+                    xml:
+                      name: total-count
+                  data:
+                    type: array
+                    xml:
+                      wrapped: true
+                    items:
+                      $ref: '#/components/schemas/CostExplorerDetails'
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  total_count:
+                    type: integer
+                    example: 100
+                    xml:
+                      name: total-count
+                  data:
+                    type: array
+                    xml:
+                      wrapped: true
+                    items:
+                      $ref: '#/components/schemas/CostExplorerDetails'
+      summary: Get cost explorer details report
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /organizations/test_billing_bucket_connectivity.json:
+    post:
+      tags:
+      - Organizations
+      description: Test connectivity to billing bucket of an organization.
+      operationId: test_billing_bucket_connectivity
+      x-EnvType: Public
+      x-roles: Platform Admin
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Failed to get organization metadata
+                  billing_metadata:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: My Organization
+                      id:
+                        type: string
+                        example: e88475a9-41cf-4fd0-abe2-f5e5560acbb0
+                      currency:
+                        type: string
+                        example: USD
+                    xml:
+                      name: billing-metadata
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Failed to get organization metadata
+                  billing_metadata:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: My Organization
+                      id:
+                        type: string
+                        example: e88475a9-41cf-4fd0-abe2-f5e5560acbb0
+                      currency:
+                        type: string
+                        example: USD
+                    xml:
+                      name: billing-metadata
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - billing_bucket_id
+              properties:
+                billing_bucket_id:
+                  type: string
+                  description: Organization billing bucket ID.
+                  example: eaa475a9-41cf-4fd0-abe2-f5e5560acaa0
+        required: true
+      summary: Test billing bucket connectivity
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+components:
+  schemas:
+    CostExplorerDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12345
+        report_date:
+          type: string
+          format: date
+          example: 2025-01-01
+          xml:
+            name: report-date
+        org_id:
+          type: string
+          example: e88475a9-41cf-4fd0-abe2-f5e5560acbb0
+          xml:
+            name: org-id
+        parent_org:
+          type: string
+          example: parent organization
+          xml:
+            name: parent-org
+        cloud:
+          type: string
+          example: cloud-01
+        cloud_id:
+          type: string
+          example: e88475a9-41cf-4fd0-abe2-f5e5560acbb0
+          xml:
+            name: cloud-id
+        customer:
+          type: string
+          example: customer-01
+        resource_type:
+          type: string
+          example: VPSA
+          xml:
+            name: resource-type
+        resource_id:
+          type: string
+          example: vsa-01010101
+          xml:
+            name: resource-id
+        resource_name:
+          type: string
+          example: STO_HDD_BKP_ZADARA
+          xml:
+            name: resource-name
+        billable_type:
+          type: string
+          example: SAS_13038GB_7200RPM
+          xml:
+            name: billable-type
+        item:
+          type: string
+          example: 14TB HDD
+        item_description:
+          type: string
+          example: 14TB HDD Drive
+          xml:
+            name: item-description
+        resource_created_at:
+          type: string
+          format: date-time
+          example: 2025-01-01 12:00:00+00:00
+          xml:
+            name: resource-created-at
+        resource_deleted_at:
+          type: string
+          format: date-time
+          example: 2025-01-01 12:00:00+00:00
+          xml:
+            name: resource-deleted-at
+        resource_status:
+          type: string
+          example: created
+          xml:
+            name: resource-status
+        compute_account_id:
+          type: string
+          example: 3883528641024603d9c0258e5e9c760e
+          xml:
+            name: compute-account-id
+        compute_account_name:
+          type: string
+          example: 12345678_ABCD
+          xml:
+            name: compute-account-name
+        compute_project_id:
+          type: string
+          example: 9ea7ee2e51a9467d1672ecadcc88e1b1
+          xml:
+            name: compute-project-id
+        compute_project_name:
+          type: string
+          example: 12345678_ABCD
+          xml:
+            name: compute-project-name
+        compute_user_id:
+          type: string
+          example: e4a9f400683c8caef8de1a3ac5ea3ca6
+          xml:
+            name: compute-user-id
+        compute_user_name:
+          type: string
+          example: compute.name
+          xml:
+            name: compute-user-name
+        vm_cpus:
+          type: integer
+          example: 32
+          xml:
+            name: vm-cpus
+        vm_ram:
+          type: integer
+          example: 64
+          xml:
+            name: vm-ram
+        volume_disk_size:
+          type: integer
+          example: 4096
+          xml:
+            name: volume-disk-size
+        vm_attached_to_uuid:
+          type: string
+          example: e4a9f400-683c-8cae-f8de-1a3ac5ea3ca6
+          xml:
+            name: vm-attached-to-uuid
+        service_type:
+          type: string
+          example: a1
+          xml:
+            name: service-type
+        compute_instance_type:
+          type: string
+          example: z2.large
+          xml:
+            name: compute-instance-type
+        compute_instance_type_aws_alias:
+          type: string
+          example: m1.xlarge
+          xml:
+            name: compute-instance-type-aws-alias
+        unit_price:
+          type: number
+          example: 0.344
+          xml:
+            name: unit-price
+        discount:
+          type: number
+          example: 0.83
+        quantity_mtd:
+          type: integer
+          example: 737
+          xml:
+            name: quantity-mtd
+        quantity_est:
+          type: integer
+          example: 737
+          xml:
+            name: quantity-est
+        hours_mtd:
+          type: integer
+          example: 737
+          xml:
+            name: hours-mtd
+        hours_est:
+          type: integer
+          example: 737
+          xml:
+            name: hours-est
+        gross_amount_mtd:
+          type: number
+          example: 63.98
+          xml:
+            name: gross-amount-mtd
+        gross_amount_est:
+          type: number
+          example: 63.98
+          xml:
+            name: gross-amount-est
+        net_amount_mtd:
+          type: number
+          example: 10.88
+          xml:
+            name: net-amount-mtd
+        net_amount_est:
+          type: number
+          example: 10.88
+          xml:
+            name: net-amount-est
+        image_source:
+          type: string
+          example: 73f05543-3672-a210-9df2f-40ab1f1764b
+          xml:
+            name: image-source
+        billing_uuid:
+          type: string
+          example: e88475a9-41cf-4fd0-abe2-f5e5560acbb0
+          xml:
+            name: billing-uuid
+        daily_quantity:
+          type: integer
+          example: 24
+          xml:
+            name: daily-quantity
+          description: when granularity is daily calculated quantity_mtd(today) - quantity_mtd(yesterday)
+        daily_hours:
+          type: integer
+          example: 24
+          xml:
+            name: daily-hours
+          description: when granularity is daily calculated hours_mtd(today) - hours_mtd(yesterday)
+        daily_gross_amount:
+          type: number
+          example: 95.75999
+          xml:
+            name: daily-gross-amount
+          description: when granularity is daily calculated gross_amount_mtd(today) - gross_amount_mtd(yesterday)
+        daily_net_amount:
+          type: number
+          example: 95.75999
+          xml:
+            name: daily-net-amount
+          description: when granularity is daily calculated net_amount_mtd(today) - net_amount_mtd(yesterday)
+        created_at:
+          type: string
+          format: date-time
+          example: 2025-01-01 12:00:00+00:00
+          xml:
+            name: created-at
+        updated_at:
+          type: string
+          format: date-time
+          example: 2025-01-01 12:00:00+00:00
+          xml:
+            name: updated-at
+        metadata:
+          type: object
+          properties:
+            estimation:
+              type: boolean
+              example: true
+      xml:
+        name: billing-details
+    OrganizationParams:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Organization name, must be unique.
+          example: my_z_org
+        display_name:
+          type: string
+          description: Organization name to display.
+          example: Zadara
+        country:
+          type: string
+          example: IL
+        billing_id:
+          type: string
+          description: Billing Organization ID
+          example: e88475a9-41cf-4fd0-abe2-f5e5560acbb0
+        billing_bucket_id:
+          type: string
+          description: Organization billing bucket name
+          example: e88475a9-41cf-4fd0-abe2-f5e5560acbb0
+        cost_explorer_enabled:
+          type: boolean
+          default: false
+          description: Cost explorer enabled for the organization. Applicable only if billing_bucket_id is set.
+        tax_id:
+          type: string
+        parent_id:
+          type: string
+          description: Parent organization id
+          example: ccd8b780-af96-4fc6-9ca2-8b0806e5f3e6/17137ad9-1a8e-4112-bb92-10d01305cd0f
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    Organization:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 03389219-c6a2-4941-92dd-6a75c339e9c7
+        name:
+          type: string
+          example: my_z_org
+        display_name:
+          type: string
+          example: Zadara
+          xml:
+            name: display-name
+        country:
+          type: string
+          example: IL
+          description: The 2-letters code of the organization country
+        billing_id:
+          type: string
+          example: ae34fa5b-bf74-43dd-805b-1f06f080082b
+          xml:
+            name: billing-id
+        billing_bucket_id:
+          type: string
+          example: ae34fa5b-bf74-43dd-805b-1f06f080082b
+          xml:
+            name: billing-bucket-id
+        cost_explorer_enabled:
+          type: boolean
+          example: false
+          xml:
+            name: cost-explorer-enabled
+        tax_id:
+          type: string
+          xml:
+            name: tax-id
+        updated_at:
+          type: string
+          format: date_time
+          xml:
+            name: updated-at
+        created_at:
+          type: string
+          format: date_time
+          xml:
+            name: created-at
+        deleted_at:
+          type: string
+          format: date_time
+          xml:
+            name: deleted-at
+        parent:
+          $ref: '#/components/schemas/Organization'
+        children:
+          type: array
+          description: List of all the descendants of the organization when the 'tree' param is specified
+          items:
+            $ref: '#/components/schemas/Organization'
+          xml:
+            wrapped: true
+        active:
+          type: boolean
+          description: Organization has at least 1 active organization admin
+          example: true
+        users_count:
+          type: integer
+          description: Count of users attached to the organization
+          example: 1
+          xml:
+            name: users-count
+        visibility:
+          type: string
+          enum:
+          - org_clouds
+          - provider_groups_clouds
+          - all_clouds
+          default: all_clouds
+          description: Which clouds are visible for the organization
+          example: all_clouds
+        ancestors:
+          type: array
+          description: List of all the ancestors of the organization when a specific org is retrieved
+          items:
+            $ref: '#/components/schemas/Organization'
+          xml:
+            wrapped: true
+      xml:
+        name: organization
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-provisioning-portal-25.07.yml
+- zadara-provisioning-portal-openapi.yml

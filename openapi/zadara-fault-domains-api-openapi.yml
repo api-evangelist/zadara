@@ -1,0 +1,418 @@
+openapi: 3.2.0
+info:
+  title: Zadara Fault Domains API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Fault Domains across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Fault Domains
+  description: Operations involving fault domains.
+paths:
+  /clouds/{cloud_name}/fault_domains.json:
+    get:
+      tags:
+      - Fault Domains
+      description: Returns a list of Cloud's fault domains.
+      operationId: get_fault_domains
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  fault_domains:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                          example: FD_1
+                        internal_id:
+                          type: integer
+                          xml:
+                            name: internal-id
+                        allocation_zone_id:
+                          type: integer
+                          xml:
+                            name: allocation-zone-id
+                        storage_node_count:
+                          type: integer
+                          xml:
+                            name: storage-node-count
+                      xml:
+                        name: fault-domain
+                    xml:
+                      name: fault-domains
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  fault_domains:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                          example: FD_1
+                        internal_id:
+                          type: integer
+                          xml:
+                            name: internal-id
+                        allocation_zone_id:
+                          type: integer
+                          xml:
+                            name: allocation-zone-id
+                        storage_node_count:
+                          type: integer
+                          xml:
+                            name: storage-node-count
+                      xml:
+                        name: fault-domain
+                    xml:
+                      name: fault-domains
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get fault domains
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/fault_domains/{id}.json:
+    get:
+      tags:
+      - Fault Domains
+      description: Returns a single fault domain details.
+      operationId: get_fault_domain_details
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  fault_domain:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                        example: FD_1
+                      internal_id:
+                        type: integer
+                        xml:
+                          name: internal-id
+                      allocation_zone_id:
+                        type: integer
+                        xml:
+                          name: allocation-zone-id
+                      storage_node_count:
+                        type: integer
+                        xml:
+                          name: storage-node-count
+                    xml:
+                      name: fault-domain
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  fault_domain:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                        example: FD_1
+                      internal_id:
+                        type: integer
+                        xml:
+                          name: internal-id
+                      allocation_zone_id:
+                        type: integer
+                        xml:
+                          name: allocation-zone-id
+                      storage_node_count:
+                        type: integer
+                        xml:
+                          name: storage-node-count
+                    xml:
+                      name: fault-domain
+      summary: Get fault domain details
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/fault_domains/{id}/add_node.json:
+    post:
+      tags:
+      - Fault Domains
+      description: Adds a Storage Node to fault domain.
+      operationId: add_node
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - node_id
+              properties:
+                node_id:
+                  type: integer
+                  example: 1
+        required: true
+      summary: Add node
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vpsa_zone_groups/{id}/inventory.json:
+    get:
+      tags:
+      - Fault Domains
+      description: Returns Protection Zones Disk Usage.
+      operationId: get_inventory
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  inventory:
+                    type: object
+                    example:
+                      zone_0:
+                        FD_1:
+                          SATA 13038GB 7200RPM:
+                            used: 0
+                            total: 2
+                            free: 2
+                          SSD CACHE DRIVES:
+                            used: 39
+                            total: 57
+                            free: 18
+                        FD_2:
+                          SSD 1787GB 1RPM:
+                            used: 0
+                            total: 0
+                            free: 0
+                          ZIOS META DRIVES:
+                            used: 39
+                            total: 52
+                            free: 13
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  inventory:
+                    type: object
+                    example:
+                      zone_0:
+                        FD_1:
+                          SATA 13038GB 7200RPM:
+                            used: 0
+                            total: 2
+                            free: 2
+                          SSD CACHE DRIVES:
+                            used: 39
+                            total: 57
+                            free: 18
+                        FD_2:
+                          SSD 1787GB 1RPM:
+                            used: 0
+                            total: 0
+                            free: 0
+                          ZIOS META DRIVES:
+                            used: 39
+                            total: 52
+                            free: 13
+      summary: Get inventory
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

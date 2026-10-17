@@ -1,0 +1,640 @@
+openapi: 3.2.0
+info:
+  title: Zadara Cloud Users API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Cloud Users across 2 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-command-center-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+tags:
+- name: Cloud Users
+  description: Operations involving Cloud's users.
+paths:
+  /clouds/{cloud_name}/cloud_users.json:
+    get:
+      tags:
+      - Cloud Users
+      description: Returns a list of all the users (tenants) in a Cloud.
+      operationId: get_tenants
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/pageParam'
+      - $ref: '#/components/parameters/perPageParam'
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cloud_users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                          example: a
+                        tenant:
+                          type: string
+                          example: tenant_a_R2khI
+                        tenant_internal_id:
+                          type: integer
+                          example: 105
+                          xml:
+                            name: tenant-internal-id
+                        custom_network:
+                          type: string
+                          xml:
+                            name: custom-network
+                        vlan_id:
+                          type: integer
+                          example: 5
+                          xml:
+                            name: vlan-id
+                      xml:
+                        name: cloud-user
+                    xml:
+                      name: cloud-users
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cloud_users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                          example: a
+                        tenant:
+                          type: string
+                          example: tenant_a_R2khI
+                        tenant_internal_id:
+                          type: integer
+                          example: 105
+                          xml:
+                            name: tenant-internal-id
+                        custom_network:
+                          type: string
+                          xml:
+                            name: custom-network
+                        vlan_id:
+                          type: integer
+                          example: 5
+                          xml:
+                            name: vlan-id
+                      xml:
+                        name: cloud-user
+                    xml:
+                      name: cloud-users
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get tenants
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/cloud_users/{id}.json:
+    get:
+      tags:
+      - Cloud Users
+      description: Returns the details for a singe Cloud user (tenant).
+      operationId: get_tenant
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cloud_user:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                        example: a
+                      tenant:
+                        type: string
+                        example: tenant_a_R2khI
+                      tenant_internal_id:
+                        type: integer
+                        xml:
+                          name: tenant-internal-id
+                      custom_network:
+                        type: string
+                        xml:
+                          name: custom-network
+                      vlan_id:
+                        type: integer
+                        xml:
+                          name: vlan-id
+                    xml:
+                      name: cloud-user
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  cloud_user:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                        example: a
+                      tenant:
+                        type: string
+                        example: tenant_a_R2khI
+                      tenant_internal_id:
+                        type: integer
+                        xml:
+                          name: tenant-internal-id
+                      custom_network:
+                        type: string
+                        xml:
+                          name: custom-network
+                      vlan_id:
+                        type: integer
+                        xml:
+                          name: vlan-id
+                    xml:
+                      name: cloud-user
+      summary: Get tenant
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/cloud_users/vlans.json:
+    get:
+      tags:
+      - Cloud Users
+      description: Returns the vlans for the cloud.
+      operationId: list_cloud_vlans
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vlans:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        comment:
+                          type: string
+                        tenants:
+                          type: array
+                          items:
+                            type: integer
+                            xml:
+                              name: tenant
+                          xml:
+                            wrapped: true
+                        allocated:
+                          type: boolean
+                        reserved:
+                          type: boolean
+                        vlan_id:
+                          type: integer
+                          example: 50
+                          xml:
+                            name: vlan-id
+                      xml:
+                        name: vlan
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vlans:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        comment:
+                          type: string
+                        tenants:
+                          type: array
+                          items:
+                            type: integer
+                            xml:
+                              name: tenant
+                          xml:
+                            wrapped: true
+                        allocated:
+                          type: boolean
+                        reserved:
+                          type: boolean
+                        vlan_id:
+                          type: integer
+                          example: 50
+                          xml:
+                            name: vlan-id
+                      xml:
+                        name: vlan
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: List cloud vlans
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/cloud_users/{id}/comments.json:
+    get:
+      tags:
+      - Cloud Users
+      description: Returns the list of the cloud_user comments.
+      operationId: list_cloud_user_comments
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  comments:
+                    type: object
+                    properties:
+                      comment:
+                        type: object
+                        properties:
+                          content:
+                            type: string
+                            example: '**test comment**'
+                          severity_id:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: severity-id
+                          severity_name:
+                            type: string
+                            example: critical
+                            xml:
+                              name: severity-name
+                          created_by:
+                            type: string
+                            example: '1'
+                            xml:
+                              name: created-by
+                          created_at:
+                            type: string
+                            format: date_time
+                            example: '2017-01-04T12:23:02+02:00'
+                            xml:
+                              name: created-at
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  comments:
+                    type: object
+                    properties:
+                      comment:
+                        type: object
+                        properties:
+                          content:
+                            type: string
+                            example: '**test comment**'
+                          severity_id:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: severity-id
+                          severity_name:
+                            type: string
+                            example: critical
+                            xml:
+                              name: severity-name
+                          created_by:
+                            type: string
+                            example: '1'
+                            xml:
+                              name: created-by
+                          created_at:
+                            type: string
+                            format: date_time
+                            example: '2017-01-04T12:23:02+02:00'
+                            xml:
+                              name: created-at
+                  count:
+                    type: integer
+      summary: List cloud user comments
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/cloud_users/{tenant_id}/allocate_vlan_id.json:
+    post:
+      tags:
+      - Cloud Users
+      description: Allocate vlan for cloud user.
+      operationId: allocate_vlan
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: tenant_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  allocated_vlan:
+                    type: integer
+                    xml:
+                      name: allocated-vlan
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  allocated_vlan:
+                    type: integer
+                    xml:
+                      name: allocated-vlan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vlan_id
+              properties:
+                vlan_id:
+                  type: integer
+                  example: 55
+                force:
+                  type: boolean
+                  description: Allow multiple cloud users on the same vlan
+        required: true
+      summary: Allocate vlan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/cloud_users/{tenant_id}/deallocate_vlan_id.json:
+    delete:
+      tags:
+      - Cloud Users
+      description: Deallocate vlan for cloud user.
+      operationId: delete_tenant
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: tenant_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  deallocated_vlan:
+                    type: integer
+                    xml:
+                      name: deallocated-vlan
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  deallocated_vlan:
+                    type: integer
+                    xml:
+                      name: deallocated-vlan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vlan_id
+              properties:
+                vlan_id:
+                  type: integer
+                  example: 55
+        required: true
+      summary: Delete tenant
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  parameters:
+    perPageParam:
+      name: per_page
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+        default: 30
+    pageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number to start from.
+      schema:
+        type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-command-center-openapi.yml

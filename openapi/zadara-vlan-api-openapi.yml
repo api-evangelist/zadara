@@ -1,0 +1,1263 @@
+openapi: 3.2.0
+info:
+  title: Zadara VLAN API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged VLAN across 4 of this provider''s published API definitions: zadara-command-center-25.07.yml, zadara-provisioning-portal-25.07.yml, zadara-command-center-openapi.yml, zadara-provisioning-portal-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: https://localhost/api/v2
+tags:
+- name: VLAN
+  description: Operations involving VLAN.
+paths:
+  /clouds/{cloud_name}/vlans.json:
+    get:
+      tags:
+      - VLAN
+      description: Return the list of cloud provisioned vlans.
+      operationId: get_vlans
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vlans:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        comment:
+                          type: string
+                          example: my comment
+                        tenants:
+                          type: array
+                          items:
+                            type: integer
+                            xml:
+                              name: tenant
+                          xml:
+                            wrapped: true
+                        allocated:
+                          type: boolean
+                        reserved:
+                          type: boolean
+                        vlan_id:
+                          type: integer
+                          xml:
+                            name: vlan-id
+                        all_vrids:
+                          type: string
+                          xml:
+                            name: all-vrids
+                      xml:
+                        name: vlan
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  vlans:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        comment:
+                          type: string
+                          example: my comment
+                        tenants:
+                          type: array
+                          items:
+                            type: integer
+                            xml:
+                              name: tenant
+                          xml:
+                            wrapped: true
+                        allocated:
+                          type: boolean
+                        reserved:
+                          type: boolean
+                        vlan_id:
+                          type: integer
+                          xml:
+                            name: vlan-id
+                        all_vrids:
+                          type: string
+                          xml:
+                            name: all-vrids
+                      xml:
+                        name: vlan
+                    xml:
+                      wrapped: true
+                  count:
+                    type: integer
+      summary: Get vlans
+      x-summary-source: derived
+    post:
+      tags:
+      - VLAN
+      description: Add provisioned vlan or a range to the cloud.
+      operationId: add_provisioned_vlan_or_range
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  allocated_vlan:
+                    type: integer
+                    xml:
+                      name: allocated-vlan
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  allocated_vlan:
+                    type: integer
+                    xml:
+                      name: allocated-vlan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - range_start
+              properties:
+                range_start:
+                  type: integer
+                  example: 55
+                range_end:
+                  type: integer
+                  example: 80
+                  description: If not provided, range_start will be added as single vlan
+        required: true
+      summary: Add provisioned vlan or range
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vlans/{vlan_id}.json:
+    delete:
+      tags:
+      - VLAN
+      description: Remove provisioned vlan from the cloud.
+      operationId: delete_vlans
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vlan_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Delete vlans
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vlans/{vlan_id}/allocate.json:
+    post:
+      tags:
+      - VLAN
+      description: Allocate vlan to cloud user.
+      operationId: allocate_vlan_to_cloud_user
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vlan_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  allocated_vlan:
+                    type: integer
+                    xml:
+                      name: allocated-vlan
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  allocated_vlan:
+                    type: integer
+                    xml:
+                      name: allocated-vlan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - tenant_id
+              properties:
+                tenant_id:
+                  type: integer
+                  example: 55
+        required: true
+      summary: Allocate vlan to cloud user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vlans/{vlan_id}/deallocate.json:
+    delete:
+      tags:
+      - VLAN
+      description: Deallocate vlan from cloud user.
+      operationId: deallocate_vlan_to_cloud_user
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vlan_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  deallocated_vlan:
+                    type: integer
+                    xml:
+                      name: deallocated-vlan
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  deallocated_vlan:
+                    type: integer
+                    xml:
+                      name: deallocated-vlan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - tenant_id
+              properties:
+                tenant_id:
+                  type: integer
+                  example: 55
+        required: true
+      summary: Deallocate vlan to cloud user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vlans/{vlan_id}/reserve.json:
+    post:
+      tags:
+      - VLAN
+      description: Reserve provisioned vlan.
+      operationId: reserve_provisioned_vlan
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vlan_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  reserved_vlan:
+                    type: integer
+                    xml:
+                      name: reserved-vlan
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  reserved_vlan:
+                    type: integer
+                    xml:
+                      name: reserved-vlan
+      summary: Reserve provisioned vlan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vlans/{vlan_id}/unreserve.json:
+    delete:
+      tags:
+      - VLAN
+      description: Unreserve provisioned vlan.
+      operationId: unreserve_provisioned_vlan
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vlan_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      summary: Unreserve provisioned vlan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vlans/{vlan_id}/default.json:
+    post:
+      tags:
+      - VLAN
+      description: Set default vlan for cloud user.
+      operationId: set_default_vlan_for_cloud_user
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vlan_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - tenant_id
+              properties:
+                tenant_id:
+                  type: integer
+                  example: 55
+        required: true
+      summary: Set default vlan for cloud user
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vlans/{vlan_id}/add_vrids.json:
+    post:
+      tags:
+      - VLAN
+      description: Add VRIDs to vlan.
+      operationId: populate_vrid_in_vlan
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vlan_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - range_start
+              - range_end
+              properties:
+                range_start:
+                  type: integer
+                  example: 55
+                range_end:
+                  type: integer
+                  example: 155
+        required: true
+      summary: Populate vrid in vlan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vlans/{vlan_id}/remove_vrids.json:
+    post:
+      tags:
+      - VLAN
+      description: Remove VRIDs from vlan.
+      operationId: delete_vrid_from_vlan
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vlan_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - range_start
+              - range_end
+              properties:
+                range_start:
+                  type: integer
+                range_end:
+                  type: integer
+        required: true
+      summary: Delete vrid from vlan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vlans/{vlan_id}/reserve_vrid.json:
+    post:
+      tags:
+      - VLAN
+      description: Reserve VRID for vlan.
+      operationId: reserve_vrid_for_vlan
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vlan_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vrid
+              properties:
+                vrid:
+                  type: integer
+                  example: 55
+        required: true
+      summary: Reserve vrid for vlan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /clouds/{cloud_name}/vlans/{vlan_id}/unreserve_vrid.json:
+    post:
+      tags:
+      - VLAN
+      description: Unreserve VRID from vlan.
+      operationId: unreserve_vrid_from_vlan
+      parameters:
+      - in: path
+        name: cloud_name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vlan_id
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vrid
+              properties:
+                vrid:
+                  type: integer
+                  example: 55
+        required: true
+      summary: Unreserve vrid from vlan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+  /vlans.json:
+    get:
+      tags:
+      - VLAN
+      description: Get the list of available vlans.
+      operationId: list_availiable_vlans
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        default:
+                          type: boolean
+                        cloud_id:
+                          type: integer
+                          xml:
+                            name: cloud-id
+                        provider_id:
+                          type: integer
+                          xml:
+                            name: provider-id
+                        vlan_id:
+                          type: integer
+                          xml:
+                            name: vlan-id
+                        custom_networks:
+                          type: array
+                          items:
+                            type: string
+                            example: vni_test16
+                            xml:
+                              name: custom-network
+                          xml:
+                            wrapped: true
+                            name: custom-networks
+                        vpsas:
+                          type: array
+                          items:
+                            type: string
+                            example: testvpsa
+                            xml:
+                              name: vpsa
+                          xml:
+                            wrapped: true
+                      xml:
+                        name: datum
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        default:
+                          type: boolean
+                        cloud_id:
+                          type: integer
+                          xml:
+                            name: cloud-id
+                        provider_id:
+                          type: integer
+                          xml:
+                            name: provider-id
+                        vlan_id:
+                          type: integer
+                          xml:
+                            name: vlan-id
+                        custom_networks:
+                          type: array
+                          items:
+                            type: string
+                            example: vni_test16
+                            xml:
+                              name: custom-network
+                          xml:
+                            wrapped: true
+                            name: custom-networks
+                        vpsas:
+                          type: array
+                          items:
+                            type: string
+                            example: testvpsa
+                            xml:
+                              name: vpsa
+                          xml:
+                            wrapped: true
+                      xml:
+                        name: datum
+                    xml:
+                      wrapped: true
+      summary: List availiable vlans
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /vlans/available.json:
+    get:
+      tags:
+      - VLAN
+      description: Get list of available vlans
+      operationId: list_availiable_vlan_for_provider
+      parameters:
+      - in: query
+        name: provider_id
+        description: site id.
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: integer
+                      example: 60
+                      xml:
+                        name: datum
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: integer
+                      example: 60
+                      xml:
+                        name: datum
+                    xml:
+                      wrapped: true
+      summary: List availiable vlan for provider
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /vlans/allocate.json:
+    post:
+      tags:
+      - VLAN
+      description: Allocate a vlan
+      operationId: alloacate_vlan
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Your request has been submitted for processing.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Your request has been submitted for processing.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - provider_id
+              - vlan
+              properties:
+                provider_id:
+                  type: integer
+                  example: 1
+                vlan:
+                  type: integer
+                  example: 50
+        required: true
+      summary: Alloacate vlan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /vlans/deallocate.json:
+    post:
+      tags:
+      - VLAN
+      description: Deallocate a vlan
+      operationId: deallocate_vlan
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Your request has been submitted for processing.
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Your request has been submitted for processing.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - provider_id
+              - vlan
+              properties:
+                provider_id:
+                  type: integer
+                  example: 1
+                vlan:
+                  type: integer
+                  example: 1
+        required: true
+      summary: Deallocate vlan
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+  /vlans/set_as_default.json:
+    post:
+      tags:
+      - VLAN
+      operationId: set_vlan_as_default
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VLAN was set as deafult for provider zadara_web1
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: VLAN was set as deafult for provider zadara_web1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - provider_id
+              - vlan
+              properties:
+                provider_id:
+                  type: integer
+                  example: 1
+                vlan:
+                  type: integer
+                  example: 50
+        required: true
+      summary: Set vlan as default
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-command-center-25.07.yml
+- zadara-provisioning-portal-25.07.yml
+- zadara-command-center-openapi.yml
+- zadara-provisioning-portal-openapi.yml

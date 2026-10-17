@@ -1,0 +1,121 @@
+openapi: 3.2.0
+info:
+  title: Zadara Tenant API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Tenant across 2 of this provider''s published API definitions: zadara-provisioning-portal-25.07.yml, zadara-provisioning-portal-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api/v2
+tags:
+- name: Tenant
+  description: Retrieve Tenants information
+paths:
+  /tenants.json:
+    get:
+      tags:
+      - Tenant
+      description: Get the list of tenants
+      operationId: list_tenants
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tenant'
+                    xml:
+                      wrapped: true
+            application/xml:
+              schema:
+                xml:
+                  name: response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tenant'
+                    xml:
+                      wrapped: true
+      summary: List tenants
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api/v2
+components:
+  schemas:
+    Tenant:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+          xml:
+            name: user-id
+        username:
+          type: string
+          example: test1
+        name:
+          type: string
+          example: tenant_test1_bd8Bs
+        pretty_name:
+          type: string
+          example: admin
+          xml:
+            name: pretty-name
+        provider_id:
+          type: integer
+          xml:
+            name: provider-id
+        provider_name:
+          type: string
+          example: zadara-qa18
+          xml:
+            name: provider-name
+        internal_id:
+          type: integer
+          xml:
+            name: internal-id
+      xml:
+        name: tenant
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Token
+      in: header
+x-refined-from:
+- zadara-provisioning-portal-25.07.yml
+- zadara-provisioning-portal-openapi.yml

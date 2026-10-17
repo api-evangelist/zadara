@@ -1,0 +1,2098 @@
+openapi: 3.2.0
+info:
+  title: Zadara Storage Policies API
+  version: '25.07'
+  contact:
+    name: API Support
+    email: support@zadarastorage.com
+  description: 'Operations tagged Storage Policies across 2 of this provider''s published API definitions: zadara-object-storage-25.07.yml, zadara-object-storage-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://localhost/api
+- url: http://localhost/api
+tags:
+- name: Storage Policies
+  description: Operations for Storage Policies.
+paths:
+  /zios/policies.json:
+    get:
+      tags:
+      - Storage Policies
+      description: Get a list of Storage policies.
+      operationId: get_all_policies
+      security:
+      - api_key: []
+      parameters:
+      - $ref: '#/components/parameters/startParam'
+      - $ref: '#/components/parameters/limitParam'
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      policies:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: storage_policy-00000001
+                            display_name:
+                              type: string
+                              example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                              xml:
+                                name: display-name
+                            default:
+                              type: string
+                              example: 'YES'
+                            policy_index:
+                              type: integer
+                              xml:
+                                name: policy-index
+                            num_regions:
+                              type: integer
+                              xml:
+                                name: num-regions
+                            replication_mode:
+                              type: string
+                              example: synchronous
+                              xml:
+                                name: replication-mode
+                            policy_type:
+                              type: integer
+                              xml:
+                                name: policy-type
+                            system:
+                              type: string
+                              example: 'NO'
+                            number_of_mirrors:
+                              type: integer
+                              xml:
+                                name: number-of-mirrors
+                            data_fragments:
+                              type: integer
+                              xml:
+                                name: data-fragments
+                            parity_fragments:
+                              type: integer
+                              xml:
+                                name: parity-fragments
+                            ring_version:
+                              type: integer
+                              xml:
+                                name: ring-version
+                            type:
+                              type: string
+                              example: object
+                            state:
+                              type: string
+                              example: initialized
+                            health_status:
+                              type: string
+                              example: Normal
+                              xml:
+                                name: health-status
+                            health_percentage:
+                              type: string
+                              example: '100'
+                              xml:
+                                name: health-percentage
+                            health_report_status:
+                              type: string
+                              example: Normal
+                              xml:
+                                name: health-report-status
+                            mongodb_health_status:
+                              type: string
+                              example: Normal
+                              xml:
+                                name: mongodb-health-status
+                            percentage_drives_added:
+                              type: string
+                              example: '100'
+                              xml:
+                                name: percentage-drives-added
+                            rebalance_status:
+                              type: string
+                              example: Normal
+                              xml:
+                                name: rebalance-status
+                            rebalance_percentage:
+                              type: string
+                              example: '100'
+                              xml:
+                                name: rebalance-percentage
+                            rebalancing_paused:
+                              type: string
+                              enum:
+                              - 'YES'
+                              - 'NO'
+                              example: 'NO'
+                              xml:
+                                name: rebalancing-paused
+                            rebalancing_schedule_start:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: rebalancing-schedule-start
+                            rebalancing_schedule_end:
+                              type: string
+                              example: '24'
+                              xml:
+                                name: rebalancing-schedule-end
+                            total_drives:
+                              type: integer
+                              xml:
+                                name: total-drives
+                            total_bytes:
+                              type: number
+                              example: 3840430571520
+                              xml:
+                                name: total-bytes
+                            total_bytes_used:
+                              type: number
+                              example: 156012380160
+                              xml:
+                                name: total-bytes-used
+                            data_bytes_used:
+                              type: number
+                              example: 156012380160
+                              xml:
+                                name: data-bytes-used
+                            capacity:
+                              type: integer
+                              example: 3577
+                            gb_per_month_cost:
+                              type: number
+                              example: 1.0
+                              xml:
+                                name: gb-per-month-cost
+                            capacity_mode:
+                              type: string
+                              example: Normal
+                              xml:
+                                name: capacity-mode
+                            capacity_history_min:
+                              type: integer
+                              example: 1440
+                              xml:
+                                name: capacity-history-min
+                            alert_mode_min:
+                              type: integer
+                              example: 43200
+                              xml:
+                                name: alert-mode-min
+                            emergency_mode_percentage:
+                              type: integer
+                              minimum: 0
+                              maximum: 100
+                              example: 65
+                              xml:
+                                name: emergency-mode-percentage
+                            total_containers:
+                              type: number
+                              example: 10
+                              xml:
+                                name: total-containers
+                            total_objects:
+                              type: number
+                              example: 213414
+                              xml:
+                                name: total-objects
+                            total_versioned_objects:
+                              type: number
+                              example: 133560
+                              xml:
+                                name: total-versioned-objects
+                            average_object_size:
+                              type: number
+                              example: 448163
+                              xml:
+                                name: average-object-size
+                            can_reconfig:
+                              type: integer
+                              xml:
+                                name: can-reconfig
+                            partition_percent_normal:
+                              type: number
+                              xml:
+                                name: partition-percent-normal
+                            partition_percent_degraded:
+                              type: number
+                              xml:
+                                name: partition-percent-degraded
+                            partition_percent_critical:
+                              type: number
+                              xml:
+                                name: partition-percent-critical
+                            partition_count_normal:
+                              type: integer
+                              xml:
+                                name: partition-count-normal
+                            partition_count_degraded:
+                              type: integer
+                              xml:
+                                name: partition-count-degraded
+                            partition_count_critical:
+                              type: integer
+                              xml:
+                                name: partition-count-critical
+                            partition_count_total:
+                              type: integer
+                              xml:
+                                name: partition-count-total
+                            short_description:
+                              type: string
+                              example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                              xml:
+                                name: short-description
+                            full_description:
+                              type: string
+                              example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                              xml:
+                                name: full-description
+                            created_at:
+                              type: string
+                              format: date_time
+                              example: 2024-12-12T11:12:52+0000
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              example: 2024-12-12T11:12:52+0000
+                              xml:
+                                name: modified-at
+                            reported_at:
+                              type: string
+                              format: date_time
+                              example: 2025-01-14T07:52:20+0000
+                              xml:
+                                name: reported-at
+                            rebalanced_at:
+                              type: string
+                              format: date_time
+                              example: 2024-12-12T11:13:01+0000
+                              xml:
+                                name: rebalanced-at
+                            last_rebalance_completed_at:
+                              type: string
+                              format: date_time
+                              example: 2025-01-14T00:16:26+0000
+                              xml:
+                                name: last-rebalance-completed-at
+                            current_rebalance_completion_projected_at:
+                              type: string
+                              format: date_time
+                              example: 2025-01-14T09:02:04+0000
+                              xml:
+                                name: current-rebalance-completion-projected-at
+                          xml:
+                            name: policy
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      count:
+                        type: integer
+                      policies:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: storage_policy-00000001
+                            display_name:
+                              type: string
+                              example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                              xml:
+                                name: display-name
+                            default:
+                              type: string
+                              example: 'YES'
+                            policy_index:
+                              type: integer
+                              xml:
+                                name: policy-index
+                            num_regions:
+                              type: integer
+                              xml:
+                                name: num-regions
+                            replication_mode:
+                              type: string
+                              example: synchronous
+                              xml:
+                                name: replication-mode
+                            policy_type:
+                              type: integer
+                              xml:
+                                name: policy-type
+                            system:
+                              type: string
+                              example: 'NO'
+                            number_of_mirrors:
+                              type: integer
+                              xml:
+                                name: number-of-mirrors
+                            data_fragments:
+                              type: integer
+                              xml:
+                                name: data-fragments
+                            parity_fragments:
+                              type: integer
+                              xml:
+                                name: parity-fragments
+                            ring_version:
+                              type: integer
+                              xml:
+                                name: ring-version
+                            type:
+                              type: string
+                              example: object
+                            state:
+                              type: string
+                              example: initialized
+                            health_status:
+                              type: string
+                              example: Normal
+                              xml:
+                                name: health-status
+                            health_percentage:
+                              type: string
+                              example: '100'
+                              xml:
+                                name: health-percentage
+                            health_report_status:
+                              type: string
+                              example: Normal
+                              xml:
+                                name: health-report-status
+                            mongodb_health_status:
+                              type: string
+                              example: Normal
+                              xml:
+                                name: mongodb-health-status
+                            percentage_drives_added:
+                              type: string
+                              example: '100'
+                              xml:
+                                name: percentage-drives-added
+                            rebalance_status:
+                              type: string
+                              example: Normal
+                              xml:
+                                name: rebalance-status
+                            rebalance_percentage:
+                              type: string
+                              example: '100'
+                              xml:
+                                name: rebalance-percentage
+                            rebalancing_paused:
+                              type: string
+                              enum:
+                              - 'YES'
+                              - 'NO'
+                              example: 'NO'
+                              xml:
+                                name: rebalancing-paused
+                            rebalancing_schedule_start:
+                              type: string
+                              example: '0'
+                              xml:
+                                name: rebalancing-schedule-start
+                            rebalancing_schedule_end:
+                              type: string
+                              example: '24'
+                              xml:
+                                name: rebalancing-schedule-end
+                            total_drives:
+                              type: integer
+                              xml:
+                                name: total-drives
+                            total_bytes:
+                              type: number
+                              example: 3840430571520
+                              xml:
+                                name: total-bytes
+                            total_bytes_used:
+                              type: number
+                              example: 156012380160
+                              xml:
+                                name: total-bytes-used
+                            data_bytes_used:
+                              type: number
+                              example: 156012380160
+                              xml:
+                                name: data-bytes-used
+                            capacity:
+                              type: integer
+                              example: 3577
+                            gb_per_month_cost:
+                              type: number
+                              example: 1.0
+                              xml:
+                                name: gb-per-month-cost
+                            capacity_mode:
+                              type: string
+                              example: Normal
+                              xml:
+                                name: capacity-mode
+                            capacity_history_min:
+                              type: integer
+                              example: 1440
+                              xml:
+                                name: capacity-history-min
+                            alert_mode_min:
+                              type: integer
+                              example: 43200
+                              xml:
+                                name: alert-mode-min
+                            emergency_mode_percentage:
+                              type: integer
+                              minimum: 0
+                              maximum: 100
+                              example: 65
+                              xml:
+                                name: emergency-mode-percentage
+                            total_containers:
+                              type: number
+                              example: 10
+                              xml:
+                                name: total-containers
+                            total_objects:
+                              type: number
+                              example: 213414
+                              xml:
+                                name: total-objects
+                            total_versioned_objects:
+                              type: number
+                              example: 133560
+                              xml:
+                                name: total-versioned-objects
+                            average_object_size:
+                              type: number
+                              example: 448163
+                              xml:
+                                name: average-object-size
+                            can_reconfig:
+                              type: integer
+                              xml:
+                                name: can-reconfig
+                            partition_percent_normal:
+                              type: number
+                              xml:
+                                name: partition-percent-normal
+                            partition_percent_degraded:
+                              type: number
+                              xml:
+                                name: partition-percent-degraded
+                            partition_percent_critical:
+                              type: number
+                              xml:
+                                name: partition-percent-critical
+                            partition_count_normal:
+                              type: integer
+                              xml:
+                                name: partition-count-normal
+                            partition_count_degraded:
+                              type: integer
+                              xml:
+                                name: partition-count-degraded
+                            partition_count_critical:
+                              type: integer
+                              xml:
+                                name: partition-count-critical
+                            partition_count_total:
+                              type: integer
+                              xml:
+                                name: partition-count-total
+                            short_description:
+                              type: string
+                              example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                              xml:
+                                name: short-description
+                            full_description:
+                              type: string
+                              example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                              xml:
+                                name: full-description
+                            created_at:
+                              type: string
+                              format: date_time
+                              example: 2024-12-12T11:12:52+0000
+                              xml:
+                                name: created-at
+                            modified_at:
+                              type: string
+                              format: date_time
+                              example: 2024-12-12T11:12:52+0000
+                              xml:
+                                name: modified-at
+                            reported_at:
+                              type: string
+                              format: date_time
+                              example: 2025-01-14T07:52:20+0000
+                              xml:
+                                name: reported-at
+                            rebalanced_at:
+                              type: string
+                              format: date_time
+                              example: 2024-12-12T11:13:01+0000
+                              xml:
+                                name: rebalanced-at
+                            last_rebalance_completed_at:
+                              type: string
+                              format: date_time
+                              example: 2025-01-14T00:16:26+0000
+                              xml:
+                                name: last-rebalance-completed-at
+                            current_rebalance_completion_projected_at:
+                              type: string
+                              format: date_time
+                              example: 2025-01-14T09:02:04+0000
+                              xml:
+                                name: current-rebalance-completion-projected-at
+                          xml:
+                            name: policy
+                        xml:
+                          wrapped: true
+                    xml:
+                      name: response
+      summary: Get all policies
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/policies/{name}.json:
+    get:
+      tags:
+      - Storage Policies
+      description: Get one storage policy.
+      operationId: get_policy
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      policy:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: storage_policy-00000001
+                          display_name:
+                            type: string
+                            example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                            xml:
+                              name: display-name
+                          default:
+                            type: string
+                            example: 'YES'
+                          policy_index:
+                            type: integer
+                            xml:
+                              name: policy-index
+                          num_regions:
+                            type: integer
+                            xml:
+                              name: num-regions
+                          replication_mode:
+                            type: string
+                            example: synchronous
+                            xml:
+                              name: replication-mode
+                          policy_type:
+                            type: integer
+                            xml:
+                              name: policy-type
+                          system:
+                            type: string
+                            example: 'NO'
+                          number_of_mirrors:
+                            type: integer
+                            xml:
+                              name: number-of-mirrors
+                          data_fragments:
+                            type: integer
+                            xml:
+                              name: data-fragments
+                          parity_fragments:
+                            type: integer
+                            xml:
+                              name: parity-fragments
+                          ring_version:
+                            type: integer
+                            xml:
+                              name: ring-version
+                          type:
+                            type: string
+                            example: object
+                          state:
+                            type: string
+                            example: initialized
+                          health_status:
+                            type: string
+                            example: Normal
+                            xml:
+                              name: health-status
+                          health_percentage:
+                            type: string
+                            example: '100'
+                            xml:
+                              name: health-percentage
+                          health_report_status:
+                            type: string
+                            example: Normal
+                            xml:
+                              name: health-report-status
+                          percentage_drives_added:
+                            type: string
+                            example: '100'
+                            xml:
+                              name: percentage-drives-added
+                          rebalance_status:
+                            type: string
+                            example: Normal
+                            xml:
+                              name: rebalance-status
+                          rebalance_percentage:
+                            type: string
+                            example: '100'
+                            xml:
+                              name: rebalance-percentage
+                          rebalancing_paused:
+                            type: string
+                            enum:
+                            - 'YES'
+                            - 'NO'
+                            example: 'NO'
+                            xml:
+                              name: rebalancing-paused
+                          rebalancing_schedule_start:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: rebalancing-schedule-start
+                          rebalancing_schedule_end:
+                            type: string
+                            example: '24'
+                            xml:
+                              name: rebalancing-schedule-end
+                          total_drives:
+                            type: integer
+                            xml:
+                              name: total-drives
+                          total_bytes:
+                            type: number
+                            example: 3840430571520
+                            xml:
+                              name: total-bytes
+                          total_bytes_used:
+                            type: number
+                            example: 156012380160
+                            xml:
+                              name: total-bytes-used
+                          data_bytes_used:
+                            type: number
+                            example: 156012380160
+                            xml:
+                              name: data-bytes-used
+                          capacity:
+                            type: integer
+                            example: 3577
+                          gb_per_month_cost:
+                            type: number
+                            example: 1.0
+                            xml:
+                              name: gb-per-month-cost
+                          capacity_mode:
+                            type: string
+                            example: Normal
+                            xml:
+                              name: capacity-mode
+                          capacity_history_min:
+                            type: integer
+                            example: 1440
+                            xml:
+                              name: capacity-history-min
+                          alert_mode_min:
+                            type: integer
+                            example: 43200
+                            xml:
+                              name: alert-mode-min
+                          emergency_mode_percentage:
+                            type: integer
+                            minimum: 0
+                            maximum: 100
+                            example: 65
+                            xml:
+                              name: emergency-mode-percentage
+                          total_containers:
+                            type: number
+                            example: 10
+                            xml:
+                              name: total-containers
+                          total_objects:
+                            type: number
+                            example: 213414
+                            xml:
+                              name: total-objects
+                          total_versioned_objects:
+                            type: number
+                            example: 133560
+                            xml:
+                              name: total-versioned-objects
+                          average_object_size:
+                            type: number
+                            example: 448163
+                            xml:
+                              name: average-object-size
+                          can_reconfig:
+                            type: integer
+                            xml:
+                              name: can-reconfig
+                          partition_percent_normal:
+                            type: number
+                            xml:
+                              name: partition-percent-normal
+                          partition_percent_degraded:
+                            type: number
+                            xml:
+                              name: partition-percent-degraded
+                          partition_percent_critical:
+                            type: number
+                            xml:
+                              name: partition-percent-critical
+                          partition_count_normal:
+                            type: integer
+                            xml:
+                              name: partition-count-normal
+                          partition_count_degraded:
+                            type: integer
+                            xml:
+                              name: partition-count-degraded
+                          partition_count_critical:
+                            type: integer
+                            xml:
+                              name: partition-count-critical
+                          partition_count_total:
+                            type: integer
+                            xml:
+                              name: partition-count-total
+                          short_description:
+                            type: string
+                            example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                            xml:
+                              name: short-description
+                          full_description:
+                            type: string
+                            example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                            xml:
+                              name: full-description
+                          created_at:
+                            type: string
+                            format: date_time
+                            example: 2024-12-12T11:12:52+0000
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            example: 2024-12-12T11:12:52+0000
+                            xml:
+                              name: modified-at
+                          reported_at:
+                            type: string
+                            format: date_time
+                            example: 2025-01-14T07:52:20+0000
+                            xml:
+                              name: reported-at
+                          rebalanced_at:
+                            type: string
+                            format: date_time
+                            example: 2024-12-12T11:13:01+0000
+                            xml:
+                              name: rebalanced-at
+                          last_rebalance_completed_at:
+                            type: string
+                            format: date_time
+                            example: 2025-01-14T00:16:26+0000
+                            xml:
+                              name: last-rebalance-completed-at
+                          current_rebalance_completion_projected_at:
+                            type: string
+                            format: date_time
+                            example: 2025-01-14T09:02:04+0000
+                            xml:
+                              name: current-rebalance-completion-projected-at
+                          disks_count:
+                            type: integer
+                            xml:
+                              name: disks-count
+                          disks:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                  example: volume-00000a6f
+                                display_name:
+                                  type: string
+                                  example: drive-002
+                                  xml:
+                                    name: display-name
+                                disk_type:
+                                  type: string
+                                  example: SAS_9313GB_7200RPM
+                                  xml:
+                                    name: disk-type
+                                disk_uuid:
+                                  type: string
+                                  example: 5000CCA26755A338
+                                  xml:
+                                    name: disk-uuid
+                                storage_node:
+                                  type: string
+                                  example: qa14_sn1
+                                  xml:
+                                    name: storage-node
+                                vc:
+                                  type: string
+                                  example: vc-1
+                                region_id:
+                                  type: integer
+                                  xml:
+                                    name: region-id
+                                zone_id:
+                                  type: integer
+                                  xml:
+                                    name: zone-id
+                                policy_type:
+                                  type: integer
+                                  xml:
+                                    name: policy-type
+                                allocation_zone:
+                                  type: string
+                                  example: zone_0
+                                  xml:
+                                    name: allocation-zone
+                                allocation_zone_display_name:
+                                  type: string
+                                  example: primary
+                                  xml:
+                                    name: allocation-zone-display-name
+                                storage_policy:
+                                  type: string
+                                  example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                                  xml:
+                                    name: storage-policy
+                                capacity_protection:
+                                  type: string
+                                  example: '0'
+                                  xml:
+                                    name: capacity-protection
+                                status:
+                                  type: string
+                                  example: Absent
+                                capacity:
+                                  type: integer
+                                partition_count_degraded:
+                                  type: integer
+                                  xml:
+                                    name: partition-count-degraded
+                                partition_count_critical:
+                                  type: integer
+                                  xml:
+                                    name: partition-count-critical
+                                created_at:
+                                  type: string
+                                  format: date_time
+                                  xml:
+                                    name: created-at
+                                modified_at:
+                                  type: string
+                                  format: date_time
+                                  xml:
+                                    name: modified-at
+                                percentage_added:
+                                  type: number
+                                  minimum: 0
+                                  maximum: 100
+                                  example: 100
+                                  xml:
+                                    name: percentage-added
+                                weight:
+                                  type: number
+                                  format: float
+                                  example: 349.314499
+                                port:
+                                  type: number
+                                  example: 6001
+                                used_for:
+                                  type: string
+                                  example: DATA
+                                  xml:
+                                    name: used-for
+                              xml:
+                                name: disk
+                            xml:
+                              wrapped: true
+                    xml:
+                      name: response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      policy:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: storage_policy-00000001
+                          display_name:
+                            type: string
+                            example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                            xml:
+                              name: display-name
+                          default:
+                            type: string
+                            example: 'YES'
+                          policy_index:
+                            type: integer
+                            xml:
+                              name: policy-index
+                          num_regions:
+                            type: integer
+                            xml:
+                              name: num-regions
+                          replication_mode:
+                            type: string
+                            example: synchronous
+                            xml:
+                              name: replication-mode
+                          policy_type:
+                            type: integer
+                            xml:
+                              name: policy-type
+                          system:
+                            type: string
+                            example: 'NO'
+                          number_of_mirrors:
+                            type: integer
+                            xml:
+                              name: number-of-mirrors
+                          data_fragments:
+                            type: integer
+                            xml:
+                              name: data-fragments
+                          parity_fragments:
+                            type: integer
+                            xml:
+                              name: parity-fragments
+                          ring_version:
+                            type: integer
+                            xml:
+                              name: ring-version
+                          type:
+                            type: string
+                            example: object
+                          state:
+                            type: string
+                            example: initialized
+                          health_status:
+                            type: string
+                            example: Normal
+                            xml:
+                              name: health-status
+                          health_percentage:
+                            type: string
+                            example: '100'
+                            xml:
+                              name: health-percentage
+                          health_report_status:
+                            type: string
+                            example: Normal
+                            xml:
+                              name: health-report-status
+                          percentage_drives_added:
+                            type: string
+                            example: '100'
+                            xml:
+                              name: percentage-drives-added
+                          rebalance_status:
+                            type: string
+                            example: Normal
+                            xml:
+                              name: rebalance-status
+                          rebalance_percentage:
+                            type: string
+                            example: '100'
+                            xml:
+                              name: rebalance-percentage
+                          rebalancing_paused:
+                            type: string
+                            enum:
+                            - 'YES'
+                            - 'NO'
+                            example: 'NO'
+                            xml:
+                              name: rebalancing-paused
+                          rebalancing_schedule_start:
+                            type: string
+                            example: '0'
+                            xml:
+                              name: rebalancing-schedule-start
+                          rebalancing_schedule_end:
+                            type: string
+                            example: '24'
+                            xml:
+                              name: rebalancing-schedule-end
+                          total_drives:
+                            type: integer
+                            xml:
+                              name: total-drives
+                          total_bytes:
+                            type: number
+                            example: 3840430571520
+                            xml:
+                              name: total-bytes
+                          total_bytes_used:
+                            type: number
+                            example: 156012380160
+                            xml:
+                              name: total-bytes-used
+                          data_bytes_used:
+                            type: number
+                            example: 156012380160
+                            xml:
+                              name: data-bytes-used
+                          capacity:
+                            type: integer
+                            example: 3577
+                          gb_per_month_cost:
+                            type: number
+                            example: 1.0
+                            xml:
+                              name: gb-per-month-cost
+                          capacity_mode:
+                            type: string
+                            example: Normal
+                            xml:
+                              name: capacity-mode
+                          capacity_history_min:
+                            type: integer
+                            example: 1440
+                            xml:
+                              name: capacity-history-min
+                          alert_mode_min:
+                            type: integer
+                            example: 43200
+                            xml:
+                              name: alert-mode-min
+                          emergency_mode_percentage:
+                            type: integer
+                            minimum: 0
+                            maximum: 100
+                            example: 65
+                            xml:
+                              name: emergency-mode-percentage
+                          total_containers:
+                            type: number
+                            example: 10
+                            xml:
+                              name: total-containers
+                          total_objects:
+                            type: number
+                            example: 213414
+                            xml:
+                              name: total-objects
+                          total_versioned_objects:
+                            type: number
+                            example: 133560
+                            xml:
+                              name: total-versioned-objects
+                          average_object_size:
+                            type: number
+                            example: 448163
+                            xml:
+                              name: average-object-size
+                          can_reconfig:
+                            type: integer
+                            xml:
+                              name: can-reconfig
+                          partition_percent_normal:
+                            type: number
+                            xml:
+                              name: partition-percent-normal
+                          partition_percent_degraded:
+                            type: number
+                            xml:
+                              name: partition-percent-degraded
+                          partition_percent_critical:
+                            type: number
+                            xml:
+                              name: partition-percent-critical
+                          partition_count_normal:
+                            type: integer
+                            xml:
+                              name: partition-count-normal
+                          partition_count_degraded:
+                            type: integer
+                            xml:
+                              name: partition-count-degraded
+                          partition_count_critical:
+                            type: integer
+                            xml:
+                              name: partition-count-critical
+                          partition_count_total:
+                            type: integer
+                            xml:
+                              name: partition-count-total
+                          short_description:
+                            type: string
+                            example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                            xml:
+                              name: short-description
+                          full_description:
+                            type: string
+                            example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                            xml:
+                              name: full-description
+                          created_at:
+                            type: string
+                            format: date_time
+                            example: 2024-12-12T11:12:52+0000
+                            xml:
+                              name: created-at
+                          modified_at:
+                            type: string
+                            format: date_time
+                            example: 2024-12-12T11:12:52+0000
+                            xml:
+                              name: modified-at
+                          reported_at:
+                            type: string
+                            format: date_time
+                            example: 2025-01-14T07:52:20+0000
+                            xml:
+                              name: reported-at
+                          rebalanced_at:
+                            type: string
+                            format: date_time
+                            example: 2024-12-12T11:13:01+0000
+                            xml:
+                              name: rebalanced-at
+                          last_rebalance_completed_at:
+                            type: string
+                            format: date_time
+                            example: 2025-01-14T00:16:26+0000
+                            xml:
+                              name: last-rebalance-completed-at
+                          current_rebalance_completion_projected_at:
+                            type: string
+                            format: date_time
+                            example: 2025-01-14T09:02:04+0000
+                            xml:
+                              name: current-rebalance-completion-projected-at
+                          disks_count:
+                            type: integer
+                            xml:
+                              name: disks-count
+                          disks:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                  example: volume-00000a6f
+                                display_name:
+                                  type: string
+                                  example: drive-002
+                                  xml:
+                                    name: display-name
+                                disk_type:
+                                  type: string
+                                  example: SAS_9313GB_7200RPM
+                                  xml:
+                                    name: disk-type
+                                disk_uuid:
+                                  type: string
+                                  example: 5000CCA26755A338
+                                  xml:
+                                    name: disk-uuid
+                                storage_node:
+                                  type: string
+                                  example: qa14_sn1
+                                  xml:
+                                    name: storage-node
+                                vc:
+                                  type: string
+                                  example: vc-1
+                                region_id:
+                                  type: integer
+                                  xml:
+                                    name: region-id
+                                zone_id:
+                                  type: integer
+                                  xml:
+                                    name: zone-id
+                                policy_type:
+                                  type: integer
+                                  xml:
+                                    name: policy-type
+                                allocation_zone:
+                                  type: string
+                                  example: zone_0
+                                  xml:
+                                    name: allocation-zone
+                                allocation_zone_display_name:
+                                  type: string
+                                  example: primary
+                                  xml:
+                                    name: allocation-zone-display-name
+                                storage_policy:
+                                  type: string
+                                  example: 9-3_Erasure_Coding_Protection_Multi-Zone_HA
+                                  xml:
+                                    name: storage-policy
+                                capacity_protection:
+                                  type: string
+                                  example: '0'
+                                  xml:
+                                    name: capacity-protection
+                                status:
+                                  type: string
+                                  example: Absent
+                                capacity:
+                                  type: integer
+                                partition_count_degraded:
+                                  type: integer
+                                  xml:
+                                    name: partition-count-degraded
+                                partition_count_critical:
+                                  type: integer
+                                  xml:
+                                    name: partition-count-critical
+                                created_at:
+                                  type: string
+                                  format: date_time
+                                  xml:
+                                    name: created-at
+                                modified_at:
+                                  type: string
+                                  format: date_time
+                                  xml:
+                                    name: modified-at
+                                percentage_added:
+                                  type: number
+                                  minimum: 0
+                                  maximum: 100
+                                  example: 100
+                                  xml:
+                                    name: percentage-added
+                                weight:
+                                  type: number
+                                  format: float
+                                  example: 349.314499
+                                port:
+                                  type: number
+                                  example: 6001
+                                used_for:
+                                  type: string
+                                  example: DATA
+                                  xml:
+                                    name: used-for
+                              xml:
+                                name: disk
+                            xml:
+                              wrapped: true
+                    xml:
+                      name: response
+      summary: Get policy
+      x-summary-source: derived
+    put:
+      tags:
+      - Storage Policies
+      description: Update a storage policy
+      operationId: update_storage_policy
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_description:
+                  type: string
+                  description: policy description
+                  example: 2 Way mirroring policy
+                gb_per_month_cost:
+                  type: number
+                  description: GB per month cost
+                  example: 1.7
+        required: true
+      summary: Update storage policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/policies/{name}/set_default.json:
+    post:
+      tags:
+      - Storage Policies
+      description: Set a default storage policy
+      operationId: set_default_policy
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      policy_name:
+                        type: string
+                        example: storage_policy-00000003
+                        xml:
+                          name: policy-name
+                      status:
+                        type: integer
+                    xml:
+                      name: set-default-policy-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      policy_name:
+                        type: string
+                        example: storage_policy-00000003
+                        xml:
+                          name: policy-name
+                      status:
+                        type: integer
+                    xml:
+                      name: set-default-policy-response
+      summary: Set default policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/policies/{name}/drives.json:
+    delete:
+      tags:
+      - Storage Policies
+      description: Remove drives from storage policy
+      operationId: delete_drives_from_policy
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: delete-drives-from-policy-response
+            application/xml:
+              schema:
+                xml:
+                  name: xml
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+                  response:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      status:
+                        type: integer
+                      status_msg:
+                        type: string
+                        example: The request has been submitted, and it may take a few moments to complete. Check event_log for further details
+                        xml:
+                          name: status-msg
+                    xml:
+                      name: delete-drives-from-policy-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - drives
+              properties:
+                drives:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of drive type and quantity
+                  example:
+                  - '{''type'': ''SAS_300_GB'' , ''quantity'': 2}'
+        required: true
+      summary: Delete drives from policy
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/policies/{id}/iops.json:
+    get:
+      tags:
+      - Storage Policies
+      description: Shows IOPs metering of a storage policy.
+      operationId: iops
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - in: path
+        name: id
+        description: The policy name 'name' value as returned by get_all_policies.
+        required: true
+        schema:
+          type: string
+          pattern: ^storage_policy-[0-9a-f]{8}$
+      - in: query
+        name: service
+        schema:
+          type: string
+          enum:
+          - proxy
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    iops_put:
+                      type: number
+                      xml:
+                        name: iops-put
+                    iops_delete:
+                      type: number
+                      xml:
+                        name: iops-delete
+                    iops_get:
+                      type: number
+                      xml:
+                        name: iops-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    iops_put:
+                      type: number
+                      xml:
+                        name: iops-put
+                    iops_delete:
+                      type: number
+                      xml:
+                        name: iops-delete
+                    iops_get:
+                      type: number
+                      xml:
+                        name: iops-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Iops
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/policies/{id}/capacity_over_time.json:
+    get:
+      tags:
+      - Storage Policies
+      description: Retrieves details of storage policy capacity over time.
+      operationId: capacity_over_time
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - in: path
+        name: id
+        description: The policy name 'name' value as returned by get_all_policies
+        required: true
+        schema:
+          type: string
+          pattern: ^storage_policy-[0-9a-f]{8}$
+      - in: query
+        name: name
+        description: The policy display name 'name' value as returned by get_all_policies, for example '2-Way-Protection'
+        schema:
+          type: string
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      example: 1684832400
+                      description: Unix time
+                    bytes_used:
+                      type: integer
+                      example: 325951946752
+                      xml:
+                        name: bytes-used
+                    cont_count:
+                      type: integer
+                      description: Containers count
+                      xml:
+                        name: cont-count
+                    obj_count:
+                      type: integer
+                      description: Objects count
+                      xml:
+                        name: obj-count
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                      example: 1684832400
+                      description: Unix time
+                    bytes_used:
+                      type: integer
+                      example: 325951946752
+                      xml:
+                        name: bytes-used
+                    cont_count:
+                      type: integer
+                      description: Containers count
+                      xml:
+                        name: cont-count
+                    obj_count:
+                      type: integer
+                      description: Objects count
+                      xml:
+                        name: obj-count
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Capacity over time
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/policies/{id}/latency.json:
+    get:
+      tags:
+      - Storage Policies
+      description: Shows latency metering (ms) of a storage policy.
+      operationId: latency
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - in: path
+        name: id
+        description: The policy name 'name' value as returned by get_all_policies.
+        required: true
+        schema:
+          type: string
+          pattern: ^storage_policy-[0-9a-f]{8}$
+      - in: query
+        name: service
+        schema:
+          type: string
+          enum:
+          - proxy
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    latency_put:
+                      type: integer
+                      xml:
+                        name: latency-put
+                    latency_delete:
+                      type: integer
+                      xml:
+                        name: latency-delete
+                    latency_get:
+                      type: integer
+                      xml:
+                        name: latency-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    latency_put:
+                      type: integer
+                      xml:
+                        name: latency-put
+                    latency_delete:
+                      type: integer
+                      xml:
+                        name: latency-delete
+                    latency_get:
+                      type: integer
+                      xml:
+                        name: latency-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Latency
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+  /zios/policies/{id}/throughput.json:
+    get:
+      tags:
+      - Storage Policies
+      description: Shows bandwidth throughput metering (B/s) of a storage policy.
+      operationId: throughput
+      parameters:
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/count'
+      - in: path
+        name: id
+        description: The policy name 'name' value as returned by get_all_policies.
+        required: true
+        schema:
+          type: string
+          pattern: ^storage_policy-[0-9a-f]{8}$
+      - in: query
+        name: service
+        schema:
+          type: string
+          enum:
+          - proxy
+      security:
+      - api_key: []
+      responses:
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    throughput_put:
+                      type: number
+                      xml:
+                        name: throughput-put
+                    throughput_delete:
+                      type: integer
+                      xml:
+                        name: throughput-delete
+                    throughput_get:
+                      type: number
+                      xml:
+                        name: throughput-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: integer
+                    throughput_put:
+                      type: number
+                      xml:
+                        name: throughput-put
+                    throughput_delete:
+                      type: integer
+                      xml:
+                        name: throughput-delete
+                    throughput_get:
+                      type: number
+                      xml:
+                        name: throughput-get
+                  xml:
+                    name: object
+                xml:
+                  name: objects
+                  wrapped: true
+      summary: Throughput
+      x-summary-source: derived
+    servers:
+    - url: https://localhost/api
+    - url: http://localhost/api
+components:
+  parameters:
+    count:
+      name: count
+      in: query
+      required: false
+      description: The number of data points
+      schema:
+        type: integer
+        default: 30
+        minimum: 1
+    startParam:
+      name: start
+      in: query
+      required: false
+      description: The item number to start from. 0 starts from the beginning.
+      schema:
+        type: integer
+        minimum: 0
+    interval:
+      name: interval
+      in: query
+      required: false
+      description: The interval between data points, in seconds
+      schema:
+        type: integer
+        default: 60
+        minimum: 1
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: The total number of records to return.
+      schema:
+        type: integer
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Access-Key
+      in: header
+x-refined-from:
+- zadara-object-storage-25.07.yml
+- zadara-object-storage-openapi.yml
