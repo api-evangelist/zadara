@@ -1,0 +1,14 @@
+{
+  "repo": "zadara",
+  "feeds": [
+    {
+      "source": "https://www.zadara.com/blog/",
+      "feed_url": "https://www.zadara.com/blog/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-10-17T14:53:57Z"
+}
